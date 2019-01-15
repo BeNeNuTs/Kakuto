@@ -12,48 +12,70 @@ MonoBehaviour:
   m_Name: PlayerAttackConfig_New
   m_EditorClassIdentifier: 
   m_AttackList:
-  - m_Name: CrouchAttack
-    m_ShouldBeCrouched: 1
-    m_ShouldBeInTheAir: 0
-    m_InputStringList:
-    - a
-    m_Damage: 10
-  - m_Name: AirAttack
-    m_ShouldBeCrouched: 0
-    m_ShouldBeInTheAir: 1
-    m_InputStringList:
-    - a
-    m_Damage: 10
-  - m_Name: FirstAttack
+  - m_Name: SuperAttack
+    m_HasCondition: 0
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
     m_InputStringList:
-    - "\u2192a"
-    m_Damage: 10
+    - "\u2192\u2192\u2192z"
+    m_Damage: 20
   - m_Name: SecondAttack
+    m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
     m_InputStringList:
     - "\u2192\u2192b"
     m_Damage: 20
-  - m_Name: ThirdAttack
+  - m_Name: FirstAttack
+    m_HasCondition: 0
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
+    m_InputStringList:
+    - "\u2192a"
+    m_Damage: 10
+  - m_Name: ThirdAttack
+    m_HasCondition: 0
+    m_ShouldBeCrouched: 0
+    m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
     m_InputStringList:
     - ab
     - ba
     m_Damage: 20
-  - m_Name: SuperAttack
-    m_ShouldBeCrouched: 0
+  - m_Name: CrouchAttack
+    m_HasCondition: 1
+    m_ShouldBeCrouched: 1
     m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
     m_InputStringList:
-    - "\u2192\u2192\u2192z"
-    m_Damage: 20
+    - a
+    m_Damage: 10
+  - m_Name: AirAttack
+    m_HasCondition: 1
+    m_ShouldBeCrouched: 0
+    m_ShouldBeInTheAir: 1
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
+    m_InputStringList:
+    - a
+    m_Damage: 10
   - m_Name: ImpossibleAttack
+    m_HasCondition: 1
     m_ShouldBeCrouched: 1
     m_ShouldBeInTheAir: 1
+    m_HasAttackRequirement: 0
+    m_CurrentAttack: 
     m_InputStringList:
     - z
     m_Damage: 20
   m_InputPersistency: 2
   m_MaxInputs: 10
+  m_SortAttackList: 0

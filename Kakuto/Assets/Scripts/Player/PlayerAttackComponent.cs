@@ -92,15 +92,24 @@ public class PlayerAttackComponent : MonoBehaviour
     bool CheckAttackCondition(PlayerAttack attack)
     {
         bool conditionIsValid = true;
-        if(m_MovementComponent != null)
+
+        if(attack.m_HasCondition)
         {
-            if (attack.m_ShouldBeCrouched)
+            if (m_MovementComponent != null)
             {
-                conditionIsValid &= m_MovementComponent.IsCrouched();
+                if (attack.m_ShouldBeCrouched)
+                {
+                    conditionIsValid &= m_MovementComponent.IsCrouched();
+                }
+                if (attack.m_ShouldBeInTheAir)
+                {
+                    conditionIsValid &= m_MovementComponent.IsInTheAir();
+                }
             }
-            if(attack.m_ShouldBeInTheAir)
+
+            if (attack.m_HasAttackRequirement)
             {
-                conditionIsValid &= m_MovementComponent.IsInTheAir();
+                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attack.m_CurrentAttack);
             }
         }
 
