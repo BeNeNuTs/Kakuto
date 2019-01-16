@@ -93,18 +93,12 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         bool conditionIsValid = true;
 
-        if(attack.m_HasCondition)
+        if (attack.m_HasCondition)
         {
             if (m_MovementComponent != null)
             {
-                if (attack.m_ShouldBeCrouched)
-                {
-                    conditionIsValid &= m_MovementComponent.IsCrouched();
-                }
-                if (attack.m_ShouldBeInTheAir)
-                {
-                    conditionIsValid &= m_MovementComponent.IsInTheAir();
-                }
+                conditionIsValid &= attack.m_ShouldBeCrouched == m_MovementComponent.IsCrouched();
+                conditionIsValid &= attack.m_ShouldBeInTheAir == m_MovementComponent.IsInTheAir();
             }
 
             if (attack.m_HasAttackRequirement)
@@ -120,7 +114,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         inputIndex = -1;
         attackInputIndex = -1;
-        for(int i = 0; i < attack.m_InputStringList.Count; i++)
+        for (int i = 0; i < attack.m_InputStringList.Count; i++)
         {
             int index = m_TriggeredInputsString.IndexOf(attack.m_InputStringList[i]);
             if (index != -1)
@@ -145,13 +139,13 @@ public class PlayerAttackComponent : MonoBehaviour
 
     public void EndOfAttack(string attackName)
     {
-        if(m_CurrentAttack == null)
+        if (m_CurrentAttack == null)
         {
             Debug.LogError("There is no current attack");
             return;
         }
 
-        if(m_CurrentAttack.m_Name != attackName)
+        if (m_CurrentAttack.m_Name != attackName)
         {
             Debug.Log("Trying to EndOfAttack " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
             return;
