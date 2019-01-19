@@ -6,6 +6,6 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 {
     public void EndOfAttack(string attackName)
     {
-        transform.parent.SendMessage("EndOfAttack", attackName);
+        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, attackName);
     }
 }

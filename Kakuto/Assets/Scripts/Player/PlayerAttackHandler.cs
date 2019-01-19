@@ -13,9 +13,9 @@ public class PlayerAttackHandler : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player") && collision.gameObject != gameObject)
+        if(collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
-            collision.GetComponent<PlayerHealthComponent>().OnHit(m_PlayerAttackComponent.GetCurrentAttack());
+            Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_PlayerAttackComponent.GetCurrentAttack());
         }
     }
 }

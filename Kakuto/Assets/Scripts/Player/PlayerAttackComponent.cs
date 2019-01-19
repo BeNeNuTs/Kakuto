@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +40,23 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_Anim = GetComponentInChildren<Animator>();
         m_TriggeredInputsList = new List<TriggeredInput>();
+
+        RegisterListeners();
+    }
+
+    void RegisterListeners()
+    {
+        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+    }
+
+    void OnDestroy()
+    {
+        UnregisterListeners();
+    }
+
+    void UnregisterListeners()
+    {
+        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
     }
 
     void Update()
@@ -149,6 +167,8 @@ public class PlayerAttackComponent : MonoBehaviour
         m_Anim.Play(attack.m_Name);
 
         m_CurrentAttack = attack;
+
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);
     }
 
     public void EndOfAttack(string attackName)

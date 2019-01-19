@@ -14,6 +14,23 @@ public class PlayerHealthComponent : MonoBehaviour {
     {
         m_HP = m_HealthConfig.m_MaxHP;
         m_Anim = GetComponentInChildren<Animator>();
+
+        RegisterListeners();
+    }
+
+    void RegisterListeners()
+    {
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
+    }
+
+    void OnDestroy()
+    {
+        UnregisterListeners();
+    }
+
+    void UnregisterListeners()
+    {
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
     }
 
     public bool IsDead()
