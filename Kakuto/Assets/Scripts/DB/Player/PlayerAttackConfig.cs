@@ -29,7 +29,7 @@ public class PlayerAttack {
     // Effect (damage/stun/etc..)
     [Header("Effect")]
     [Range(0,100)]
-    public int m_Damage = 10;
+    public uint m_Damage = 10;
 }
 
 [CreateAssetMenu(fileName = "PlayerAttackConfig", menuName = "Data/Player/PlayerAttackConfig", order = 0)]
@@ -66,7 +66,7 @@ public class PlayerAttackConfig : ScriptableObject
 
 public class CreatePlayerAttackConfig
 {
-    [MenuItem("Assets/Create/Player Attack Config")]
+    //[MenuItem("Assets/Create/Player Attack Config")]
     public static PlayerAttackConfig Create()
     {
         PlayerAttackConfig asset = ScriptableObject.CreateInstance<PlayerAttackConfig>();

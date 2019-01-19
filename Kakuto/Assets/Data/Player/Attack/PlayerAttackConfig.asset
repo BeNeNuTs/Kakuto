@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3c5ee4278f4cde4bb22e5838e818eb6, type: 3}
-  m_Name: PlayerAttackConfig_New
+  m_Name: PlayerAttackConfig
   m_EditorClassIdentifier: 
   m_AttackList:
   - m_Name: SuperAttack
@@ -31,7 +31,7 @@ MonoBehaviour:
     - "\u2192\u2192b"
     m_Damage: 20
   - m_Name: FirstAttack
-    m_HasCondition: 0
+    m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0

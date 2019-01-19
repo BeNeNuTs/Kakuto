@@ -113,7 +113,7 @@ public class PlayerAttackEditor : EditorWindow
                 m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Name = EditorGUILayout.TextField("Attack name", m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Name as string);
                 m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_ShouldBeCrouched = (bool)EditorGUILayout.Toggle("Attack crouch", m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_ShouldBeCrouched, GUILayout.ExpandWidth(false));
                 //m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_InputList = EditorGUILayout.ObjectField("Attack inputs", m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_AttackInput, typeof(List<KeyCode>), false) as List<KeyCode>;
-                m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Damage = EditorGUILayout.IntField("Attack damage", m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Damage);
+                //m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Damage = EditorGUILayout.UIntField("Attack damage", m_PlayerAttackConfig.m_AttackList[m_ViewIndex - 1].m_Damage);
 
                 GUILayout.Space(10);
             }
