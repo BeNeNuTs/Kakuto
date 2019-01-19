@@ -20,7 +20,7 @@ public class PlayerAttack {
     [ConditionalField(true, "m_HasCondition")]
     public bool m_HasAttackRequirement = false;
     [ConditionalField(true, "m_HasCondition", "m_HasAttackRequirement")]
-    public string m_CurrentAttack = "";
+    public string m_CurrentAttackName = "";
 
     // Attack input to trigger (E+Z+A)
     [Header("Input")]

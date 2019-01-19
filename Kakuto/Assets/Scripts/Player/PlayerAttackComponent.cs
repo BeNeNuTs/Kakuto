@@ -43,6 +43,12 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
+        UpdateTriggerInputList();
+        UpdateTriggerInputString();
+    }
+
+    void UpdateTriggerInputList()
+    {
         float currentTime = Time.unscaledTime;
 
         if (Input.GetKeyDown("left"))
@@ -65,7 +71,10 @@ public class PlayerAttackComponent : MonoBehaviour
         }
 
         m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime, m_AttackConfig.m_InputPersistency));
+    }
 
+    void UpdateTriggerInputString()
+    {
         m_TriggeredInputsString = "";
         foreach (TriggeredInput triggeredInput in m_TriggeredInputsList)
         {
@@ -74,6 +83,11 @@ public class PlayerAttackComponent : MonoBehaviour
     }
 
     void LateUpdate()
+    {
+        UpdateAttack();
+    }
+
+    void UpdateAttack()
     {
         if (m_TriggeredInputsList.Count > 0)
         {
@@ -103,7 +117,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
             if (attack.m_HasAttackRequirement)
             {
-                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attack.m_CurrentAttack);
+                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attack.m_CurrentAttackName);
             }
         }
 
@@ -147,7 +161,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
         if (m_CurrentAttack.m_Name != attackName)
         {
-            Debug.Log("Trying to EndOfAttack " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
+            Debug.LogError("Trying to EndOfAttack " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
             return;
         }
 
