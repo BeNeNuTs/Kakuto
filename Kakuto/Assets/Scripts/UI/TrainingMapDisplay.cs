@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TrainingMapDisplay : MonoBehaviour
 {
-    public PlayerAttackComponent m_PlayerAttackToDisplay;
+    public EPlayer m_Target;
 
     //Training display
     private Text m_TextToDisplayInputs;
@@ -13,8 +13,9 @@ public class TrainingMapDisplay : MonoBehaviour
     private float m_DislayAttacksTimeStamp;
     private static readonly float s_DisplayAttacksTime = 2.0f;
 
+    private PlayerAttackComponent m_PlayerAttackComponentToDisplay;
     private PlayerAttack m_CurrentDisplayAttack;
-
+    
     void Awake()
     {
         //Training display
@@ -29,6 +30,8 @@ public class TrainingMapDisplay : MonoBehaviour
         {
             m_TextToDisplayAttacks = attackDisplayer.GetComponent<Text>();
         }
+
+        m_PlayerAttackComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerAttackComponent>(m_Target.ToString());
     }
 
     void LateUpdate()
@@ -42,7 +45,7 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if (m_TextToDisplayInputs != null)
         {
-            m_TextToDisplayInputs.text = m_PlayerAttackToDisplay.GetTriggeredInputString();
+            m_TextToDisplayInputs.text = m_PlayerAttackComponentToDisplay.GetTriggeredInputString();
         }
     }
 
@@ -50,11 +53,11 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if (m_TextToDisplayAttacks != null)
         {
-            if (m_PlayerAttackToDisplay.GetCurrentAttack() != null && m_PlayerAttackToDisplay.GetCurrentAttack() != m_CurrentDisplayAttack)
+            if (m_PlayerAttackComponentToDisplay.GetCurrentAttack() != null && m_PlayerAttackComponentToDisplay.GetCurrentAttack() != m_CurrentDisplayAttack)
             {
-                m_TextToDisplayAttacks.text = m_PlayerAttackToDisplay.GetCurrentAttack().m_Name + " launched !";
+                m_TextToDisplayAttacks.text = m_PlayerAttackComponentToDisplay.GetCurrentAttack().m_Name + " launched !";
                 m_DislayAttacksTimeStamp = Time.unscaledTime;
-                m_CurrentDisplayAttack = m_PlayerAttackToDisplay.GetCurrentAttack();
+                m_CurrentDisplayAttack = m_PlayerAttackComponentToDisplay.GetCurrentAttack();
             }
             else if (Time.unscaledTime > m_DislayAttacksTimeStamp + s_DisplayAttacksTime)
             {

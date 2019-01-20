@@ -3,11 +3,18 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum EPlayer
+{
+    Player1,
+    Player2
+}
+
 public enum EPlayerEvent
 {
     AttackLaunched,
     EndOfAttack,
-    Hit
+    Hit,
+    DamageTaken
 }
 
 public class Player1EventManager<T> : PlayerEventManager<T>

@@ -27,6 +27,20 @@ public static class Utils {
         }
     }
 
+    public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
+    {
+        T[] components = Object.FindObjectsOfType<T>();
+        foreach (T comp in components)
+        {
+            if (comp.gameObject.CompareTag(tag))
+            {
+                return comp;
+            }
+        }
+
+        return null;
+    }
+
     public static PlayerEventManager<T> GetPlayerEventManager<T>(GameObject gameObject)
     {
         return GetPlayerEventManager<T>(gameObject.tag);

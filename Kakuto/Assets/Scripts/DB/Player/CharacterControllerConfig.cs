@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[CreateAssetMenu(fileName = "CahracterControllerConfig", menuName = "Data/Player/CahracterControllerConfig", order = 0)]
+[CreateAssetMenu(fileName = "CharacterControllerConfig", menuName = "Data/Player/CharacterControllerConfig", order = 0)]
 public class CharacterControllerConfig : ScriptableObject {
 
     [Tooltip("The fastest the player can travel in the x axis.")]

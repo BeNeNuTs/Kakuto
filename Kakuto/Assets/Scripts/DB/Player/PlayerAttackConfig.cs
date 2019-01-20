@@ -63,16 +63,3 @@ public class PlayerAttackConfig : ScriptableObject
         return 0;
     }
 }
-
-public class CreatePlayerAttackConfig
-{
-    //[MenuItem("Assets/Create/Player Attack Config")]
-    public static PlayerAttackConfig Create()
-    {
-        PlayerAttackConfig asset = ScriptableObject.CreateInstance<PlayerAttackConfig>();
-
-        AssetDatabase.CreateAsset(asset, "Assets/Data/Player/Attack/PlayerAttackConfig_New.asset");
-        AssetDatabase.SaveAssets();
-        return asset;
-    }
-}
