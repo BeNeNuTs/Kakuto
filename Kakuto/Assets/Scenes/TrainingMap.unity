@@ -1082,6 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControllerConfig: {fileID: 11400000, guid: 7a8b10e7ee7ae824aa3df83a587d7a0f, type: 2}
+  m_MovingRight: 1
   m_GroundCheck: {fileID: 1605257651}
   OnJumpEvent:
     m_PersistentCalls:
@@ -1115,11 +1116,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: CharacterController2D+BoolEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnFlipEvent:
+  OnDirectionChangedEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 917930692}
-        m_MethodName: OnFlipping
+        m_MethodName: OnDirectionChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

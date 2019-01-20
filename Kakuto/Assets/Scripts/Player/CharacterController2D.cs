@@ -5,12 +5,12 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     public CharacterControllerConfig m_ControllerConfig;
+    [SerializeField] private bool m_MovingRight = true;         // For determining which way the player is currently moving.
     [SerializeField] private Transform m_GroundCheck;           // A position marking where to check if the player is grounded.
 
     const float k_GroundedRadius = .2f;                         // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;                                    // Whether or not the player is grounded.
     private Rigidbody2D m_Rigidbody2D;
-    private bool m_MovingRight = true;                          // For determining which way the player is currently moving.
     private Vector3 m_Velocity = Vector3.zero;
 
     [System.Serializable]
@@ -21,7 +21,7 @@ public class CharacterController2D : MonoBehaviour
 
     public BoolEvent OnJumpEvent;
     public BoolEvent OnCrouchEvent;
-    public UnityEvent OnFlipEvent;
+    public UnityEvent OnDirectionChangedEvent;
     private bool m_wasCrouching = false;
 
     private void Awake()
@@ -34,8 +34,8 @@ public class CharacterController2D : MonoBehaviour
         if (OnCrouchEvent == null)
             OnCrouchEvent = new BoolEvent();
 
-        if (OnFlipEvent == null)
-            OnFlipEvent = new UnityEvent();
+        if (OnDirectionChangedEvent == null)
+            OnDirectionChangedEvent = new UnityEvent();
     }
 
     private void FixedUpdate()
@@ -98,14 +98,12 @@ public class CharacterController2D : MonoBehaviour
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_MovingRight)
             {
-                // ... flip the player.
-                Flip();
+                OnDirectionChanged();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (move < 0 && m_MovingRight)
             {
-                // ... flip the player.
-                Flip();
+                OnDirectionChanged();
             }
         }
         // If the player should jump...
@@ -118,11 +116,11 @@ public class CharacterController2D : MonoBehaviour
     }
 
 
-    private void Flip()
+    private void OnDirectionChanged()
     {
         // Switch the way the player is labelled as moving.
         m_MovingRight = !m_MovingRight;
 
-        OnFlipEvent.Invoke();
+        OnDirectionChangedEvent.Invoke();
     }
 }

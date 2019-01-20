@@ -56,9 +56,9 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Animator.SetBool("IsCrouching", isCrouching);
     }
 
-    public void OnFlipping()
+    public void OnDirectionChanged()
     {
-        m_Animator.SetFloat("WalkingSpeed", m_Animator.GetFloat("WalkingSpeed") * -1.0f);
+        m_Animator.SetFloat("MovingDirection", m_Animator.GetFloat("MovingDirection") * -1.0f);
     }
 
     void FixedUpdate()
