@@ -129,8 +129,8 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if (m_MovementComponent != null)
             {
-                conditionIsValid &= attack.m_ShouldBeCrouched == m_MovementComponent.IsCrouched();
-                conditionIsValid &= attack.m_ShouldBeInTheAir == m_MovementComponent.IsInTheAir();
+                conditionIsValid &= attack.m_ShouldBeCrouched == m_MovementComponent.IsCrouching();
+                conditionIsValid &= attack.m_ShouldBeInTheAir == m_MovementComponent.IsJumping();
             }
 
             if (attack.m_HasAttackRequirement)
