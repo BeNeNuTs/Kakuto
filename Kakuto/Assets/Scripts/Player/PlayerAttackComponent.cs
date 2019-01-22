@@ -34,6 +34,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private string m_TriggeredInputsString;
 
     private PlayerAttack m_CurrentAttack;
+    private bool m_IsAttackBlocked = false;
 
     void Awake()
     {
@@ -47,6 +48,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
     }
 
     void OnDestroy()
@@ -57,10 +59,16 @@ public class PlayerAttackComponent : MonoBehaviour
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
     }
 
     void Update()
     {
+        if (m_IsAttackBlocked)
+        {
+            return;
+        }
+
         UpdateTriggerInputList();
         UpdateTriggerInputString();
     }
@@ -108,6 +116,11 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void LateUpdate()
     {
+        if(m_IsAttackBlocked)
+        {
+            return;
+        }
+
         UpdateAttack();
     }
 
@@ -166,24 +179,53 @@ public class PlayerAttackComponent : MonoBehaviour
         m_Anim.Play(attack.m_AnimationName);
         m_CurrentAttack = attack;
 
+        m_IsAttackBlocked = attack.m_BlockAttack;
+        m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
+
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);
     }
 
-    public void EndOfAttack(string attackName)
+    bool CheckIsCurrentAttack(string attackName, string methodName)
     {
         if (m_CurrentAttack == null)
         {
             Debug.LogError("There is no current attack");
-            return;
+            return false;
         }
 
         if (m_CurrentAttack.m_Name != attackName)
         {
-            Debug.LogError("Trying to EndOfAttack " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
-            return;
+            Debug.LogError("Trying to " + methodName + " " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
+            return false;
         }
+        return true;
+    }
 
-        m_CurrentAttack = null;
+    void EndOfAttack(string attackName)
+    {
+        if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
+        {
+            if(m_CurrentAttack.m_BlockAttack)
+            {
+                m_IsAttackBlocked = false;
+            }
+            
+            m_CurrentAttack = null;
+        }
+    }
+
+    void UnblockAttack(string attackName)
+    {
+        if (CheckIsCurrentAttack(attackName, "UnblockAttack"))
+        {
+            if(m_IsAttackBlocked == false)
+            {
+                Debug.LogError("Attack was not blocked by " + attackName);
+                return;
+            }
+
+            m_IsAttackBlocked = false;
+        }
     }
 
     public string GetTriggeredInputString()

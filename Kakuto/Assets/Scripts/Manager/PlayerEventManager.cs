@@ -12,6 +12,8 @@ public enum EPlayer
 public enum EPlayerEvent
 {
     AttackLaunched,
+    UnblockAttack,
+    UnblockMovement,
     EndOfAttack,
     Hit,
     DamageTaken

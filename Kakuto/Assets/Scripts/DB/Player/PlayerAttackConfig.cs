@@ -11,13 +11,14 @@ public enum EAttackType
 }
 
 [System.Serializable]
-public class PlayerAttack {
-    
+public class PlayerAttack
+{
     [Tooltip("The real attack name")]
     public string m_Name;
     [Tooltip("Description of the attack")]
     public string m_Description;
 
+    // Setting (AnimName/AttackType/etc..)
     [Header("Setting")]
     public string m_AnimationName;
     public EAttackType m_AttackType;
@@ -41,9 +42,17 @@ public class PlayerAttack {
     public List<string> m_InputStringList;
 
     // Effect (damage/stun/etc..)
-    [Header("Effect")]
-    [Range(0,100)]
+    [Header("Player effect")]
+    [Tooltip("Once this attack launched, player won't be able to attack anymore until UnblockAttack/EndOfAnim is called")]
+    public bool m_BlockAttack = false;
+    [Tooltip("Once this attack launched, player won't be able to move anymore until UnblockMovement/EndOfAnim is called")]
+    public bool m_BlockMovement = false;
+
+    [Header("Enemy effect")]
+    [Range(0, 100)]
     public uint m_Damage = 10;
+    [Range(0, 100)]
+    public uint m_CheapDamage = 2;
 }
 
 [CreateAssetMenu(fileName = "PlayerAttackConfig", menuName = "Data/Player/PlayerAttackConfig", order = 0)]

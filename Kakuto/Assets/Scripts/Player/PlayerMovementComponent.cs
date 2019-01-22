@@ -15,15 +15,41 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_IsJumping = false;
     private bool m_IsCrouching = false;
 
+    private bool m_IsMovementBlockedByAttack = false;
+
     void Awake()
     {
         m_Controller = GetComponent<CharacterController2D>();
         m_Animator = GetComponentInChildren<Animator>();
+
+        RegisterListeners();
+    }
+
+    void RegisterListeners()
+    {
+        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+    }
+
+    void OnDestroy()
+    {
+        UnregisterListeners();
+    }
+
+    void UnregisterListeners()
+    {
+        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(m_IsMovementBlockedByAttack)
+        {
+            return;
+        }
+
         m_HorizontalMoveInput = Input.GetAxisRaw("Horizontal");
 
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
@@ -33,15 +59,7 @@ public class PlayerMovementComponent : MonoBehaviour
             m_JumpInput = true;
         }
 
-        if (Input.GetKeyDown("down"))
-        {
-            m_CrouchInput = true;
-        }
-        else if (Input.GetKeyUp("down"))
-        {
-            m_CrouchInput = false;
-        }
-
+        m_CrouchInput = Input.GetKey("down");
     }
 
     public void OnJumping(bool isJumping)
@@ -63,6 +81,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(m_IsMovementBlockedByAttack)
+        {
+            return;
+        }
+
         // Move our character
         m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_JumpInput);
         m_JumpInput = false;
@@ -76,5 +99,31 @@ public class PlayerMovementComponent : MonoBehaviour
     public bool IsCrouching()
     {
         return m_IsCrouching;
+    }
+
+    public float GetHorizontalMoveInput()
+    {
+        return m_HorizontalMoveInput;
+    }
+
+    public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
+    {
+        m_IsMovementBlockedByAttack = isMovementBlockedByAttack;
+    }
+
+    void EndOfAttack(string attackName)
+    {
+        if(m_IsMovementBlockedByAttack)
+        {
+            m_IsMovementBlockedByAttack = false;
+        }
+    }
+
+    void UnblockMovement(string attackName)
+    {
+        if (m_IsMovementBlockedByAttack)
+        {
+            m_IsMovementBlockedByAttack = false;
+        }
     }
 }

@@ -16,11 +16,13 @@ public class PlayerHealthComponent : MonoBehaviour
     public Transform m_DamageTakenParent;
 
     private uint m_HP;
+    private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;
+        m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_Anim = GetComponentInChildren<Animator>();
 
         RegisterListeners();
@@ -53,7 +55,42 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-        ApplyDamage(attack.m_Damage);
+        uint hitDamage = GetHitDamage(attack);
+        if(hitDamage > 0)
+        {
+            ApplyDamage(hitDamage);
+        }
+    }
+
+    private uint GetHitDamage(PlayerAttack attack)
+    {
+        return CanBlockAttack(attack) ? attack.m_CheapDamage : attack.m_Damage;
+    }
+
+    private bool CanBlockAttack(PlayerAttack attack)
+    {
+        bool canBlockAttack = false;
+        if (m_MovementComponent)
+        {
+            //TODO : Change to => Moving at the opposite direction of the attacker
+            if (m_MovementComponent.GetHorizontalMoveInput() == 0.0f && m_MovementComponent.IsJumping() == false) // For now, not moving at all
+            {
+                //Check if the player is in the right stance 
+                bool isCrouching = m_MovementComponent.IsCrouching();
+                switch (attack.m_AttackType)
+                {
+                    case EAttackType.Low:
+                        canBlockAttack = isCrouching;
+                        break;
+                    case EAttackType.Mid:
+                    case EAttackType.Overhead:
+                        canBlockAttack = !isCrouching;
+                        break;
+                }
+            }
+        }
+
+        return canBlockAttack;
     }
 
     private void ApplyDamage(uint damage)
@@ -97,6 +134,6 @@ public class PlayerHealthComponent : MonoBehaviour
         GameObject damageTakenUI = Instantiate(m_DamageTakenUIPrefab, Vector3.zero, Quaternion.identity);
         damageTakenUI.transform.SetParent(m_DamageTakenParent);
         damageTakenUI.transform.localPosition = Vector3.zero;
-        damageTakenUI.GetComponentInChildren<Text>().text = "-"+damage.ToString();
+        damageTakenUI.GetComponentInChildren<Text>().text = "-" + damage.ToString();
     }
 }

@@ -23,7 +23,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - "\u2192\u2192\u2192z"
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 20
+    m_CheapDamage: 2
   - m_Name: SecondAttack
     m_Description: Just the second attack
     m_AnimationName: None
@@ -35,7 +38,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - "\u2192\u2192b"
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 20
+    m_CheapDamage: 2
   - m_Name: FirstAttack
     m_Description: The first one
     m_AnimationName: Capa1
@@ -47,7 +53,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - "\u2192a"
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 10
+    m_CheapDamage: 2
   - m_Name: ThirdAttack
     m_Description: The one after the second
     m_AnimationName: None
@@ -60,7 +69,10 @@ MonoBehaviour:
     m_InputStringList:
     - ab
     - ba
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 20
+    m_CheapDamage: 2
   - m_Name: CrouchAttack
     m_Description: Only if crouched
     m_AnimationName: None
@@ -72,7 +84,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - a
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 10
+    m_CheapDamage: 2
   - m_Name: AirAttack
     m_Description: Put your attacks up in the air
     m_AnimationName: None
@@ -84,7 +99,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - a
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 10
+    m_CheapDamage: 2
   - m_Name: ImpossibleAttack
     m_Description: Hm, don't know how this is possible
     m_AnimationName: None
@@ -96,7 +114,10 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - z
+    m_BlockAttack: 0
+    m_BlockMovement: 0
     m_Damage: 20
+    m_CheapDamage: 2
   m_InputPersistency: 2
   m_MaxInputs: 10
   m_SortAttackList: 0
