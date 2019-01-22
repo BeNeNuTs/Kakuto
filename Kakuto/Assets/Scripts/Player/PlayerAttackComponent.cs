@@ -100,6 +100,12 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
+    void ClearTriggeredInputs()
+    {
+        m_TriggeredInputsList.Clear();
+        m_TriggeredInputsString = "";
+    }
+
     void LateUpdate()
     {
         UpdateAttack();
@@ -109,12 +115,11 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (m_TriggeredInputsList.Count > 0)
         {
-            int inputIndex, attackInputIndex;
             foreach (PlayerAttack attack in m_AttackConfig.m_AttackList)
             {
-                if (CheckAttackCondition(attack) && CanAttackBeTriggered(attack, out inputIndex, out attackInputIndex))
+                if (CheckAttackCondition(attack) && CanAttackBeTriggered(attack))
                 {
-                    LaunchAttack(attack, inputIndex, attackInputIndex);
+                    LaunchAttack(attack);
                     break;
                 }
             }
@@ -142,30 +147,23 @@ public class PlayerAttackComponent : MonoBehaviour
         return conditionIsValid;
     }
 
-    bool CanAttackBeTriggered(PlayerAttack attack, out int inputIndex, out int attackInputIndex)
+    bool CanAttackBeTriggered(PlayerAttack attack)
     {
-        inputIndex = -1;
-        attackInputIndex = -1;
         for (int i = 0; i < attack.m_InputStringList.Count; i++)
         {
-            int index = m_TriggeredInputsString.IndexOf(attack.m_InputStringList[i]);
-            if (index != -1)
+            if (m_TriggeredInputsString.Contains(attack.m_InputStringList[i]))
             {
-                inputIndex = index;
-                attackInputIndex = i;
                 return true;
             }
         }
         return false;
     }
 
-    void LaunchAttack(PlayerAttack attack, int inputIndex, int attackInputIndex)
+    void LaunchAttack(PlayerAttack attack)
     {
-        //Remove inputString from triggered input to be sure to not trigger this attack twice with the same input
-        m_TriggeredInputsList.RemoveRange(inputIndex, attack.m_InputStringList[attackInputIndex].Length);
+        ClearTriggeredInputs();
 
         m_Anim.Play(attack.m_Name);
-
         m_CurrentAttack = attack;
 
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);
