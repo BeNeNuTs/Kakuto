@@ -2,8 +2,19 @@
 using System.Collections;
 using UnityEditor;
 
-public class HealthBarConfig : SingletonScriptableObject<HealthBarConfig>
+public class HealthBarConfig : ScriptableObject
 {
+    static HealthBarConfig s_Instance = null;
+    public static HealthBarConfig Instance
+    {
+        get
+        {
+            if (!s_Instance)
+                s_Instance = AssetDatabase.LoadAssetAtPath<HealthBarConfig>("Assets/Data/Constant/UI/HealthBarConfig.asset");
+            return s_Instance;
+        }
+    }
+
     [Tooltip("Time to fill the health bar")]
     public float m_TimeToFill = 0.2f;
 
