@@ -13,66 +13,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackList:
   - m_Name: SuperAttack
+    m_Description: A super duper attack
+    m_AnimationName: None
+    m_AttackType: 2
     m_HasCondition: 0
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - "\u2192\u2192\u2192z"
     m_Damage: 20
   - m_Name: SecondAttack
+    m_Description: Just the second attack
+    m_AnimationName: None
+    m_AttackType: 0
     m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - "\u2192\u2192b"
     m_Damage: 20
   - m_Name: FirstAttack
+    m_Description: The first one
+    m_AnimationName: Capa1
+    m_AttackType: 0
     m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - "\u2192a"
     m_Damage: 10
   - m_Name: ThirdAttack
+    m_Description: The one after the second
+    m_AnimationName: None
+    m_AttackType: 0
     m_HasCondition: 0
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - ab
     - ba
     m_Damage: 20
   - m_Name: CrouchAttack
+    m_Description: Only if crouched
+    m_AnimationName: None
+    m_AttackType: 0
     m_HasCondition: 1
     m_ShouldBeCrouched: 1
     m_ShouldBeInTheAir: 0
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - a
     m_Damage: 10
   - m_Name: AirAttack
+    m_Description: Put your attacks up in the air
+    m_AnimationName: None
+    m_AttackType: 0
     m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 1
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - a
     m_Damage: 10
   - m_Name: ImpossibleAttack
+    m_Description: Hm, don't know how this is possible
+    m_AnimationName: None
+    m_AttackType: 0
     m_HasCondition: 1
     m_ShouldBeCrouched: 1
     m_ShouldBeInTheAir: 1
     m_HasAttackRequirement: 0
-    m_CurrentAttack: 
+    m_AttackRequired: 
     m_InputStringList:
     - z
     m_Damage: 20

@@ -126,21 +126,21 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    bool CheckAttackCondition(PlayerAttack attack)
+    bool CheckAttackCondition(PlayerAttack attackToCheck)
     {
         bool conditionIsValid = true;
 
-        if (attack.m_HasCondition)
+        if (attackToCheck.m_HasCondition)
         {
             if (m_MovementComponent != null)
             {
-                conditionIsValid &= attack.m_ShouldBeCrouched == m_MovementComponent.IsCrouching();
-                conditionIsValid &= attack.m_ShouldBeInTheAir == m_MovementComponent.IsJumping();
+                conditionIsValid &= attackToCheck.m_ShouldBeCrouched == m_MovementComponent.IsCrouching();
+                conditionIsValid &= attackToCheck.m_ShouldBeInTheAir == m_MovementComponent.IsJumping();
             }
 
-            if (attack.m_HasAttackRequirement)
+            if (attackToCheck.m_HasAttackRequirement)
             {
-                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attack.m_CurrentAttackName);
+                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attackToCheck.m_AttackRequired);
             }
         }
 
@@ -163,7 +163,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         ClearTriggeredInputs();
 
-        m_Anim.Play(attack.m_Name);
+        m_Anim.Play(attack.m_AnimationName);
         m_CurrentAttack = attack;
 
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);

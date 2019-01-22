@@ -3,10 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 
+public enum EAttackType
+{
+    Low,
+    Mid,
+    Overhead
+}
+
 [System.Serializable]
 public class PlayerAttack {
-
+    
+    [Tooltip("The real attack name")]
     public string m_Name;
+    [Tooltip("Description of the attack")]
+    public string m_Description;
+
+    [Header("Setting")]
+    public string m_AnimationName;
+    public EAttackType m_AttackType;
 
     // Condition (Crouch/Jump/etc..)
     [Header("Condition")]
@@ -20,7 +34,7 @@ public class PlayerAttack {
     [ConditionalField(true, "m_HasCondition")]
     public bool m_HasAttackRequirement = false;
     [ConditionalField(true, "m_HasCondition", "m_HasAttackRequirement")]
-    public string m_CurrentAttackName = "";
+    public string m_AttackRequired = "";
 
     // Attack input to trigger (E+Z+A)
     [Header("Input")]
