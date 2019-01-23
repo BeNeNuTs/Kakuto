@@ -110,8 +110,8 @@ public class PlayerHealthComponent : MonoBehaviour
         bool canBlockAttack = false;
         if (m_MovementComponent)
         {
-            //TODO : Change to => Moving at the opposite direction of the attacker
-            if (m_MovementComponent.GetHorizontalMoveInput() == 0.0f && m_MovementComponent.IsJumping() == false) // For now, not moving at all
+            // If he's moving back and not jumping
+            if (m_MovementComponent.IsMovingBack() && m_MovementComponent.IsJumping() == false)
             {
                 //Check if the player is in the right stance 
                 bool isCrouching = m_MovementComponent.IsCrouching();

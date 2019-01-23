@@ -5,13 +5,14 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     public CharacterControllerConfig m_ControllerConfig;
-    [SerializeField] private bool m_MovingRight = true;         // For determining which way the player is currently moving.
     [SerializeField] private Transform m_GroundCheck;           // A position marking where to check if the player is grounded.
 
     const float k_GroundedRadius = .2f;                         // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;                                    // Whether or not the player is grounded.
     private Rigidbody2D m_Rigidbody2D;
     private Vector3 m_Velocity = Vector3.zero;
+    private bool m_FacingRight;                                 // For determining which side the player is currently facing.
+    private bool m_MovingRight;
 
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
@@ -27,6 +28,9 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+
+        m_FacingRight = gameObject.CompareTag("Player1");
+        m_MovingRight = m_FacingRight;
 
         if (OnJumpEvent == null)
             OnJumpEvent = new BoolEvent();
@@ -68,7 +72,6 @@ public class CharacterController2D : MonoBehaviour
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_ControllerConfig.m_AirControl)
         {
-
             // If crouching
             if (crouch)
             {
@@ -122,5 +125,16 @@ public class CharacterController2D : MonoBehaviour
         m_MovingRight = !m_MovingRight;
 
         OnDirectionChangedEvent.Invoke();
+    }
+
+    public void Flip()
+    {
+        // Switch the way the player is labelled as facing.
+        m_FacingRight = !m_FacingRight;
+
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }

@@ -8,6 +8,9 @@ public class PlayerMovementComponent : MonoBehaviour
     private CharacterController2D m_Controller;
     private Animator m_Animator;
 
+    private Transform m_Enemy;
+    private bool m_IsLeftSide;
+
     private float m_HorizontalMoveInput = 0f;
     private bool m_JumpInput = false;
     private bool m_CrouchInput = false;
@@ -21,6 +24,9 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         m_Controller = GetComponent<CharacterController2D>();
         m_Animator = GetComponentInChildren<Animator>();
+
+        m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
+        m_IsLeftSide = gameObject.CompareTag("Player1");
 
         RegisterListeners();
     }
@@ -51,6 +57,8 @@ public class PlayerMovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdatePlayerSide();
+
         if(m_IsMovementBlocked)
         {
             return;
@@ -66,6 +74,31 @@ public class PlayerMovementComponent : MonoBehaviour
         }
 
         m_CrouchInput = Input.GetKey("down");
+    }
+
+    void UpdatePlayerSide()
+    {
+        if(m_IsLeftSide)
+        {
+            if(m_Enemy.position.x < transform.position.x)
+            {
+                OnSideChanged();
+            }
+        }
+        else
+        {
+            if (m_Enemy.position.x > transform.position.x)
+            {
+                OnSideChanged();
+            }
+        }
+    }
+
+    void OnSideChanged()
+    {
+        m_IsLeftSide = !m_IsLeftSide;
+        m_Controller.Flip();
+        OnDirectionChanged();
     }
 
     public void OnJumping(bool isJumping)
@@ -107,9 +140,21 @@ public class PlayerMovementComponent : MonoBehaviour
         return m_IsCrouching;
     }
 
-    public float GetHorizontalMoveInput()
+    public bool IsMovingBack()
     {
-        return m_HorizontalMoveInput;
+        if(m_IsLeftSide)
+        {
+            return m_HorizontalMoveInput < 0.0f;
+        }
+        else
+        {
+            return m_HorizontalMoveInput > 0.0f;
+        }
+    }
+
+    public bool IsLeftSide()
+    {
+        return m_IsLeftSide;
     }
 
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
