@@ -157,6 +157,11 @@ public class PlayerMovementComponent : MonoBehaviour
         return m_IsLeftSide;
     }
 
+    public void PushBack(float pushForce)
+    {
+        m_Controller.PushBack(pushForce);
+    }
+
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
     {
         m_IsMovementBlocked = isMovementBlockedByAttack;

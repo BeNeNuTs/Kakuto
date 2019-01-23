@@ -27,6 +27,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 20
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   - m_Name: SecondAttack
     m_Description: Just the second attack
     m_AnimationName: None
@@ -42,10 +45,13 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 20
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   - m_Name: FirstAttack
     m_Description: The first one
     m_AnimationName: Capa1
-    m_AttackType: 0
+    m_AttackType: 1
     m_HasCondition: 1
     m_ShouldBeCrouched: 0
     m_ShouldBeInTheAir: 0
@@ -57,6 +63,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 10
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 200
   - m_Name: ThirdAttack
     m_Description: The one after the second
     m_AnimationName: None
@@ -73,6 +82,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 20
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   - m_Name: CrouchAttack
     m_Description: Only if crouched
     m_AnimationName: None
@@ -88,6 +100,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 10
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   - m_Name: AirAttack
     m_Description: Put your attacks up in the air
     m_AnimationName: None
@@ -103,6 +118,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 10
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   - m_Name: ImpossibleAttack
     m_Description: Hm, don't know how this is possible
     m_AnimationName: None
@@ -118,6 +136,9 @@ MonoBehaviour:
     m_BlockMovement: 0
     m_Damage: 20
     m_CheapDamage: 2
+    m_HitStun: 2
+    m_BlockStun: 1
+    m_PushBack: 0
   m_InputPersistency: 2
   m_MaxInputs: 10
   m_SortAttackList: 0

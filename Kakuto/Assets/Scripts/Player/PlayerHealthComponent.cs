@@ -14,6 +14,7 @@ public class PlayerHealthComponent : MonoBehaviour
     public GameObject m_DamageTakenUIPrefab;
     [ConditionalField(true, "m_DisplayDamageTaken")]
     public Transform m_DamageTakenParent;
+    public bool m_IsBlockingAllAttack = false;
 
     private uint m_HP;
     private PlayerMovementComponent m_MovementComponent;
@@ -80,33 +81,35 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         uint hitDamage = 0;
-        float stunDuration = 0.0f;
         bool isAttackBlocked = false;
-        GetHitInfo(attack, out hitDamage, out stunDuration, out isAttackBlocked);
+        GetHitInfo(attack, out hitDamage, out isAttackBlocked);
         if(hitDamage > 0)
         {
-            ApplyDamage(hitDamage, stunDuration, isAttackBlocked);
+            ApplyDamage(attack, hitDamage, isAttackBlocked);
         }
     }
 
-    private void GetHitInfo(PlayerAttack attack, out uint hitDamage, out float stunDuration, out bool isAttackBlocked)
+    private void GetHitInfo(PlayerAttack attack, out uint hitDamage, out bool isAttackBlocked)
     {
         if (CanBlockAttack(attack))
         {
             hitDamage = attack.m_CheapDamage;
-            stunDuration = attack.m_BlockStun;
             isAttackBlocked = true;
         }
         else
         {
             hitDamage = attack.m_Damage;
-            stunDuration = attack.m_HitStun;
             isAttackBlocked = false;
         }
     }
 
     private bool CanBlockAttack(PlayerAttack attack)
     {
+        if(m_IsBlockingAllAttack)
+        {
+            return true;
+        }
+
         bool canBlockAttack = false;
         if (m_MovementComponent)
         {
@@ -131,7 +134,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private void ApplyDamage(uint damage, float stunDuration, bool isAttackBlocked)
+    private void ApplyDamage(PlayerAttack attack, uint damage, bool isAttackBlocked)
     {
         if (damage > m_HP)
         {
@@ -142,10 +145,10 @@ public class PlayerHealthComponent : MonoBehaviour
             m_HP -= damage;
         }
 
-        OnDamageTaken(damage, stunDuration, isAttackBlocked);
+        OnDamageTaken(attack, damage, isAttackBlocked);
     }
 
-    private void OnDamageTaken(uint damage, float stunDuration, bool isAttackBlocked)
+    private void OnDamageTaken(PlayerAttack attack, uint damage, bool isAttackBlocked)
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, (float)m_HP / (float)m_HealthConfig.m_MaxHP);
@@ -156,11 +159,18 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         else
         {
+            float stunDuration = (isAttackBlocked) ? attack.m_BlockStun : attack.m_HitStun;
             if(stunDuration > 0)
             {
                 StartStun(stunDuration);
             }
             PlayDamageTakenAnim(isAttackBlocked);
+
+            float pushBackForce = (isAttackBlocked) ? attack.m_PushBack : 0.0f;
+            if(pushBackForce > 0.0f && m_MovementComponent)
+            {
+                m_MovementComponent.PushBack(pushBackForce);
+            }
         }
 
         if (m_DisplayDamageTaken)

@@ -746,6 +746,7 @@ MonoBehaviour:
   m_DamageTakenUIPrefab: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
     type: 2}
   m_DamageTakenParent: {fileID: 1331180504}
+  m_IsBlockingAllAttack: 0
 --- !u!61 &383102790
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -776,6 +777,45 @@ Transform:
   m_PrefabParentObject: {fileID: 4186536141794408, guid: 59aed4361b339e2458cdb2733b0a8ab6,
     type: 2}
   m_PrefabInternal: {fileID: 383102786}
+--- !u!114 &383102796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 383102787}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 987592c141ba5294cb0bef7ef462c993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &383102797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 383102787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71fd8fb7e14e1745808844fe29eb297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControllerConfig: {fileID: 11400000, guid: 7a8b10e7ee7ae824aa3df83a587d7a0f, type: 2}
+  m_GroundCheck: {fileID: 1914475501}
+  OnJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: CharacterController2D+BoolEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnCrouchEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: CharacterController2D+BoolEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDirectionChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &562332284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,6 +1205,7 @@ MonoBehaviour:
   m_DamageTakenUIPrefab: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
     type: 2}
   m_DamageTakenParent: {fileID: 1191739378}
+  m_IsBlockingAllAttack: 0
 --- !u!114 &917930691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1238,7 +1279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControllerConfig: {fileID: 11400000, guid: 7a8b10e7ee7ae824aa3df83a587d7a0f, type: 2}
-  m_MovingRight: 1
   m_GroundCheck: {fileID: 1605257651}
   OnJumpEvent:
     m_PersistentCalls:
@@ -6308,6 +6348,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1914475501 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4921859143333186, guid: 59aed4361b339e2458cdb2733b0a8ab6,
+    type: 2}
+  m_PrefabInternal: {fileID: 383102786}
 --- !u!1 &1921099260
 GameObject:
   m_ObjectHideFlags: 0
