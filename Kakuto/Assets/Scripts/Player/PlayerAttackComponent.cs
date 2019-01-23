@@ -49,6 +49,9 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+
+        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
     }
 
     void OnDestroy()
@@ -60,6 +63,9 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+
+        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
     }
 
     void Update()
@@ -226,6 +232,24 @@ public class PlayerAttackComponent : MonoBehaviour
 
             m_IsAttackBlocked = false;
         }
+    }
+
+    void OnStunBegin(float stunTimeStamp)
+    {
+        ClearTriggeredInputs();
+
+        m_CurrentAttack = null;
+        m_IsAttackBlocked = true;
+    }
+
+    void OnStunEnd(float stunTimeStamp)
+    {
+        if(m_IsAttackBlocked == false)
+        {
+            Debug.LogError("Attack was not blocked by stun");
+            return;
+        }
+        m_IsAttackBlocked = false;
     }
 
     public string GetTriggeredInputString()

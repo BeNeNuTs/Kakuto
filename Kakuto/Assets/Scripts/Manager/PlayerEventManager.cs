@@ -16,6 +16,8 @@ public enum EPlayerEvent
     UnblockMovement,
     EndOfAttack,
     Hit,
+    StunBegin,
+    StunEnd,
     DamageTaken
 }
 

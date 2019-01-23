@@ -19,6 +19,9 @@ public class PlayerHealthComponent : MonoBehaviour
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
+    private bool m_IsStunned = false;
+    private float m_StunTimer = 0.0f;
+
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;
@@ -43,6 +46,27 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
     }
 
+    void Update()
+    {
+        if(IsDead())
+        {
+            return;
+        }
+
+        UpdateStun();
+    }
+
+    void UpdateStun()
+    {
+        if (m_IsStunned)
+        {
+            if (Time.unscaledTime > m_StunTimer)
+            {
+                StopStun();
+            }
+        }
+    }
+
     public bool IsDead()
     {
         return m_HP == 0;
@@ -55,16 +79,30 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-        uint hitDamage = GetHitDamage(attack);
+        uint hitDamage = 0;
+        float stunDuration = 0.0f;
+        bool isAttackBlocked = false;
+        GetHitInfo(attack, out hitDamage, out stunDuration, out isAttackBlocked);
         if(hitDamage > 0)
         {
-            ApplyDamage(hitDamage);
+            ApplyDamage(hitDamage, stunDuration, isAttackBlocked);
         }
     }
 
-    private uint GetHitDamage(PlayerAttack attack)
+    private void GetHitInfo(PlayerAttack attack, out uint hitDamage, out float stunDuration, out bool isAttackBlocked)
     {
-        return CanBlockAttack(attack) ? attack.m_CheapDamage : attack.m_Damage;
+        if (CanBlockAttack(attack))
+        {
+            hitDamage = attack.m_CheapDamage;
+            stunDuration = attack.m_BlockStun;
+            isAttackBlocked = true;
+        }
+        else
+        {
+            hitDamage = attack.m_Damage;
+            stunDuration = attack.m_HitStun;
+            isAttackBlocked = false;
+        }
     }
 
     private bool CanBlockAttack(PlayerAttack attack)
@@ -93,7 +131,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private void ApplyDamage(uint damage)
+    private void ApplyDamage(uint damage, float stunDuration, bool isAttackBlocked)
     {
         if (damage > m_HP)
         {
@@ -104,22 +142,63 @@ public class PlayerHealthComponent : MonoBehaviour
             m_HP -= damage;
         }
 
-        OnDamageTaken(damage);
+        OnDamageTaken(damage, stunDuration, isAttackBlocked);
     }
 
-    private void OnDamageTaken(uint damage)
+    private void OnDamageTaken(uint damage, float stunDuration, bool isAttackBlocked)
     {
-        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage);
+        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, (float)m_HP / (float)m_HealthConfig.m_MaxHP);
 
         if (IsDead())
         {
             OnDeath();
         }
+        else
+        {
+            if(stunDuration > 0)
+            {
+                StartStun(stunDuration);
+            }
+            PlayDamageTakenAnim(isAttackBlocked);
+        }
 
         if (m_DisplayDamageTaken)
         {
             DisplayDamageTakenUI(damage);
+        }
+    }
+
+    private void StartStun(float stunDuration)
+    {
+        m_StunTimer = Time.unscaledTime + stunDuration;
+        if(m_IsStunned == false)
+        {
+            m_IsStunned = true;
+            Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunTimer);
+
+            Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
+        }
+    }
+
+    private void StopStun()
+    {
+        m_IsStunned = false;
+        m_StunTimer = 0;
+        Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
+
+        Debug.Log("Player : " + gameObject.name + " is no more stunned");
+    }
+
+    private void PlayDamageTakenAnim(bool isAttackBlocked)
+    {
+        if(isAttackBlocked)
+        {
+            //Play block anim
+        }
+        else
+        {
+            //Play hit anim
         }
     }
 

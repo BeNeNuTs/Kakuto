@@ -53,6 +53,8 @@ public class PlayerAttack
     public uint m_Damage = 10;
     [Range(0, 100)]
     public uint m_CheapDamage = 2;
+    public float m_HitStun = 2.0f;
+    public float m_BlockStun = 1.0f;
 }
 
 [CreateAssetMenu(fileName = "PlayerAttackConfig", menuName = "Data/Player/PlayerAttackConfig", order = 0)]

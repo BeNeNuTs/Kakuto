@@ -15,7 +15,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_IsJumping = false;
     private bool m_IsCrouching = false;
 
-    private bool m_IsMovementBlockedByAttack = false;
+    private bool m_IsMovementBlocked = false;
 
     void Awake()
     {
@@ -29,6 +29,9 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+
+        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
     }
 
     void OnDestroy()
@@ -40,12 +43,15 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+
+        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(m_IsMovementBlockedByAttack)
+        if(m_IsMovementBlocked)
         {
             return;
         }
@@ -81,7 +87,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_IsMovementBlockedByAttack)
+        if(m_IsMovementBlocked)
         {
             return;
         }
@@ -108,22 +114,34 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
     {
-        m_IsMovementBlockedByAttack = isMovementBlockedByAttack;
+        m_IsMovementBlocked = isMovementBlockedByAttack;
     }
 
     void EndOfAttack(string attackName)
     {
-        if(m_IsMovementBlockedByAttack)
+        if(m_IsMovementBlocked)
         {
-            m_IsMovementBlockedByAttack = false;
+            m_IsMovementBlocked = false;
         }
     }
 
     void UnblockMovement(string attackName)
     {
-        if (m_IsMovementBlockedByAttack)
+        if (m_IsMovementBlocked == false)
         {
-            m_IsMovementBlockedByAttack = false;
+            Debug.LogError("Movement was not blocked");
+            return;
         }
+        m_IsMovementBlocked = false;
+    }
+
+    void OnStunBegin(float stunTimeStamp)
+    {
+        m_IsMovementBlocked = true;
+    }
+
+    void OnStunEnd(float stunTimeStamp)
+    {
+        m_IsMovementBlocked = false;
     }
 }
