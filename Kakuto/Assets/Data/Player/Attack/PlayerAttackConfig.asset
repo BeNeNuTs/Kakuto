@@ -22,7 +22,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - "\u2192\u2192\u2192z"
+    - "\u2192\u2192\u2192Z"
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 20
@@ -40,7 +40,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - "\u2192\u2192b"
+    - "\u2192\u2192B"
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 20
@@ -58,7 +58,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - "\u2192a"
+    - "\u2192A"
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 10
@@ -76,8 +76,8 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - ab
-    - ba
+    - AB
+    - BA
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 20
@@ -95,7 +95,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - a
+    - A
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 10
@@ -113,7 +113,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - a
+    - A
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 10
@@ -131,7 +131,7 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - z
+    - Z
     m_BlockAttack: 0
     m_BlockMovement: 0
     m_Damage: 20

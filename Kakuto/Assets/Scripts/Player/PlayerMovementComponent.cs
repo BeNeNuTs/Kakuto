@@ -10,6 +10,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private Transform m_Enemy;
     private bool m_IsLeftSide;
+    private int m_PlayerIndex;
 
     private float m_HorizontalMoveInput = 0f;
     private bool m_JumpInput = false;
@@ -26,7 +27,8 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Animator = GetComponentInChildren<Animator>();
 
         m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
-        m_IsLeftSide = gameObject.CompareTag("Player1");
+        m_PlayerIndex = gameObject.CompareTag("Player1") ? 1 : 2;
+        m_IsLeftSide = (m_PlayerIndex == 1) ? true : false;
 
         RegisterListeners();
     }
@@ -64,16 +66,15 @@ public class PlayerMovementComponent : MonoBehaviour
             return;
         }
 
-        m_HorizontalMoveInput = Input.GetAxisRaw("Horizontal");
-
+        m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
 
-        if (Input.GetKeyDown("up"))
+        if (InputManager.GetJumpInput(m_PlayerIndex))
         {
             m_JumpInput = true;
         }
 
-        m_CrouchInput = Input.GetKey("down");
+        m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
     }
 
     void UpdatePlayerSide()
@@ -155,6 +156,11 @@ public class PlayerMovementComponent : MonoBehaviour
     public bool IsLeftSide()
     {
         return m_IsLeftSide;
+    }
+
+    public int GetPlayerIndex()
+    {
+        return m_PlayerIndex;
     }
 
     public void PushBack(float pushForce)

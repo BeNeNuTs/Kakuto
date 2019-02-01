@@ -83,16 +83,8 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         float currentTime = Time.unscaledTime;
 
-        if (Input.GetKeyDown("left"))
-            m_TriggeredInputsList.Add(new TriggeredInput(m_MovementComponent.IsLeftSide() ? '←' : '→', currentTime));
-        if (Input.GetKeyDown("right"))
-            m_TriggeredInputsList.Add(new TriggeredInput(m_MovementComponent.IsLeftSide() ? '→' : '←', currentTime));
-        if (Input.GetKeyDown("up"))
-            m_TriggeredInputsList.Add(new TriggeredInput('↑', currentTime));
-        if (Input.GetKeyDown("down"))
-            m_TriggeredInputsList.Add(new TriggeredInput('↓', currentTime));
-
-        foreach (char c in Input.inputString)
+        string attackInputs = InputManager.GetAttackInputString(m_MovementComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
+        foreach (char c in attackInputs)
         {
             m_TriggeredInputsList.Add(new TriggeredInput(c, currentTime));
         }
