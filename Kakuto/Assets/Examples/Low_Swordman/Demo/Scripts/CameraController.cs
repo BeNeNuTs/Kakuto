@@ -2,34 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
+    public float m_SmoothValue = 2.0f;
 
-
-    public static CameraController Instance;
-
-    public GameObject Target;
-    public int Smoothvalue =2;
-    public float PosY = 1;
-
-
-    // Use this for initialization
-    public Coroutine my_co;
+    private Vector3 m_TargetPosition;
 
     void Start()
     {
-     
+        m_TargetPosition = transform.position;
     }
-
 
     void Update()
     {
-        Vector3 Targetpos = new Vector3(Target.transform.position.x, Target.transform.position.y + PosY, -100);
-        transform.position = Vector3.Lerp(transform.position, Targetpos, Time.deltaTime * Smoothvalue);
-
-
-
+        transform.position = Vector3.Lerp(transform.position, m_TargetPosition, Time.deltaTime * m_SmoothValue);
     }
-
-
-
 }

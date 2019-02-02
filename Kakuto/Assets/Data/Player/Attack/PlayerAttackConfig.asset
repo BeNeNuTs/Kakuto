@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -82,7 +83,7 @@ MonoBehaviour:
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0.3
     m_UseCameraShakeEffect: 1
-    m_CameraShakeAmount: 0.1
+    m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.1
   - m_Name: ThirdAttack
     m_Description: The one after the second
