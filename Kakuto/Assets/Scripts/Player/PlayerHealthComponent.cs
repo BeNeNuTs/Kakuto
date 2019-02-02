@@ -14,7 +14,8 @@ public class PlayerHealthComponent : MonoBehaviour
     public GameObject m_DamageTakenUIPrefab;
     [ConditionalField(true, "m_DisplayDamageTaken")]
     public Transform m_DamageTakenParent;
-    public bool m_IsBlockingAllAttack = false;
+    public bool m_IsBlockingAllAttacks = false;
+    public bool m_IsInvincible = false;
 
     private uint m_HP;
     private PlayerMovementComponent m_MovementComponent;
@@ -105,7 +106,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerAttack attack)
     {
-        if(m_IsBlockingAllAttack)
+        if(m_IsBlockingAllAttacks)
         {
             return true;
         }
@@ -136,9 +137,9 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void ApplyDamage(PlayerAttack attack, uint damage, bool isAttackBlocked)
     {
-        if (damage > m_HP)
+        if (damage >= m_HP)
         {
-            m_HP = 0;
+            m_HP = (uint)(m_IsInvincible ? 1 : 0);
         }
         else
         {
@@ -159,23 +160,38 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         else
         {
-            float stunDuration = (isAttackBlocked) ? attack.m_BlockStun : attack.m_HitStun;
-            if(stunDuration > 0)
-            {
-                StartStun(stunDuration);
-            }
-            PlayDamageTakenAnim(isAttackBlocked);
-
-            float pushBackForce = (isAttackBlocked) ? attack.m_PushBack : 0.0f;
-            if(pushBackForce > 0.0f && m_MovementComponent)
-            {
-                m_MovementComponent.PushBack(pushBackForce);
-            }
+            TriggerEffects(attack, damage, isAttackBlocked);
         }
 
         if (m_DisplayDamageTaken)
         {
             DisplayDamageTakenUI(damage);
+        }
+    }
+
+    private void TriggerEffects(PlayerAttack attack, uint damage, bool isAttackBlocked)
+    {
+        float stunDuration = (isAttackBlocked) ? attack.m_BlockStun : attack.m_HitStun;
+        if (stunDuration > 0)
+        {
+            StartStun(stunDuration);
+        }
+        PlayDamageTakenAnim(isAttackBlocked);
+
+        if(attack.m_UseTimeScaleEffect)
+        {
+            TimeScaleManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration);
+        }
+
+        if(attack.m_UseCameraShakeEffect)
+        {
+            CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
+        }
+
+        float pushBackForce = (isAttackBlocked) ? attack.m_PushBack : 0.0f;
+        if (pushBackForce > 0.0f && m_MovementComponent)
+        {
+            m_MovementComponent.PushBack(pushBackForce);
         }
     }
 

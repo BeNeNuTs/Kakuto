@@ -96,8 +96,6 @@ public static class GamePadManager
             }
         }
 
-        Debug.Log("Gamepad connected : " + gamepadConnected);
-
         lastGamePadConnectedCheck = Time.unscaledTime;
         lastGamePadConnectedState = gamepadConnected;
         return gamepadConnected;

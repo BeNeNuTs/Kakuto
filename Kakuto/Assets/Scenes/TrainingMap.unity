@@ -746,7 +746,8 @@ MonoBehaviour:
   m_DamageTakenUIPrefab: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
     type: 2}
   m_DamageTakenParent: {fileID: 1331180504}
-  m_IsBlockingAllAttack: 0
+  m_IsBlockingAllAttacks: 0
+  m_IsInvincible: 1
 --- !u!61 &383102790
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1205,7 +1206,8 @@ MonoBehaviour:
   m_DamageTakenUIPrefab: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
     type: 2}
   m_DamageTakenParent: {fileID: 1191739378}
-  m_IsBlockingAllAttack: 0
+  m_IsBlockingAllAttacks: 0
+  m_IsInvincible: 0
 --- !u!114 &917930691
 MonoBehaviour:
   m_ObjectHideFlags: 0
