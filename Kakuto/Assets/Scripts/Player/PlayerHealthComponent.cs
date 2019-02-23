@@ -180,7 +180,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if(attack.m_UseTimeScaleEffect)
         {
-            TimeScaleManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration);
+            TimeManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration, attack.m_TimeScaleBackToNormal);
         }
 
         if(attack.m_UseCameraShakeEffect)

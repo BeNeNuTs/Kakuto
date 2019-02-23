@@ -10,6 +10,12 @@ public enum EAttackType
     Overhead
 }
 
+public enum ETimeScaleBackToNormal
+{
+    Smooth,
+    Instant
+}
+
 [System.Serializable]
 public class PlayerAttack
 {
@@ -65,6 +71,9 @@ public class PlayerAttack
     public float m_TimeScaleAmount = 0.5f;
     [ConditionalField(true, "m_UseTimeScaleEffect")]
     public float m_TimeScaleDuration = 0.1f;
+    [ConditionalField(true, "m_UseTimeScaleEffect")]
+    [Tooltip("Smooth will gradually smoothing time scale effect from timeScaleAmount to 1 in timeScaleDuration. Instant will set back instantly timeScale to 1 after timeScaleDuration")]
+    public ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
     /////////////////////////////////////////////////////
     public bool m_UseCameraShakeEffect = false;
     [ConditionalField(true, "m_UseCameraShakeEffect")]
