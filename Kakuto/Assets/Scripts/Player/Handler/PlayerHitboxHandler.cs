@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackHandler : MonoBehaviour {
+public class PlayerHitboxHandler : MonoBehaviour {
 
     PlayerAttackComponent m_PlayerAttackComponent;
 
