@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c5ee4278f4cde4bb22e5838e818eb6, type: 3}
+  m_Name: PlayerAttackConfig_Malik
+  m_EditorClassIdentifier: 
+  m_AttackList:
+  - m_Name: standHP
+    m_Description: 
+    m_AnimationName: Capa1
+    m_AttackType: 1
+    m_HasCondition: 0
+    m_ShouldBeCrouched: 0
+    m_ShouldBeInTheAir: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - A
+    m_BlockAttack: 1
+    m_BlockMovement: 1
+    m_Damage: 15
+    m_CheapDamage: 0
+    m_HitStun: 5
+    m_BlockStun: 5
+    m_PushBack: 5
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+  m_InputPersistency: 2
+  m_MaxInputs: 10
+  m_SortAttackList: 0
