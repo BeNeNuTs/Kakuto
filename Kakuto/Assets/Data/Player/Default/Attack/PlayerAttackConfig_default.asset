@@ -34,6 +34,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1
@@ -58,6 +59,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1
@@ -82,6 +84,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0.3
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 1
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.1
@@ -107,6 +110,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1
@@ -131,6 +135,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1
@@ -155,6 +160,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1
@@ -179,6 +185,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 1
     m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0.5
     m_CameraShakeDuration: 0.1

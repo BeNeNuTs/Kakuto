@@ -37,7 +37,8 @@ public class CameraShakeManager : MonoBehaviour
         if (m_ShakeDuration > 0)
         {
             m_CamTransform.localPosition += Random.insideUnitSphere * m_ShakeAmount;
-            m_ShakeDuration -= Time.deltaTime * m_DecreaseFactor;
+            m_ShakeAmount -= Time.deltaTime * m_DecreaseFactor;
+            m_ShakeDuration -= Time.deltaTime;
         }
         else
         {
