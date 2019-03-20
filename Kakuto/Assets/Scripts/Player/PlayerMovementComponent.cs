@@ -35,8 +35,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -49,8 +49,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -173,7 +173,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_IsMovementBlocked = isMovementBlockedByAttack;
     }
 
-    void EndOfAttack(string attackName)
+    void EndOfAttack(EAnimationAttackName attackName)
     {
         if(m_IsMovementBlocked)
         {
@@ -181,7 +181,7 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
-    void UnblockMovement(string attackName)
+    void UnblockMovement(EAnimationAttackName attackName)
     {
         if (m_IsMovementBlocked == false)
         {

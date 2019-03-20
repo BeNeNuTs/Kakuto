@@ -47,8 +47,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<string>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -61,8 +61,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<string>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -183,7 +183,7 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);
     }
 
-    bool CheckIsCurrentAttack(string attackName, string methodName)
+    bool CheckIsCurrentAttack(EAnimationAttackName attackName, string methodName)
     {
         if (m_CurrentAttack == null)
         {
@@ -191,15 +191,15 @@ public class PlayerAttackComponent : MonoBehaviour
             return false;
         }
 
-        if (m_CurrentAttack.m_Name != attackName)
+        if (m_CurrentAttack.m_AnimationAttackName != attackName)
         {
-            Debug.LogError("Trying to " + methodName + " " + attackName + " but current attack is " + m_CurrentAttack.m_Name);
+            Debug.LogError("Trying to " + methodName + " " + attackName.ToString() + " but current attack is " + m_CurrentAttack.m_AnimationAttackName.ToString());
             return false;
         }
         return true;
     }
 
-    void EndOfAttack(string attackName)
+    void EndOfAttack(EAnimationAttackName attackName)
     {
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
@@ -212,7 +212,7 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    void UnblockAttack(string attackName)
+    void UnblockAttack(EAnimationAttackName attackName)
     {
         if (CheckIsCurrentAttack(attackName, "UnblockAttack"))
         {

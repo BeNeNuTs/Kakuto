@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
-    public void EndOfAttack(string attackName)
+    public void EndOfAttack(EAnimationAttackName attackName)
     {
-        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, attackName);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, attackName);
     }
 
-    public void UnblockAttack(string attackName)
+    public void UnblockAttack(EAnimationAttackName attackName)
     {
-        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, attackName);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, attackName);
     }
 
-    public void UnblockMovement(string attackName)
+    public void UnblockMovement(EAnimationAttackName attackName)
     {
-        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, attackName);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, attackName);
     }
 }
