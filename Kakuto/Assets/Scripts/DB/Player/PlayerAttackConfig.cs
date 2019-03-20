@@ -3,6 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 
+public enum EAnimationAttackName
+{
+    StandLP,
+    StandHP,
+    StandLK,
+    StandHK,
+
+    CrouchLP,
+    CrouchHP,
+    CrouchLK,
+    CrouchHK,
+
+    JumpLP,
+    JumpHP,
+    JumpLK,
+    JumpHK,
+}
+
 public enum EAttackType
 {
     Low,
@@ -26,7 +44,7 @@ public class PlayerAttack
 
     // Setting (AnimName/AttackType/etc..)
     [Header("Setting")]
-    public string m_AnimationName;
+    public EAnimationAttackName m_AnimationAttackName;
     public EAttackType m_AttackType;
 
     // Condition (Crouch/Jump/etc..)

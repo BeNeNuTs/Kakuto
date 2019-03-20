@@ -174,7 +174,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         ClearTriggeredInputs();
 
-        m_Anim.Play(attack.m_AnimationName);
+        m_Anim.Play(attack.m_AnimationAttackName.ToString());
         m_CurrentAttack = attack;
 
         m_IsAttackBlocked = attack.m_BlockAttack;

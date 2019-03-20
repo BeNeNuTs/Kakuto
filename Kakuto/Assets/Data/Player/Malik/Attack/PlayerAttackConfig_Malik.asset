@@ -15,7 +15,7 @@ MonoBehaviour:
   m_AttackList:
   - m_Name: standHP
     m_Description: 
-    m_AnimationName: Capa1
+    m_AnimationAttackName: 1
     m_AttackType: 1
     m_HasCondition: 0
     m_ShouldBeCrouched: 0
@@ -34,6 +34,7 @@ MonoBehaviour:
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
