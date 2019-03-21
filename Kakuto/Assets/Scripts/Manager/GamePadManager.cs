@@ -43,7 +43,7 @@ public static class GamePadManager
     public static bool GetJumpInput(int playerIndex)
     {
         Update(playerIndex);
-        return playerGamePads[playerIndex].up;
+        return (playerGamePads[playerIndex].lastYAxis > 0f);
     }
 
     public static bool GetCrouchInput(int playerIndex)

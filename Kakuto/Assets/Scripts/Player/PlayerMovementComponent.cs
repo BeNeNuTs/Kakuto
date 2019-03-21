@@ -69,11 +69,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
 
-        if (InputManager.GetJumpInput(m_PlayerIndex))
-        {
-            m_JumpInput = true;
-        }
-
+        m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
         m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
     }
 
@@ -128,7 +124,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
         // Move our character
         m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_JumpInput);
-        m_JumpInput = false;
     }
 
     public bool IsJumping()

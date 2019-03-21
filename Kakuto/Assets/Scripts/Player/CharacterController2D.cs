@@ -5,10 +5,14 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     public CharacterControllerConfig m_ControllerConfig;
-    [SerializeField] private Transform m_GroundCheck;           // A position marking where to check if the player is grounded.
+    [SerializeField] private Collider2D[] m_GroundChecks;       // colliders where to check if the player is grounded.
 
-    const float k_GroundedRadius = .2f;                         // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;                                    // Whether or not the player is grounded.
+    static readonly float k_TimeBetweenJumpsTakeOff = .5f;      // Time between jumps take off
+
+    private bool m_Grounded;                                   // Whether or not the player is grounded.
+    private float m_LastJumpTakeOffTimeStamp = 0f;              // Last time character jumps take off
+    private float m_LastJumpLandingTimeStamp = 0f;              // Last time character jumps landing
+
     private Rigidbody2D m_Rigidbody2D;
     private Vector3 m_Velocity = Vector3.zero;
     private bool m_FacingRight;                                 // For determining which side the player is currently facing.
@@ -47,16 +51,24 @@ public class CharacterController2D : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_ControllerConfig.m_WhatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        ContactPoint2D[] contacts = new ContactPoint2D[5];
+        foreach (Collider2D groundCheck in m_GroundChecks)
         {
-            if (colliders[i].gameObject != gameObject)
+            if(groundCheck.GetContacts(contacts) > 0)
             {
-                m_Grounded = true;
-                if (!wasGrounded)
-                    OnJumpEvent.Invoke(false);
+                foreach(ContactPoint2D contact in contacts)
+                {
+                    if(Mathf.Approximately(contact.normal.y, 1.0f) && contact.collider.CompareTag("Ground"))
+                    {
+                        m_Grounded = true;
+                        if (!wasGrounded)
+                        {
+                            m_LastJumpLandingTimeStamp = Time.time;
+                            OnJumpEvent.Invoke(false);
+                        }
+                        break;
+                    }
+                }
             }
         }
 
@@ -112,9 +124,15 @@ public class CharacterController2D : MonoBehaviour
         // If the player should jump...
         if (m_Grounded && jump)
         {
-            // Add a vertical force to the player.
-            m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_ControllerConfig.m_JumpForce));
+            float currentTime = Time.time;
+            if(currentTime > m_LastJumpTakeOffTimeStamp + k_TimeBetweenJumpsTakeOff &&
+               currentTime > m_LastJumpLandingTimeStamp + m_ControllerConfig.m_TimeBetweenJumps)
+            {
+                // Add a vertical force to the player.
+                m_Grounded = false;
+                m_LastJumpTakeOffTimeStamp = Time.time;
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_ControllerConfig.m_JumpForce));
+            }
         }
     }
 

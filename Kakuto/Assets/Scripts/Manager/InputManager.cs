@@ -34,7 +34,7 @@ public static class InputManager
         }
         else
         {
-            isJumping = Input.GetKeyDown("up");
+            isJumping = Input.GetKey("up");
         }
         return isJumping;
     }
@@ -48,7 +48,7 @@ public static class InputManager
         }
         else
         {
-            isCrouching= Input.GetKey("down");
+            isCrouching = Input.GetKey("down");
         }
         return isCrouching;
     }

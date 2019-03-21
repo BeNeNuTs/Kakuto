@@ -10,6 +10,9 @@ public class CharacterControllerConfig : ScriptableObject {
     [Tooltip("Amount of force added when the player jumps.")]
     public float m_JumpForce = 400f;
 
+    [Tooltip("Time between 2 jumps (in sec).")]
+    public float m_TimeBetweenJumps = .1f;
+
     [Range(0, 1)]
     [Tooltip("Amount of maxSpeed applied to crouching movement. 1 = 100%")]
     public float m_CrouchSpeed = .36f;
