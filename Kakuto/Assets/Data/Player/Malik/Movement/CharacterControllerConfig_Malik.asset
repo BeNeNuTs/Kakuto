@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_WalkSpeed: 20
   m_JumpForce: 250
-  m_TimeBetweenJumpLandings: 0.1
+  m_TimeBetweenJumps: 0.1
   m_CrouchSpeed: 0
   m_MovementSmoothing: 0.05
   m_AirControl: 0

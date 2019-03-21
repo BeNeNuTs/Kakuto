@@ -28,6 +28,13 @@ public enum EAttackType
     Overhead
 }
 
+public enum EAttackStance
+{
+    Stand,
+    Crouch,
+    Jump
+}
+
 public enum ETimeScaleBackToNormal
 {
     Smooth,
@@ -47,14 +54,11 @@ public class PlayerAttack
     public EAnimationAttackName m_AnimationAttackName;
     public EAttackType m_AttackType;
 
-    // Condition (Crouch/Jump/etc..)
+    public EAttackStance m_NeededStance = EAttackStance.Stand;
+
+    // Condition (AttackRequirement)
     [Header("Condition")]
     public bool m_HasCondition = false;
-
-    [ConditionalField(true, "m_HasCondition")]
-    public bool m_ShouldBeCrouched = false;
-    [ConditionalField(true, "m_HasCondition")]
-    public bool m_ShouldBeInTheAir = false;
 
     [ConditionalField(true, "m_HasCondition")]
     public bool m_HasAttackRequirement = false;

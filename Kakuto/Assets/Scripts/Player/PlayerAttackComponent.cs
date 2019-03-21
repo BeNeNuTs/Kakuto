@@ -141,14 +141,24 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         bool conditionIsValid = true;
 
+        if (m_MovementComponent != null)
+        {
+            switch(attackToCheck.m_NeededStance)
+            {
+                case EAttackStance.Stand:
+                    conditionIsValid &= m_MovementComponent.IsStanding();
+                    break;
+                case EAttackStance.Crouch:
+                    conditionIsValid &= m_MovementComponent.IsCrouching();
+                    break;
+                case EAttackStance.Jump:
+                    conditionIsValid &= m_MovementComponent.IsJumping();
+                    break;
+            }
+        }
+
         if (attackToCheck.m_HasCondition)
         {
-            if (m_MovementComponent != null)
-            {
-                conditionIsValid &= attackToCheck.m_ShouldBeCrouched == m_MovementComponent.IsCrouching();
-                conditionIsValid &= attackToCheck.m_ShouldBeInTheAir == m_MovementComponent.IsJumping();
-            }
-
             if (attackToCheck.m_HasAttackRequirement)
             {
                 conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attackToCheck.m_AttackRequired);

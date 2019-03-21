@@ -126,14 +126,19 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_JumpInput);
     }
 
-    public bool IsJumping()
+    public bool IsStanding()
     {
-        return m_IsJumping;
+        return !IsCrouching() && !IsJumping();
     }
 
     public bool IsCrouching()
     {
         return m_IsCrouching;
+    }
+
+    public bool IsJumping()
+    {
+        return m_IsJumping;
     }
 
     public bool IsMovingBack()
