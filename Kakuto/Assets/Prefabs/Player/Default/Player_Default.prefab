@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControllerConfig: {fileID: 11400000, guid: 7a8b10e7ee7ae824aa3df83a587d7a0f, type: 2}
-  m_GroundCheck: {fileID: 6641475777341850866}
+  m_GroundChecks: []
   OnJumpEvent:
     m_PersistentCalls:
       m_Calls:
@@ -320,7 +320,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0403fc9c117a83c459958b2f47fa6d1e, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
