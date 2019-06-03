@@ -84,10 +84,7 @@ public class PlayerHealthComponent : MonoBehaviour
         uint hitDamage = 0;
         bool isAttackBlocked = false;
         GetHitInfo(attack, out hitDamage, out isAttackBlocked);
-        if(hitDamage > 0)
-        {
-            ApplyDamage(attack, hitDamage, isAttackBlocked);
-        }
+        ApplyDamage(attack, hitDamage, isAttackBlocked);
     }
 
     private void GetHitInfo(PlayerAttack attack, out uint hitDamage, out bool isAttackBlocked)
@@ -161,9 +158,10 @@ public class PlayerHealthComponent : MonoBehaviour
         else
         {
             TriggerEffects(attack, damage, isAttackBlocked);
+            PlayDamageTakenAnim(attack, isAttackBlocked);
         }
 
-        if (m_DisplayDamageTaken)
+        if (damage > 0 && m_DisplayDamageTaken)
         {
             DisplayDamageTakenUI(damage);
         }
@@ -176,7 +174,7 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             StartStun(stunDuration);
         }
-        PlayDamageTakenAnim(isAttackBlocked);
+        
 
         if(attack.m_UseTimeScaleEffect)
         {
@@ -216,16 +214,44 @@ public class PlayerHealthComponent : MonoBehaviour
         Debug.Log("Player : " + gameObject.name + " is no more stunned");
     }
 
-    private void PlayDamageTakenAnim(bool isAttackBlocked)
+    private void PlayDamageTakenAnim(PlayerAttack attack, bool isAttackBlocked)
     {
         if(isAttackBlocked)
         {
             //Play block anim
+
         }
         else
         {
             //Play hit anim
+            string hitAnimName = GetPlayerHitAnimName(attack);
+            m_Anim.Play(hitAnimName);
         }
+    }
+
+    private string GetPlayerHitAnimName(PlayerAttack attack)
+    {
+        string hitAnimName = "Hit";
+
+        EPlayerStance playerStance = m_MovementComponent.GetCurrentStance();
+        hitAnimName += playerStance.ToString();
+
+        switch (playerStance)
+        {
+            case EPlayerStance.Stand:
+                hitAnimName += attack.m_HitHeight.ToString();
+                hitAnimName += attack.m_HitStrength.ToString();
+                break;
+            case EPlayerStance.Crouch:
+                hitAnimName += "Low"; // Crouch hit is necessarily low
+                hitAnimName += attack.m_HitStrength.ToString();
+                break;
+            case EPlayerStance.Jump:
+                // Jump hit doesn't need hit height / strength
+                break;
+        }
+
+        return hitAnimName;
     }
 
     private void OnDeath()

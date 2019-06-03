@@ -126,6 +126,21 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_JumpInput);
     }
 
+    public EPlayerStance GetCurrentStance()
+    {
+        EPlayerStance currentStance = EPlayerStance.Stand;
+        if (IsCrouching())
+        {
+            currentStance = EPlayerStance.Crouch;
+        }
+        else if(IsJumping())
+        {
+            currentStance = EPlayerStance.Jump;
+        }
+
+        return currentStance;
+    }
+
     public bool IsStanding()
     {
         return !IsCrouching() && !IsJumping();

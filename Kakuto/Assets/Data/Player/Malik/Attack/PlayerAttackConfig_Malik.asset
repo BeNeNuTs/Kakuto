@@ -29,7 +29,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -53,7 +54,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -77,7 +79,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -101,7 +104,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -125,7 +129,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -149,7 +154,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -173,7 +179,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -197,7 +204,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -221,7 +229,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -245,7 +254,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -269,7 +279,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -293,7 +304,8 @@ MonoBehaviour:
     m_CheapDamage: 0
     m_HitStun: 5
     m_BlockStun: 5
-    m_PushBack: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0

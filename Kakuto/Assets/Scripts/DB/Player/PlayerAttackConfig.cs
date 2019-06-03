@@ -28,11 +28,23 @@ public enum EAttackType
     Overhead
 }
 
-public enum EAttackStance
+public enum EPlayerStance
 {
     Stand,
     Crouch,
     Jump
+}
+
+public enum EHitHeight
+{
+    Low,
+    High
+}
+
+public enum EHitStrength
+{
+    Weak,
+    Strong
 }
 
 public enum ETimeScaleBackToNormal
@@ -54,7 +66,7 @@ public class PlayerAttack
     public EAnimationAttackName m_AnimationAttackName;
     public EAttackType m_AttackType;
 
-    public EAttackStance m_NeededStance = EAttackStance.Stand;
+    public EPlayerStance m_NeededStance = EPlayerStance.Stand;
 
     // Condition (AttackRequirement)
     [Header("Condition")]
@@ -81,6 +93,9 @@ public class PlayerAttack
     public uint m_Damage = 10;
     [Range(0, 100)]
     public uint m_CheapDamage = 2;
+    /////////////////////////////////////////////////////
+    public EHitHeight m_HitHeight = EHitHeight.Low;
+    public EHitStrength m_HitStrength = EHitStrength.Weak;
     /////////////////////////////////////////////////////
     public float m_HitStun = 2.0f;
     public float m_BlockStun = 1.0f;
