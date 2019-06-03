@@ -14,7 +14,7 @@ public class CharacterController2D : MonoBehaviour
     private float m_LastJumpLandingTimeStamp = 0f;              // Last time character jumps landing
 
     private Rigidbody2D m_Rigidbody2D;
-    private Vector3 m_Velocity = Vector3.zero;
+    private Vector2 m_Velocity = Vector2.zero;
     private bool m_FacingRight;                                 // For determining which side the player is currently facing.
     private bool m_MovingRight;
 
@@ -106,9 +106,9 @@ public class CharacterController2D : MonoBehaviour
             }
 
             // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector2(move * m_ControllerConfig.m_WalkSpeed * 10.0f, m_Rigidbody2D.velocity.y);
+            Vector2 targetVelocity = new Vector2(move * m_ControllerConfig.m_WalkSpeed * 10.0f, m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_ControllerConfig.m_MovementSmoothing);
+            m_Rigidbody2D.velocity = Vector2.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_ControllerConfig.m_MovementSmoothing);
 
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_MovingRight)
@@ -159,5 +159,11 @@ public class CharacterController2D : MonoBehaviour
     public void PushBack(float pushForce)
     {
         m_Rigidbody2D.AddForce(new Vector2((m_FacingRight) ? -pushForce : pushForce, 0f));
+    }
+
+    public void StopMovement()
+    {
+        m_Velocity = Vector2.zero;
+        m_Rigidbody2D.velocity = m_Velocity;
     }
 }

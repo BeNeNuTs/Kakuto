@@ -186,6 +186,7 @@ public class PlayerMovementComponent : MonoBehaviour
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
     {
         m_IsMovementBlocked = isMovementBlockedByAttack;
+        m_Controller.StopMovement();
     }
 
     void EndOfAttack(EAnimationAttackName attackName)
