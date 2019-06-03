@@ -188,7 +188,7 @@ public class PlayerHealthComponent : MonoBehaviour
             CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
         }
 
-        float pushBackForce = (isAttackBlocked) ? attack.m_PushBack : 0.0f;
+        float pushBackForce = (isAttackBlocked) ? attack.m_BlockPushBack : attack.m_HitPushBack;
         if (pushBackForce > 0.0f && m_MovementComponent)
         {
             m_MovementComponent.PushBack(pushBackForce);

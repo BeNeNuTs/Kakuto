@@ -85,8 +85,10 @@ public class PlayerAttack
     public float m_HitStun = 2.0f;
     public float m_BlockStun = 1.0f;
     /////////////////////////////////////////////////////
+    [Tooltip("The force of the push back if this attack hit")]
+    public float m_HitPushBack = 0.0f;
     [Tooltip("The force of the push back if this attack is blocked")]
-    public float m_PushBack = 0.0f;
+    public float m_BlockPushBack = 0.0f;
     /////////////////////////////////////////////////////
     public bool m_UseTimeScaleEffect = false;
     [ConditionalField(true, "m_UseTimeScaleEffect")]
