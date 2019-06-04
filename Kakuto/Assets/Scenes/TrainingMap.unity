@@ -389,6 +389,37 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_IsBlockingAllAttacks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_IsBlockingAllAttacksAfterHitStun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_DisplayDamageTaken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_DamageTakenUIPrefab
+      value: 
+      objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
+        type: 3}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_DamageTakenParent
+      value: 
+      objectReference: {fileID: 1374956470}
+    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_IsInvincible
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
 --- !u!1 &219323413
@@ -2560,6 +2591,12 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.860038, y: 9.027727}
   m_EdgeRadius: 0
+--- !u!224 &1374956470 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7705063140870539881, guid: 5227f780c94aaa240ba932079524456d,
+    type: 3}
+  m_PrefabInstance: {fileID: 157280441}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1432242894
 GameObject:
   m_ObjectHideFlags: 0

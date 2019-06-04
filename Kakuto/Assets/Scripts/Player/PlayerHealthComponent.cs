@@ -7,22 +7,31 @@ public class PlayerHealthComponent : MonoBehaviour
 {
     public PlayerHealthConfig m_HealthConfig;
 
-    [Header("Debug")]
-    [Space]
-    public bool m_DisplayDamageTaken = false;
-    [ConditionalField(true, "m_DisplayDamageTaken")]
-    public GameObject m_DamageTakenUIPrefab;
-    [ConditionalField(true, "m_DisplayDamageTaken")]
-    public Transform m_DamageTakenParent;
-    public bool m_IsBlockingAllAttacks = false;
-    public bool m_IsInvincible = false;
-
     private uint m_HP;
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
     private bool m_IsStunned = false;
     private float m_StunTimer = 0.0f;
+
+    [Header("Debug")]
+    [Space]
+
+    public bool m_DisplayDamageTaken = false;
+    [ConditionalField(true, "m_DisplayDamageTaken")]
+    public GameObject m_DamageTakenUIPrefab;
+    [ConditionalField(true, "m_DisplayDamageTaken")]
+    public Transform m_DamageTakenParent;
+
+    [ConditionalField(false, "m_IsBlockingAllAttacksAfterHitStun")]
+    public bool m_IsBlockingAllAttacks = false;
+    [ConditionalField(false, "m_IsBlockingAllAttacks")]
+    public bool m_IsBlockingAllAttacksAfterHitStun = false;
+    [ConditionalField(true, "m_IsBlockingAllAttacksAfterHitStun")]
+    public float m_BlockingAttacksDuration = 1.0f;
+    private float m_BlockingAttacksTimer = 0.0f;
+
+    public bool m_IsInvincible = false;
 
     private void Awake()
     {
@@ -67,6 +76,19 @@ public class PlayerHealthComponent : MonoBehaviour
                 StopStun();
             }
         }
+
+        // DEBUG /////////////////////////////////////
+        if (m_IsBlockingAllAttacksAfterHitStun)
+        {
+            if (m_IsBlockingAllAttacks && m_BlockingAttacksTimer > 0.0f)
+            {
+                if (Time.unscaledTime > m_BlockingAttacksTimer)
+                {
+                    StopBlockingAttacks();
+                }
+            }
+        }
+        //////////////////////////////////////////////
     }
 
     public bool IsDead()
@@ -103,10 +125,12 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerAttack attack)
     {
-        if(m_IsBlockingAllAttacks)
+        // DEBUG ///////////////////////////////////
+        if (m_IsBlockingAllAttacks)
         {
             return true;
         }
+        ////////////////////////////////////////////
 
         bool canBlockAttack = false;
         if (m_MovementComponent)
@@ -161,10 +185,12 @@ public class PlayerHealthComponent : MonoBehaviour
             PlayDamageTakenAnim(attack, isAttackBlocked);
         }
 
+        // DEBUG /////////////////////////////////////
         if (damage > 0 && m_DisplayDamageTaken)
         {
             DisplayDamageTakenUI(damage);
         }
+        /////////////////////////////////////////////
     }
 
     private void TriggerEffects(PlayerAttack attack, uint damage, bool isAttackBlocked)
@@ -212,20 +238,46 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
 
         Debug.Log("Player : " + gameObject.name + " is no more stunned");
+
+        // DEBUG ///////////////////////////////////
+        if (m_IsBlockingAllAttacksAfterHitStun)
+        {
+            StartBlockingAttacks();
+        }
+        ////////////////////////////////////////////
     }
+
+    // DEBUG ///////////////////////////////////
+    private void StartBlockingAttacks()
+    {
+        m_BlockingAttacksTimer = Time.unscaledTime + m_BlockingAttacksDuration;
+        m_IsBlockingAllAttacks = true;
+
+        Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_BlockingAttacksDuration + " seconds");
+    }
+
+    private void StopBlockingAttacks()
+    {
+        m_BlockingAttacksTimer = 0.0f;
+        m_IsBlockingAllAttacks = false;
+
+        Debug.Log("Player : " + gameObject.name + " doesn't block attacks anymore");
+    }
+    ////////////////////////////////////////////
 
     private void PlayDamageTakenAnim(PlayerAttack attack, bool isAttackBlocked)
     {
         if(isAttackBlocked)
         {
             //Play block anim
-
+            // TODO : Block attack/movement while block animation is playing
         }
         else
         {
             //Play hit anim
             string hitAnimName = GetPlayerHitAnimName(attack);
             m_Anim.Play(hitAnimName);
+            // TODO : Block attack/movement while hit animation is playing
         }
     }
 
@@ -259,6 +311,7 @@ public class PlayerHealthComponent : MonoBehaviour
         m_Anim.SetTrigger("OnDeath");
     }
 
+    // DEBUG /////////////////////////////////////
     private void DisplayDamageTakenUI(uint damage)
     {
         //DamageTakenUIInstance will be automatically destroyed
@@ -267,4 +320,5 @@ public class PlayerHealthComponent : MonoBehaviour
         damageTakenUI.transform.localPosition = Vector3.zero;
         damageTakenUI.GetComponentInChildren<Text>().text = "-" + damage.ToString();
     }
+    /////////////////////////////////////////////
 }
