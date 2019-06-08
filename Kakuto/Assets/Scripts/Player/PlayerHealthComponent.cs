@@ -8,6 +8,7 @@ public class PlayerHealthComponent : MonoBehaviour
     public PlayerHealthConfig m_HealthConfig;
 
     private uint m_HP;
+    private PlayerAttackComponent m_AttackComponent;
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
@@ -36,6 +37,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;
+        m_AttackComponent = GetComponent<PlayerAttackComponent>();
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_Anim = GetComponentInChildren<Animator>();
 
@@ -132,24 +134,29 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         ////////////////////////////////////////////
 
-        bool canBlockAttack = false;
-        if (m_MovementComponent)
+        bool canBlockAttack = true;
+        if(m_AttackComponent)
+        {
+            // Check if we are not attacking
+            canBlockAttack &= (m_AttackComponent.GetCurrentAttack() == null);
+        }
+
+        if(m_MovementComponent)
         {
             // If he's moving back and not jumping
-            if (m_MovementComponent.IsMovingBack() && m_MovementComponent.IsJumping() == false)
+            canBlockAttack &= (m_MovementComponent.IsMovingBack() && m_MovementComponent.IsJumping() == false);
+            
+            //Check if the player is in the right stance 
+            bool isCrouching = m_MovementComponent.IsCrouching();
+            switch (attack.m_AttackType)
             {
-                //Check if the player is in the right stance 
-                bool isCrouching = m_MovementComponent.IsCrouching();
-                switch (attack.m_AttackType)
-                {
-                    case EAttackType.Low:
-                        canBlockAttack = isCrouching;
-                        break;
-                    case EAttackType.Mid:
-                    case EAttackType.Overhead:
-                        canBlockAttack = !isCrouching;
-                        break;
-                }
+                case EAttackType.Low:
+                    canBlockAttack &= isCrouching;
+                    break;
+                case EAttackType.Mid:
+                case EAttackType.Overhead:
+                    canBlockAttack &= !isCrouching;
+                    break;
             }
         }
 
@@ -200,7 +207,6 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             StartStun(stunDuration);
         }
-        
 
         if(attack.m_UseTimeScaleEffect)
         {
@@ -237,14 +243,17 @@ public class PlayerHealthComponent : MonoBehaviour
         m_StunTimer = 0;
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
 
-        Debug.Log("Player : " + gameObject.name + " is no more stunned");
-
         // DEBUG ///////////////////////////////////
         if (m_IsBlockingAllAttacksAfterHitStun)
         {
             StartBlockingAttacks();
         }
         ////////////////////////////////////////////
+        else
+        {
+            m_Anim.SetTrigger("OnStunEnd");
+            Debug.Log("Player : " + gameObject.name + " is no more stunned");
+        }
     }
 
     // DEBUG ///////////////////////////////////
@@ -252,6 +261,8 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         m_BlockingAttacksTimer = Time.unscaledTime + m_BlockingAttacksDuration;
         m_IsBlockingAllAttacks = true;
+
+        PlayBlockAnimation();
 
         Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_BlockingAttacksDuration + " seconds");
     }
@@ -261,6 +272,8 @@ public class PlayerHealthComponent : MonoBehaviour
         m_BlockingAttacksTimer = 0.0f;
         m_IsBlockingAllAttacks = false;
 
+        m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
+
         Debug.Log("Player : " + gameObject.name + " doesn't block attacks anymore");
     }
     ////////////////////////////////////////////
@@ -269,16 +282,43 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         if(isAttackBlocked)
         {
-            //Play block anim
-            // TODO : Block attack/movement while block animation is playing
+            PlayBlockAnimation();
         }
         else
         {
-            //Play hit anim
-            string hitAnimName = GetPlayerHitAnimName(attack);
-            m_Anim.Play(hitAnimName);
-            // TODO : Block attack/movement while hit animation is playing
+            PlayHitAnimation(attack);
         }
+    }
+
+    private void PlayBlockAnimation()
+    {
+        //Play block anim
+        string blockAnimName = GetPlayerBlockAnimName();
+        m_Anim.Play(blockAnimName);
+    }
+
+    private string GetPlayerBlockAnimName()
+    {
+        string blockAnimName = "Block";
+
+        EPlayerStance playerStance = m_MovementComponent.GetCurrentStance();
+        blockAnimName += playerStance.ToString();
+
+        if(playerStance == EPlayerStance.Jump)
+        {
+            Debug.LogError("A player can't block an attack while jumping.");
+        }
+
+        blockAnimName += "_In"; //Play the In animation
+
+        return blockAnimName;
+    }
+
+    private void PlayHitAnimation(PlayerAttack attack)
+    {
+        //Play hit anim
+        string hitAnimName = GetPlayerHitAnimName(attack);
+        m_Anim.Play(hitAnimName);
     }
 
     private string GetPlayerHitAnimName(PlayerAttack attack)
@@ -302,6 +342,8 @@ public class PlayerHealthComponent : MonoBehaviour
                 // Jump hit doesn't need hit height / strength
                 break;
         }
+
+        hitAnimName += "_In"; //Play the In animation
 
         return hitAnimName;
     }
