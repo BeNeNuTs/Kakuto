@@ -2871,6 +2871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1833612022}
   - component: {fileID: 1833612023}
+  - component: {fileID: 1833612024}
   m_Layer: 5
   m_Name: Player2HealthBar
   m_TagString: Untagged
@@ -2914,6 +2915,25 @@ MonoBehaviour:
   m_Target: 1
   m_HealthBarBackground: {fileID: 1239726446}
   m_HealthBar: {fileID: 1921099262}
+--- !u!95 &1833612024
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833612021}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 067222f06421ad7468b40c2b1f000ebc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1863268668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,6 +2944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1863268669}
   - component: {fileID: 1863268670}
+  - component: {fileID: 1863268671}
   m_Layer: 0
   m_Name: Mountain_2-001
   m_TagString: Untagged
@@ -2993,6 +3014,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1863268671
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863268668}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6e50ee87356d6874583d01aaebf585b9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1888574752
 GameObject:
   m_ObjectHideFlags: 0

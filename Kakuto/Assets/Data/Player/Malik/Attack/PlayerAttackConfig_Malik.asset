@@ -27,6 +27,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -52,6 +54,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -77,6 +81,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -102,6 +108,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -127,6 +135,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -152,6 +162,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -177,6 +189,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -202,6 +216,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 0
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -227,6 +243,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -252,6 +270,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -277,6 +297,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 15
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 1
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
@@ -302,6 +324,8 @@ MonoBehaviour:
     m_BlockMovement: 1
     m_Damage: 5
     m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 0
     m_HitStun: 5
     m_BlockStun: 5
     m_HitPushBack: 0
