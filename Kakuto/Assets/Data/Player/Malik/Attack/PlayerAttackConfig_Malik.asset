@@ -13,6 +13,66 @@ MonoBehaviour:
   m_Name: PlayerAttackConfig_Malik
   m_EditorClassIdentifier: 
   m_AttackList:
+  - m_Name: BackGrab
+    m_Description: 
+    m_AnimationAttackName: 10
+    m_AttackType: 2
+    m_NeededStance: 2
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - "\u2190+Grab"
+    m_ComputedInputStringList:
+    - "\u2190YB"
+    m_IsInputStringComputed: 1
+    m_BlockAttack: 1
+    m_BlockMovement: 1
+    m_Damage: 5
+    m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 0
+    m_HitStun: 5
+    m_BlockStun: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+  - m_Name: Grab
+    m_Description: 
+    m_AnimationAttackName: 10
+    m_AttackType: 2
+    m_NeededStance: 2
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - standLP+standLK
+    m_ComputedInputStringList:
+    - YB
+    m_IsInputStringComputed: 1
+    m_BlockAttack: 1
+    m_BlockMovement: 1
+    m_Damage: 5
+    m_CheapDamage: 0
+    m_HitHeight: 1
+    m_HitStrength: 0
+    m_HitStun: 5
+    m_BlockStun: 5
+    m_HitPushBack: 0
+    m_BlockPushBack: 0
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
   - m_Name: standHP
     m_Description: 
     m_AnimationAttackName: 1
@@ -23,6 +83,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - X
+    m_ComputedInputStringList:
+    - X
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -50,6 +113,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - Y
+    m_ComputedInputStringList:
+    - Y
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -77,6 +143,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - A
+    m_ComputedInputStringList:
+    - A
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -104,6 +173,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - B
+    m_ComputedInputStringList:
+    - B
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -131,6 +203,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - X
+    m_ComputedInputStringList:
+    - X
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -158,6 +233,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - Y
+    m_ComputedInputStringList:
+    - Y
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -185,6 +263,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - A
+    m_ComputedInputStringList:
+    - A
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -212,6 +293,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - B
+    m_ComputedInputStringList:
+    - B
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -239,6 +323,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - X
+    m_ComputedInputStringList:
+    - X
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -266,6 +353,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - Y
+    m_ComputedInputStringList:
+    - Y
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -293,6 +383,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - A
+    m_ComputedInputStringList:
+    - A
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 15
@@ -320,6 +413,9 @@ MonoBehaviour:
     m_AttackRequired: 
     m_InputStringList:
     - B
+    m_ComputedInputStringList:
+    - B
+    m_IsInputStringComputed: 1
     m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
@@ -339,4 +435,5 @@ MonoBehaviour:
     m_CameraShakeDuration: 0
   m_InputPersistency: 2
   m_MaxInputs: 10
+  m_ComputeInputs: 0
   m_SortAttackList: 0
