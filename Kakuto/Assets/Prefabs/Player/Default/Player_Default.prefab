@@ -186,7 +186,7 @@ GameObject:
   m_Layer: 0
   m_Name: GroundSensor
   m_TagString: Player1
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -356,6 +356,8 @@ MonoBehaviour:
     type: 3}
   m_DamageTakenParent: {fileID: 6641475778176475717}
   m_IsBlockingAllAttacks: 0
+  m_IsBlockingAllAttacksAfterHitStun: 0
+  m_BlockingAttacksDuration: 1
   m_IsInvincible: 0
 --- !u!114 &6641475778014050472
 MonoBehaviour:
