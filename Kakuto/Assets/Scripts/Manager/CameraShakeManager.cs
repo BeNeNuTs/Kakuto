@@ -22,10 +22,10 @@ public class CameraShakeManager : MonoBehaviour
 
     // How long the object should shake for.
     private float m_ShakeDuration = 0f;
+    private float m_CurrentShakeDuration = 0f;
 
     // Amplitude of the shake. A larger value shakes the camera harder.
     private float m_ShakeAmount = 0.7f;
-    private float m_DecreaseFactor = 1.0f;
 
     void OnEnable()
     {
@@ -34,21 +34,28 @@ public class CameraShakeManager : MonoBehaviour
 
     void Update()
     {
-        if (m_ShakeDuration > 0)
+        if (m_CurrentShakeDuration > 0)
         {
             m_CamTransform.localPosition += Random.insideUnitSphere * m_ShakeAmount;
-            m_ShakeAmount -= Time.deltaTime * m_DecreaseFactor;
-            m_ShakeDuration -= Time.deltaTime;
+            m_ShakeAmount -= Time.deltaTime * (m_ShakeDuration - m_CurrentShakeDuration);
+            m_ShakeAmount = Mathf.Max(m_ShakeAmount, 0.0f);
+            m_CurrentShakeDuration -= Time.deltaTime;
         }
         else
         {
+            m_ShakeAmount = 0f;
+            m_CurrentShakeDuration = 0f;
             m_ShakeDuration = 0f;
         }
     }
 
     public static void Shake(float shakeAmount, float shakeDuration)
     {
-        Instance.m_ShakeAmount = shakeAmount;
-        Instance.m_ShakeDuration = shakeDuration;
+        if(shakeAmount > 0)
+        {
+            Instance.m_ShakeAmount = shakeAmount;
+            Instance.m_ShakeDuration = shakeDuration;
+            Instance.m_CurrentShakeDuration = shakeDuration;
+        }
     }
 }
