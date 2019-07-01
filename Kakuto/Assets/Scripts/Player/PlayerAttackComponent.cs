@@ -42,6 +42,11 @@ public class PlayerAttackComponent : MonoBehaviour
         m_Anim = GetComponentInChildren<Animator>();
         m_TriggeredInputsList = new List<TriggeredInput>();
 
+        if(m_AttackConfig)
+        {
+            m_AttackConfig.Init();
+        }
+
         RegisterListeners();
     }
 
@@ -99,7 +104,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UpdateTriggerInputString()
     {
-        m_TriggeredInputsString = "";
+        m_TriggeredInputsString = string.Empty;
         foreach (TriggeredInput triggeredInput in m_TriggeredInputsList)
         {
             m_TriggeredInputsString += triggeredInput.GetInput();
@@ -128,7 +133,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             foreach (PlayerAttack attack in m_AttackConfig.m_AttackList)
             {
-                if (CheckAttackCondition(attack) && CanAttackBeTriggered(attack))
+                if (CheckAttackConditions(attack) && CheckAttackInputs(attack))
                 {
                     LaunchAttack(attack);
                     break;
@@ -137,7 +142,7 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    bool CheckAttackCondition(PlayerAttack attackToCheck)
+    bool CheckAttackConditions(PlayerAttack attackToCheck)
     {
         bool conditionIsValid = true;
 
@@ -157,11 +162,11 @@ public class PlayerAttackComponent : MonoBehaviour
         return conditionIsValid;
     }
 
-    bool CanAttackBeTriggered(PlayerAttack attack)
+    bool CheckAttackInputs(PlayerAttack attack)
     {
-        for (int i = 0; i < attack.m_InputStringList.Count; i++)
+        foreach(string inputString in attack.GetInputStringList())
         {
-            if (m_TriggeredInputsString.Contains(attack.m_InputStringList[i]))
+            if (m_TriggeredInputsString.Contains(inputString))
             {
                 return true;
             }
