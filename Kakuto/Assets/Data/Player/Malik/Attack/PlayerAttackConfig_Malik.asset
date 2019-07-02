@@ -361,7 +361,5 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-  m_InputPersistency: 2
-  m_MaxInputs: 10
   m_ComputeInputs: 0
   m_SortAttackList: 0

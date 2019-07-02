@@ -36,6 +36,9 @@ public class PlayerAttackComponent : MonoBehaviour
     private PlayerAttack m_CurrentAttack;
     private bool m_IsAttackBlocked = false;
 
+    private uint m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
+    private uint m_TotalFramesWaitingBeforeEvaluatingAttacksCount = 0;
+
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
@@ -94,12 +97,17 @@ public class PlayerAttackComponent : MonoBehaviour
             m_TriggeredInputsList.Add(new TriggeredInput(c, currentTime));
         }
 
-        while (m_TriggeredInputsList.Count > m_AttackConfig.m_MaxInputs)
+        while (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
         {
             m_TriggeredInputsList.RemoveAt(0);
         }
 
-        m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime, m_AttackConfig.m_InputPersistency));
+        m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime, AttackConfig.Instance.m_InputPersistency));
+
+        if(attackInputs.Length > 0)
+        {
+            m_FramesToWaitBeforeEvaluatingAttacksCount = AttackConfig.Instance.m_FramesToWaitBeforeEvaluatingAttacks;
+        }
     }
 
     void UpdateTriggerInputString()
@@ -124,7 +132,24 @@ public class PlayerAttackComponent : MonoBehaviour
             return;
         }
 
-        UpdateAttack();
+        if(CanUpdateAttack())
+        {
+            UpdateAttack();
+
+            m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
+            m_TotalFramesWaitingBeforeEvaluatingAttacksCount = 0;
+        }
+        else
+        {
+            m_TotalFramesWaitingBeforeEvaluatingAttacksCount++;
+            m_FramesToWaitBeforeEvaluatingAttacksCount--;
+        }
+        
+    }
+
+    bool CanUpdateAttack()
+    {
+        return m_FramesToWaitBeforeEvaluatingAttacksCount == 0 || m_TotalFramesWaitingBeforeEvaluatingAttacksCount > AttackConfig.Instance.m_MaxFramesToWaitBeforeEvaluatingAttacks;
     }
 
     void UpdateAttack()

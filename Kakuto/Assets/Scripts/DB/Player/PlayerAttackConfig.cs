@@ -195,12 +195,6 @@ public class PlayerAttackConfig : ScriptableObject
     [Tooltip("Contain the attack list of this player")]
     public List<PlayerAttack> m_AttackList;
 
-    [Tooltip("How much time each input will be kept before being deleted")]
-    public float m_InputPersistency = 2.0f;
-
-    [Tooltip("How many input can be stacked before being deleted")]
-    public uint m_MaxInputs = 10;
-
     [ButtonAttribute("ComputeInputStringList", "Compute inputs", "Allow to compute final inputs according to Input string list.", false, false)]
     public bool m_ComputeInputs = false;
 
