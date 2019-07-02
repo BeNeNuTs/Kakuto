@@ -62,14 +62,52 @@ public static class InputManager
         }
         else
         {
-            if (Input.GetKeyDown("left"))
+            bool isLeftKeyDown = Input.GetKeyDown("left");
+            bool isRightKeyDown = Input.GetKeyDown("right");
+            bool isUpKeyDown = Input.GetKeyDown("up");
+            bool isDownKeyDown = Input.GetKeyDown("down");
+
+            if(isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
+            {
                 inputString += (isLeftSide) ? '←' : '→';
-            if (Input.GetKeyDown("right"))
+            }
+
+            if (isRightKeyDown && !isUpKeyDown && !isDownKeyDown)
+            {
                 inputString += (isLeftSide) ? '→' : '←';
-            if (Input.GetKeyDown("up"))
-                inputString += '↑';
-            if (Input.GetKeyDown("down"))
-                inputString += '↓';
+            }
+
+            if (isUpKeyDown)
+            {
+                if(isLeftKeyDown)
+                {
+                    inputString += (isLeftSide) ? '↖' : '↗';
+                }
+                else if(isRightKeyDown)
+                {
+                    inputString += (isLeftSide) ? '↗' : '↖';
+                }
+                else
+                {
+                    inputString += '↑';
+                }
+            }
+
+            if (isDownKeyDown)
+            {
+                if (isLeftKeyDown)
+                {
+                    inputString += (isLeftSide) ? '↙' : '↘';
+                }
+                else if (isRightKeyDown)
+                {
+                    inputString += (isLeftSide) ? '↘' : '↙';
+                }
+                else
+                {
+                    inputString += '↓';
+                }
+            }
 
             inputString += Input.inputString.ToUpper();
         }

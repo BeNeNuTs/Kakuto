@@ -58,15 +58,50 @@ public static class GamePadManager
 
         string inputString = "";
 
-        if (playerGamePads[playerIndex].left)
-            inputString += (isLeftSide) ? '←' : '→';
-        else if (playerGamePads[playerIndex].right)
-            inputString += (isLeftSide) ? '→' : '←';
+        bool isLeftKeyDown = playerGamePads[playerIndex].left;
+        bool isRightKeyDown = playerGamePads[playerIndex].right;
+        bool isUpKeyDown = playerGamePads[playerIndex].up;
+        bool isDownKeyDown = playerGamePads[playerIndex].down;
 
-        if (playerGamePads[playerIndex].up)
-            inputString += '↑';
-        else if (playerGamePads[playerIndex].down)
-            inputString += '↓';
+        if (isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
+        {
+            inputString += (isLeftSide) ? '←' : '→';
+        }
+        else if (isRightKeyDown && !isUpKeyDown && !isDownKeyDown)
+        {
+            inputString += (isLeftSide) ? '→' : '←';
+        }
+
+        if (isUpKeyDown)
+        {
+            if (isLeftKeyDown)
+            {
+                inputString += (isLeftSide) ? '↖' : '↗';
+            }
+            else if (isRightKeyDown)
+            {
+                inputString += (isLeftSide) ? '↗' : '↖';
+            }
+            else
+            {
+                inputString += '↑';
+            }
+        }
+        else if (isDownKeyDown)
+        {
+            if (isLeftKeyDown)
+            {
+                inputString += (isLeftSide) ? '↙' : '↘';
+            }
+            else if (isRightKeyDown)
+            {
+                inputString += (isLeftSide) ? '↘' : '↙';
+            }
+            else
+            {
+                inputString += '↓';
+            }
+        }
 
         for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
         {
