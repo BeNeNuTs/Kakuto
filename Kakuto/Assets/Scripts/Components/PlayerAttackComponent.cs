@@ -25,10 +25,9 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    public PlayerAttackConfig m_AttackConfig;
+    public PlayerAttacksConfig m_AttacksConfig;
 
     private PlayerMovementComponent m_MovementComponent;
-    private Animator m_Anim;
 
     private List<TriggeredInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
@@ -42,12 +41,11 @@ public class PlayerAttackComponent : MonoBehaviour
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
-        m_Anim = GetComponentInChildren<Animator>();
         m_TriggeredInputsList = new List<TriggeredInput>();
 
-        if(m_AttackConfig)
+        if(m_AttacksConfig)
         {
-            m_AttackConfig.Init();
+            m_AttacksConfig.Init(this);
         }
 
         RegisterListeners();
@@ -156,11 +154,11 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (m_TriggeredInputsList.Count > 0)
         {
-            foreach (PlayerAttack attack in m_AttackConfig.m_AttackList)
+            foreach (PlayerAttack attack in m_AttacksConfig.m_AttackList)
             {
                 if (CheckAttackConditions(attack) && CheckAttackInputs(attack))
                 {
-                    LaunchAttack(attack);
+                    TriggerAttack(attack);
                     break;
                 }
             }
@@ -199,11 +197,11 @@ public class PlayerAttackComponent : MonoBehaviour
         return false;
     }
 
-    void LaunchAttack(PlayerAttack attack)
+    void TriggerAttack(PlayerAttack attack)
     {
         ClearTriggeredInputs();
 
-        m_Anim.Play(attack.m_AnimationAttackName.ToString());
+        attack.m_AttackLogic.OnAttackLaunched();
         m_CurrentAttack = attack;
 
         m_IsAttackBlocked = attack.m_BlockAttack;
