@@ -271,8 +271,11 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         ClearTriggeredInputs();
 
-        m_CurrentAttackLogic.OnAttackStopped();
-        m_CurrentAttackLogic = null;
+        if(m_CurrentAttackLogic != null)
+        {
+            m_CurrentAttackLogic.OnAttackStopped();
+            m_CurrentAttackLogic = null;
+        }
         m_IsAttackBlocked = true;
     }
 
