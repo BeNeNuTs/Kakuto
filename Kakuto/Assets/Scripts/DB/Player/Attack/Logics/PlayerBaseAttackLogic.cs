@@ -15,11 +15,7 @@ public abstract class PlayerBaseAttackLogic
         m_Animator = m_Owner.GetComponentInChildren<Animator>();
     }
 
-    public virtual void OnAttackLaunched()
-    {
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString());
-    }
-
+    public abstract void OnAttackLaunched();
     public virtual void OnAttackStopped() { }
 
     public PlayerAttack GetAttack() { return m_Attack; }

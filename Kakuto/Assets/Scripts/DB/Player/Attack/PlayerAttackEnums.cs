@@ -15,8 +15,7 @@
     JumpLK,
     JumpHK,
 
-    GrabFrontThrow,
-    GrabBackThrow,
+    Grab,
 }
 
 public enum EAttackType

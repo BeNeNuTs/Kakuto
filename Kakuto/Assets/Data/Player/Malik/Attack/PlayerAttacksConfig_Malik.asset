@@ -44,8 +44,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: a486e4d88e77faf44be2083a5e10b935, type: 2}
-    m_AttackLogic: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: fc9fad10039d39e4782010ef233a0b36, type: 2}
   - m_Name: standHP
     m_Description: 
     m_AnimationAttackName: 1
@@ -76,7 +75,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0.4
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: standLP
     m_Description: 
     m_AnimationAttackName: 0
@@ -107,7 +105,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: standHK
     m_Description: 
     m_AnimationAttackName: 3
@@ -138,7 +135,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: standLK
     m_Description: 
     m_AnimationAttackName: 2
@@ -169,7 +165,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: crouchHP
     m_Description: 
     m_AnimationAttackName: 5
@@ -200,7 +195,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: crouchLP
     m_Description: 
     m_AnimationAttackName: 4
@@ -231,7 +225,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: crouchHK
     m_Description: 
     m_AnimationAttackName: 7
@@ -262,7 +255,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: crouchLK
     m_Description: 
     m_AnimationAttackName: 6
@@ -293,7 +285,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: jumpHP
     m_Description: 
     m_AnimationAttackName: 9
@@ -324,7 +315,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: jumpLP
     m_Description: 
     m_AnimationAttackName: 8
@@ -355,7 +345,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: jumpHK
     m_Description: 
     m_AnimationAttackName: 11
@@ -386,7 +375,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   - m_Name: jumpLK
     m_Description: 
     m_AnimationAttackName: 10
@@ -417,6 +405,5 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: b8bd7d14b9dc5ee43b9d8d2aac812697, type: 2}
-    m_AttackLogic: {fileID: 0}
   m_ComputeInputs: 0
   m_SortAttackList: 0

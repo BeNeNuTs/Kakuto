@@ -18,7 +18,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     public override void OnAttackLaunched()
     {
-        base.OnAttackLaunched();
+        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString());
+
         Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StartListening(EPlayerEvent.GrabHit, OnGrabHit);
         Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
