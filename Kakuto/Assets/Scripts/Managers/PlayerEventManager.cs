@@ -16,6 +16,10 @@ public enum EPlayerEvent
     UnblockMovement,
     EndOfAttack,
     Hit,
+    Grab,
+    GrabHit,
+    GrabBlocked,
+    EndOfGrab,
     StunBegin,
     StunEnd,
     DamageTaken

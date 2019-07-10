@@ -47,6 +47,7 @@ public class PlayerHealthComponent : MonoBehaviour
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StartListening(EPlayerEvent.Grab, OnGrab);
     }
 
     void OnDestroy()
@@ -57,6 +58,7 @@ public class PlayerHealthComponent : MonoBehaviour
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Grab, OnGrab);
     }
 
     void Update()
@@ -98,7 +100,20 @@ public class PlayerHealthComponent : MonoBehaviour
         return m_HP == 0;
     }
 
-    public void OnHit(PlayerAttack attack)
+    void OnGrab(PlayerAttack attack)
+    {
+        if (IsDead())
+        {
+            return;
+        }
+
+        if(CanBlockAttack(attack))
+        {
+            Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attack);
+        }
+    }
+
+    void OnHit(PlayerAttack attack)
     {
         if (IsDead())
         {

@@ -16,11 +16,42 @@ public class PlayerAttacksConfig : ScriptableObject
     [ButtonAttribute("SortAttackList", "Sort Attack List", "Allow to sort the attack list by input in order to avoid conflict.", false, false)]
     public bool m_SortAttackList = false;
 
-    public void Init(PlayerAttackComponent playerAttackComponent)
+    private bool m_IsInitialized = false;
+
+    public void Init()
     {
-        ComputeInputStringList();
-        SortAttackList();
-        InitLogics(playerAttackComponent);
+        if(!m_IsInitialized)
+        {
+            ComputeInputStringList();
+            SortAttackList();
+
+            m_IsInitialized = true;
+        }
+    }
+
+    public List<PlayerBaseAttackLogic> CreateLogics(PlayerAttackComponent playerAttackComponent)
+    {
+        List<PlayerBaseAttackLogic> attackLogics = new List<PlayerBaseAttackLogic>();
+        foreach (PlayerAttack attack in m_AttackList)
+        {
+            if (attack.m_AttackConfig)
+            {
+                PlayerBaseAttackLogic attackLogic = attack.m_AttackConfig.CreateLogic();
+                attackLogic.OnInit(playerAttackComponent.gameObject, attack);
+                attackLogics.Add(attackLogic);
+            }
+            else
+            {
+                Debug.LogError("No attack config found for " + attack.m_Name);
+            }
+        }
+
+        return attackLogics;
+    }
+
+    public void Shutdown()
+    {
+        m_IsInitialized = false;
     }
 
     private void ComputeInputStringList()
@@ -188,22 +219,6 @@ public class PlayerAttacksConfig : ScriptableObject
         }
         Debug.LogError("Attack list contains attack without input");
         return 0;
-    }
-
-    private void InitLogics(PlayerAttackComponent playerAttackComponent)
-    {
-        foreach (PlayerAttack attack in m_AttackList)
-        {
-            if(attack.m_AttackConfig)
-            {
-                attack.m_AttackLogic = attack.m_AttackConfig.CreateLogic();
-                attack.m_AttackLogic.OnInit(playerAttackComponent.gameObject, attack);
-            }
-            else
-            {
-                Debug.LogError("No attack config found for " + attack.m_Name);
-            }
-        }
     }
 }
  

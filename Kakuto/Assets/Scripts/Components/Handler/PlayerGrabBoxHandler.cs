@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHitBoxHandler : MonoBehaviour {
+public class PlayerGrabBoxHandler : MonoBehaviour {
 
     PlayerAttackComponent m_PlayerAttackComponent;
 
@@ -15,9 +15,10 @@ public class PlayerHitBoxHandler : MonoBehaviour {
     {
         if(collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
-            if(collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+            if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_PlayerAttackComponent.GetCurrentAttack());
+                Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.GrabHit, m_PlayerAttackComponent.GetCurrentAttack());
+                Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.Grab, m_PlayerAttackComponent.GetCurrentAttack());
             }
         }
     }

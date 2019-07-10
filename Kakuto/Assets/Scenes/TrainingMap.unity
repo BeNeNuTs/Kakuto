@@ -425,7 +425,8 @@ PrefabInstance:
       propertyPath: m_BlockingAttacksDuration
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6445558315754301611, guid: 5227f780c94aaa240ba932079524456d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
 --- !u!1 &219323413
 GameObject:

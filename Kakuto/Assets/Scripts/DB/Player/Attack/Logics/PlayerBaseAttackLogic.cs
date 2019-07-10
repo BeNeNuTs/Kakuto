@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerBaseAttackLogic : Object
+public abstract class PlayerBaseAttackLogic
 {
     protected GameObject m_Owner;
     protected PlayerAttack m_Attack;
@@ -15,5 +15,12 @@ public abstract class PlayerBaseAttackLogic : Object
         m_Animator = m_Owner.GetComponentInChildren<Animator>();
     }
 
-    public abstract void OnAttackLaunched();
+    public virtual void OnAttackLaunched()
+    {
+        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString());
+    }
+
+    public virtual void OnAttackStopped() { }
+
+    public PlayerAttack GetAttack() { return m_Attack; }
 }

@@ -79,8 +79,6 @@ public class PlayerAttack
     public float m_CameraShakeDuration = 0.1f;
 
     public PlayerBaseAttackConfig m_AttackConfig;
-    [HideInInspector]
-    public PlayerBaseAttackLogic m_AttackLogic;
 
     public List<string> GetRawInputStringList(){ return m_InputStringList; }
 

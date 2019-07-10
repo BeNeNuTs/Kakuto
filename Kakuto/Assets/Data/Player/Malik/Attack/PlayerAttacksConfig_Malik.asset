@@ -44,7 +44,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: a486e4d88e77faf44be2083a5e10b935, type: 2}
     m_AttackLogic: {fileID: 0}
   - m_Name: standHP
     m_Description: 

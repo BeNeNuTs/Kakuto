@@ -26,13 +26,14 @@ public class PlayerAttackComponent : MonoBehaviour
     }
 
     public PlayerAttacksConfig m_AttacksConfig;
+    private List<PlayerBaseAttackLogic> m_AttackLogics;
 
     private PlayerMovementComponent m_MovementComponent;
 
     private List<TriggeredInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
 
-    private PlayerAttack m_CurrentAttack;
+    private PlayerBaseAttackLogic m_CurrentAttackLogic;
     private bool m_IsAttackBlocked = false;
 
     private uint m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
@@ -45,7 +46,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
         if(m_AttacksConfig)
         {
-            m_AttacksConfig.Init(this);
+            m_AttacksConfig.Init();
+            m_AttackLogics = m_AttacksConfig.CreateLogics(this);
         }
 
         RegisterListeners();
@@ -63,6 +65,11 @@ public class PlayerAttackComponent : MonoBehaviour
     void OnDestroy()
     {
         UnregisterListeners();
+
+        if (m_AttacksConfig)
+        {
+            m_AttacksConfig.Shutdown();
+        }
     }
 
     void UnregisterListeners()
@@ -154,19 +161,21 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (m_TriggeredInputsList.Count > 0)
         {
-            foreach (PlayerAttack attack in m_AttacksConfig.m_AttackList)
+            foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
             {
-                if (CheckAttackConditions(attack) && CheckAttackInputs(attack))
+                if (CheckAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
                 {
-                    TriggerAttack(attack);
+                    TriggerAttack(attackLogic);
                     break;
                 }
             }
         }
     }
 
-    bool CheckAttackConditions(PlayerAttack attackToCheck)
+    bool CheckAttackConditions(PlayerBaseAttackLogic attackLogic)
     {
+        PlayerAttack attackToCheck = attackLogic.GetAttack();
+
         bool conditionIsValid = true;
 
         if (m_MovementComponent != null)
@@ -178,16 +187,16 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if (attackToCheck.m_HasAttackRequirement)
             {
-                conditionIsValid &= (m_CurrentAttack != null && m_CurrentAttack.m_Name == attackToCheck.m_AttackRequired);
+                conditionIsValid &= (m_CurrentAttackLogic != null && m_CurrentAttackLogic.GetAttack().m_Name == attackToCheck.m_AttackRequired);
             }
         }
 
         return conditionIsValid;
     }
 
-    bool CheckAttackInputs(PlayerAttack attack)
+    bool CheckAttackInputs(PlayerBaseAttackLogic attackLogic)
     {
-        foreach(string inputString in attack.GetInputStringList())
+        foreach(string inputString in attackLogic.GetAttack().GetInputStringList())
         {
             if (m_TriggeredInputsString.Contains(inputString))
             {
@@ -197,30 +206,33 @@ public class PlayerAttackComponent : MonoBehaviour
         return false;
     }
 
-    void TriggerAttack(PlayerAttack attack)
+    void TriggerAttack(PlayerBaseAttackLogic attackLogic)
     {
+        PlayerAttack attack = attackLogic.GetAttack();
+
         ClearTriggeredInputs();
 
-        attack.m_AttackLogic.OnAttackLaunched();
-        m_CurrentAttack = attack;
+        attackLogic.OnAttackLaunched();
+        m_CurrentAttackLogic = attackLogic;
 
         m_IsAttackBlocked = attack.m_BlockAttack;
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttack);
+        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic.GetAttack());
     }
 
     bool CheckIsCurrentAttack(EAnimationAttackName attackName, string methodName)
     {
-        if (m_CurrentAttack == null)
+        if (m_CurrentAttackLogic == null)
         {
             Debug.LogError("There is no current attack");
             return false;
         }
 
-        if (m_CurrentAttack.m_AnimationAttackName != attackName)
+        PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
+        if (currentAttack.m_AnimationAttackName != attackName)
         {
-            Debug.LogError("Trying to " + methodName + " " + attackName.ToString() + " but current attack is " + m_CurrentAttack.m_AnimationAttackName.ToString());
+            Debug.LogError("Trying to " + methodName + " " + attackName.ToString() + " but current attack is " + currentAttack.m_AnimationAttackName.ToString());
             return false;
         }
         return true;
@@ -230,12 +242,14 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
-            if(m_CurrentAttack.m_BlockAttack)
+            PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
+            if (currentAttack.m_BlockAttack)
             {
                 m_IsAttackBlocked = false;
             }
-            
-            m_CurrentAttack = null;
+
+            m_CurrentAttackLogic.OnAttackStopped();
+            m_CurrentAttackLogic = null;
         }
     }
 
@@ -257,7 +271,8 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         ClearTriggeredInputs();
 
-        m_CurrentAttack = null;
+        m_CurrentAttackLogic.OnAttackStopped();
+        m_CurrentAttackLogic = null;
         m_IsAttackBlocked = true;
     }
 
@@ -278,6 +293,10 @@ public class PlayerAttackComponent : MonoBehaviour
 
     public PlayerAttack GetCurrentAttack()
     {
-        return m_CurrentAttack;
+        if(m_CurrentAttackLogic != null)
+        {
+            return m_CurrentAttackLogic.GetAttack();
+        }
+        return null;
     }
 }

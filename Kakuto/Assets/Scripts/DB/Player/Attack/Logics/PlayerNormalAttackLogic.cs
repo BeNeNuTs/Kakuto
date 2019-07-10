@@ -10,9 +10,4 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     {
         m_Config = config;
     }
-
-    public override void OnAttackLaunched()
-    {
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString());
-    }
 }

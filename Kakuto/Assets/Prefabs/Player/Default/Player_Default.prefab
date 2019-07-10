@@ -30,6 +30,36 @@ Transform:
   m_Father: {fileID: 6641475777147264860}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5337721017874791291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3599251487148823360}
+  m_Layer: 0
+  m_Name: GrabBoxes
+  m_TagString: Player1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3599251487148823360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337721017874791291}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6641475777147264860}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5458480501282629491
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +122,7 @@ Transform:
   m_Children:
   - {fileID: 7468723790707579272}
   - {fileID: 3781024142746770525}
+  - {fileID: 3599251487148823360}
   m_Father: {fileID: 6641475778014050450}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -337,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48364e40d3157de48afff4013465b2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AttackConfig: {fileID: 11400000, guid: d45e5d166ac5c1d44842a9728ec7e869, type: 2}
+  m_AttacksConfig: {fileID: 0}
 --- !u!114 &6641475778014050455
 MonoBehaviour:
   m_ObjectHideFlags: 0
