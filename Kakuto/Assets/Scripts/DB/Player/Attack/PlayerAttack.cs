@@ -14,8 +14,6 @@ public class PlayerAttack
     // Setting (AnimName/AttackType/etc..)
     [Header("Setting")]
     public EAnimationAttackName m_AnimationAttackName;
-    public EAttackType m_AttackType;
-
     public EPlayerStance m_NeededStance = EPlayerStance.Stand;
 
     // Condition (AttackRequirement)
@@ -49,19 +47,6 @@ public class PlayerAttack
     [Header("Enemy effect")]
     [Range(0, 100)]
     public uint m_Damage = 10;
-    [Range(0, 100)]
-    public uint m_CheapDamage = 2;
-    /////////////////////////////////////////////////////
-    public EHitHeight m_HitHeight = EHitHeight.Low;
-    public EHitStrength m_HitStrength = EHitStrength.Weak;
-    /////////////////////////////////////////////////////
-    public float m_HitStun = 2.0f;
-    public float m_BlockStun = 1.0f;
-    /////////////////////////////////////////////////////
-    [Tooltip("The force of the push back if this attack hit")]
-    public float m_HitPushBack = 0.0f;
-    [Tooltip("The force of the push back if this attack is blocked")]
-    public float m_BlockPushBack = 0.0f;
     /////////////////////////////////////////////////////
     public bool m_UseTimeScaleEffect = false;
     [ConditionalField(true, "m_UseTimeScaleEffect")]

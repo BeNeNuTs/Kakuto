@@ -218,7 +218,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_IsAttackBlocked = attack.m_BlockAttack;
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic.GetAttack());
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
     }
 
     bool CheckIsCurrentAttack(EAnimationAttackName attackName, string methodName)
@@ -292,6 +292,11 @@ public class PlayerAttackComponent : MonoBehaviour
     public string GetTriggeredInputString()
     {
         return m_TriggeredInputsString;
+    }
+
+    public PlayerBaseAttackLogic GetCurrentAttackLogic()
+    {
+        return m_CurrentAttackLogic;
     }
 
     public PlayerAttack GetCurrentAttack()

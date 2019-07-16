@@ -8,8 +8,10 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     private static readonly string K_GRAB_MISS_ANIM = "GrabMissed";
     private static readonly string K_GRAB_CANCEL_ANIM = "GrabCancelled";
+    private static readonly string K_GRAB_BLOCK_ANIM = "BlockGrab";
+    private static readonly string K_GRAB_HIT_ANIM = "HitGrab";
 
-    private bool m_GrabHitEnemy = false;
+    private bool m_GrabTouchedEnemy = false;
 
     public PlayerGrabAttackLogic(PlayerGrabAttackConfig config)
     {
@@ -20,32 +22,52 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString());
 
-        Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StartListening(EPlayerEvent.GrabHit, OnGrabHit);
-        Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
+    }
+
+    public override bool CanBlockAttack(bool isCrouching)
+    {
+        return !isCrouching;
+    }
+
+    public override string GetBlockAnimName(EPlayerStance playerStance)
+    {
+        string blockAnimName = K_GRAB_BLOCK_ANIM;
+        return blockAnimName;
+    }
+
+    public override string GetHitAnimName(EPlayerStance playerStance)
+    {
+        string hitAnimName = K_GRAB_HIT_ANIM;
+        hitAnimName += m_Config.m_GrabType.ToString();
+        return hitAnimName;
     }
 
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
-        Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StopListening(EPlayerEvent.GrabHit, OnGrabHit);
-        Utils.GetPlayerEventManager<PlayerAttack>(m_Owner).StopListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StopListening(EPlayerEvent.GrabTouched, OnGrabTouched);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StopListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
 
-        m_GrabHitEnemy = false;
+        m_GrabTouchedEnemy = false;
     }
 
-    void OnGrabHit(PlayerAttack attack)
+    void OnGrabTouched(PlayerBaseAttackLogic attackLogic)
     {
-        if(m_Attack == attack)
+        if(this == attackLogic)
         {
-            m_GrabHitEnemy = true;
+            m_GrabTouchedEnemy = true;
         }
     }
 
-    void OnGrabBlocked(PlayerAttack attack)
+    void OnGrabBlocked(PlayerBaseAttackLogic attackLogic)
     {
-        if (m_Attack == attack)
+        if (this == attackLogic)
         {
             m_Animator.Play(K_GRAB_CANCEL_ANIM);
         }
@@ -55,9 +77,30 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         if (m_Attack.m_AnimationAttackName == attackName)
         {
-            if(!m_GrabHitEnemy)
+            if(!m_GrabTouchedEnemy)
             {
                 m_Animator.Play(K_GRAB_MISS_ANIM);
+            }
+            else
+            {
+                //Launch grabbed event
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, this);
+            }
+        }
+    }
+
+    void OnApplyGrabDamages(EAnimationAttackName attackName)
+    {
+        if (m_Attack.m_AnimationAttackName == attackName)
+        {
+            if (m_GrabTouchedEnemy)
+            {
+                //Launch hit event
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
+            }
+            else
+            {
+                Debug.LogError("Can't apply grab damages without grabbing him.");
             }
         }
     }

@@ -18,21 +18,21 @@ public class PlayerHealthComponent : MonoBehaviour
     [Header("Debug")]
     [Space]
 
-    public bool m_DisplayDamageTaken = false;
-    [ConditionalField(true, "m_DisplayDamageTaken")]
-    public GameObject m_DamageTakenUIPrefab;
-    [ConditionalField(true, "m_DisplayDamageTaken")]
-    public Transform m_DamageTakenParent;
+    public bool m_DEBUG_DisplayDamageTaken = false;
+    [ConditionalField(true, "m_DEBUG_DisplayDamageTaken")]
+    public GameObject m_DEBUG_DamageTakenUIPrefab;
+    [ConditionalField(true, "m_DEBUG_DisplayDamageTaken")]
+    public Transform m_DEBUG_DamageTakenParent;
 
-    [ConditionalField(false, "m_IsBlockingAllAttacksAfterHitStun")]
-    public bool m_IsBlockingAllAttacks = false;
-    [ConditionalField(false, "m_IsBlockingAllAttacks")]
-    public bool m_IsBlockingAllAttacksAfterHitStun = false;
-    [ConditionalField(true, "m_IsBlockingAllAttacksAfterHitStun")]
-    public float m_BlockingAttacksDuration = 1.0f;
-    private float m_BlockingAttacksTimer = 0.0f;
+    [ConditionalField(false, "m_DEBUG_IsBlockingAllAttacksAfterHitStun")]
+    public bool m_DEBUG_IsBlockingAllAttacks = false;
+    [ConditionalField(false, "m_DEBUG_IsBlockingAllAttacks")]
+    public bool m_DEBUG_IsBlockingAllAttacksAfterHitStun = false;
+    [ConditionalField(true, "m_DEBUG_IsBlockingAllAttacksAfterHitStun")]
+    public float m_DEBUG_BlockingAttacksDuration = 1.0f;
+    private float m_DEBUG_BlockingAttacksTimer = 0.0f;
 
-    public bool m_IsInvincible = false;
+    public bool m_DEBUG_IsInvincible = false;
 
     private void Awake()
     {
@@ -46,8 +46,9 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StartListening(EPlayerEvent.Grab, OnGrab);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
     }
 
     void OnDestroy()
@@ -57,8 +58,9 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
-        Utils.GetPlayerEventManager<PlayerAttack>(gameObject).StopListening(EPlayerEvent.Grab, OnGrab);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
     }
 
     void Update()
@@ -82,13 +84,13 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         // DEBUG /////////////////////////////////////
-        if (m_IsBlockingAllAttacksAfterHitStun)
+        if (m_DEBUG_IsBlockingAllAttacksAfterHitStun)
         {
-            if (m_IsBlockingAllAttacks && m_BlockingAttacksTimer > 0.0f)
+            if (m_DEBUG_IsBlockingAllAttacks && m_DEBUG_BlockingAttacksTimer > 0.0f)
             {
-                if (Time.unscaledTime > m_BlockingAttacksTimer)
+                if (Time.unscaledTime > m_DEBUG_BlockingAttacksTimer)
                 {
-                    StopBlockingAttacks();
+                    DEBUG_StopBlockingAttacks();
                 }
             }
         }
@@ -100,20 +102,31 @@ public class PlayerHealthComponent : MonoBehaviour
         return m_HP == 0;
     }
 
-    void OnGrab(PlayerAttack attack)
+    void OnGrabTry(PlayerBaseAttackLogic attackLogic)
     {
         if (IsDead())
         {
             return;
         }
 
-        if(CanBlockAttack(attack))
+        if(CanBlockAttack(attackLogic))
         {
-            Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attack);
+            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
+            PlayBlockAnimation(attackLogic);
         }
     }
 
-    void OnHit(PlayerAttack attack)
+    void OnGrabbed(PlayerBaseAttackLogic attackLogic)
+    {
+        if (IsDead())
+        {
+            return;
+        }
+
+        PlayHitAnimation(attackLogic);
+    }
+
+    void OnHit(PlayerBaseAttackLogic attackLogic)
     {
         if (IsDead())
         {
@@ -122,28 +135,20 @@ public class PlayerHealthComponent : MonoBehaviour
 
         uint hitDamage = 0;
         bool isAttackBlocked = false;
-        GetHitInfo(attack, out hitDamage, out isAttackBlocked);
-        ApplyDamage(attack, hitDamage, isAttackBlocked);
+        GetHitInfo(attackLogic, out hitDamage, out isAttackBlocked);
+        ApplyDamage(attackLogic, hitDamage, isAttackBlocked);
     }
 
-    private void GetHitInfo(PlayerAttack attack, out uint hitDamage, out bool isAttackBlocked)
+    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out bool isAttackBlocked)
     {
-        if (CanBlockAttack(attack))
-        {
-            hitDamage = attack.m_CheapDamage;
-            isAttackBlocked = true;
-        }
-        else
-        {
-            hitDamage = attack.m_Damage;
-            isAttackBlocked = false;
-        }
+        isAttackBlocked = CanBlockAttack(attackLogic);
+        hitDamage = attackLogic.GetHitDamage(isAttackBlocked);
     }
 
-    private bool CanBlockAttack(PlayerAttack attack)
+    private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
     {
         // DEBUG ///////////////////////////////////
-        if (m_IsBlockingAllAttacks)
+        if (m_DEBUG_IsBlockingAllAttacks)
         {
             return true;
         }
@@ -163,36 +168,27 @@ public class PlayerHealthComponent : MonoBehaviour
             
             //Check if the player is in the right stance 
             bool isCrouching = m_MovementComponent.IsCrouching();
-            switch (attack.m_AttackType)
-            {
-                case EAttackType.Low:
-                    canBlockAttack &= isCrouching;
-                    break;
-                case EAttackType.Mid:
-                case EAttackType.Overhead:
-                    canBlockAttack &= !isCrouching;
-                    break;
-            }
+            canBlockAttack &= attackLogic.CanBlockAttack(isCrouching);
         }
 
         return canBlockAttack;
     }
 
-    private void ApplyDamage(PlayerAttack attack, uint damage, bool isAttackBlocked)
+    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
     {
         if (damage >= m_HP)
         {
-            m_HP = (uint)(m_IsInvincible ? 1 : 0);
+            m_HP = (uint)(m_DEBUG_IsInvincible ? 1 : 0);
         }
         else
         {
             m_HP -= damage;
         }
 
-        OnDamageTaken(attack, damage, isAttackBlocked);
+        OnDamageTaken(attackLogic, damage, isAttackBlocked);
     }
 
-    private void OnDamageTaken(PlayerAttack attack, uint damage, bool isAttackBlocked)
+    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, (float)m_HP / (float)m_HealthConfig.m_MaxHP);
@@ -203,24 +199,31 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         else
         {
-            TriggerEffects(attack, damage, isAttackBlocked);
-            PlayDamageTakenAnim(attack, isAttackBlocked);
+            TriggerEffects(attackLogic, damage, isAttackBlocked);
+            if (attackLogic.CanPlayDamageTakenAnim())
+            {
+                PlayDamageTakenAnim(attackLogic, isAttackBlocked);
+            }
         }
 
         // DEBUG /////////////////////////////////////
-        if (damage > 0 && m_DisplayDamageTaken)
+        if (damage > 0 && m_DEBUG_DisplayDamageTaken)
         {
-            DisplayDamageTakenUI(damage);
+            DEBUG_DisplayDamageTakenUI(damage);
         }
         /////////////////////////////////////////////
     }
 
-    private void TriggerEffects(PlayerAttack attack, uint damage, bool isAttackBlocked)
+    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
     {
-        float stunDuration = (isAttackBlocked) ? attack.m_BlockStun : attack.m_HitStun;
-        if (stunDuration > 0)
+        PlayerAttack attack = attackLogic.GetAttack();
+        if(attackLogic.CanStun())
         {
-            StartStun(stunDuration);
+            float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
+            if (stunDuration > 0)
+            {
+                StartStun(stunDuration);
+            }
         }
 
         if(attack.m_UseTimeScaleEffect)
@@ -233,10 +236,13 @@ public class PlayerHealthComponent : MonoBehaviour
             CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
         }
 
-        float pushBackForce = (isAttackBlocked) ? attack.m_BlockPushBack : attack.m_HitPushBack;
-        if (pushBackForce > 0.0f && m_MovementComponent)
+        if (attackLogic.CanPushBack())
         {
-            m_MovementComponent.PushBack(pushBackForce);
+            float pushBackForce = attackLogic.GetPushBackForce(isAttackBlocked);
+            if (pushBackForce > 0.0f && m_MovementComponent)
+            {
+                m_MovementComponent.PushBack(pushBackForce);
+            }
         }
     }
 
@@ -259,9 +265,9 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
 
         // DEBUG ///////////////////////////////////
-        if (m_IsBlockingAllAttacksAfterHitStun)
+        if (m_DEBUG_IsBlockingAllAttacksAfterHitStun)
         {
-            StartBlockingAttacks();
+            DEBUG_StartBlockingAttacks();
         }
         ////////////////////////////////////////////
         else
@@ -272,20 +278,20 @@ public class PlayerHealthComponent : MonoBehaviour
     }
 
     // DEBUG ///////////////////////////////////
-    private void StartBlockingAttacks()
+    private void DEBUG_StartBlockingAttacks()
     {
-        m_BlockingAttacksTimer = Time.unscaledTime + m_BlockingAttacksDuration;
-        m_IsBlockingAllAttacks = true;
+        m_DEBUG_BlockingAttacksTimer = Time.unscaledTime + m_DEBUG_BlockingAttacksDuration;
+        m_DEBUG_IsBlockingAllAttacks = true;
 
-        PlayBlockAnimation();
+        m_Anim.Play("BlockStand_In");
 
-        Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_BlockingAttacksDuration + " seconds");
+        Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_DEBUG_BlockingAttacksDuration + " seconds");
     }
 
-    private void StopBlockingAttacks()
+    private void DEBUG_StopBlockingAttacks()
     {
-        m_BlockingAttacksTimer = 0.0f;
-        m_IsBlockingAllAttacks = false;
+        m_DEBUG_BlockingAttacksTimer = 0.0f;
+        m_DEBUG_IsBlockingAllAttacks = false;
 
         m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
 
@@ -293,74 +299,30 @@ public class PlayerHealthComponent : MonoBehaviour
     }
     ////////////////////////////////////////////
 
-    private void PlayDamageTakenAnim(PlayerAttack attack, bool isAttackBlocked)
+    private void PlayDamageTakenAnim(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
     {
         if(isAttackBlocked)
         {
-            PlayBlockAnimation();
+            PlayBlockAnimation(attackLogic);
         }
         else
         {
-            PlayHitAnimation(attack);
+            PlayHitAnimation(attackLogic);
         }
     }
 
-    private void PlayBlockAnimation()
+    private void PlayBlockAnimation(PlayerBaseAttackLogic attackLogic)
     {
         //Play block anim
-        string blockAnimName = GetPlayerBlockAnimName();
+        string blockAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance());
         m_Anim.Play(blockAnimName);
     }
 
-    private string GetPlayerBlockAnimName()
-    {
-        string blockAnimName = "Block";
-
-        EPlayerStance playerStance = m_MovementComponent.GetCurrentStance();
-        blockAnimName += playerStance.ToString();
-
-        if(playerStance == EPlayerStance.Jump)
-        {
-            Debug.LogError("A player can't block an attack while jumping.");
-        }
-
-        blockAnimName += "_In"; //Play the In animation
-
-        return blockAnimName;
-    }
-
-    private void PlayHitAnimation(PlayerAttack attack)
+    private void PlayHitAnimation(PlayerBaseAttackLogic attackLogic)
     {
         //Play hit anim
-        string hitAnimName = GetPlayerHitAnimName(attack);
+        string hitAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance());
         m_Anim.Play(hitAnimName);
-    }
-
-    private string GetPlayerHitAnimName(PlayerAttack attack)
-    {
-        string hitAnimName = "Hit";
-
-        EPlayerStance playerStance = m_MovementComponent.GetCurrentStance();
-        hitAnimName += playerStance.ToString();
-
-        switch (playerStance)
-        {
-            case EPlayerStance.Stand:
-                hitAnimName += attack.m_HitHeight.ToString();
-                hitAnimName += attack.m_HitStrength.ToString();
-                break;
-            case EPlayerStance.Crouch:
-                hitAnimName += "Low"; // Crouch hit is necessarily low
-                hitAnimName += attack.m_HitStrength.ToString();
-                break;
-            case EPlayerStance.Jump:
-                // Jump hit doesn't need hit height / strength
-                break;
-        }
-
-        hitAnimName += "_In"; //Play the In animation
-
-        return hitAnimName;
     }
 
     private void OnDeath()
@@ -369,11 +331,11 @@ public class PlayerHealthComponent : MonoBehaviour
     }
 
     // DEBUG /////////////////////////////////////
-    private void DisplayDamageTakenUI(uint damage)
+    private void DEBUG_DisplayDamageTakenUI(uint damage)
     {
         //DamageTakenUIInstance will be automatically destroyed
-        GameObject damageTakenUI = Instantiate(m_DamageTakenUIPrefab, Vector3.zero, Quaternion.identity);
-        damageTakenUI.transform.SetParent(m_DamageTakenParent);
+        GameObject damageTakenUI = Instantiate(m_DEBUG_DamageTakenUIPrefab, Vector3.zero, Quaternion.identity);
+        damageTakenUI.transform.SetParent(m_DEBUG_DamageTakenParent);
         damageTakenUI.transform.localPosition = Vector3.zero;
         damageTakenUI.GetComponentInChildren<Text>().text = "-" + damage.ToString();
     }

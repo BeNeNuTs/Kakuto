@@ -17,7 +17,7 @@ public class PlayerHitBoxHandler : MonoBehaviour {
         {
             if(collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_PlayerAttackComponent.GetCurrentAttack());
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_PlayerAttackComponent.GetCurrentAttackLogic());
             }
         }
     }

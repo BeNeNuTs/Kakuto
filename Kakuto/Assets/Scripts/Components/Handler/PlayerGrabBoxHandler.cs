@@ -17,8 +17,8 @@ public class PlayerGrabBoxHandler : MonoBehaviour {
         {
             if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                Utils.GetPlayerEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.GrabHit, m_PlayerAttackComponent.GetCurrentAttack());
-                Utils.GetEnemyEventManager<PlayerAttack>(gameObject).TriggerEvent(EPlayerEvent.Grab, m_PlayerAttackComponent.GetCurrentAttack());
+                Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, m_PlayerAttackComponent.GetCurrentAttackLogic());
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTry, m_PlayerAttackComponent.GetCurrentAttackLogic());
             }
         }
     }

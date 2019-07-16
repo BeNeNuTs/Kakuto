@@ -21,6 +21,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private bool m_IsMovementBlocked = false;
 
+    [Header("Debug")]
+    [Space]
+
+    public bool m_DEBUG_IsStatic = false;
+
     void Awake()
     {
         m_Controller = GetComponent<CharacterController2D>();
@@ -59,18 +64,21 @@ public class PlayerMovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdatePlayerSide();
-
-        if(m_IsMovementBlocked)
+        if (m_IsMovementBlocked)
         {
             return;
         }
 
-        m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
-        m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
+        UpdatePlayerSide();
 
-        m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
-        m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+        if(!m_DEBUG_IsStatic)
+        {
+            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
+            m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
+
+            m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
+            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+        }
     }
 
     void UpdatePlayerSide()

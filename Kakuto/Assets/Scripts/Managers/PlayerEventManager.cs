@@ -11,18 +11,25 @@ public enum EPlayer
 
 public enum EPlayerEvent
 {
+    // For self
     AttackLaunched,
     UnblockAttack,
     UnblockMovement,
     EndOfAttack,
-    Hit,
-    Grab,
-    GrabHit,
-    GrabBlocked,
-    EndOfGrab,
+
     StunBegin,
     StunEnd,
-    DamageTaken
+    DamageTaken,
+
+    GrabTouched,
+    ApplyGrabDamages,
+    GrabBlocked,
+    EndOfGrab,
+
+    // For enemy
+    Hit,
+    GrabTry,
+    Grabbed,
 }
 
 public class Player1EventManager<T> : PlayerEventManager<T>
