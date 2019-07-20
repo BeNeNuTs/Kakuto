@@ -115,8 +115,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012406826, y: 0.04342389}
-  m_Size: {x: 0.31166148, y: 1.1429181}
+  m_Offset: {x: -0.012406826, y: 0.03839624}
+  m_Size: {x: 0.31166148, y: 1.1529734}
   m_Direction: 0
 --- !u!114 &7152013939130233749
 MonoBehaviour:
@@ -267,10 +267,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6641475777341850866, guid: 4dd623bf673cf2346b8230dbde6c4547,
+    - target: {fileID: 6641475777147264860, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.534
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943496833267493027, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.756
+      objectReference: {fileID: 0}
+    - target: {fileID: 3943496833267493027, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
@@ -289,6 +299,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f45fcd7dc67883144a3131ab43f27a77,
         type: 2}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DisplayDamageTaken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DamageTakenUIPrefab
+      value: 
+      objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
+        type: 3}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DamageTakenParent
+      value: 
+      objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_GroundChecks.Array.size
@@ -334,6 +360,12 @@ Transform:
 --- !u!4 &519529389538933612 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
+    type: 3}
+  m_PrefabInstance: {fileID: 3947019223277676588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7705063140870539881 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6641475778176475717, guid: 4dd623bf673cf2346b8230dbde6c4547,
     type: 3}
   m_PrefabInstance: {fileID: 3947019223277676588}
   m_PrefabAsset: {fileID: 0}

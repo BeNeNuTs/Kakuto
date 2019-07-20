@@ -48,7 +48,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
     }
 
     void OnDestroy()
@@ -60,7 +60,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
     }
 
     void Update()
@@ -116,14 +116,15 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
-    void OnGrabbed(PlayerBaseAttackLogic attackLogic)
+    void OnGrabbed(GrabbedInfo grabbedInfo)
     {
         if (IsDead())
         {
             return;
         }
 
-        PlayHitAnimation(attackLogic);
+        transform.position = grabbedInfo.GetGrabHookPosition();
+        PlayHitAnimation(grabbedInfo.GetAttackLogic());
     }
 
     void OnHit(PlayerBaseAttackLogic attackLogic)

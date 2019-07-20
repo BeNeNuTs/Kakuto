@@ -2,6 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct GrabbedInfo
+{
+    PlayerBaseAttackLogic m_AttackLogic;
+    Transform m_GrabHook;
+
+    public GrabbedInfo(PlayerBaseAttackLogic attackLogic, Transform grabHook)
+    {
+        m_AttackLogic = attackLogic;
+        m_GrabHook = grabHook;
+    }
+
+    public PlayerBaseAttackLogic GetAttackLogic() { return m_AttackLogic; }
+    public Vector3 GetGrabHookPosition() { return m_GrabHook.position; }
+}
+
 public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 {
     private readonly PlayerGrabAttackConfig m_Config;
@@ -10,12 +25,26 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     private static readonly string K_GRAB_CANCEL_ANIM = "GrabCancelled";
     private static readonly string K_GRAB_BLOCK_ANIM = "BlockGrab";
     private static readonly string K_GRAB_HIT_ANIM = "HitGrab";
+    private static readonly string K_GRAB_HOOK = "GrabHook";
 
     private bool m_GrabTouchedEnemy = false;
+    private Transform m_GrabHook;
 
     public PlayerGrabAttackLogic(PlayerGrabAttackConfig config)
     {
         m_Config = config;
+    }
+
+    public override void OnInit(GameObject owner, PlayerAttack attack)
+    {
+        base.OnInit(owner, attack);
+        m_GrabHook = m_Owner.transform.Find("Model/" + K_GRAB_HOOK);
+#if UNITY_EDITOR
+        if (m_GrabHook == null)
+        {
+            Debug.LogError("GrabHook can't be found on " + m_Owner);
+        }
+#endif
     }
 
     public override void OnAttackLaunched()
@@ -84,7 +113,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
             else
             {
                 //Launch grabbed event
-                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, this);
+                GrabbedInfo grabbedInfo = new GrabbedInfo(this, m_GrabHook);
+                Utils.GetEnemyEventManager<GrabbedInfo>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, grabbedInfo);
             }
         }
     }

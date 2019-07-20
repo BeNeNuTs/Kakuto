@@ -282,7 +282,7 @@ PrefabInstance:
     - target: {fileID: 7705063140710011070, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.462
+      value: -4.008
       objectReference: {fileID: 0}
     - target: {fileID: 7705063140710011070, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
@@ -388,7 +388,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6200000, guid: 0403fc9c117a83c459958b2f47fa6d1e, type: 2}
     - target: {fileID: 3609406012619202689, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_Material
@@ -454,7 +454,17 @@ PrefabInstance:
     - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_DEBUG_IsInvincible
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705063139941021557, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -2002616419
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705063139941021557, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6445558315754301611, guid: 5227f780c94aaa240ba932079524456d, type: 3}
@@ -2814,12 +2824,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 23.830605, y: 4.3425655}
   m_EdgeRadius: 0
---- !u!224 &1600211362 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7705063140870539881, guid: 5227f780c94aaa240ba932079524456d,
-    type: 3}
-  m_PrefabInstance: {fileID: 3346103736305279716}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1770800472
 GameObject:
   m_ObjectHideFlags: 0
@@ -3309,7 +3313,7 @@ PrefabInstance:
     - target: {fileID: 7705063140710011070, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.462
+      value: -4.008
       objectReference: {fileID: 0}
     - target: {fileID: 7705063140710011070, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
@@ -3356,21 +3360,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
-        type: 3}
-      propertyPath: m_DEBUG_DisplayDamageTaken
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
-        type: 3}
-      propertyPath: m_DEBUG_DamageTakenParent
-      value: 
-      objectReference: {fileID: 1600211362}
-    - target: {fileID: 7705063140710011067, guid: 5227f780c94aaa240ba932079524456d,
-        type: 3}
-      propertyPath: m_DEBUG_DamageTakenUIPrefab
-      value: 
-      objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
