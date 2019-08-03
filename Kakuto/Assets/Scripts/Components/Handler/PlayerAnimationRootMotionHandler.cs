@@ -9,7 +9,9 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
     private CharacterController2D m_CharacterController2D;
     private PlayerMovementComponent m_PlayerMovementComponent;
 
+#if UNITY_EDITOR
     private bool m_LastUpdateCalled = false;
+#endif
 
     private bool m_OriginalRootPositionSetted = false;
     private Vector3 m_OriginalRootPosition = Vector3.zero;
