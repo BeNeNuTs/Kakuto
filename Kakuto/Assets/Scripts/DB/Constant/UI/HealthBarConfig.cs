@@ -10,7 +10,7 @@ public class HealthBarConfig : ScriptableObject
         get
         {
             if (!s_Instance)
-                s_Instance = AssetDatabase.LoadAssetAtPath<HealthBarConfig>("Assets/Data/Constant/UI/HealthBarConfig.asset");
+                s_Instance = Resources.Load<HealthBarConfig>("UI/HealthBarConfig");
             return s_Instance;
         }
     }
@@ -20,21 +20,4 @@ public class HealthBarConfig : ScriptableObject
 
     [Tooltip("Time between HealthBar and HealthBarBackground")]
     public float m_TimeBetweenHealthBar = 0.5f;
-}
-
-public class CreateHealthBarConfig
-{
-    [MenuItem("Assets/Create/Data/Constant/UI/HealthBarConfig")]
-    public static HealthBarConfig Create()
-    {
-        HealthBarConfig asset = ScriptableObject.CreateInstance<HealthBarConfig>();
-
-        AssetDatabase.CreateAsset(asset, "Assets/Data/Constant/UI/HealthBarConfig.asset");
-        AssetDatabase.SaveAssets();
-
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = asset;
-
-        return asset;
-    }
 }

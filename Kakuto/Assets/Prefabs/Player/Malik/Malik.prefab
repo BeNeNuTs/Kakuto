@@ -267,6 +267,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6641475778176475718, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player1
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475777147264860, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -331,6 +336,11 @@ PrefabInstance:
       propertyPath: m_GroundChecks.Array.data[0]
       value: 
       objectReference: {fileID: 3609406012619202689}
+    - target: {fileID: 2722015654465949671, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player1
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475777147264857, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Sprite

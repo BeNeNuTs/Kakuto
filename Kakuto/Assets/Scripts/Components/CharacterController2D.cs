@@ -5,7 +5,9 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     public CharacterControllerConfig m_ControllerConfig;
+#pragma warning disable 0649
     [SerializeField] private Collider2D[] m_GroundChecks;       // colliders where to check if the player is grounded.
+#pragma warning restore 0649
 
     static readonly float k_TimeBetweenJumpsTakeOff = .5f;      // Time between jumps take off
 

@@ -10,7 +10,7 @@ public class AttackConfig : ScriptableObject
         get
         {
             if (!s_Instance)
-                s_Instance = AssetDatabase.LoadAssetAtPath<AttackConfig>("Assets/Data/Constant/Attack/AttackConfig.asset");
+                s_Instance = Resources.Load<AttackConfig>("Attack/AttackConfig");
             return s_Instance;
         }
     }
@@ -26,21 +26,4 @@ public class AttackConfig : ScriptableObject
 
     [Tooltip("Max frames to wait before evaluating attacks, even if we're still trying to wait due to FramesToWaitBeforeEvaluatingAttacks (in case of button mashing, we have to try to trigger an attack anyway each x frames).")]
     public float m_MaxFramesToWaitBeforeEvaluatingAttacks = 24;
-}
-
-public class CreateAttackConfig
-{
-    [MenuItem("Assets/Create/Data/Constant/Attack/AttackConfig")]
-    public static AttackConfig Create()
-    {
-        AttackConfig asset = ScriptableObject.CreateInstance<AttackConfig>();
-
-        AssetDatabase.CreateAsset(asset, "Assets/Data/Constant/Attack/AttackConfig.asset");
-        AssetDatabase.SaveAssets();
-
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = asset;
-
-        return asset;
-    }
 }

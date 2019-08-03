@@ -33,7 +33,7 @@ public class ConditionalFieldAttributeDrawer : PropertyDrawer
                     string compareStringValue = CompareValue?.ToString().ToUpper() ?? "NULL";
                     if (isBoolMatch && compareStringValue == "FALSE") isBoolMatch = false;
 
-                    string conditionPropertyStringValue = Utils.AsStringValue(conditionProperty).ToUpper();
+                    string conditionPropertyStringValue = EditorUtils.AsStringValue(conditionProperty).ToUpper();
                     bool objectMatch = compareStringValue == conditionPropertyStringValue;
 
                     if (!isBoolMatch && !objectMatch)
