@@ -23,4 +23,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.ApplyGrabDamages, EAnimationAttackName.Grab);
     }
+
+    public void ProjectileLaunch()
+    {
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.ProjectileLaunch, true);
+    }
 }
