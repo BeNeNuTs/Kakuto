@@ -16,6 +16,14 @@
     JumpHK,
 
     Grab,
+
+    SpecialStand1,
+    SpecialStand2,
+    SpecialStand3,
+    SpecialStand4,
+    SpecialStand5,
+    SpecialStand6,
+    SpecialStand7,
 }
 
 public enum EAttackType

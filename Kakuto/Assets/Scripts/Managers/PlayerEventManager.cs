@@ -26,6 +26,8 @@ public enum EPlayerEvent
     GrabBlocked,
     EndOfGrab,
 
+    ProjectileLaunch,
+
     // For enemy
     Hit,
     GrabTry,

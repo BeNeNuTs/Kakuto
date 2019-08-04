@@ -31,5 +31,6 @@ public abstract class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance) { return ""; }
 
+    public GameObject GetOwner() { return m_Owner; }
     public PlayerAttack GetAttack() { return m_Attack; }
 }

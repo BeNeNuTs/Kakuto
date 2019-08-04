@@ -42,7 +42,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 #if UNITY_EDITOR
         if (m_GrabHook == null)
         {
-            Debug.LogError("GrabHook can't be found on " + m_Owner);
+            Debug.LogError(K_GRAB_HOOK + " can't be found on " + m_Owner);
         }
 #endif
     }
