@@ -160,6 +160,7 @@ public class CharacterController2D : MonoBehaviour
 
     public void PushBack(float pushForce)
     {
+        StopMovement();
         m_Rigidbody2D.AddForce(new Vector2((m_FacingRight) ? -pushForce : pushForce, 0f));
     }
 
