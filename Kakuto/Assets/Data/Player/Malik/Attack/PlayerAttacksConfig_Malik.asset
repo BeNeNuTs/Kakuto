@@ -61,6 +61,30 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: fc9fad10039d39e4782010ef233a0b36, type: 2}
+  - m_Name: Hadoground
+    m_Description: 
+    m_AnimationAttackName: 13
+    m_NeededStance: 0
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - standHP + standLK
+    - standLK + standHP
+    m_ComputedInputStringList:
+    - XB
+    - BX
+    m_BlockAttack: 1
+    m_BlockMovement: 1
+    m_Damage: 20
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+    m_AttackConfig: {fileID: 11400000, guid: 952cace13654ca744b72226275a25599, type: 2}
   - m_Name: standHP
     m_Description: 
     m_AnimationAttackName: 1
@@ -325,29 +349,5 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: 0317bd87846f59c49a32b5308f49c45f, type: 2}
-  - m_Name: Hadoground
-    m_Description: 
-    m_AnimationAttackName: 13
-    m_NeededStance: 0
-    m_HasCondition: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - standHP + standLK
-    - standLK + standHP
-    m_ComputedInputStringList:
-    - XB
-    - BX
-    m_BlockAttack: 1
-    m_BlockMovement: 1
-    m_Damage: 20
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleAmount: 0
-    m_TimeScaleDuration: 0
-    m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeAmount: 0
-    m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 952cace13654ca744b72226275a25599, type: 2}
   m_ComputeInputs: 0
   m_SortAttackList: 0

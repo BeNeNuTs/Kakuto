@@ -70,6 +70,15 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             m_AttacksConfig.Shutdown();
         }
+
+        foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
+        {
+            if (attackLogic != null)
+            {
+                attackLogic.OnShutdown();
+            }
+        }
+        m_AttackLogics.Clear();
     }
 
     void UnregisterListeners()
@@ -163,7 +172,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
             {
-                if (CheckAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
+                if (EvaluateAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
                 {
                     TriggerAttack(attackLogic);
                     break;
@@ -172,26 +181,9 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    bool CheckAttackConditions(PlayerBaseAttackLogic attackLogic)
+    bool EvaluateAttackConditions(PlayerBaseAttackLogic attackLogic)
     {
-        PlayerAttack attackToCheck = attackLogic.GetAttack();
-
-        bool conditionIsValid = true;
-
-        if (m_MovementComponent != null)
-        {
-            conditionIsValid &= (attackToCheck.m_NeededStance == m_MovementComponent.GetCurrentStance());
-        }
-
-        if (attackToCheck.m_HasCondition)
-        {
-            if (attackToCheck.m_HasAttackRequirement)
-            {
-                conditionIsValid &= (m_CurrentAttackLogic != null && m_CurrentAttackLogic.GetAttack().m_Name == attackToCheck.m_AttackRequired);
-            }
-        }
-
-        return conditionIsValid;
+        return attackLogic.EvaluateConditions(m_CurrentAttackLogic);
     }
 
     bool CheckAttackInputs(PlayerBaseAttackLogic attackLogic)

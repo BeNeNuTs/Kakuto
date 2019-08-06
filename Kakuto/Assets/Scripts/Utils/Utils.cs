@@ -3,6 +3,12 @@ using UnityEditor;
 
 public static class Utils
 {
+    public static bool IsVisibleFrom(this Renderer renderer, Camera camera)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
+        return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
+    }
+
     public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
     {
         T[] components = Object.FindObjectsOfType<T>();
@@ -44,14 +50,19 @@ public static class Utils
 
     public static string GetEnemyTag(GameObject gameObject)
     {
-        switch (gameObject.tag)
+        return GetEnemyTag(gameObject.tag);
+    }
+
+    public static string GetEnemyTag(string tag)
+    {
+        switch (tag)
         {
             case "Player1":
                 return "Player2";
             case "Player2":
                 return "Player1";
             default:
-                Debug.LogError("Can't find enemy from tag : " + gameObject.tag);
+                Debug.LogError("Can't find enemy from tag : " + tag);
                 return null;
         }
     }
