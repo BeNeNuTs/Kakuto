@@ -103,9 +103,11 @@ public static class GamePadManager
             }
         }
 
+        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
+
         for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
         {
-            if (Input.GetKeyDown("joystick " + playerIndex + " button " + i))
+            if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
             {
                 inputString += ConvertGamePadButtonAsString(i);
             }
@@ -149,10 +151,12 @@ public static class GamePadManager
 
     private static void UpdateHorizontal(int playerIndex)
     {
-        float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + playerIndex);
+        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
+
+        float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + joystickNum);
         if (horizontalRawAxis == 0)
         {
-            horizontalRawAxis = Input.GetAxisRaw("DpadX" + playerIndex);
+            horizontalRawAxis = Input.GetAxisRaw("DpadX" + joystickNum);
         }
 
         if (horizontalRawAxis > 0 && playerGamePads[playerIndex].lastXAxis <= 0)
@@ -176,10 +180,12 @@ public static class GamePadManager
 
     private static void UpdateVertical(int playerIndex)
     {
-        float verticalRawAxis = Input.GetAxisRaw("Vertical" + playerIndex);
+        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
+
+        float verticalRawAxis = Input.GetAxisRaw("Vertical" + joystickNum);
         if (verticalRawAxis == 0)
         {
-            verticalRawAxis = Input.GetAxisRaw("DpadY" + playerIndex);
+            verticalRawAxis = Input.GetAxisRaw("DpadY" + joystickNum);
         }
 
         if (verticalRawAxis > 0 && playerGamePads[playerIndex].lastYAxis <= 0)
