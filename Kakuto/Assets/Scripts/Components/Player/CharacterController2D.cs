@@ -11,9 +11,10 @@ public class CharacterController2D : MonoBehaviour
 
     static readonly float k_TimeBetweenJumpsTakeOff = .5f;      // Time between jumps take off
 
-    private bool m_Grounded;                                   // Whether or not the player is grounded.
+    private bool m_Grounded;                                    // Whether or not the player is grounded.
     private float m_LastJumpTakeOffTimeStamp = 0f;              // Last time character jumps take off
     private float m_LastJumpLandingTimeStamp = 0f;              // Last time character jumps landing
+    private bool m_CharacterIsJumping = false;                  // True when the AddForce of the jump is added, until jumpLanding event
 
     private Rigidbody2D m_Rigidbody2D;
     private Vector2 m_Velocity = Vector2.zero;
@@ -66,6 +67,7 @@ public class CharacterController2D : MonoBehaviour
                         if (!wasGrounded)
                         {
                             m_LastJumpLandingTimeStamp = Time.time;
+                            m_CharacterIsJumping = false;
                             OnJumpEvent.Invoke(false);
                         }
                         break;
@@ -84,7 +86,7 @@ public class CharacterController2D : MonoBehaviour
     public void Move(float move, bool crouch, bool jump)
     {
         //only control the player if grounded or airControl is turned on
-        if (m_Grounded || m_ControllerConfig.m_AirControl)
+        if ((m_Grounded && !m_CharacterIsJumping) || m_ControllerConfig.m_AirControl)
         {
             // If crouching
             if (crouch)
@@ -106,7 +108,7 @@ public class CharacterController2D : MonoBehaviour
                     OnCrouchEvent.Invoke(false);
                 }
             }
-
+            
             // Move the character by finding the target velocity
             Vector2 targetVelocity = new Vector2(move * m_ControllerConfig.m_WalkSpeed * 10.0f, m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
@@ -130,11 +132,43 @@ public class CharacterController2D : MonoBehaviour
             if(currentTime > m_LastJumpTakeOffTimeStamp + k_TimeBetweenJumpsTakeOff &&
                currentTime > m_LastJumpLandingTimeStamp + m_ControllerConfig.m_TimeBetweenJumps)
             {
-                // Add a vertical force to the player.
-                m_Grounded = false;
+                // Add a force to the player according to his direction.
                 m_LastJumpTakeOffTimeStamp = Time.time;
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_ControllerConfig.m_JumpForce));
+
+                StopMovement();
+
+                GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
+                float jumpAngleInRadian = jumpAngleInDegree * Mathf.Deg2Rad;
+                Vector2 jumpDirection = new Vector2(Mathf.Sin(jumpAngleInRadian), Mathf.Cos(jumpAngleInRadian));
+                Vector2 jumpForceDirection = jumpDirection.normalized * jumpForce;
+                m_Rigidbody2D.AddForce(jumpForceDirection);
+
+                m_CharacterIsJumping = true;
             }
+        }
+    }
+
+    private void GetJumpAngleAndForce(float move, out float jumpAngleInDegree, out float jumpForce)
+    {
+        // If the input is moving the player right
+        if (move > 0)
+        {
+            //and the player is facing right...
+            jumpAngleInDegree = (m_FacingRight) ? m_ControllerConfig.m_JumpForwardAngle : m_ControllerConfig.m_JumpBackwardAngle;
+            jumpForce = (m_FacingRight) ? m_ControllerConfig.m_JumpForwardForce : m_ControllerConfig.m_JumpBackwardForce;
+        }
+        // Otherwise if the input is moving the player left
+        else if (move < 0)
+        {
+            //and the player is facing right...
+            jumpAngleInDegree = (m_FacingRight) ? m_ControllerConfig.m_JumpBackwardAngle : m_ControllerConfig.m_JumpForwardAngle;
+            jumpForce = (m_FacingRight) ? m_ControllerConfig.m_JumpBackwardForce : m_ControllerConfig.m_JumpForwardForce;
+        }
+        // If we don't move
+        else
+        {
+            jumpAngleInDegree = 0f;
+            jumpForce = m_ControllerConfig.m_JumpOnPlaceForce;
         }
     }
 

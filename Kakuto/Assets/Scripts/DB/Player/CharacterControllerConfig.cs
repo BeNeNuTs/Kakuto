@@ -7,8 +7,20 @@ public class CharacterControllerConfig : ScriptableObject {
     [Tooltip("The fastest the player can travel in the x axis.")]
     public float m_WalkSpeed = 10f;
 
-    [Tooltip("Amount of force added when the player jumps.")]
-    public float m_JumpForce = 400f;
+    [Tooltip("Amount of force added when the player jumps on place.")]
+    public float m_JumpOnPlaceForce = 500f;
+
+    [Tooltip("Amount of force added when the player jumps backward.")]
+    public float m_JumpBackwardForce = 500f;
+
+    [Tooltip("Angle of the jump when player jump backward")]
+    public float m_JumpBackwardAngle = -10f;
+
+    [Tooltip("Amount of force added when the player jumps forward.")]
+    public float m_JumpForwardForce = 500f;
+
+    [Tooltip("Angle of the jump when player jump forward")]
+    public float m_JumpForwardAngle = 10f;
 
     [Tooltip("Time between 2 jumps (in sec).")]
     public float m_TimeBetweenJumps = .1f;
