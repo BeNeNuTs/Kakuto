@@ -138,9 +138,7 @@ public class CharacterController2D : MonoBehaviour
                 StopMovement();
 
                 GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
-                float jumpAngleInRadian = jumpAngleInDegree * Mathf.Deg2Rad;
-                Vector2 jumpDirection = new Vector2(Mathf.Sin(jumpAngleInRadian), Mathf.Cos(jumpAngleInRadian));
-                Vector2 jumpForceDirection = jumpDirection.normalized * jumpForce;
+                Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
                 m_Rigidbody2D.AddForce(jumpForceDirection);
 
                 m_CharacterIsJumping = true;
@@ -172,6 +170,17 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
+    private Vector2 GetJumpForceDirection(float jumpAngleInDegree, float jumpForce)
+    {
+        float jumpAngleInRadian = jumpAngleInDegree * Mathf.Deg2Rad;
+        Vector2 jumpDirection = new Vector2(Mathf.Sin(jumpAngleInRadian), Mathf.Cos(jumpAngleInRadian));
+        if (!m_FacingRight)
+        {
+            //Flip direction on the X axis as jumpAngle are calibrate for a P1 character (facing right by default)
+            jumpDirection.x *= -1f;
+        }
+        return jumpDirection.normalized * jumpForce;
+    }
 
     private void OnDirectionChanged()
     {

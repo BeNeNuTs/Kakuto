@@ -5,6 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController2D))]
 public class PlayerMovementComponent : MonoBehaviour
 {
+    enum EBlockedReason
+    {
+        None,
+        PlayAttack,
+        Stun
+    }
+
     private CharacterController2D m_Controller;
     private Animator m_Animator;
 
@@ -20,6 +27,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_IsCrouching = false;
 
     private bool m_IsMovementBlocked = false;
+    private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
 
     [Header("Debug")]
     [Space]
@@ -64,39 +72,41 @@ public class PlayerMovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_IsMovementBlocked)
-        {
-            return;
-        }
-
         UpdatePlayerSide();
 
-        if(!m_DEBUG_IsStatic)
+        if (!m_IsMovementBlocked)
         {
-            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
-            m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
+            if (!m_DEBUG_IsStatic)
+            {
+                m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
+                m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
 
-            m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
-            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+                m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
+                m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+            }
         }
     }
 
     void UpdatePlayerSide()
     {
-        if(m_IsLeftSide)
+        // If movement is not blocked or blocked by attack we can update player side
+        if(!m_IsMovementBlocked || (m_IsMovementBlocked && m_MovementBlockedReason == EBlockedReason.PlayAttack))
         {
-            if(m_Enemy.position.x < transform.position.x)
+            if (m_IsLeftSide)
             {
-                OnSideChanged();
+                if (m_Enemy.position.x < transform.position.x)
+                {
+                    OnSideChanged();
+                }
             }
-        }
-        else
-        {
-            if (m_Enemy.position.x > transform.position.x)
+            else
             {
-                OnSideChanged();
+                if (m_Enemy.position.x > transform.position.x)
+                {
+                    OnSideChanged();
+                }
             }
-        }
+        }   
     }
 
     void OnSideChanged()
@@ -194,8 +204,9 @@ public class PlayerMovementComponent : MonoBehaviour
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
     {
         m_IsMovementBlocked = isMovementBlockedByAttack;
+        m_MovementBlockedReason = EBlockedReason.PlayAttack;
 
-        if(!IsJumping())
+        if (!IsJumping())
         {
             m_Controller.StopMovement();
         }
@@ -206,6 +217,7 @@ public class PlayerMovementComponent : MonoBehaviour
         if(m_IsMovementBlocked)
         {
             m_IsMovementBlocked = false;
+            m_MovementBlockedReason = EBlockedReason.None;
         }
     }
 
@@ -217,15 +229,18 @@ public class PlayerMovementComponent : MonoBehaviour
             return;
         }
         m_IsMovementBlocked = false;
+        m_MovementBlockedReason = EBlockedReason.None;
     }
 
     void OnStunBegin(float stunTimeStamp)
     {
         m_IsMovementBlocked = true;
+        m_MovementBlockedReason = EBlockedReason.Stun;
     }
 
     void OnStunEnd(float stunTimeStamp)
     {
         m_IsMovementBlocked = false;
+        m_MovementBlockedReason = EBlockedReason.None;
     }
 }
