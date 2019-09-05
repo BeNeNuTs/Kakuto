@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHitBoxHandler : MonoBehaviour {
-
+public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
+{
     PlayerAttackComponent m_PlayerAttackComponent;
 
     private void Awake()

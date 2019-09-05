@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGrabBoxHandler : MonoBehaviour {
+public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
+{
 
     PlayerAttackComponent m_PlayerAttackComponent;
 
