@@ -10,7 +10,7 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
     [ConditionalField(true, "d_OverrideGizmo")]
     public Color d_GizmoColor = Color.red;
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (d_OverrideGizmo)
         {
@@ -20,6 +20,7 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
                 if (boxCollider.enabled)
                 {
                     Vector3 offset = boxCollider.offset;
+                    offset.x *= transform.root.localScale.x;
                     Vector3 size = boxCollider.size;
 
                     Gizmos.color = d_GizmoColor;
