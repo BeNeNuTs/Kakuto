@@ -20,6 +20,7 @@ public enum EPlayerEvent
     StunBegin,
     StunEnd,
     DamageTaken,
+    OnDeath,
 
     GrabTouched,
     ApplyGrabDamages,

@@ -278,28 +278,6 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
-    // DEBUG ///////////////////////////////////
-    private void DEBUG_StartBlockingAttacks()
-    {
-        m_DEBUG_BlockingAttacksTimer = Time.unscaledTime + m_DEBUG_BlockingAttacksDuration;
-        m_DEBUG_IsBlockingAllAttacks = true;
-
-        m_Anim.Play("BlockStand_In");
-
-        Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_DEBUG_BlockingAttacksDuration + " seconds");
-    }
-
-    private void DEBUG_StopBlockingAttacks()
-    {
-        m_DEBUG_BlockingAttacksTimer = 0.0f;
-        m_DEBUG_IsBlockingAllAttacks = false;
-
-        m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
-
-        Debug.Log("Player : " + gameObject.name + " doesn't block attacks anymore");
-    }
-    ////////////////////////////////////////////
-
     private void PlayDamageTakenAnim(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
     {
         if(isAttackBlocked)
@@ -329,9 +307,30 @@ public class PlayerHealthComponent : MonoBehaviour
     private void OnDeath()
     {
         m_Anim.SetTrigger("OnDeath");
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.OnDeath, true);
     }
 
     // DEBUG /////////////////////////////////////
+    private void DEBUG_StartBlockingAttacks()
+    {
+        m_DEBUG_BlockingAttacksTimer = Time.unscaledTime + m_DEBUG_BlockingAttacksDuration;
+        m_DEBUG_IsBlockingAllAttacks = true;
+
+        m_Anim.Play("BlockStand_In");
+
+        Debug.Log("Player : " + gameObject.name + " will block all attacks during " + m_DEBUG_BlockingAttacksDuration + " seconds");
+    }
+
+    private void DEBUG_StopBlockingAttacks()
+    {
+        m_DEBUG_BlockingAttacksTimer = 0.0f;
+        m_DEBUG_IsBlockingAllAttacks = false;
+
+        m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
+
+        Debug.Log("Player : " + gameObject.name + " doesn't block attacks anymore");
+    }
+
     private void DEBUG_DisplayDamageTakenUI(uint damage)
     {
         //DamageTakenUIInstance will be automatically destroyed
