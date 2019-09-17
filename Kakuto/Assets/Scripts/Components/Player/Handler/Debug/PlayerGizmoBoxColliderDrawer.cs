@@ -23,8 +23,9 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
                     offset.x *= transform.root.localScale.x;
                     Vector3 size = boxCollider.size;
 
+                    Gizmos.matrix = transform.localToWorldMatrix;
                     Gizmos.color = d_GizmoColor;
-                    Gizmos.DrawWireCube(transform.position + offset, size);
+                    Gizmos.DrawWireCube(offset, size);
                 }
             }
             else
