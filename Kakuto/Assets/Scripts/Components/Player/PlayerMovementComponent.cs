@@ -32,7 +32,9 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_IsCrouching = false;
 
     private bool m_IsMovementBlocked = false;
+#pragma warning disable 414
     private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
+#pragma warning restore 414
 
     [Header("Debug")]
     [Space]
