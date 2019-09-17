@@ -21,7 +21,11 @@ public class PlayerMovementComponent : MonoBehaviour
     private int m_PlayerIndex;
 
     private float m_HorizontalMoveInput = 0f;
+
+    private bool m_WantToJump = false;
     private bool m_JumpInput = false;
+    private uint m_FramesToWaitBeforeJumpingCount = 0;
+
     private bool m_CrouchInput = false;
 
     private bool m_IsJumping = false;
@@ -83,8 +87,30 @@ public class PlayerMovementComponent : MonoBehaviour
                 m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
                 m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
 
-                m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
+                if(!m_WantToJump)
+                {
+                    m_JumpInput = false;
+                    if(InputManager.GetJumpInput(m_PlayerIndex))
+                    {
+                        m_WantToJump = true;
+                        m_FramesToWaitBeforeJumpingCount = MovementConfig.Instance.m_FramesToWaitBeforeJumping;
+                    }
+                }
+
                 m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if(m_WantToJump && m_FramesToWaitBeforeJumpingCount > 0)
+        {
+            m_FramesToWaitBeforeJumpingCount--;
+            if(m_FramesToWaitBeforeJumpingCount == 0)
+            {
+                m_JumpInput = true;
+                m_WantToJump = false;
             }
         }
     }
