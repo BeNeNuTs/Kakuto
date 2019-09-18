@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class PlayerHealthComponent : MonoBehaviour
 {
+    struct StunInfo
+    {
+        public bool m_IsStunned;
+        public bool m_StunnedWhileJumping;
+        public bool m_StunnedByHitKO;
+        public float m_StunTimer;
+    }
+
     public PlayerHealthConfig m_HealthConfig;
 
     private uint m_HP;
@@ -12,9 +20,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
-    private bool m_IsStunned = false;
-    private bool m_StunnedWhileJumping = false;
-    private float m_StunTimer = 0.0f;
+    private StunInfo m_StunInfo;
 
     [Header("Debug")]
     [Space]
@@ -76,9 +82,9 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void UpdateStun()
     {
-        if (m_IsStunned)
+        if (m_StunInfo.m_IsStunned)
         {
-            if (Time.unscaledTime > m_StunTimer)
+            if (Time.unscaledTime > m_StunInfo.m_StunTimer)
             {
                 StopStun();
             }
@@ -224,7 +230,7 @@ public class PlayerHealthComponent : MonoBehaviour
             float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
             if (stunDuration > 0)
             {
-                StartStun(stunDuration);
+                StartStun(stunDuration, attackLogic.IsHitKO());
             }
         }
 
@@ -248,14 +254,15 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
-    private void StartStun(float stunDuration)
+    private void StartStun(float stunDuration, bool isHitKO)
     {
-        m_StunTimer = Time.unscaledTime + stunDuration;
-        if(m_IsStunned == false)
+        m_StunInfo.m_StunTimer = Time.unscaledTime + stunDuration;
+        if(m_StunInfo.m_IsStunned == false)
         {
-            m_IsStunned = true;
-            m_StunnedWhileJumping = m_MovementComponent.IsJumping();
-            Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunTimer);
+            m_StunInfo.m_IsStunned = true;
+            m_StunInfo.m_StunnedWhileJumping = m_MovementComponent.IsJumping();
+            m_StunInfo.m_StunnedByHitKO = isHitKO;
+            Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunInfo.m_StunTimer);
 
             Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
         }
@@ -263,10 +270,11 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void StopStun()
     {
-        m_IsStunned = false;
-        m_StunnedWhileJumping = false;
-        m_StunTimer = 0;
-        Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
+        m_StunInfo.m_IsStunned = false;
+        m_StunInfo.m_StunnedWhileJumping = false;
+        m_StunInfo.m_StunnedByHitKO = false;
+        m_StunInfo.m_StunTimer = 0;
+        Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunInfo.m_StunTimer);
 
         // DEBUG ///////////////////////////////////
         if (m_DEBUG_IsBlockingAllAttacksAfterHitStun)
@@ -283,8 +291,8 @@ public class PlayerHealthComponent : MonoBehaviour
 
     public void OnJumping(bool isJumping)
     {
-        // If we're just landing and was stunned while jumping (took a damage and played a hit animation)
-        if(!isJumping && m_StunnedWhileJumping)
+        // If we're just landing and was stunned while jumping AND not stunned by hit KO (took a damage and played a hit animation)
+        if(!isJumping && m_StunInfo.m_StunnedWhileJumping && !m_StunInfo.m_StunnedByHitKO)
         {
             // Stop stun on landing
             StopStun();

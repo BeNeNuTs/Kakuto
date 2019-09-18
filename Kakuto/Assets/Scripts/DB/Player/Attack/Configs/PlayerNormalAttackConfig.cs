@@ -12,7 +12,10 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
     [Range(0, 100)]
     public uint m_CheapDamage = 2;
     /////////////////////////////////////////////////////
+    public bool m_HitKO = false;
+    [ConditionalField(false, "m_HitKO")]
     public EHitHeight m_HitHeight = EHitHeight.Low;
+    [ConditionalField(false, "m_HitKO")]
     public EHitStrength m_HitStrength = EHitStrength.Weak;
     /////////////////////////////////////////////////////
     public float m_HitStun = 2.0f;
