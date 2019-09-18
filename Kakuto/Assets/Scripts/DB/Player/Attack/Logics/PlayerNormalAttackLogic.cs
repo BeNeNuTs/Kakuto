@@ -34,6 +34,8 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return (isAttackBlocked) ? m_Config.m_CheapDamage : m_Attack.m_Damage;
     }
 
+    public override bool IsHitKO() { return m_Config.m_HitKO; }
+
     public override bool CanStun() { return true; }
     public override float GetStunDuration(bool isAttackBlocked)
     {
@@ -68,19 +70,26 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
         hitAnimName += playerStance.ToString();
 
-        switch (playerStance)
+        if(IsHitKO())
         {
-            case EPlayerStance.Stand:
-                hitAnimName += m_Config.m_HitHeight.ToString();
-                hitAnimName += m_Config.m_HitStrength.ToString();
-                break;
-            case EPlayerStance.Crouch:
-                hitAnimName += "Low"; // Crouch hit is necessarily low
-                hitAnimName += m_Config.m_HitStrength.ToString();
-                break;
-            case EPlayerStance.Jump:
-                // Jump hit doesn't need hit height / strength
-                break;
+            hitAnimName += "KO";
+        }
+        else
+        {
+            switch (playerStance)
+            {
+                case EPlayerStance.Stand:
+                    hitAnimName += m_Config.m_HitHeight.ToString();
+                    hitAnimName += m_Config.m_HitStrength.ToString();
+                    break;
+                case EPlayerStance.Crouch:
+                    hitAnimName += "Low"; // Crouch hit is necessarily low
+                    hitAnimName += m_Config.m_HitStrength.ToString();
+                    break;
+                case EPlayerStance.Jump:
+                    // Jump hit doesn't need hit height / strength
+                    break;
+            }
         }
 
         hitAnimName += "_In"; //Play the In animation

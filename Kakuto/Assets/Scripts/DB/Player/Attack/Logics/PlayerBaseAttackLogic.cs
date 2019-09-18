@@ -46,6 +46,8 @@ public abstract class PlayerBaseAttackLogic
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
     public virtual uint GetHitDamage(bool isAttackBlocked) { return m_Attack.m_Damage; }
 
+    public virtual bool IsHitKO() { return false; }
+
     public virtual bool CanStun() { return false; }
     public virtual float GetStunDuration(bool isAttackBlocked) { return 0.0f; }
 
