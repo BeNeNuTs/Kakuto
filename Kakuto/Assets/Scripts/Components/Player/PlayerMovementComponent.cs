@@ -14,7 +14,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private CharacterController2D m_Controller;
     private Animator m_Animator;
-    private PlayerAttackComponent m_PlayerAttackComponent;
+    private PlayerAttackComponent m_AttackComponent;
 
     private Transform m_Enemy;
     private bool m_IsLeftSide;
@@ -45,7 +45,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         m_Controller = GetComponent<CharacterController2D>();
         m_Animator = GetComponentInChildren<Animator>();
-        m_PlayerAttackComponent = GetComponent<PlayerAttackComponent>();
+        m_AttackComponent = GetComponent<PlayerAttackComponent>();
 
         m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
         m_PlayerIndex = gameObject.CompareTag("Player1") ? 0 : 1;
@@ -120,7 +120,7 @@ public class PlayerMovementComponent : MonoBehaviour
     void UpdatePlayerSide()
     {
         // If movement is not blocked AND we're not jumping AND we're not attacking => Then we can update player side
-        if(!m_IsMovementBlocked && !IsJumping() && m_PlayerAttackComponent.GetCurrentAttack() == null)
+        if(!m_IsMovementBlocked && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
         {
             if (m_IsLeftSide)
             {

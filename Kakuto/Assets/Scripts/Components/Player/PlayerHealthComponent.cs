@@ -13,6 +13,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private Animator m_Anim;
 
     private bool m_IsStunned = false;
+    private bool m_StunnedWhileJumping = false;
     private float m_StunTimer = 0.0f;
 
     [Header("Debug")]
@@ -253,6 +254,7 @@ public class PlayerHealthComponent : MonoBehaviour
         if(m_IsStunned == false)
         {
             m_IsStunned = true;
+            m_StunnedWhileJumping = m_MovementComponent.IsJumping();
             Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunTimer);
 
             Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
@@ -262,6 +264,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private void StopStun()
     {
         m_IsStunned = false;
+        m_StunnedWhileJumping = false;
         m_StunTimer = 0;
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunTimer);
 
@@ -275,6 +278,16 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             m_Anim.SetTrigger("OnStunEnd");
             Debug.Log("Player : " + gameObject.name + " is no more stunned");
+        }
+    }
+
+    public void OnJumping(bool isJumping)
+    {
+        // If we're just landing and was stunned while jumping (took a damage and played a hit animation)
+        if(!isJumping && m_StunnedWhileJumping)
+        {
+            // Stop stun on landing
+            StopStun();
         }
     }
 
