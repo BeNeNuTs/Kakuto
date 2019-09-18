@@ -31,6 +31,8 @@ public enum EPlayerEvent
     ProjectileSpawned,
     ProjectileDestroyed,
 
+    StopMovement,
+
     // For enemy
     Hit,
     GrabTry,
