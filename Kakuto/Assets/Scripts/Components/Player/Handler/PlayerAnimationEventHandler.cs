@@ -28,4 +28,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerProjectile, true);
     }
+
+    public void StopMovement()
+    {
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.StopMovement, true);
+    }
 }
