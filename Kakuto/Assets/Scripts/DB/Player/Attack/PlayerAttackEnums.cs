@@ -27,6 +27,8 @@
     SpecialStand5,
     SpecialStand6,
     SpecialStand7,
+
+    // Add enum at the end to avoid shifting all enum data
 }
 
 public enum EAttackType
