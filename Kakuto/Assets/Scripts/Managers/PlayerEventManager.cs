@@ -9,6 +9,12 @@ public enum EPlayer
     Player2
 }
 
+public static class Player
+{
+    public const string Player1 = "Player1";
+    public const string Player2 = "Player2";
+}
+
 public enum EPlayerEvent
 {
     // For self

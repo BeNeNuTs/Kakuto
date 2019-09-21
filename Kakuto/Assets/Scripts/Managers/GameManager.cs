@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+
     [Tooltip("Time to wait in seconds before restarting level after a player death")]
     public float m_TimeToWaitBetweenRounds = 5f;
 
@@ -20,14 +21,14 @@ public class GameManager : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<bool>("Player1").StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<bool>("Player2").StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager<bool>(Player.Player1).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager<bool>(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<bool>("Player1").StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<bool>("Player2").StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager<bool>(Player.Player1).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager<bool>(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
     private void OnPlayerDeath(bool dummyBool)

@@ -36,7 +36,7 @@ public class CharacterController2D : MonoBehaviour
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
-        m_FacingRight = gameObject.CompareTag("Player1");
+        m_FacingRight = gameObject.CompareTag(Player.Player1);
         m_MovingRight = m_FacingRight;
 
         if (OnJumpEvent == null)

@@ -28,6 +28,11 @@ public static class Utils
         return GetPlayerEventManager<T>(gameObject.tag);
     }
 
+    public static PlayerEventManager<T> GetPlayerEventManager<T>(EPlayer player)
+    {
+        return GetPlayerEventManager<T>(player.ToString());
+    }
+
     public static PlayerEventManager<T> GetPlayerEventManager<T>(string tag)
     {
         switch (tag)

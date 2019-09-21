@@ -9,20 +9,14 @@ public class HealthBarComponent : MonoBehaviour
     public Image m_HealthBarBackground;
     public Image m_HealthBar;
 
-    private PlayerHealthComponent m_PlayerHealthComponent;
-
     private void Awake()
     {
-        m_PlayerHealthComponent = Utils.FindComponentMatchingWithTag<PlayerHealthComponent>(m_Target.ToString());
-        Utils.GetPlayerEventManager<float>(m_PlayerHealthComponent.gameObject).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager<float>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     private void OnDestroy()
     {
-        if (m_PlayerHealthComponent)
-        {
-            Utils.GetPlayerEventManager<float>(m_PlayerHealthComponent.gameObject).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
-        }
+        Utils.GetPlayerEventManager<float>(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     private void OnDamageTaken(float healthRatio)

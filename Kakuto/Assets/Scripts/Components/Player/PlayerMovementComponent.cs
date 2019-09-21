@@ -48,7 +48,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_AttackComponent = GetComponent<PlayerAttackComponent>();
 
         m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
-        m_PlayerIndex = gameObject.CompareTag("Player1") ? 0 : 1;
+        m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
         m_IsLeftSide = (m_PlayerIndex == 0) ? true : false;
 
         RegisterListeners();
