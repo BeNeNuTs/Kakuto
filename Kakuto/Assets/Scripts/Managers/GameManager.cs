@@ -1,43 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
+    private List<SubGameManagerBase> m_SubManagers;
 
-    [Tooltip("Time to wait in seconds before restarting level after a player death")]
-    public float m_TimeToWaitBetweenRounds = 5f;
-
-    private void Awake()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void OnBeforeSceneLoadRuntimeMethod()
     {
-        RegisterListeners();
+        GameManager gameManager = Create();
+        gameManager.CreateSubManagers();
+        gameManager.InitSubManagers();
     }
 
-    void OnDestroy()
+    protected override void OnShutdown()
     {
-        UnregisterListeners();
+        base.OnShutdown();
+        ShutdownSubManagers();
+        DeleteSubManagers();
     }
 
-    void RegisterListeners()
+    private void CreateSubManagers()
     {
-        Utils.GetPlayerEventManager<bool>(Player.Player1).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<bool>(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        m_SubManagers = new List<SubGameManagerBase>
+        {
+            new RoundSubGameManager()
+        };
     }
 
-    void UnregisterListeners()
+    private void DeleteSubManagers()
     {
-        Utils.GetPlayerEventManager<bool>(Player.Player1).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<bool>(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        m_SubManagers.Clear();
     }
 
-    private void OnPlayerDeath(bool dummyBool)
+    private void InitSubManagers()
     {
-        Invoke("RestartLevel", m_TimeToWaitBetweenRounds);
+        foreach(SubGameManagerBase subManager in m_SubManagers)
+        {
+            subManager.Init();
+        }
     }
 
-    private void RestartLevel()
+    private void ShutdownSubManagers()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        foreach (SubGameManagerBase subManager in m_SubManagers)
+        {
+            subManager.Shutdown();
+        }
     }
 }
