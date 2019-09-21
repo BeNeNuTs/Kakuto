@@ -54,13 +54,13 @@ public class ProjectileComponent : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject)
+        if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
         {
             if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
                 if (Time.time > m_LastHitCountTimeStamp + m_Config.m_ProjectileDelayBetweenHits)
                 {
-                    Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_Logic);
+                    Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_PlayerTag).TriggerEvent(EPlayerEvent.Hit, m_Logic);
                     m_HitCount++;
                     m_LastHitCountTimeStamp = Time.time;
                     if (m_HitCount >= m_Config.m_ProjectileHitCount)
@@ -69,6 +69,10 @@ public class ProjectileComponent : MonoBehaviour
                     }
                 }
             }
+        }
+        else if(collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
+        {
+            DestroyProjectile();
         }
     }
 

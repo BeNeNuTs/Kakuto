@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackType: 1
   m_CheapDamage: 5
+  m_HitKO: 0
   m_HitHeight: 1
   m_HitStrength: 1
-  m_HitStun: 2
-  m_BlockStun: 1
+  m_HitStun: 0.5
+  m_BlockStun: 0.3
   m_HitPushBack: 60
   m_BlockPushBack: 30
   m_ProjectilePrefab: {fileID: 587281410810692863, guid: afafe82ac278e164ca983c5bc48ce084,

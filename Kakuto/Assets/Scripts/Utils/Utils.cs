@@ -44,7 +44,12 @@ public static class Utils
 
     public static PlayerEventManager<T> GetEnemyEventManager<T>(GameObject gameObject)
     {
-        string enemyTag = GetEnemyTag(gameObject);
+        return GetEnemyEventManager<T>(gameObject.tag);
+    }
+
+    public static PlayerEventManager<T> GetEnemyEventManager<T>(string tag)
+    {
+        string enemyTag = GetEnemyTag(tag);
         return GetPlayerEventManager<T>(enemyTag);
     }
 
