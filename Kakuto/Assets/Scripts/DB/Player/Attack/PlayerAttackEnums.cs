@@ -17,6 +17,9 @@
 
     Grab,
 
+    DashForward,
+    DashBackward,
+
     SpecialStand1,
     SpecialStand2,
     SpecialStand3,
