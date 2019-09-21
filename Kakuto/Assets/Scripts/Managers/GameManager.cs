@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private List<SubGameManagerBase> m_SubManagers;
+    private Dictionary<ESubManager, SubGameManagerBase> m_SubManagers;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
@@ -23,9 +23,9 @@ public class GameManager : Singleton<GameManager>
 
     private void CreateSubManagers()
     {
-        m_SubManagers = new List<SubGameManagerBase>
+        m_SubManagers = new Dictionary<ESubManager, SubGameManagerBase>
         {
-            new RoundSubGameManager()
+            { ESubManager.Round, new RoundSubGameManager() }
         };
     }
 
@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
 
     private void InitSubManagers()
     {
-        foreach(SubGameManagerBase subManager in m_SubManagers)
+        foreach(SubGameManagerBase subManager in m_SubManagers.Values)
         {
             subManager.Init();
         }
@@ -44,9 +44,14 @@ public class GameManager : Singleton<GameManager>
 
     private void ShutdownSubManagers()
     {
-        foreach (SubGameManagerBase subManager in m_SubManagers)
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
         {
             subManager.Shutdown();
         }
+    }
+
+    public T GetSubManager<T>(ESubManager subManager) where T : SubGameManagerBase
+    {
+        return (T)m_SubManagers[subManager];
     }
 }

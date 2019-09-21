@@ -328,7 +328,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private void OnDeath()
     {
         m_Anim.SetTrigger("OnDeath");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.OnDeath, true);
+        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.OnDeath, gameObject.tag);
     }
 
     // DEBUG /////////////////////////////////////

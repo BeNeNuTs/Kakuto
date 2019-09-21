@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ESubManager
+{
+    Round
+}
+
 public abstract class SubGameManagerBase
 {
     private bool m_IsActive = true;
