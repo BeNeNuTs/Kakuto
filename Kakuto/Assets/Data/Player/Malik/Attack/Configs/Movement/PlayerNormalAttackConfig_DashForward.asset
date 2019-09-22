@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f4161d6acf4e424596367c949359a4f, type: 3}
   m_Name: PlayerNormalAttackConfig_DashForward
   m_EditorClassIdentifier: 
-  m_AttackType: 0
-  m_CheapDamage: 2
+  m_AttackType: 1
+  m_CheapDamage: 0
   m_HitKO: 0
   m_HitHeight: 0
   m_HitStrength: 0
-  m_HitStun: 2
-  m_BlockStun: 1
+  m_HitStun: 0
+  m_BlockStun: 0
   m_HitPushBack: 0
   m_BlockPushBack: 0
