@@ -59,6 +59,7 @@ public class PlayerMovementComponent : MonoBehaviour
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StopMovement, OnStopMovement);
 
@@ -74,6 +75,7 @@ public class PlayerMovementComponent : MonoBehaviour
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StopMovement, OnStopMovement);
 
@@ -255,6 +257,16 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             SetMovementBlocked(false, EBlockedReason.None);
         }
+    }
+
+    void BlockMovement(EAnimationAttackName attackName)
+    {
+        if (m_IsMovementBlocked)
+        {
+            Debug.LogError("Movement was already blocked");
+            return;
+        }
+        SetMovementBlocked(true, EBlockedReason.PlayAttack);
     }
 
     void UnblockMovement(EAnimationAttackName attackName)

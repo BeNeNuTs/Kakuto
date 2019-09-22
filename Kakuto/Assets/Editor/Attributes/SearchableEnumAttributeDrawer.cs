@@ -279,10 +279,13 @@ public class SearchablePopup : PopupWindowContent
     // the current skin which will be the editor skin and lets us get some
     // built-in styles.
 
+#pragma warning disable
     private static readonly GUIStyle SearchBox = "ToolbarSearchTextField";
     private static readonly GUIStyle CancelButton = "ToolbarSearchCancelButton";
     private static readonly GUIStyle DisabledCancelButton = "ToolbarSearchCancelButtonEmpty";
     private static readonly GUIStyle Selection = "SelectionRect";
+#pragma warning restore
+
 
     #endregion -- GUI Styles ----------------------------------------------
 
