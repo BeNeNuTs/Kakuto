@@ -12,12 +12,13 @@ public class ProjectileComponent : MonoBehaviour
     private PlayerProjectileAttackConfig m_Config;
     private string m_PlayerTag = "Unknown";
 
-    private Camera m_MainCamera;
     private Rigidbody2D m_Rigidbody;
     private SpriteRenderer m_SpriteRenderer;
     private uint m_HitCount = 0;
     private float m_LastHitCountTimeStamp = 0f;
     private float m_LastVisibilityCheckTimeStamp = 0f;
+
+    private OutOfBoundsSubGameManager m_OutOfBoundsSubManager;
 
     public void OnInit(PlayerProjectileAttackLogic logic, PlayerProjectileAttackConfig config)
     {
@@ -25,9 +26,10 @@ public class ProjectileComponent : MonoBehaviour
         m_Config = config;
         m_PlayerTag = logic.GetOwner().tag;
 
-        m_MainCamera = Camera.main;
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        m_OutOfBoundsSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
 
         Utils.GetPlayerEventManager<GameObject>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, gameObject);
     }
@@ -36,8 +38,7 @@ public class ProjectileComponent : MonoBehaviour
     {
         if(Time.time > m_LastVisibilityCheckTimeStamp + K_VISIBILITY_CHECK_DELAY)
         {
-            bool isVisibleFromCamera = Utils.IsVisibleFrom(m_SpriteRenderer, m_MainCamera);
-            if(!isVisibleFromCamera)
+            if(!m_OutOfBoundsSubManager.IsVisibleFromMainCamera(m_SpriteRenderer))
             {
                 DestroyProjectile();
             }

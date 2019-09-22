@@ -3,12 +3,6 @@ using UnityEditor;
 
 public static class Utils
 {
-    public static bool IsVisibleFrom(this Renderer renderer, Camera camera)
-    {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
-        return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
-    }
-
     public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
     {
         T[] components = Object.FindObjectsOfType<T>();

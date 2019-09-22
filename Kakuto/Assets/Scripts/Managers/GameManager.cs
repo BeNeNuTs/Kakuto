@@ -14,6 +14,14 @@ public class GameManager : Singleton<GameManager>
         gameManager.InitSubManagers();
     }
 
+    private void LateUpdate()
+    {
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        {
+            subManager.LateUpdate();
+        }
+    }
+
     protected override void OnShutdown()
     {
         base.OnShutdown();
@@ -25,7 +33,8 @@ public class GameManager : Singleton<GameManager>
     {
         m_SubManagers = new Dictionary<ESubManager, SubGameManagerBase>
         {
-            { ESubManager.Round, new RoundSubGameManager() }
+            { ESubManager.Round, new RoundSubGameManager() },
+            { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() }
         };
     }
 

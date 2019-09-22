@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ESubManager
 {
-    Round
+    Round,
+    OutOfBounds
 }
 
 public abstract class SubGameManagerBase
@@ -14,5 +16,6 @@ public abstract class SubGameManagerBase
     public void SetActive(bool active) { m_IsActive = active; }
 
     public virtual void Init() { }
+    public virtual void LateUpdate() { }
     public virtual void Shutdown() { }
 }
