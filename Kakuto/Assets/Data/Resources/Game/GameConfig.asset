@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7306ead35fab0444292df36f0fe3d0d9, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
+  m_RoundDuration: 60
   m_TimeToWaitBetweenRounds: 5
+  m_BoundsOffset: 55

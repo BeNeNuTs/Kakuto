@@ -34,10 +34,12 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
     public override void LateUpdate()
     {
         base.LateUpdate();
-        foreach(Transform player in m_Players)
+
+        float boundsOffset = GameConfig.Instance.m_BoundsOffset;
+        foreach (Transform player in m_Players)
         {
             Vector3 playerScreenPos = m_MainCamera.WorldToScreenPoint(player.root.position);
-            playerScreenPos.x = Mathf.Clamp(playerScreenPos.x, 0f, m_MainCamera.pixelWidth);
+            playerScreenPos.x = Mathf.Clamp(playerScreenPos.x, boundsOffset, m_MainCamera.pixelWidth - boundsOffset);
             player.root.position = m_MainCamera.ScreenToWorldPoint(playerScreenPos);
         }
     }
