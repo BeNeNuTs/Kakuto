@@ -41,8 +41,6 @@ public class PlayerAttack
 
     // Effect (damage/stun/etc..)
     [Header("Player effect")]
-    [Tooltip("Once this attack launched, player won't be able to attack anymore until UnblockAttack/EndOfAnim is called")]
-    public bool m_BlockAttack = false;
     [Tooltip("Once this attack launched, player won't be able to move anymore until UnblockMovement/EndOfAnim is called")]
     public bool m_BlockMovement = false;
 

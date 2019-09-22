@@ -56,6 +56,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockAttack, BlockAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
@@ -84,6 +85,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockAttack, BlockAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
@@ -207,7 +209,7 @@ public class PlayerAttackComponent : MonoBehaviour
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
 
-        m_IsAttackBlocked = attack.m_BlockAttack;
+        m_IsAttackBlocked = true;
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
@@ -224,7 +226,7 @@ public class PlayerAttackComponent : MonoBehaviour
         PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
         if (currentAttack.m_AnimationAttackName != attackName)
         {
-            Debug.LogError("Trying to " + methodName + " " + attackName.ToString() + " but current attack is " + currentAttack.m_AnimationAttackName.ToString());
+            Debug.LogError("Trying to " + methodName + " from " + attackName.ToString() + " but current attack is " + currentAttack.m_AnimationAttackName.ToString());
             return false;
         }
         return true;
@@ -235,13 +237,25 @@ public class PlayerAttackComponent : MonoBehaviour
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
-            if (currentAttack.m_BlockAttack)
-            {
-                m_IsAttackBlocked = false;
-            }
+            m_IsAttackBlocked = false;
 
             m_CurrentAttackLogic.OnAttackStopped();
             m_CurrentAttackLogic = null;
+        }
+    }
+
+    void BlockAttack(EAnimationAttackName attackName)
+    {
+        if (CheckIsCurrentAttack(attackName, "BlockAttack"))
+        {
+            if (m_IsAttackBlocked)
+            {
+                Debug.LogError("Attack was already blocked by " + attackName);
+                return;
+            }
+
+            ClearTriggeredInputs();
+            m_IsAttackBlocked = true;
         }
     }
 

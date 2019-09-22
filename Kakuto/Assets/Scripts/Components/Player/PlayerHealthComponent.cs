@@ -239,9 +239,12 @@ public class PlayerHealthComponent : MonoBehaviour
             TimeManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration, attack.m_TimeScaleBackToNormal);
         }
 
-        if(attack.m_UseCameraShakeEffect)
+        if (!isAttackBlocked)
         {
-            CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
+            if (attack.m_UseCameraShakeEffect)
+            {
+                CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
+            }
         }
 
         if (attackLogic.CanPushBack())

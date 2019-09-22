@@ -19,7 +19,9 @@ public enum EPlayerEvent
 {
     // For self
     AttackLaunched,
+    BlockAttack,
     UnblockAttack,
+    BlockMovement,
     UnblockMovement,
     EndOfAttack,
 

@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
+    public void BlockAttack(EAnimationAttackName attackName)
+    {
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, attackName);
+    }
+
     public void UnblockAttack(EAnimationAttackName attackName)
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, attackName);
+    }
+
+    public void BlockMovement(EAnimationAttackName attackName)
+    {
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, attackName);
     }
 
     public void UnblockMovement(EAnimationAttackName attackName)
