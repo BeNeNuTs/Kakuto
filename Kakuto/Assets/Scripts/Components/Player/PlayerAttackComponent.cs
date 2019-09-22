@@ -209,7 +209,7 @@ public class PlayerAttackComponent : MonoBehaviour
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
 
-        m_IsAttackBlocked = attack.m_BlockAttack;
+        m_IsAttackBlocked = true;
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
@@ -237,10 +237,7 @@ public class PlayerAttackComponent : MonoBehaviour
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
-            if (currentAttack.m_BlockAttack)
-            {
-                m_IsAttackBlocked = false;
-            }
+            m_IsAttackBlocked = false;
 
             m_CurrentAttackLogic.OnAttackStopped();
             m_CurrentAttackLogic = null;
