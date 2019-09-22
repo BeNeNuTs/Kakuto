@@ -49,7 +49,7 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
         m_PlayerMovementComponent = GetComponentInParent<PlayerMovementComponent>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if(CanUpdate())
         {
