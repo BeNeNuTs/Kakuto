@@ -28,7 +28,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private bool m_CrouchInput = false;
 
-    private bool m_IsJumping = false;
     private bool m_IsCrouching = false;
 
     private bool m_IsMovementBlocked = false;
@@ -153,7 +152,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void OnJumping(bool isJumping)
     {
-        m_IsJumping = isJumping;
         m_Animator.SetBool("IsJumping", isJumping);
     }
 
@@ -206,7 +204,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public bool IsJumping()
     {
-        return m_IsJumping;
+        return m_Controller.IsJumping();
     }
 
     public bool IsMovingBack()
@@ -238,8 +236,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void SetMovementBlockedByAttack(bool isMovementBlockedByAttack)
     {
-        m_IsMovementBlocked = isMovementBlockedByAttack;
-        m_MovementBlockedReason = EBlockedReason.PlayAttack;
+        SetMovementBlocked(isMovementBlockedByAttack, EBlockedReason.PlayAttack);
 
         if (!IsJumping())
         {
@@ -256,8 +253,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if(m_IsMovementBlocked)
         {
-            m_IsMovementBlocked = false;
-            m_MovementBlockedReason = EBlockedReason.None;
+            SetMovementBlocked(false, EBlockedReason.None);
         }
     }
 
@@ -268,19 +264,27 @@ public class PlayerMovementComponent : MonoBehaviour
             Debug.LogError("Movement was not blocked");
             return;
         }
-        m_IsMovementBlocked = false;
-        m_MovementBlockedReason = EBlockedReason.None;
+        SetMovementBlocked(false, EBlockedReason.None);
     }
 
     void OnStunBegin(float stunTimeStamp)
     {
-        m_IsMovementBlocked = true;
-        m_MovementBlockedReason = EBlockedReason.Stun;
+        SetMovementBlocked(true, EBlockedReason.Stun);
     }
 
     void OnStunEnd(float stunTimeStamp)
     {
-        m_IsMovementBlocked = false;
-        m_MovementBlockedReason = EBlockedReason.None;
+        SetMovementBlocked(false, EBlockedReason.None);
+    }
+
+    void SetMovementBlocked(bool isMovementBlocked, EBlockedReason reason)
+    {
+        m_IsMovementBlocked = isMovementBlocked;
+        m_MovementBlockedReason = reason;
+
+        if(isMovementBlocked)
+        {
+            m_WantToJump = false;
+        }
     }
 }

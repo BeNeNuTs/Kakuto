@@ -212,4 +212,9 @@ public class CharacterController2D : MonoBehaviour
         m_Velocity = Vector2.zero;
         m_Rigidbody2D.velocity = m_Velocity;
     }
+
+    public bool IsJumping()
+    {
+        return m_CharacterIsJumping;
+    }
 }
