@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAttackAnimationStateMachineBehavior : StateMachineBehaviour
 {
+    [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

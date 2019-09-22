@@ -13,6 +13,8 @@ public class PlayerAttack
 
     // Setting (AnimName/AttackType/etc..)
     [Header("Setting")]
+
+    [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
     public EPlayerStance m_NeededStance = EPlayerStance.Stand;
 
