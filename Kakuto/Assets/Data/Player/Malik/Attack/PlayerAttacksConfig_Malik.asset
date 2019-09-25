@@ -26,7 +26,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - "\u2190YB"
     - "\u2190BY"
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 20
     m_UseTimeScaleEffect: 0
@@ -48,7 +47,6 @@ MonoBehaviour:
     - "\u2192\u2192"
     m_ComputedInputStringList:
     - "\u2192\u2192"
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 0
     m_UseTimeScaleEffect: 0
@@ -70,7 +68,6 @@ MonoBehaviour:
     - "\u2190\u2190"
     m_ComputedInputStringList:
     - "\u2190\u2190"
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 0
     m_UseTimeScaleEffect: 0
@@ -94,7 +91,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - YB
     - BY
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 20
     m_UseTimeScaleEffect: 0
@@ -118,16 +114,15 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - XB
     - BX
-    m_BlockAttack: 1
     m_BlockMovement: 1
-    m_Damage: 20
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleAmount: 0
-    m_TimeScaleDuration: 0
+    m_Damage: 15
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleAmount: 0.05
+    m_TimeScaleDuration: 0.1
     m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeAmount: 0
-    m_CameraShakeDuration: 0
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeAmount: 0.02
+    m_CameraShakeDuration: 0.05
     m_AttackConfig: {fileID: 11400000, guid: 952cace13654ca744b72226275a25599, type: 2}
   - m_Name: jumpHK
     m_Description: 
@@ -140,7 +135,6 @@ MonoBehaviour:
     - A
     m_ComputedInputStringList:
     - A
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 12
     m_UseTimeScaleEffect: 1
@@ -162,7 +156,6 @@ MonoBehaviour:
     - Y
     m_ComputedInputStringList:
     - Y
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 6
     m_UseTimeScaleEffect: 0
@@ -184,7 +177,6 @@ MonoBehaviour:
     - X
     m_ComputedInputStringList:
     - X
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 12
     m_UseTimeScaleEffect: 1
@@ -195,50 +187,6 @@ MonoBehaviour:
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
     m_AttackConfig: {fileID: 11400000, guid: aec8c6cdf1f0f20488b5d30be43eaf70, type: 2}
-  - m_Name: crouchLK
-    m_Description: 
-    m_AnimationAttackName: 6
-    m_NeededStance: 1
-    m_HasCondition: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - B
-    m_ComputedInputStringList:
-    - B
-    m_BlockAttack: 1
-    m_BlockMovement: 1
-    m_Damage: 3
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleAmount: 0
-    m_TimeScaleDuration: 0
-    m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeAmount: 0
-    m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 776b9f9c04e1b9c428dabc8bfefac08c, type: 2}
-  - m_Name: crouchHK
-    m_Description: 
-    m_AnimationAttackName: 7
-    m_NeededStance: 1
-    m_HasCondition: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - A
-    m_ComputedInputStringList:
-    - A
-    m_BlockAttack: 1
-    m_BlockMovement: 1
-    m_Damage: 10
-    m_UseTimeScaleEffect: 1
-    m_TimeScaleAmount: 0.05
-    m_TimeScaleDuration: 0.1
-    m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 1
-    m_CameraShakeAmount: 0.02
-    m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: 4e33e482daad34e429ae6669cda381ef, type: 2}
   - m_Name: standLK
     m_Description: 
     m_AnimationAttackName: 2
@@ -250,7 +198,6 @@ MonoBehaviour:
     - B
     m_ComputedInputStringList:
     - B
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
     m_UseTimeScaleEffect: 0
@@ -261,10 +208,52 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: 0fa338721108e6142bf6d48cb397d687, type: 2}
-  - m_Name: jumpLK
+  - m_Name: crouchHP
     m_Description: 
-    m_AnimationAttackName: 10
-    m_NeededStance: 2
+    m_AnimationAttackName: 5
+    m_NeededStance: 1
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - X
+    m_ComputedInputStringList:
+    - X
+    m_BlockMovement: 1
+    m_Damage: 10
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleAmount: 0.05
+    m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeAmount: 0.02
+    m_CameraShakeDuration: 0.05
+    m_AttackConfig: {fileID: 11400000, guid: 310354e33b903854891289d429316587, type: 2}
+  - m_Name: crouchHK
+    m_Description: 
+    m_AnimationAttackName: 7
+    m_NeededStance: 1
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - A
+    m_ComputedInputStringList:
+    - A
+    m_BlockMovement: 1
+    m_Damage: 10
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleAmount: 0.05
+    m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeAmount: 0.02
+    m_CameraShakeDuration: 0.05
+    m_AttackConfig: {fileID: 11400000, guid: 4e33e482daad34e429ae6669cda381ef, type: 2}
+  - m_Name: crouchLK
+    m_Description: 
+    m_AnimationAttackName: 6
+    m_NeededStance: 1
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -272,9 +261,8 @@ MonoBehaviour:
     - B
     m_ComputedInputStringList:
     - B
-    m_BlockAttack: 1
     m_BlockMovement: 1
-    m_Damage: 6
+    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -282,7 +270,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 0317bd87846f59c49a32b5308f49c45f, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 776b9f9c04e1b9c428dabc8bfefac08c, type: 2}
   - m_Name: standHK
     m_Description: 
     m_AnimationAttackName: 3
@@ -294,7 +282,6 @@ MonoBehaviour:
     - A
     m_ComputedInputStringList:
     - A
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 10
     m_UseTimeScaleEffect: 1
@@ -316,7 +303,6 @@ MonoBehaviour:
     - Y
     m_ComputedInputStringList:
     - Y
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 5
     m_UseTimeScaleEffect: 0
@@ -338,7 +324,6 @@ MonoBehaviour:
     - X
     m_ComputedInputStringList:
     - X
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 10
     m_UseTimeScaleEffect: 1
@@ -349,28 +334,27 @@ MonoBehaviour:
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
     m_AttackConfig: {fileID: 11400000, guid: ff6b5fe345af3c649b6af8c841d1e7c2, type: 2}
-  - m_Name: crouchHP
+  - m_Name: jumpLK
     m_Description: 
-    m_AnimationAttackName: 5
-    m_NeededStance: 1
+    m_AnimationAttackName: 10
+    m_NeededStance: 2
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - X
+    - B
     m_ComputedInputStringList:
-    - X
-    m_BlockAttack: 1
+    - B
     m_BlockMovement: 1
-    m_Damage: 10
-    m_UseTimeScaleEffect: 1
-    m_TimeScaleAmount: 0.05
-    m_TimeScaleDuration: 0.1
+    m_Damage: 6
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
     m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 1
-    m_CameraShakeAmount: 0.02
-    m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: 310354e33b903854891289d429316587, type: 2}
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+    m_AttackConfig: {fileID: 11400000, guid: 0317bd87846f59c49a32b5308f49c45f, type: 2}
   - m_Name: crouchLP
     m_Description: 
     m_AnimationAttackName: 4
@@ -382,7 +366,6 @@ MonoBehaviour:
     - Y
     m_ComputedInputStringList:
     - Y
-    m_BlockAttack: 1
     m_BlockMovement: 1
     m_Damage: 3
     m_UseTimeScaleEffect: 0
