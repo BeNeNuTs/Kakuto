@@ -49,6 +49,7 @@ public class PlayerHealthComponent : MonoBehaviour
         m_Anim = GetComponentInChildren<Animator>();
 
         RegisterListeners();
+        GameManager.Instance.RegisterPlayer(gameObject);
     }
 
     void RegisterListeners()
@@ -61,6 +62,12 @@ public class PlayerHealthComponent : MonoBehaviour
     void OnDestroy()
     {
         UnregisterListeners();
+
+        GameManager gameMgr = GameManager.Instance;
+        if (gameMgr)
+        {
+            gameMgr.UnregisterPlayer(gameObject);
+        }
     }
 
     void UnregisterListeners()
@@ -332,6 +339,11 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         m_Anim.SetTrigger("OnDeath");
         Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.OnDeath, gameObject.tag);
+    }
+
+    public float GetHPPercentage()
+    {
+        return (float)m_HP / (float)m_HealthConfig.m_MaxHP;
     }
 
     // DEBUG /////////////////////////////////////

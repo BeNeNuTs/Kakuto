@@ -22,6 +22,13 @@ public class RoundComponent : MonoBehaviour
         m_InitTimestamp = Time.unscaledTime;
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
 
+        UpdateCounterText();
+
+        RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateCounterText;
+    }
+
+    void UpdateCounterText()
+    {
         m_CounterText.SetText(m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player1) + " - " + m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player2));
     }
 
@@ -38,8 +45,7 @@ public class RoundComponent : MonoBehaviour
     {
         if(m_RemaningTime == 0 && !m_TimerOverNotified)
         {
-            RoundSubGameManager roundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
-            roundSubGameManager.OnTimerOver();
+            m_RoundSubGameManager.OnTimerOver();
             m_TimerOverNotified = true;
         }
     }

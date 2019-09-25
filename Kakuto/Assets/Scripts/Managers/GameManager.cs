@@ -6,6 +6,8 @@ public class GameManager : Singleton<GameManager>
 {
     private Dictionary<ESubManager, SubGameManagerBase> m_SubManagers;
 
+    private List<GameObject> m_Players = new List<GameObject>();
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
     {
@@ -62,5 +64,35 @@ public class GameManager : Singleton<GameManager>
     public T GetSubManager<T>(ESubManager subManager) where T : SubGameManagerBase
     {
         return (T)m_SubManagers[subManager];
+    }
+
+    public void RegisterPlayer(GameObject player)
+    {
+        m_Players.Add(player);
+    }
+
+    public List<GameObject> GetPlayers()
+    {
+        return m_Players;
+    }
+
+    public GameObject GetPlayer(EPlayer player)
+    {
+        return m_Players.Find(p => p.tag == player.ToString());
+    }
+
+    public T GetPlayerComponent<T>(EPlayer player) where T : MonoBehaviour
+    {
+        GameObject playerGO = m_Players.Find(p => p.tag == player.ToString());
+        if(playerGO)
+        {
+            return playerGO.GetComponent<T>();
+        }
+        return null;
+    }
+
+    public void UnregisterPlayer(GameObject player)
+    {
+        m_Players.Remove(player);
     }
 }

@@ -50,9 +50,6 @@ public class PlayerMovementComponent : MonoBehaviour
         m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
         m_IsLeftSide = (m_PlayerIndex == 0) ? true : false;
 
-        // Add player to the OutOfBoundsSubManager to prevent being out of screen
-        GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds).AddPlayer(transform);
-
         RegisterListeners();
     }
 

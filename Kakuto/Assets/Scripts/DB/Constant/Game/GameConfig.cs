@@ -23,6 +23,9 @@ public class GameConfig : ScriptableObject
     [Tooltip("Time to wait in seconds before restarting round after a player death")]
     public float m_TimeToWaitBetweenRounds = 5f;
 
+    [Tooltip("The number of rounds a player should win to win the game"), Min(1)]
+    public uint m_MaxRoundsToWin = 3;
+
     [Header("Out of Bounds")]
 
     [Tooltip("To define an offset for the out of bounds (in pixels)")]

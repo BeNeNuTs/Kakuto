@@ -6,12 +6,10 @@ using UnityEngine.SceneManagement;
 public class OutOfBoundsSubGameManager : SubGameManagerBase
 {
     private Camera m_MainCamera;
-    private List<Transform> m_Players;
 
     public override void Init()
     {
         base.Init();
-        m_Players = new List<Transform>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -26,21 +24,16 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
         m_MainCamera = Camera.main;
     }
 
-    public void AddPlayer(Transform player)
-    {
-        m_Players.Add(player);
-    }
-
     public override void LateUpdate()
     {
         base.LateUpdate();
 
         float boundsOffset = GameConfig.Instance.m_BoundsOffset;
-        foreach (Transform player in m_Players)
+        foreach (GameObject player in GameManager.Instance.GetPlayers())
         {
-            Vector3 playerScreenPos = m_MainCamera.WorldToScreenPoint(player.root.position);
+            Vector3 playerScreenPos = m_MainCamera.WorldToScreenPoint(player.transform.root.position);
             playerScreenPos.x = Mathf.Clamp(playerScreenPos.x, boundsOffset, m_MainCamera.pixelWidth - boundsOffset);
-            player.root.position = m_MainCamera.ScreenToWorldPoint(playerScreenPos);
+            player.transform.root.position = m_MainCamera.ScreenToWorldPoint(playerScreenPos);
         }
     }
 

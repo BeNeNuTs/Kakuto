@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class RoundSubGameManager : SubGameManagerBase
 {
+    public static event UnityAction OnRoundVictoryCounterChanged;
+
     private uint m_Player1RoundVictoryCounter = 0;
     private uint m_Player2RoundVictoryCounter = 0;
 
@@ -24,12 +27,19 @@ public class RoundSubGameManager : SubGameManagerBase
         Utils.GetPlayerEventManager<string>(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
-    private void OnPlayerDeath(string playerTag)
+    private void OnPlayerDeath(string deadPlayerTag)
     {
         if(!m_RoundIsOver)
         {
-            UpdateRoundVictoryCounter(playerTag);
-            Invoker.InvokeDelayed(RestartLevel, GameConfig.Instance.m_TimeToWaitBetweenRounds);
+            if (deadPlayerTag == Player.Player1)
+            {
+                UpdateRoundVictoryCounter(Player.Player2);
+            }
+            else
+            {
+                UpdateRoundVictoryCounter(Player.Player1);
+            }
+            Invoker.InvokeDelayed(RoundIsOver, GameConfig.Instance.m_TimeToWaitBetweenRounds);
             m_RoundIsOver = true;
         }
     }
@@ -38,25 +48,54 @@ public class RoundSubGameManager : SubGameManagerBase
     {
         if (!m_RoundIsOver)
         {
-            Invoker.InvokeDelayed(RestartLevel, GameConfig.Instance.m_TimeToWaitBetweenRounds);
+            PlayerHealthComponent player1HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player1);
+            PlayerHealthComponent player2HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player2);
+
+            if(player1HealthComp.GetHPPercentage() > player2HealthComp.GetHPPercentage())
+            {
+                UpdateRoundVictoryCounter(Player.Player1);
+            }
+            else if(player2HealthComp.GetHPPercentage() > player1HealthComp.GetHPPercentage())
+            {
+                UpdateRoundVictoryCounter(Player.Player2);
+            }
+            else
+            {
+                uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
+                if (m_Player1RoundVictoryCounter < maxRoundsToWin - 1 && m_Player2RoundVictoryCounter < maxRoundsToWin - 1)
+                {
+                    UpdateRoundVictoryCounter(Player.Player1);
+                    UpdateRoundVictoryCounter(Player.Player2);
+                }
+            }
+            
+            Invoker.InvokeDelayed(RoundIsOver, GameConfig.Instance.m_TimeToWaitBetweenRounds);
             m_RoundIsOver = true;
         }
     }
 
-    private void UpdateRoundVictoryCounter(string deadPlayer)
+    private void UpdateRoundVictoryCounter(string victoryPlayer)
     {
-        if (deadPlayer == Player.Player1)
-        {
-            m_Player2RoundVictoryCounter++;
-        }
-        else
+        if (victoryPlayer == Player.Player1)
         {
             m_Player1RoundVictoryCounter++;
         }
+        else
+        {
+            m_Player2RoundVictoryCounter++;
+        }
+
+        OnRoundVictoryCounterChanged.Invoke();
     }
 
-    private void RestartLevel()
+    private void RoundIsOver()
     {
+        uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
+        if (m_Player1RoundVictoryCounter >= maxRoundsToWin || m_Player2RoundVictoryCounter >= maxRoundsToWin)
+        {
+            m_Player1RoundVictoryCounter = m_Player2RoundVictoryCounter = 0;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         m_RoundIsOver = false;
     }
