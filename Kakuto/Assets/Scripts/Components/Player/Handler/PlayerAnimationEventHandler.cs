@@ -9,9 +9,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, attackName);
     }
 
-    public void UnblockAttack(EAnimationAttackName attackName)
+    public void UnblockAttack(UnblockAttackAnimEventParameters param)
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, attackName);
+        Utils.GetPlayerEventManager<UnblockAttackAnimEventParameters>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, param);
     }
 
     public void BlockMovement(EAnimationAttackName attackName)
