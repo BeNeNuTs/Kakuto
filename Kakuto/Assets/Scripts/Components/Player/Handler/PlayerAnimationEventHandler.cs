@@ -4,24 +4,57 @@ using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
-    public void BlockAttack(EAnimationAttackName attackName)
+    public void BlockAttack()
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, attackName);
+        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
+        if (behaviour)
+        {
+            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, behaviour.m_AnimationAttackName);
+        }
+        else
+        {
+            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+        }
     }
 
-    public void UnblockAttack(UnblockAttackAnimEventParameters param)
+    public void UnblockAttack(UnblockAttackAnimEventConfig param)
     {
-        Utils.GetPlayerEventManager<UnblockAttackAnimEventParameters>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, param);
+        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
+        if(behaviour)
+        {
+            UnblockAttackAnimEvent unblockAnimEvent = new UnblockAttackAnimEvent(behaviour.m_AnimationAttackName, param);
+            Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, unblockAnimEvent);
+        }
+        else
+        {
+            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+        }
     }
 
-    public void BlockMovement(EAnimationAttackName attackName)
+    public void BlockMovement()
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, attackName);
+        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
+        if (behaviour)
+        {
+            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, behaviour.m_AnimationAttackName);
+        }
+        else
+        {
+            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+        }
     }
 
-    public void UnblockMovement(EAnimationAttackName attackName)
+    public void UnblockMovement()
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, attackName);
+        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
+        if (behaviour)
+        {
+            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, behaviour.m_AnimationAttackName);
+        }
+        else
+        {
+            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+        }
     }
 
     public void EndOfGrab()

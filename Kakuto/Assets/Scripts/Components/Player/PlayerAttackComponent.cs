@@ -35,7 +35,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private PlayerBaseAttackLogic m_CurrentAttackLogic;
 
-    private UnblockAttackAnimEventParameters m_UnblockAttackParameters = null;
+    private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
 
     private uint m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
@@ -59,7 +59,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockAttack, BlockAttack);
-        Utils.GetPlayerEventManager<UnblockAttackAnimEventParameters>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -88,7 +88,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockAttack, BlockAttack);
-        Utils.GetPlayerEventManager<UnblockAttackAnimEventParameters>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -96,7 +96,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
-        if (m_IsAttackBlocked && m_UnblockAttackParameters == null)
+        if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
         {
             return;
         }
@@ -145,7 +145,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void LateUpdate()
     {
-        if(m_IsAttackBlocked && m_UnblockAttackParameters == null)
+        if(m_IsAttackBlocked && m_UnblockAttackConfig == null)
         {
             return;
         }
@@ -179,9 +179,9 @@ public class PlayerAttackComponent : MonoBehaviour
                 if (EvaluateAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
                 {
                     bool canTriggerAttack = true;
-                    if (m_IsAttackBlocked && m_UnblockAttackParameters != null)
+                    if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                     {
-                        canTriggerAttack = m_UnblockAttackParameters.m_AllowedAttacks.Contains(attackLogic.GetAttack().m_AnimationAttackName);
+                        canTriggerAttack = m_UnblockAttackConfig.m_AllowedAttacks.Contains(attackLogic.GetAttack().m_AnimationAttackName);
                     }
 
                     if(canTriggerAttack)
@@ -221,7 +221,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_CurrentAttackLogic = attackLogic;
 
         m_IsAttackBlocked = true;
-        m_UnblockAttackParameters = null;
+        m_UnblockAttackConfig = null;
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
@@ -256,10 +256,10 @@ public class PlayerAttackComponent : MonoBehaviour
             // If attack was blocked and there is still unblock attack parameters
             // This means no allowed attack have been triggered
             // So need to clear triggered inputs in order to not launch unwanted attacks
-            if(attackWasBlocked && m_UnblockAttackParameters != null)
+            if(attackWasBlocked && m_UnblockAttackConfig != null)
             {
                 ClearTriggeredInputs();
-                m_UnblockAttackParameters = null;
+                m_UnblockAttackConfig = null;
             }
 
             m_CurrentAttackLogic.OnAttackStopped();
@@ -282,17 +282,17 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    void UnblockAttack(UnblockAttackAnimEventParameters param)
+    void UnblockAttack(UnblockAttackAnimEvent unblockEvent)
     {
-        if (CheckIsCurrentAttack(param.m_UnblockAttackName, "UnblockAttack"))
+        if (CheckIsCurrentAttack(unblockEvent.m_AttackToUnblock, "UnblockAttack"))
         {
             if(m_IsAttackBlocked == false)
             {
-                Debug.LogError("Attack was not blocked by " + param.m_UnblockAttackName);
+                Debug.LogError("Attack was not blocked by " + unblockEvent.m_AttackToUnblock);
                 return;
             }
 
-            m_UnblockAttackParameters = param;
+            m_UnblockAttackConfig = unblockEvent.m_Config;
         }
     }
 
@@ -316,7 +316,7 @@ public class PlayerAttackComponent : MonoBehaviour
             return;
         }
         m_IsAttackBlocked = false;
-        m_UnblockAttackParameters = null;
+        m_UnblockAttackConfig = null;
     }
 
     public string GetTriggeredInputString()

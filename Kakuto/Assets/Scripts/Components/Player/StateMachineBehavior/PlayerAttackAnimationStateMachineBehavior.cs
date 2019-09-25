@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackAnimationStateMachineBehavior : StateMachineBehaviour
+public class PlayerAttackAnimationStateMachineBehavior : AdvancedStateMachineBehaviour
 {
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;

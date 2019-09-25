@@ -1,8 +1,20 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public static class Utils
 {
+    public static T GetCurrentBehaviour<T>(this GameObject gameObject) where T : AdvancedStateMachineBehaviour
+    {
+        Animator animator = gameObject.GetComponent<Animator>();
+        if(animator)
+        {
+            return animator.GetBehaviours<T>().ToList().First(behaviour => behaviour.StateInfo.fullPathHash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash);
+        }
+
+        return null;
+    }
+
     public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
     {
         T[] components = Object.FindObjectsOfType<T>();
