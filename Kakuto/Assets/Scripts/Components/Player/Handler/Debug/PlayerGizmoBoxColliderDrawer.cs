@@ -20,7 +20,6 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
                 if (boxCollider.enabled)
                 {
                     Vector3 offset = boxCollider.offset;
-                    offset.x *= transform.root.localScale.x;
                     Vector3 size = boxCollider.size;
 
                     Gizmos.matrix = transform.localToWorldMatrix;
