@@ -4,8 +4,11 @@ using System.Collections;
 [CreateAssetMenu(fileName = "CharacterControllerConfig", menuName = "Data/Player/CharacterControllerConfig", order = 0)]
 public class CharacterControllerConfig : ScriptableObject {
 
-    [Tooltip("The fastest the player can travel in the x axis.")]
-    public float m_WalkSpeed = 10f;
+    [Tooltip("The fastest the player can travel in the x axis when walking forward.")]
+    public float m_WalkForwardSpeed = 10f;
+
+    [Tooltip("The fastest the player can travel in the x axis when walking backward.")]
+    public float m_WalkBackwardSpeed = 10f;
 
     [Tooltip("Amount of force added when the player jumps on place.")]
     public float m_JumpOnPlaceForce = 500f;

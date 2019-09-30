@@ -110,17 +110,17 @@ public class CharacterController2D : MonoBehaviour
             }
             
             // Move the character by finding the target velocity
-            Vector2 targetVelocity = new Vector2(move * m_ControllerConfig.m_WalkSpeed * 10.0f, m_Rigidbody2D.velocity.y);
+            Vector2 targetVelocity = new Vector2(move * GetWalkSpeed(move) * 10.0f, m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
             m_Rigidbody2D.velocity = Vector2.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_ControllerConfig.m_MovementSmoothing);
 
             // If the input is moving the player right and the player is facing left...
-            if (move > 0 && !m_MovingRight)
+            if (move > 0f && !m_MovingRight)
             {
                 OnDirectionChanged();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
-            else if (move < 0 && m_MovingRight)
+            else if (move < 0f && m_MovingRight)
             {
                 OnDirectionChanged();
             }
@@ -143,6 +143,22 @@ public class CharacterController2D : MonoBehaviour
 
                 m_CharacterIsJumping = true;
             }
+        }
+    }
+
+    private float GetWalkSpeed(float move)
+    {
+        if (move > 0f)
+        {
+            return (m_FacingRight) ? m_ControllerConfig.m_WalkForwardSpeed : m_ControllerConfig.m_WalkBackwardSpeed;
+        }
+        else if(move < 0f)
+        {
+            return (m_FacingRight) ? m_ControllerConfig.m_WalkBackwardSpeed : m_ControllerConfig.m_WalkForwardSpeed;
+        }
+        else
+        {
+            return 0f;
         }
     }
 
