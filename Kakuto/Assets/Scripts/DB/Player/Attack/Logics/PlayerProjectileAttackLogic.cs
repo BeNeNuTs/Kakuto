@@ -75,7 +75,10 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     private void OnTriggerProjectile(bool dummyBool)
     {
-        GameObject projectile = GameObject.Instantiate(m_Config.m_ProjectilePrefab, m_ProjectileHook.position, Quaternion.AngleAxis(m_Config.m_ProjectileAngle, Vector3.forward));
+        float ownerLocalScaleX = m_Owner.transform.localScale.x; 
+        GameObject projectile = GameObject.Instantiate(m_Config.m_ProjectilePrefab, m_ProjectileHook.position, Quaternion.AngleAxis(m_Config.m_ProjectileAngle, Vector3.forward * ownerLocalScaleX));
+        projectile.transform.localScale = new Vector3(ownerLocalScaleX, projectile.transform.localScale.y, projectile.transform.localScale.z);
+
         ProjectileComponent projectileComponent = projectile.GetComponent<ProjectileComponent>();
         if(projectileComponent)
         {
