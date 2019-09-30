@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7348e9f489a90546bf176112aa435a1, type: 3}
   m_Name: MovementConfig
   m_EditorClassIdentifier: 
-  m_FramesToWaitBeforeJumping: 5
+  m_FramesToWaitBeforeJumping: 2

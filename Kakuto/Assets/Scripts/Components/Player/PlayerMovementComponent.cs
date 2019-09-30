@@ -24,7 +24,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private bool m_WantToJump = false;
     private bool m_JumpInput = false;
-    private uint m_FramesToWaitBeforeJumpingCount = 0;
+    private float m_TimeToWaitBeforeJumping = 0f;
 
     private bool m_CrouchInput = false;
 
@@ -98,7 +98,7 @@ public class PlayerMovementComponent : MonoBehaviour
                     if(InputManager.GetJumpInput(m_PlayerIndex))
                     {
                         m_WantToJump = true;
-                        m_FramesToWaitBeforeJumpingCount = MovementConfig.Instance.m_FramesToWaitBeforeJumping;
+                        m_TimeToWaitBeforeJumping = MovementConfig.Instance.TimeToWaitBeforeJumping;
                     }
                 }
 
@@ -109,10 +109,10 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void LateUpdate()
     {
-        if(m_WantToJump && m_FramesToWaitBeforeJumpingCount > 0)
+        if(m_WantToJump && m_TimeToWaitBeforeJumping > 0f)
         {
-            m_FramesToWaitBeforeJumpingCount--;
-            if(m_FramesToWaitBeforeJumpingCount == 0)
+            m_TimeToWaitBeforeJumping -= Time.deltaTime;
+            if(m_TimeToWaitBeforeJumping <= 0)
             {
                 m_JumpInput = true;
                 m_WantToJump = false;

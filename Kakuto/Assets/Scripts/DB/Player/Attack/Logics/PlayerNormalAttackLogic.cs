@@ -39,7 +39,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override bool CanStun() { return true; }
     public override float GetStunDuration(bool isAttackBlocked)
     {
-        return (isAttackBlocked) ? m_Config.m_BlockStun : m_Config.m_HitStun;
+        return (isAttackBlocked) ? m_Config.BlockStun : m_Config.HitStun;
     }
 
     public override bool CanPushBack() { return true; }

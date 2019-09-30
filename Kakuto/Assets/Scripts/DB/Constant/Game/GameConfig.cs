@@ -15,6 +15,8 @@ public class GameConfig : ScriptableObject
         }
     }
 
+    public static uint K_ANIMATION_FPS = 30;
+
     [Header("Round")]
 
     [Tooltip("The duration of one round"), Range(0,99)]

@@ -18,8 +18,25 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
     [ConditionalField(false, "m_HitKO")]
     public EHitStrength m_HitStrength = EHitStrength.Weak;
     /////////////////////////////////////////////////////
-    public float m_HitStun = 2.0f;
-    public float m_BlockStun = 1.0f;
+    [Tooltip("How many frames does the enemy should be stunned for when hit taken. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_HitStun = 15;
+    
+    [HideInInspector]
+    public float HitStun
+    {
+        get { return (float)m_HitStun / (float)GameConfig.K_ANIMATION_FPS; }
+    }
+
+    [Tooltip("How many frames does the enemy should be stunned for when this attack is blocked. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_BlockStun = 9;
+
+    [HideInInspector]
+    public float BlockStun
+    {
+        get { return (float)m_BlockStun / (float)GameConfig.K_ANIMATION_FPS; }
+    }
     /////////////////////////////////////////////////////
     [Tooltip("The force of the push back if this attack hit")]
     public float m_HitPushBack = 0.0f;

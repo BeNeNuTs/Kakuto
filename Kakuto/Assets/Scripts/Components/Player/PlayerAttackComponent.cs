@@ -38,8 +38,8 @@ public class PlayerAttackComponent : MonoBehaviour
     private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
 
-    private uint m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
-    private uint m_TotalFramesWaitingBeforeEvaluatingAttacksCount = 0;
+    private float m_TimeToWaitBeforeEvaluatingAttacks = 0f;
+    private float m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
 
     void Awake()
     {
@@ -124,7 +124,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
         if(attackInputs.Length > 0)
         {
-            m_FramesToWaitBeforeEvaluatingAttacksCount = AttackConfig.Instance.m_FramesToWaitBeforeEvaluatingAttacks;
+            m_TimeToWaitBeforeEvaluatingAttacks = AttackConfig.Instance.TimeToWaitBeforeEvaluatingAttacks;
         }
     }
 
@@ -154,20 +154,20 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             UpdateAttack();
 
-            m_FramesToWaitBeforeEvaluatingAttacksCount = 0;
-            m_TotalFramesWaitingBeforeEvaluatingAttacksCount = 0;
+            m_TimeToWaitBeforeEvaluatingAttacks = 0f;
+            m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
         }
         else
         {
-            m_TotalFramesWaitingBeforeEvaluatingAttacksCount++;
-            m_FramesToWaitBeforeEvaluatingAttacksCount--;
+            m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
+            m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
         }
         
     }
 
     bool CanUpdateAttack()
     {
-        return m_FramesToWaitBeforeEvaluatingAttacksCount == 0 || m_TotalFramesWaitingBeforeEvaluatingAttacksCount > AttackConfig.Instance.m_MaxFramesToWaitBeforeEvaluatingAttacks;
+        return m_TimeToWaitBeforeEvaluatingAttacks <= 0 || m_TotalTimeWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxTimeToWaitBeforeEvaluatingAttacks;
     }
 
     void UpdateAttack()

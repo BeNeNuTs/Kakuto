@@ -15,6 +15,16 @@ public class MovementConfig : ScriptableObject
         }
     }
 
-    [Tooltip("Each time a jump input is triggered, we're going to wait x frames before jumping to evaluate in which direction we should jump.")]
-    public uint m_FramesToWaitBeforeJumping = 5;
+    [Tooltip("Each time a jump input is triggered, we're going to wait x frames before jumping to evaluate in which direction we should jump. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_FramesToWaitBeforeJumping = 5;
+
+    [HideInInspector]
+    public float TimeToWaitBeforeJumping
+    {
+        get
+        {
+            return (float)m_FramesToWaitBeforeJumping / (float)GameConfig.K_ANIMATION_FPS;
+        }
+    }
 }
