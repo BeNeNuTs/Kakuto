@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackType: 1
   m_CheapDamage: 0
+  m_HitKO: 0
   m_HitHeight: 0
   m_HitStrength: 1
-  m_HitStun: 0.5
-  m_BlockStun: 0.3
+  m_HitStun: 15
+  m_BlockStun: 9
   m_HitPushBack: 60
   m_BlockPushBack: 30
