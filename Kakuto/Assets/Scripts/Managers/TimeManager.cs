@@ -18,6 +18,8 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    private static float K_DEFAULT_FIXED_DELTA_TIME = Time.fixedDeltaTime;
+
     bool m_TimeScaleInProgress = false;
     float m_TimeScaleTimeStamp = 0f;
     float m_TimeScaleDuration = 2f;
@@ -42,7 +44,7 @@ public class TimeManager : MonoBehaviour
                 if (Time.unscaledTime >= m_TimeScaleTimeStamp + m_TimeScaleDuration)
                 {
                     Time.timeScale = 1.0f;
-                    Time.fixedDeltaTime = Time.timeScale * .02f;
+                    Time.fixedDeltaTime = K_DEFAULT_FIXED_DELTA_TIME;
                     m_TimeScaleInProgress = false;
                 }
             }
@@ -52,7 +54,7 @@ public class TimeManager : MonoBehaviour
     public static void StartTimeScale(float timeScaleFactor, float timeScaleDuration, ETimeScaleBackToNormal timeScaleBackToNormal)
     {
         Time.timeScale = timeScaleFactor;
-        Time.fixedDeltaTime = Time.timeScale * .02f;
+        Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
         Instance.m_TimeScaleDuration = timeScaleDuration;
         Instance.m_TimeScaleBackToNormal = timeScaleBackToNormal;
         Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
