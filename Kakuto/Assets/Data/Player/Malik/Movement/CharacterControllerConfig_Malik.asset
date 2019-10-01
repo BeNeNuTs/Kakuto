@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CharacterControllerConfig_Malik
   m_EditorClassIdentifier: 
   m_WalkForwardSpeed: 9
-  m_WalkBackwardSpeed: 4
+  m_WalkBackwardSpeed: 7
   m_JumpOnPlaceForce: 450
   m_JumpBackwardForce: 450
   m_JumpBackwardAngle: -15
