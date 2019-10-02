@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class RoundSubGameManager : SubGameManagerBase
 {
     public static event UnityAction OnRoundVictoryCounterChanged;
+    public static event UnityAction OnRoundOver;
 
     private uint m_Player1RoundVictoryCounter = 0;
     private uint m_Player2RoundVictoryCounter = 0;
@@ -39,8 +40,8 @@ public class RoundSubGameManager : SubGameManagerBase
             {
                 UpdateRoundVictoryCounter(Player.Player1);
             }
-            Invoker.InvokeDelayed(RoundIsOver, GameConfig.Instance.m_TimeToWaitBetweenRounds);
-            m_RoundIsOver = true;
+
+            OnRoundOver_Internal();
         }
     }
 
@@ -68,9 +69,8 @@ public class RoundSubGameManager : SubGameManagerBase
                     UpdateRoundVictoryCounter(Player.Player2);
                 }
             }
-            
-            Invoker.InvokeDelayed(RoundIsOver, GameConfig.Instance.m_TimeToWaitBetweenRounds);
-            m_RoundIsOver = true;
+
+            OnRoundOver_Internal();
         }
     }
 
@@ -88,7 +88,14 @@ public class RoundSubGameManager : SubGameManagerBase
         OnRoundVictoryCounterChanged.Invoke();
     }
 
-    private void RoundIsOver()
+    private void OnRoundOver_Internal()
+    {
+        Invoker.InvokeDelayed(RestartRound, GameConfig.Instance.m_TimeToWaitBetweenRounds);
+        m_RoundIsOver = true;
+        OnRoundOver.Invoke();
+    }
+
+    private void RestartRound()
     {
         uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
         if (m_Player1RoundVictoryCounter >= maxRoundsToWin || m_Player2RoundVictoryCounter >= maxRoundsToWin)

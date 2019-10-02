@@ -9,12 +9,14 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         None,
         PlayAttack,
-        Stun
+        Stun,
+        TimeOver
     }
 
     private CharacterController2D m_Controller;
     private Animator m_Animator;
     private PlayerAttackComponent m_AttackComponent;
+    private PlayerHealthComponent m_HealthComponent;
 
     private Transform m_Enemy;
     private bool m_IsLeftSide;
@@ -45,6 +47,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Controller = GetComponent<CharacterController2D>();
         m_Animator = GetComponentInChildren<Animator>();
         m_AttackComponent = GetComponent<PlayerAttackComponent>();
+        m_HealthComponent = GetComponent<PlayerHealthComponent>();
 
         m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
         m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
@@ -62,6 +65,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
     void OnDestroy()
@@ -78,6 +83,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     // Update is called once per frame
@@ -85,12 +92,12 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         UpdatePlayerSide();
 
+        m_HorizontalMoveInput = 0f;
         if (!m_IsMovementBlocked)
         {
             if (!m_DEBUG_IsStatic)
             {
                 m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
-                m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
 
                 if(!m_WantToJump)
                 {
@@ -105,6 +112,8 @@ public class PlayerMovementComponent : MonoBehaviour
                 m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
             }
         }
+
+        m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
     }
 
     void LateUpdate()
@@ -122,23 +131,28 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void UpdatePlayerSide()
     {
-        // If movement is not blocked AND we're not jumping AND we're not attacking => Then we can update player side
-        if(!m_IsMovementBlocked && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
+        // If we're not stunned AND not jumping AND not attacking
+        if(!m_HealthComponent.IsStunned() && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
         {
-            if (m_IsLeftSide)
+            // If movement is not blocked OR blocked by time over => Then we can update player side
+            if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
             {
-                if (m_Enemy.position.x < transform.position.x)
+                if (m_IsLeftSide)
                 {
-                    OnSideChanged();
+                    if (m_Enemy.position.x < transform.position.x)
+                    {
+                        OnSideChanged();
+                    }
+                }
+                else
+                {
+                    if (m_Enemy.position.x > transform.position.x)
+                    {
+                        OnSideChanged();
+                    }
                 }
             }
-            else
-            {
-                if (m_Enemy.position.x > transform.position.x)
-                {
-                    OnSideChanged();
-                }
-            }
+            
         }   
     }
 
@@ -286,14 +300,24 @@ public class PlayerMovementComponent : MonoBehaviour
         SetMovementBlocked(false, EBlockedReason.None);
     }
 
+    void OnRoundOver()
+    {
+        SetMovementBlocked(true, EBlockedReason.TimeOver);
+        OnStopMovement(true);
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
+    }
+
     void SetMovementBlocked(bool isMovementBlocked, EBlockedReason reason)
     {
-        m_IsMovementBlocked = isMovementBlocked;
-        m_MovementBlockedReason = reason;
-
-        if(isMovementBlocked)
+        if(!m_IsMovementBlocked || m_MovementBlockedReason != EBlockedReason.TimeOver)
         {
-            m_WantToJump = false;
+            m_IsMovementBlocked = isMovementBlocked;
+            m_MovementBlockedReason = reason;
+
+            if (isMovementBlocked)
+            {
+                m_WantToJump = false;
+            }
         }
     }
 }

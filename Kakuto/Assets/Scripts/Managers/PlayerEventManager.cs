@@ -25,6 +25,7 @@ public enum EPlayerEvent
     UnblockMovement,
     EndOfAttack,
 
+    GrabStun,
     StunBegin,
     StunEnd,
     DamageTaken,

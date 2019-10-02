@@ -55,7 +55,8 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
                             m_LastHitCountTimeStamp = Time.time;
                             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_CurrentAttack);
                         }
-                        else
+                        
+                        if(m_CurrentHitCount >= m_CurrentAttack.GetMaxHitCount())
                         {
                             m_Collider.enabled = false;
                         }

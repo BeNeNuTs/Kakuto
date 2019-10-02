@@ -63,6 +63,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
     void OnDestroy()
@@ -92,6 +94,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     void Update()
@@ -317,6 +321,12 @@ public class PlayerAttackComponent : MonoBehaviour
         }
         m_IsAttackBlocked = false;
         m_UnblockAttackConfig = null;
+    }
+
+    void OnRoundOver()
+    {
+        enabled = false;
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     public string GetTriggeredInputString()

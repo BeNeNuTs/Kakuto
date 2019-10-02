@@ -67,7 +67,8 @@ public class ProjectileComponent : MonoBehaviour
                         m_LastHitCountTimeStamp = Time.time;
                         Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_PlayerTag).TriggerEvent(EPlayerEvent.Hit, m_Logic);
                     }
-                    else
+                    
+                    if(m_CurrentHitCount >= m_Config.m_MaxHitCount)
                     {
                         DestroyProjectile();
                     }

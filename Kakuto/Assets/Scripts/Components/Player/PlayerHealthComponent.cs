@@ -57,6 +57,9 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
         Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.GrabStun, OnGrabStun);
+
+        RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
     void OnDestroy()
@@ -75,6 +78,9 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
         Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.GrabStun, OnGrabStun);
+
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     void Update()
@@ -89,7 +95,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void UpdateStun()
     {
-        if (m_StunInfo.m_IsStunned)
+        if (IsStunned())
         {
             if (Time.unscaledTime > m_StunInfo.m_StunTimer)
             {
@@ -128,7 +134,7 @@ public class PlayerHealthComponent : MonoBehaviour
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
             PlayBlockAnimation(attackLogic);
         }
-        else if(!m_StunInfo.m_IsStunned) // A grab can't touch if player is stunned
+        else if(!IsStunned()) // A grab can't touch if player is stunned
         {
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, attackLogic);
         }
@@ -174,7 +180,7 @@ public class PlayerHealthComponent : MonoBehaviour
         ////////////////////////////////////////////
 
         bool canBlockAttack = true;
-        canBlockAttack &= !m_StunInfo.m_IsStunned; // Can't blocked attack when stunned
+        canBlockAttack &= !IsStunned(); // Can't blocked attack when stunned
         if (m_AttackComponent)
         {
             // Check if we are not attacking
@@ -269,18 +275,27 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
+    private void OnGrabStun(float stunDuration)
+    {
+        StartStun(stunDuration, false);
+    }
+
     private void StartStun(float stunDuration, bool isHitKO)
     {
         m_StunInfo.m_StunTimer = Time.unscaledTime + stunDuration;
-        if(m_StunInfo.m_IsStunned == false)
+        if(!IsStunned())
         {
             m_StunInfo.m_IsStunned = true;
             m_StunInfo.m_StunnedWhileJumping = m_MovementComponent.IsJumping();
             m_StunInfo.m_StunnedByHitKO = isHitKO;
             Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunInfo.m_StunTimer);
-
-            Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
         }
+        Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
+    }
+
+    public bool IsStunned()
+    {
+        return m_StunInfo.m_IsStunned;
     }
 
     private void StopStun()
@@ -349,6 +364,12 @@ public class PlayerHealthComponent : MonoBehaviour
     public float GetHPPercentage()
     {
         return (float)m_HP / (float)m_HealthConfig.m_MaxHP;
+    }
+
+    private void OnRoundOver()
+    {
+        UnregisterListeners();
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     // DEBUG /////////////////////////////////////
