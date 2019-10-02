@@ -12,6 +12,10 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
     [Range(0, 100)]
     public uint m_CheapDamage = 2;
     /////////////////////////////////////////////////////
+    [Tooltip("The max number of hits allowed for this attack"), Range(1, 100)]
+    public uint m_MaxHitCount = 1;
+    [Tooltip("How much time to wait to apply another hit")]
+    public float m_DelayBetweenHits = 0.1f;
     public bool m_HitKO = false;
     [ConditionalField(false, "m_HitKO")]
     public EHitHeight m_HitHeight = EHitHeight.Low;

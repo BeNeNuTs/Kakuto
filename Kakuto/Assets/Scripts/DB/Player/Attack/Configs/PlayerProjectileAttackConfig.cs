@@ -12,10 +12,6 @@ public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
     public float m_ProjectileAngle = 0.0f;
     [Tooltip("The speed of the projectile"), Range(0.1f, 10f)]
     public float m_ProjectileSpeed = 10.0f;
-    [Tooltip("The number of hit count before destroying projectile"), Range(1, 100)]
-    public uint m_ProjectileHitCount = 1;
-    [Tooltip("How much time to wait to apply another hit")]
-    public float m_ProjectileDelayBetweenHits = 0.1f;
 
     public override PlayerBaseAttackLogic CreateLogic()
     {

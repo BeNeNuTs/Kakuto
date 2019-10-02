@@ -34,6 +34,8 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return (isAttackBlocked) ? m_Config.m_CheapDamage : m_Attack.m_Damage;
     }
 
+    public override uint GetMaxHitCount() { return m_Config.m_MaxHitCount; }
+    public override float GetDelayBetweenHits() { return m_Config.m_DelayBetweenHits; }
     public override bool IsHitKO() { return m_Config.m_HitKO; }
 
     public override bool CanStun() { return true; }
