@@ -139,7 +139,7 @@ public class CharacterController2D : MonoBehaviour
 
                 GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
                 Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
-                m_Rigidbody2D.AddForce(jumpForceDirection);
+                m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
 
                 m_CharacterIsJumping = true;
             }
@@ -220,7 +220,7 @@ public class CharacterController2D : MonoBehaviour
     public void PushBack(float pushForce)
     {
         StopMovement();
-        m_Rigidbody2D.AddForce(new Vector2((m_FacingRight) ? -pushForce : pushForce, 0f));
+        m_Rigidbody2D.AddForce(new Vector2((m_FacingRight) ? -pushForce : pushForce, 0f), ForceMode2D.Impulse);
     }
 
     public void StopMovement()
