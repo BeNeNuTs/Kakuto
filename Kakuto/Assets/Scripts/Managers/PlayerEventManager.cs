@@ -30,9 +30,7 @@ public enum EPlayerEvent
     DamageTaken,
     OnDeath,
 
-    GrabTouched,
     ApplyGrabDamages,
-    GrabBlocked,
     EndOfGrab,
 
     TriggerProjectile,
@@ -44,6 +42,8 @@ public enum EPlayerEvent
     // For enemy
     Hit,
     GrabTry,
+    GrabTouched,
+    GrabBlocked,
     Grabbed,
 }
 

@@ -128,6 +128,10 @@ public class PlayerHealthComponent : MonoBehaviour
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
             PlayBlockAnimation(attackLogic);
         }
+        else if(!m_StunInfo.m_IsStunned) // A grab can't touch if player is stunned
+        {
+            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, attackLogic);
+        }
     }
 
     void OnGrabbed(GrabbedInfo grabbedInfo)
@@ -170,7 +174,8 @@ public class PlayerHealthComponent : MonoBehaviour
         ////////////////////////////////////////////
 
         bool canBlockAttack = true;
-        if(m_AttackComponent)
+        canBlockAttack &= !m_StunInfo.m_IsStunned; // Can't blocked attack when stunned
+        if (m_AttackComponent)
         {
             // Check if we are not attacking
             canBlockAttack &= (m_AttackComponent.GetCurrentAttack() == null);

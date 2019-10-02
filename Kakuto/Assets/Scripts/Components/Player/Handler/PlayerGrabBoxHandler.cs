@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
 {
-
     PlayerAttackComponent m_PlayerAttackComponent;
 
     private void Awake()
@@ -12,13 +11,12 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
         m_PlayerAttackComponent = GetComponentInParent<PlayerAttackComponent>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
             if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, m_PlayerAttackComponent.GetCurrentAttackLogic());
                 Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTry, m_PlayerAttackComponent.GetCurrentAttackLogic());
             }
         }
