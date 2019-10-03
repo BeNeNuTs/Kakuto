@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackType: 1
   m_CheapDamage: 0
+  m_MaxHitCount: 1
+  m_DelayBetweenHits: 0.1
   m_HitKO: 0
   m_HitHeight: 1
   m_HitStrength: 1
   m_HitStun: 15
   m_BlockStun: 9
-  m_HitPushBack: 35
-  m_BlockPushBack: 30
+  m_HitPushBack: 0.15
+  m_BlockPushBack: 1.6
