@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,7 +7,7 @@ public class CharacterController2D : MonoBehaviour
 {
     public CharacterControllerConfig m_ControllerConfig;
 #pragma warning disable 0649
-    [SerializeField] private Collider2D[] m_GroundChecks;       // colliders where to check if the player is grounded.
+    [SerializeField] private Collider2D m_GroundCheck;          // collider where to check if the player is grounded.
 #pragma warning restore 0649
 
     static readonly float k_TimeBetweenJumpsTakeOff = .5f;      // Time between jumps take off
@@ -54,34 +55,51 @@ public class CharacterController2D : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
-        ContactPoint2D[] contacts = new ContactPoint2D[5];
-        foreach (Collider2D groundCheck in m_GroundChecks)
+        List<Collider2D> groundCheckColliders = new List<Collider2D>();
+
+        Collider2D[] groundCheckContacts = new Collider2D[5];
+        bool hasContacts = (m_GroundCheck.GetContacts(groundCheckContacts) > 0);
+        if(!hasContacts)
         {
-            if(groundCheck.GetContacts(contacts) > 0)
+            Collider2D overlapCollider = Physics2D.OverlapCircle(transform.position, MovementConfig.Instance.m_OverlapCircleRadius, MovementConfig.Instance.m_GroundLayerMask);
+            groundCheckColliders.Add(overlapCollider);
+        }
+        else
+        {
+            groundCheckColliders.AddRange(groundCheckContacts);
+        }
+
+        foreach (Collider2D collider in groundCheckColliders)
+        {
+            if(collider != null)
             {
-                foreach(ContactPoint2D contact in contacts)
+                if (Utils.IsInLayerMask(collider.gameObject.layer, MovementConfig.Instance.m_GroundLayerMask))
                 {
-                    if(Mathf.Approximately(contact.normal.y, 1.0f) && contact.collider.CompareTag("Ground"))
+                    m_Grounded = true;
+                    if (!wasGrounded)
                     {
-                        m_Grounded = true;
-                        if (!wasGrounded)
-                        {
-                            m_LastJumpLandingTimeStamp = Time.time;
-                            m_CharacterIsJumping = false;
-                            OnJumpEvent.Invoke(false);
-                        }
-                        break;
+                        m_LastJumpLandingTimeStamp = Time.time;
+                        m_CharacterIsJumping = false;
+                        OnJumpEvent.Invoke(false);
                     }
+                    break;
                 }
             }
         }
 
-        if(wasGrounded && !m_Grounded)
+        if (wasGrounded && !m_Grounded)
         {
             OnJumpEvent.Invoke(true);
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if(MovementConfig.Instance.d_DisplayOverlapCircle)
+        {
+            Gizmos.DrawWireSphere(transform.position, MovementConfig.Instance.m_OverlapCircleRadius);
+        }        
+    }
 
     public void Move(float move, bool crouch, bool jump)
     {

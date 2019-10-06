@@ -15,6 +15,17 @@ public class MovementConfig : ScriptableObject
         }
     }
 
+    [Tooltip("A mask determining what is ground for characters")]
+    public LayerMask m_GroundLayerMask;
+
+    [Tooltip("Radius of the overlap circle to determine if the character is jumping or not")]
+    public float m_OverlapCircleRadius = 0.05f;
+
+#if UNITY_EDITOR
+    [Tooltip("Debug : Display the overlap circle in the scene")]
+    public bool d_DisplayOverlapCircle = false;
+#endif
+
     [Tooltip("Each time a jump input is triggered, we're going to wait x frames before jumping to evaluate in which direction we should jump. /!\\ based on 30 FPS /!\\")]
     [SerializeField]
     private uint m_FramesToWaitBeforeJumping = 5;

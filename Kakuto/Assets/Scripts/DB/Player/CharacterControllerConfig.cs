@@ -38,7 +38,4 @@ public class CharacterControllerConfig : ScriptableObject {
 
     [Tooltip("Whether or not a player can steer while jumping.")]
     public bool m_AirControl = false;
-
-    [Tooltip("A mask determining what is ground to the character")]
-    public LayerMask m_WhatIsGround;
 }

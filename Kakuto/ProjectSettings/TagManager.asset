@@ -21,11 +21,11 @@ TagManager:
   - 
   - 
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
+  - GroundBox
+  - PushBox
+  - HurtBox
+  - HitBox
+  - GrabBox
   - 
   - 
   - 
