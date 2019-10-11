@@ -72,6 +72,76 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   d_OverrideGizmo: 1
   d_GizmoColor: {r: 0, g: 0.49803922, b: 1, a: 1}
+--- !u!1 &1838544078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1838544079}
+  - component: {fileID: 1838544081}
+  - component: {fileID: 1838544080}
+  m_Layer: 11
+  m_Name: Hurtbox05
+  m_TagString: Player1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1838544079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838544078}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5863860047699308964}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1838544081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838544078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &1838544080
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838544078}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0036942363, y: 0.5083542}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.34243095, y: 0.2785356}
+  m_EdgeRadius: 0
 --- !u!1 &596736549716289547
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,8 +198,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7168367400335173371}
-  - component: {fileID: 3609406012619202689}
   - component: {fileID: 7152013939130233749}
+  - component: {fileID: 6872168045849260140}
   m_Layer: 11
   m_Name: Hurtbox01
   m_TagString: Player1
@@ -151,22 +221,6 @@ Transform:
   m_Father: {fileID: 5863860047699308964}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &3609406012619202689
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4717585616207254109}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.012406826, y: 0.03839624}
-  m_Size: {x: 0.31166148, y: 1.1529734}
-  m_Direction: 0
 --- !u!114 &7152013939130233749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +233,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &6872168045849260140
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4717585616207254109}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.013001025, y: -0.27180415}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5309781, y: 0.5836221}
+  m_EdgeRadius: 0
+--- !u!1 &4844104999180403923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618883313186185137}
+  - component: {fileID: 2983788197144126316}
+  - component: {fileID: 5355964113340573335}
+  m_Layer: 11
+  m_Name: Hurtbox02
+  m_TagString: Player1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &618883313186185137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844104999180403923}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5863860047699308964}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2983788197144126316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844104999180403923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &5355964113340573335
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844104999180403923}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.018471062, y: 0.19619355}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.56408346, y: 0.48910552}
+  m_EdgeRadius: 0
 --- !u!1 &5296461491712690478
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +385,76 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.38412595, y: 0.13723946}
+  m_EdgeRadius: 0
+--- !u!1 &5733140083222701681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5804752383493612661}
+  - component: {fileID: 9027195630712603182}
+  - component: {fileID: 3621991013176271123}
+  m_Layer: 11
+  m_Name: Hurtbox04
+  m_TagString: Player1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5804752383493612661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5733140083222701681}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5863860047699308964}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9027195630712603182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5733140083222701681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &3621991013176271123
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5733140083222701681}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0036942363, y: 0.5083542}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.34243095, y: 0.2785356}
   m_EdgeRadius: 0
 --- !u!1 &6245372982043265255
 GameObject:
@@ -308,6 +528,76 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   d_OverrideGizmo: 1
   d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!1 &8940834602725064834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5994320848476762894}
+  - component: {fileID: 3938545732588578558}
+  - component: {fileID: 2965940117716402298}
+  m_Layer: 11
+  m_Name: Hurtbox03
+  m_TagString: Player1
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5994320848476762894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8940834602725064834}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5863860047699308964}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3938545732588578558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8940834602725064834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &2965940117716402298
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8940834602725064834}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0036942363, y: 0.5083542}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.34243095, y: 0.2785356}
+  m_EdgeRadius: 0
 --- !u!1001 &3947019223277676588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,6 +605,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050473, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Name
@@ -395,11 +690,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_GravityScale
@@ -473,27 +763,21 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd623bf673cf2346b8230dbde6c4547, type: 3}
---- !u!4 &1867163942052175058 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3400181040355652862, guid: 4dd623bf673cf2346b8230dbde6c4547,
-    type: 3}
-  m_PrefabInstance: {fileID: 3947019223277676588}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5025473378732827118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8320594354609048002, guid: 4dd623bf673cf2346b8230dbde6c4547,
     type: 3}
   m_PrefabInstance: {fileID: 3947019223277676588}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5863860047699308964 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7468723790707579272, guid: 4dd623bf673cf2346b8230dbde6c4547,
-    type: 3}
-  m_PrefabInstance: {fileID: 3947019223277676588}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &197670744132580465 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3781024142746770525, guid: 4dd623bf673cf2346b8230dbde6c4547,
+    type: 3}
+  m_PrefabInstance: {fileID: 3947019223277676588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5863860047699308964 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7468723790707579272, guid: 4dd623bf673cf2346b8230dbde6c4547,
     type: 3}
   m_PrefabInstance: {fileID: 3947019223277676588}
   m_PrefabAsset: {fileID: 0}
@@ -506,6 +790,12 @@ Transform:
 --- !u!224 &7705063140870539881 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6641475778176475717, guid: 4dd623bf673cf2346b8230dbde6c4547,
+    type: 3}
+  m_PrefabInstance: {fileID: 3947019223277676588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1867163942052175058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3400181040355652862, guid: 4dd623bf673cf2346b8230dbde6c4547,
     type: 3}
   m_PrefabInstance: {fileID: 3947019223277676588}
   m_PrefabAsset: {fileID: 0}
