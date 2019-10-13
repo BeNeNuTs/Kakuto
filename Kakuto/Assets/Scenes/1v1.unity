@@ -413,6 +413,31 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player2
       objectReference: {fileID: 0}
+    - target: {fileID: 5296461491712690478, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4224450836507347916, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143231437894107353, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661167231403141260, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 596736549716289547, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6445558315754301611, guid: 5227f780c94aaa240ba932079524456d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
