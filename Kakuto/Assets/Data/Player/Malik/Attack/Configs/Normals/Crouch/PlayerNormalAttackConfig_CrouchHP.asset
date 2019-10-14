@@ -22,4 +22,4 @@ MonoBehaviour:
   m_HitStun: 15
   m_BlockStun: 9
   m_HitPushBack: 0.4
-  m_BlockPushBack: 1.3
+  m_BlockPushBack: 2
