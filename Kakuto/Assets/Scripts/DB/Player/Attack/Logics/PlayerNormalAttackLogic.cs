@@ -23,6 +23,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
             case EAttackType.Low:
                 return isCrouching;
             case EAttackType.Mid:
+                return true;
             case EAttackType.Overhead:
                 return !isCrouching;
             default:
