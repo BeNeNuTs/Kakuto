@@ -182,7 +182,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 596736549716289547}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0403fc9c117a83c459958b2f47fa6d1e, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -246,7 +246,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.013001025, y: -0.27180415}
+  m_Offset: {x: -0.061154068, y: -0.27180415}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -257,7 +257,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5309781, y: 0.5836221}
+  m_Size: {x: 0.2198354, y: 0.5836221}
   m_EdgeRadius: 0
 --- !u!1 &4844104999180403923
 GameObject:
@@ -316,7 +316,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018471062, y: 0.19619355}
+  m_Offset: {x: -0.012914956, y: 0.19619355}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -327,7 +327,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.56408346, y: 0.48910552}
+  m_Size: {x: 0.5233387, y: 0.48910552}
   m_EdgeRadius: 0
 --- !u!1 &5296461491712690478
 GameObject:
@@ -369,7 +369,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5296461491712690478}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f41a8eb5f90aba548a6893bf802735a0, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -411,7 +411,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5733140083222701681}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -443,7 +443,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0036942363, y: 0.5083542}
+  m_Offset: {x: 0.09341988, y: 0.5083542}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -454,7 +454,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.34243095, y: 0.2785356}
+  m_Size: {x: 0.33485705, y: 0.2785356}
   m_EdgeRadius: 0
 --- !u!1 &6245372982043265255
 GameObject:
@@ -585,7 +585,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0036942363, y: 0.5083542}
+  m_Offset: {x: -0.0111221075, y: 0.5083542}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -596,7 +596,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.34243095, y: 0.2785356}
+  m_Size: {x: 0.31279826, y: 0.2785356}
   m_EdgeRadius: 0
 --- !u!1001 &3947019223277676588
 PrefabInstance:
@@ -605,11 +605,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050473, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Name
@@ -690,10 +685,20 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_GravityScale
       value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050454, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
