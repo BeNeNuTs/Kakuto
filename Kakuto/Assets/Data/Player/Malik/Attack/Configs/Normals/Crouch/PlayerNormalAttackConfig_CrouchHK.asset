@@ -20,6 +20,6 @@ MonoBehaviour:
   m_HitHeight: 0
   m_HitStrength: 1
   m_HitStun: 15
-  m_BlockStun: 9
+  m_BlockStun: 5
   m_HitPushBack: 1.25
   m_BlockPushBack: 3.5
