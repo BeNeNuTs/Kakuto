@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InputPersistency: 0.3
   m_MaxInputs: 10
-  m_FramesToWaitBeforeEvaluatingAttacks: 0
+  m_FramesToWaitBeforeEvaluatingAttacks: 1
   m_MaxFramesToWaitBeforeEvaluatingAttacks: 10
