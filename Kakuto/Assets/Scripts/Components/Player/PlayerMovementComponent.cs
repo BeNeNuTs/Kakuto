@@ -54,6 +54,25 @@ public class PlayerMovementComponent : MonoBehaviour
         m_IsLeftSide = (m_PlayerIndex == 0) ? true : false;
 
         RegisterListeners();
+
+#if UNITY_EDITOR
+        CheckPlayerTags();
+#endif
+    }
+
+    void CheckPlayerTags()
+    {
+        string playerTag = transform.root.tag;
+
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
+        foreach(Transform child in allChildren)
+        {
+            if(child.tag != playerTag)
+            {
+                Debug.LogError("GameObject's tag of " + child.gameObject + " (" + child.tag + ") is different than the root one " + transform.root.gameObject + " (" + playerTag + ")");
+                Debug.Break();
+            }
+        }
     }
 
     void RegisterListeners()
