@@ -5532,7 +5532,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HitCrouchLowStrong _In
+  m_Name: HitCrouchLowStrong_In
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -7239,7 +7239,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HitCrouchKO _In
+  m_Name: HitCrouchKO_In
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
