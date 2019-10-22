@@ -39,24 +39,34 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
         m_LastHitCountTimeStamp = 0f;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        HandleCollision(collision);
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
+        HandleCollision(collision);
+    }
+
+    private void HandleCollision(Collider2D collision)
+    {
+        if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
-            if(collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+            if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                if(m_CurrentAttack != null)
+                if (m_CurrentAttack != null)
                 {
                     if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + m_CurrentAttack.GetDelayBetweenHits())
                     {
-                        if(m_CurrentHitCount < m_CurrentAttack.GetMaxHitCount())
+                        if (m_CurrentHitCount < m_CurrentAttack.GetMaxHitCount())
                         {
                             m_CurrentHitCount++;
                             m_LastHitCountTimeStamp = Time.time;
                             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_CurrentAttack);
                         }
-                        
-                        if(m_CurrentHitCount >= m_CurrentAttack.GetMaxHitCount())
+
+                        if (m_CurrentHitCount >= m_CurrentAttack.GetMaxHitCount())
                         {
                             m_Collider.enabled = false;
                         }

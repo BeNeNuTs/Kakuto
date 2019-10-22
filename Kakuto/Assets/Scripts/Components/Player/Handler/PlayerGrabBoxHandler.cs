@@ -11,9 +11,19 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
         m_PlayerAttackComponent = GetComponentInParent<PlayerAttackComponent>();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        HandleCollision(collision);
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
+        HandleCollision(collision);
+    }
+
+    private void HandleCollision(Collider2D collision)
+    {
+        if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
             if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
