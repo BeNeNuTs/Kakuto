@@ -53,7 +53,17 @@ public class ProjectileComponent : MonoBehaviour
         m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeed * Time.fixedDeltaTime);
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        HandleCollision(collision);
+    }
+
     void OnTriggerStay2D(Collider2D collision)
+    {
+        HandleCollision(collision);
+    }
+
+    void HandleCollision(Collider2D collision)
     {
         if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
         {
@@ -67,15 +77,19 @@ public class ProjectileComponent : MonoBehaviour
                         m_LastHitCountTimeStamp = Time.time;
                         Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_PlayerTag).TriggerEvent(EPlayerEvent.Hit, m_Logic);
                     }
-                    
-                    if(m_CurrentHitCount >= m_Config.m_MaxHitCount)
+
+                    if (m_CurrentHitCount >= m_Config.m_MaxHitCount)
                     {
                         DestroyProjectile();
                     }
                 }
             }
         }
-        else if(collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
+        else if (collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
+        {
+            DestroyProjectile();
+        }
+        else if (collision.CompareTag("Ground")) // Collision with Ground
         {
             DestroyProjectile();
         }
