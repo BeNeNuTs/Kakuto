@@ -413,11 +413,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player2
       objectReference: {fileID: 0}
-    - target: {fileID: 5296461491712690478, guid: 5227f780c94aaa240ba932079524456d,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player2
-      objectReference: {fileID: 0}
     - target: {fileID: 4224450836507347916, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_TagString
@@ -429,6 +424,16 @@ PrefabInstance:
       value: Player2
       objectReference: {fileID: 0}
     - target: {fileID: 4661167231403141260, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5296461491712690478, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5087005313472474529, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_TagString
       value: Player2
@@ -674,6 +679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e598ec62ae74f7141979a44047aa9a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CameraTarget: {fileID: 0}
+  m_CameraTargetOffset: {x: 0, y: 0, z: 0}
   m_SmoothValue: 10
 --- !u!81 &1951261569
 AudioListener:

@@ -93,24 +93,21 @@ public class PlayerMovementComponent : MonoBehaviour
         UpdatePlayerSide();
 
         m_HorizontalMoveInput = 0f;
-        if (!m_IsMovementBlocked)
+        if (!m_IsMovementBlocked && !m_DEBUG_IsStatic)
         {
-            if (!m_DEBUG_IsStatic)
+            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
+
+            if(!m_WantToJump)
             {
-                m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
-
-                if(!m_WantToJump)
+                m_JumpInput = false;
+                if(InputManager.GetJumpInput(m_PlayerIndex))
                 {
-                    m_JumpInput = false;
-                    if(InputManager.GetJumpInput(m_PlayerIndex))
-                    {
-                        m_WantToJump = true;
-                        m_TimeToWaitBeforeJumping = MovementConfig.Instance.TimeToWaitBeforeJumping;
-                    }
+                    m_WantToJump = true;
+                    m_TimeToWaitBeforeJumping = MovementConfig.Instance.TimeToWaitBeforeJumping;
                 }
-
-                m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
             }
+
+            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
         }
 
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
