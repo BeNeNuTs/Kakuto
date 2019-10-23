@@ -13,9 +13,12 @@ public class TrainingMapDisplay : MonoBehaviour
     private float m_DislayAttacksTimeStamp;
     private static readonly float s_DisplayAttacksTime = 2.0f;
 
+    private PlayerMovementComponent m_PlayerMovementComponentToDisplay;
     private PlayerAttackComponent m_PlayerAttackComponentToDisplay;
     private PlayerAttack m_CurrentDisplayAttack;
-    
+
+    private string m_TriggeredInputs;
+
     void Awake()
     {
         //Training display
@@ -31,6 +34,7 @@ public class TrainingMapDisplay : MonoBehaviour
             m_TextToDisplayAttacks = attackDisplayer.GetComponent<Text>();
         }
 
+        m_PlayerMovementComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerMovementComponent>(m_Target.ToString());
         m_PlayerAttackComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerAttackComponent>(m_Target.ToString());
     }
 
@@ -45,7 +49,13 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if (m_TextToDisplayInputs != null)
         {
-            m_TextToDisplayInputs.text = m_PlayerAttackComponentToDisplay.GetTriggeredInputString();
+            m_TriggeredInputs += InputManager.GetAttackInputString(m_PlayerMovementComponentToDisplay.GetPlayerIndex(), m_PlayerMovementComponentToDisplay.IsLeftSide());
+            if (m_TriggeredInputs.Length > AttackConfig.Instance.m_MaxInputs)
+            {
+                m_TriggeredInputs = m_TriggeredInputs.Remove(0, (int)(m_TriggeredInputs.Length - AttackConfig.Instance.m_MaxInputs));
+            }
+
+            m_TextToDisplayInputs.text = m_TriggeredInputs;
         }
     }
 

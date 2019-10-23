@@ -329,11 +329,6 @@ public class PlayerAttackComponent : MonoBehaviour
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
-    public string GetTriggeredInputString()
-    {
-        return m_TriggeredInputsString;
-    }
-
     public PlayerBaseAttackLogic GetCurrentAttackLogic()
     {
         return m_CurrentAttackLogic;
