@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public enum ESubManager
 {
+    FrameRate,
     Round,
     OutOfBounds
 }

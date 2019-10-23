@@ -658,8 +658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e598ec62ae74f7141979a44047aa9a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CameraTarget: {fileID: 0}
-  m_CameraTargetOffset: {x: 0, y: 0, z: 0}
   m_SmoothValue: 10
 --- !u!81 &1951261569
 AudioListener:
@@ -809,6 +807,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 067222f06421ad7468b40c2b1f000ebc, type: 2}
     - target: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_Name
@@ -932,27 +934,22 @@ PrefabInstance:
     - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3699350366126510113, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3699350366126510113, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3699350366601196809, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 067222f06421ad7468b40c2b1f000ebc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d262ccd779fb4a47a06d25a96884107, type: 3}

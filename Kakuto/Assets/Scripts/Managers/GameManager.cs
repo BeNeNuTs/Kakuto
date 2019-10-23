@@ -35,6 +35,7 @@ public class GameManager : Singleton<GameManager>
     {
         m_SubManagers = new Dictionary<ESubManager, SubGameManagerBase>
         {
+            { ESubManager.FrameRate, new FrameRateSubGameManager() },
             { ESubManager.Round, new RoundSubGameManager() },
             { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() }
         };
