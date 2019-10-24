@@ -50,6 +50,10 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     {
         return (isAttackBlocked) ? m_Config.m_BlockPushBack : m_Config.m_HitPushBack;
     }
+    public override float GetAttackerPushBackForce()
+    {
+        return m_Config.m_AttackerPushBack;
+    }
 
     public override bool CanPlayDamageTakenAnim() { return true; }
     public override string GetBlockAnimName(EPlayerStance playerStance)

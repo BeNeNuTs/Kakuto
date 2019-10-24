@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 struct DamageTakenInfo
 {
+    public PlayerBaseAttackLogic m_AttackLogic;
+    public bool m_IsAttackBlocked;
     public float m_HealthRatio;
     public bool m_IsHitStun;
 
-    public DamageTakenInfo(float healthRatio, bool isHitStun)
+    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked, bool isHitStun, float healthRatio)
     {
+        m_AttackLogic = attackLogic;
+        m_IsAttackBlocked = isAttackBlocked;
         m_HealthRatio = healthRatio;
         m_IsHitStun = isHitStun;
     }
@@ -256,7 +260,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo((float)m_HP / (float)m_HealthConfig.m_MaxHP, m_StunInfo.m_StunType == EStunType.Hit);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(attackLogic, isAttackBlocked, m_StunInfo.m_StunType == EStunType.Hit, (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (IsDead())

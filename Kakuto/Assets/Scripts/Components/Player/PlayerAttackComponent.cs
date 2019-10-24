@@ -64,6 +64,8 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
+        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
+
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
@@ -94,6 +96,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -229,6 +233,22 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
+    }
+
+    void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
+    {
+        // If enemy takes damage from the current attack logic
+        if(damageTakenInfo.m_AttackLogic == m_CurrentAttackLogic)
+        {
+            if (m_CurrentAttackLogic.CanPushBack())
+            {
+                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce();
+                if (pushBackForce > 0.0f && m_MovementComponent)
+                {
+                    m_MovementComponent.PushBack(pushBackForce);
+                }
+            }
+        }
     }
 
     bool CheckIsCurrentAttack(EAnimationAttackName attackName, string methodName)

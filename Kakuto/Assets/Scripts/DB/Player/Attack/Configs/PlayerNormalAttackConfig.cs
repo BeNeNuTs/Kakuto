@@ -48,6 +48,10 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
     public float m_BlockPushBack = 0.0f;
     /////////////////////////////////////////////////////
 
+    [Header("Attacker effect")]
+    [Tooltip("The force of the push back applied to the attacker if this attack hit or is blocked")]
+    public float m_AttackerPushBack = 0.0f;
+
     public override PlayerBaseAttackLogic CreateLogic()
     {
         return new PlayerNormalAttackLogic(this);
