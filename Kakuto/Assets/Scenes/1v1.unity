@@ -443,6 +443,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player2
       objectReference: {fileID: 0}
+    - target: {fileID: 7778753432021272390, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410879756175923395, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6445558315754301611, guid: 5227f780c94aaa240ba932079524456d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
@@ -679,8 +689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e598ec62ae74f7141979a44047aa9a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CameraTarget: {fileID: 0}
-  m_CameraTargetOffset: {x: 0, y: 0, z: 0}
   m_SmoothValue: 10
 --- !u!81 &1951261569
 AudioListener:

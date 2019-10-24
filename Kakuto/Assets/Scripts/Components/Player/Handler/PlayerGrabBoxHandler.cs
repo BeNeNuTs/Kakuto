@@ -25,7 +25,7 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
     {
         if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
         {
-            if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+            if (collision.gameObject.GetComponent<PlayerGrabHurtBoxHandler>())
             {
                 Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTry, m_PlayerAttackComponent.GetCurrentAttackLogic());
             }

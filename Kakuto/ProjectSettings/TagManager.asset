@@ -24,10 +24,10 @@ TagManager:
   - GroundBox
   - PushBox
   - HurtBox
+  - GrabHurtBox
   - HitBox
   - GrabBox
   - Projectile
-  - 
   - 
   - 
   - 
