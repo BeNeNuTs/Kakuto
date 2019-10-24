@@ -17,12 +17,20 @@ struct DamageTakenInfo
 
 public class PlayerHealthComponent : MonoBehaviour
 {
+    enum EStunType
+    {
+        Hit,
+        Block,
+        Grab,
+        None
+    }
+
     struct StunInfo
     {
         public bool m_IsStunned;
         public bool m_StunnedWhileJumping;
         public bool m_StunnedByHitKO;
-        public bool m_IsHitStun;
+        public EStunType m_StunType;
         public float m_StunTimer;
     }
 
@@ -248,7 +256,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo((float)m_HP / (float)m_HealthConfig.m_MaxHP, m_StunInfo.m_IsHitStun);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo((float)m_HP / (float)m_HealthConfig.m_MaxHP, m_StunInfo.m_StunType == EStunType.Hit);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (IsDead())
@@ -280,7 +288,7 @@ public class PlayerHealthComponent : MonoBehaviour
             float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
             if (stunDuration > 0)
             {
-                StartStun(stunDuration, attackLogic.IsHitKO(), !isAttackBlocked);
+                StartStun(stunDuration, attackLogic.IsHitKO(), (isAttackBlocked) ? EStunType.Block : EStunType.Hit);
             }
         }
 
@@ -309,10 +317,10 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void OnGrabStun(float stunDuration)
     {
-        StartStun(stunDuration, false, false);
+        StartStun(stunDuration, false, EStunType.Grab);
     }
 
-    private void StartStun(float stunDuration, bool isHitKO, bool isHitStun)
+    private void StartStun(float stunDuration, bool isHitKO, EStunType stunType)
     {
         m_StunInfo.m_StunTimer = Time.unscaledTime + stunDuration;
         if(!IsStunned())
@@ -320,7 +328,7 @@ public class PlayerHealthComponent : MonoBehaviour
             m_StunInfo.m_IsStunned = true;
             m_StunInfo.m_StunnedWhileJumping = m_MovementComponent.IsJumping();
             m_StunInfo.m_StunnedByHitKO = isHitKO;
-            m_StunInfo.m_IsHitStun = isHitStun;
+            m_StunInfo.m_StunType = stunType;
             Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunBegin, m_StunInfo.m_StunTimer);
         }
         Debug.Log("Player : " + gameObject.name + " is stunned during " + stunDuration + " seconds");
@@ -333,17 +341,18 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void StopStun()
     {
-        bool wasHitStun = m_StunInfo.m_IsHitStun;
+        EStunType stunType = m_StunInfo.m_StunType;
 
         m_StunInfo.m_IsStunned = false;
         m_StunInfo.m_StunnedWhileJumping = false;
         m_StunInfo.m_StunnedByHitKO = false;
-        m_StunInfo.m_IsHitStun = false;
+        m_StunInfo.m_StunType = EStunType.None;
         m_StunInfo.m_StunTimer = 0;
         Utils.GetPlayerEventManager<float>(gameObject).TriggerEvent(EPlayerEvent.StunEnd, m_StunInfo.m_StunTimer);
 
+
         // DEBUG ///////////////////////////////////
-        if (wasHitStun && m_DEBUG_IsBlockingAllAttacksAfterHitStun)
+        if (stunType == EStunType.Hit && m_DEBUG_IsBlockingAllAttacksAfterHitStun)
         {
             DEBUG_StartBlockingAttacks();
         }

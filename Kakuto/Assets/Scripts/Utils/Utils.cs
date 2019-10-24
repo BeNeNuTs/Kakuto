@@ -20,6 +20,12 @@ public static class Utils
         return layermask == (layermask | (1 << layer));
     }
 
+    public static void IgnorePushBoxLayerCollision(bool ignore = true)
+    {
+        int pushBoxLayer = LayerMask.NameToLayer("PushBox");
+        Physics2D.IgnoreLayerCollision(pushBoxLayer, pushBoxLayer, ignore);
+    }
+
     public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
     {
         T[] components = Object.FindObjectsOfType<T>();

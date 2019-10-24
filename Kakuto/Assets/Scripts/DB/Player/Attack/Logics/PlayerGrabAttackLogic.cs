@@ -84,6 +84,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
 
         m_GrabTouchedEnemy = false;
+        Utils.IgnorePushBoxLayerCollision(false);
     }
 
     void OnGrabTouched(PlayerBaseAttackLogic attackLogic)
@@ -115,6 +116,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
                 //Launch grabbed event
                 GrabbedInfo grabbedInfo = new GrabbedInfo(this, m_GrabHook);
                 Utils.GetEnemyEventManager<GrabbedInfo>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, grabbedInfo);
+                Utils.IgnorePushBoxLayerCollision();
             }
         }
     }
