@@ -11,20 +11,20 @@ public class HealthBarComponent : MonoBehaviour
 
     private void Awake()
     {
-        Utils.GetPlayerEventManager<float>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     private void OnDestroy()
     {
-        Utils.GetPlayerEventManager<float>(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
-    private void OnDamageTaken(float healthRatio)
+    private void OnDamageTaken(DamageTakenInfo damageTakenInfo)
     {
         StopAllCoroutines();
 
-        StartCoroutine(UpdateHealthFill(m_HealthBar, healthRatio, 0.0f));
-        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, healthRatio, HealthBarConfig.Instance.m_TimeBetweenHealthBar));
+        StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, 0.0f));
+        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, HealthBarConfig.Instance.m_TimeBetweenHealthBar));
     }
 
     IEnumerator UpdateHealthFill(Image imageToUpdate, float healthRatio, float timeToWait)

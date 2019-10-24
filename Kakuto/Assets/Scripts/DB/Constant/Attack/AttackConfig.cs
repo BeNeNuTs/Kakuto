@@ -15,6 +15,8 @@ public class AttackConfig : ScriptableObject
         }
     }
 
+    [Header("Inputs")]
+
     [Tooltip("How much time each input will be kept before being deleted")]
     public float m_InputPersistency = 2.0f;
 
