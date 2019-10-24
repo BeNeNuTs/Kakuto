@@ -275,7 +275,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (CheckIsCurrentAttack(attackName, "BlockAttack"))
         {
-            if (m_IsAttackBlocked)
+            if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
             {
                 Debug.LogError("Attack was already blocked by " + attackName);
                 return;
@@ -283,6 +283,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
             ClearTriggeredInputs();
             m_IsAttackBlocked = true;
+            m_UnblockAttackConfig = null;
         }
     }
 
