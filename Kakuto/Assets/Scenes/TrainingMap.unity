@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: d_OverrideGizmo
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 293122004, guid: 5227f780c94aaa240ba932079524456d, type: 3}
+      propertyPath: m_TagString
+      value: Player2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6445558315754301611, guid: 5227f780c94aaa240ba932079524456d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
@@ -822,11 +826,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7948278166680471517, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_DisplayAnimationDebug
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Controller
       value: 
@@ -1104,6 +1103,11 @@ PrefabInstance:
     - target: {fileID: 8515562094821041517, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_DisplayFPS
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948278166680471517, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_DisplayAnimationDebug
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
