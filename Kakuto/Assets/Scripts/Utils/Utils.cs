@@ -9,7 +9,11 @@ public static class Utils
         Animator animator = gameObject.GetComponent<Animator>();
         if(animator)
         {
-            return animator.GetBehaviours<T>().ToList().First(behaviour => behaviour.StateInfo.fullPathHash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash);
+            T[] behaviours = animator.GetBehaviours<T>();
+            if (behaviours != null && behaviours.Length > 0)
+            {
+                return behaviours.ToList().FirstOrDefault(behaviour => behaviour != null && behaviour.StateInfo.fullPathHash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash);
+            }
         }
 
         return null;

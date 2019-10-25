@@ -41,6 +41,8 @@ public class PlayerAttackComponent : MonoBehaviour
     private float m_TimeToWaitBeforeEvaluatingAttacks = 0f;
     private float m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
 
+    private List<Collider2D> m_HitBoxes;
+
     /// DEBUG
     [Header("Debug")]
     [Space]
@@ -59,6 +61,7 @@ public class PlayerAttackComponent : MonoBehaviour
             m_AttackLogics = m_AttacksConfig.CreateLogics(this);
         }
 
+        InitHitBoxes();
         RegisterListeners();
     }
 
@@ -228,6 +231,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void TriggerAttack(PlayerBaseAttackLogic attackLogic)
     {
+        // If current attack logic is != null, this means we're canceling this attack by another one
+        // In that case, we need to trigger EndOfAttack of this current attack before triggering the other one
+        // As the EndOfAttack triggered by the animation will happen only 1 frame later and the current attack logic will already be replaced
+        if(m_CurrentAttackLogic != null)
+        {
+            EndOfAttack(m_CurrentAttackLogic.GetAttack().m_AnimationAttackName);
+        }
+
         PlayerAttack attack = attackLogic.GetAttack();
 
         ClearTriggeredInputs();
@@ -302,6 +313,9 @@ public class PlayerAttackComponent : MonoBehaviour
 
             m_CurrentAttackLogic.OnAttackStopped();
             m_CurrentAttackLogic = null;
+
+            // Prevent to keep hit/grab boxes enabled if cancelling an attack by another while hit/grab boxes still enabled
+            DisableAllHitBoxes(); 
         }
     }
 
@@ -362,6 +376,40 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         enabled = false;
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
+    }
+
+    void InitHitBoxes()
+    {
+        int hitBoxLayer = LayerMask.NameToLayer("HitBox");
+        int grabBoxLayer = LayerMask.NameToLayer("GrabBox");
+
+        int colliderLayer = 0;
+        Collider2D[] allColliders = GetComponentsInChildren<Collider2D>();
+        m_HitBoxes = new List<Collider2D>(allColliders.Length);
+        foreach (Collider2D collider in allColliders)
+        {
+            colliderLayer = collider.gameObject.layer;
+            if (colliderLayer == hitBoxLayer || colliderLayer == grabBoxLayer)
+            {
+                m_HitBoxes.Add(collider);
+            }
+        }
+    }
+
+    void DisableAllHitBoxes()
+    {
+        if(m_HitBoxes.Count == 0)
+        {
+            Debug.LogError("HitBoxes have not been initialized.");
+        }
+
+        foreach(Collider2D hitBox in m_HitBoxes)
+        {
+            if(hitBox != null)
+            {
+                hitBox.enabled = false;
+            }   
+        }
     }
 
     public PlayerBaseAttackLogic GetCurrentAttackLogic()
