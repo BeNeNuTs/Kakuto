@@ -41,6 +41,13 @@ public class PlayerAttackComponent : MonoBehaviour
     private float m_TimeToWaitBeforeEvaluatingAttacks = 0f;
     private float m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
 
+    /// DEBUG
+    [Header("Debug")]
+    [Space]
+
+    public bool m_DEBUG_BreakOnTriggerAttack = false;
+    /// DEBUG
+
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
@@ -233,6 +240,13 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
+
+        // DEBUG ///////////////////////////////////
+        if (m_DEBUG_BreakOnTriggerAttack)
+        {
+            Debug.Break();
+        }
+        ////////////////////////////////////////////
     }
 
     void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)

@@ -43,7 +43,7 @@ public class AnimationDebugDisplay : MonoBehaviour
                 float clipLength = clips[0].clip.length;
                 float clipFrameRate = clips[0].clip.frameRate;
                 float clipFrameCount = clipLength * clipFrameRate;
-                animationInfo = clips[0].clip.name + " (" + Mathf.Floor(clipFrameCount * stateInfo.normalizedTime) % clipFrameCount + " / " + clipFrameCount + ")";
+                animationInfo = clips[0].clip.name + " (" + Mathf.Floor((clipFrameCount * stateInfo.normalizedTime) % clipFrameCount) + " / " + clipFrameCount + ")";
             }
         }
     }
