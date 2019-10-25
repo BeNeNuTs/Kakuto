@@ -49,6 +49,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     public override void OnAttackLaunched()
     {
+        base.OnAttackLaunched();
+
         m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString());
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);

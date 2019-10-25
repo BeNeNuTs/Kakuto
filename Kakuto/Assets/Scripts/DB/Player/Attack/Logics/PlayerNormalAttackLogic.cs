@@ -13,6 +13,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
     public override void OnAttackLaunched()
     {
+        base.OnAttackLaunched();
         m_Animator.Play(m_Attack.m_AnimationAttackName.ToString());
     }
 

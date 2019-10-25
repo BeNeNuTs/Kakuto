@@ -9,6 +9,8 @@ public abstract class PlayerBaseAttackLogic
     protected Animator m_Animator;
     protected PlayerMovementComponent m_MovementComponent;
 
+    private bool m_HasHit = false;
+
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
         m_Owner = owner;
@@ -40,8 +42,15 @@ public abstract class PlayerBaseAttackLogic
         return conditionIsValid;
     }
 
-    public abstract void OnAttackLaunched();
-    public virtual void OnAttackStopped() {}
+    public virtual void OnAttackLaunched()
+    {
+        m_HasHit = false;
+        Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+    }
+    public virtual void OnAttackStopped()
+    {
+        Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+    }
 
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
     public virtual uint GetHitDamage(bool isAttackBlocked) { return m_Attack.m_Damage; }
@@ -61,6 +70,20 @@ public abstract class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance) { return ""; }
 
+    public bool HasHit() { return m_HasHit; }
+
     public GameObject GetOwner() { return m_Owner; }
     public PlayerAttack GetAttack() { return m_Attack; }
+
+    private void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
+    {
+        if(this == damageTakenInfo.m_AttackLogic)
+        {
+            m_HasHit = true;
+        }
+        else
+        {
+            Debug.LogError("DamageTaken event has been received in " + m_Attack.m_AnimationAttackName + " but damage taken doesn't come from this attack. This attack has not been stopped correctly");
+        }
+    }
 }

@@ -74,7 +74,7 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
+        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -107,20 +107,28 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
+        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
     void Update()
     {
-        if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
+        if (CanUpdateInputs())
         {
-            return;
+            UpdateTriggerInputList();
+            UpdateTriggerInputString();
+        }
+    }
+
+    bool CanUpdateInputs()
+    {
+        if (!m_IsAttackBlocked || (m_IsAttackBlocked && m_UnblockAttackConfig != null))
+        {
+            return true;
         }
 
-        UpdateTriggerInputList();
-        UpdateTriggerInputString();
+        return false;
     }
 
     void UpdateTriggerInputList()
@@ -163,11 +171,6 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void LateUpdate()
     {
-        if(m_IsAttackBlocked && m_UnblockAttackConfig == null)
-        {
-            return;
-        }
-
         if(CanUpdateAttack())
         {
             UpdateAttack();
@@ -185,28 +188,47 @@ public class PlayerAttackComponent : MonoBehaviour
 
     bool CanUpdateAttack()
     {
-        return m_TimeToWaitBeforeEvaluatingAttacks <= 0 || m_TotalTimeWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxTimeToWaitBeforeEvaluatingAttacks;
+        // Time condition
+        if (m_TimeToWaitBeforeEvaluatingAttacks <= 0 || m_TotalTimeWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxTimeToWaitBeforeEvaluatingAttacks)
+        {
+            // Input condition
+            if (m_TriggeredInputsList.Count > 0)
+            {
+                // Block/Unblock condition
+                if (!m_IsAttackBlocked)
+                {
+                    return true;
+                }
+
+                if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
+                {
+                    if (m_CurrentAttackLogic.HasHit())
+                    {
+                        // Can update attacks and cancel the current one if it has hit the enemy
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     void UpdateAttack()
     {
-        if (m_TriggeredInputsList.Count > 0)
+        foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
         {
-            foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
+            if (EvaluateAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
             {
-                if (EvaluateAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
+                bool canTriggerAttack = true;
+                if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                 {
-                    bool canTriggerAttack = true;
-                    if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
-                    {
-                        canTriggerAttack = m_UnblockAttackConfig.m_AllowedAttacks.Contains(attackLogic.GetAttack().m_AnimationAttackName);
-                    }
+                    canTriggerAttack = m_UnblockAttackConfig.m_AllowedAttacks.Contains(attackLogic.GetAttack().m_AnimationAttackName);
+                }
 
-                    if(canTriggerAttack)
-                    {
-                        TriggerAttack(attackLogic);
-                        break;
-                    }
+                if(canTriggerAttack)
+                {
+                    TriggerAttack(attackLogic);
+                    break;
                 }
             }
         }
@@ -260,7 +282,7 @@ public class PlayerAttackComponent : MonoBehaviour
         ////////////////////////////////////////////
     }
 
-    void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
+    void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
     {
         // If enemy takes damage from the current attack logic
         if(damageTakenInfo.m_AttackLogic == m_CurrentAttackLogic)
