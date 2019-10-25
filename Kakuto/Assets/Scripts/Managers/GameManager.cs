@@ -82,12 +82,12 @@ public class GameManager : Singleton<GameManager>
         return m_Players.Find(p => p.tag == player.ToString());
     }
 
-    public T GetPlayerComponent<T>(EPlayer player) where T : MonoBehaviour
+    public T GetPlayerComponent<T>(EPlayer player) where T : Behaviour
     {
         GameObject playerGO = m_Players.Find(p => p.tag == player.ToString());
         if(playerGO)
         {
-            return playerGO.GetComponent<T>();
+            return playerGO.GetComponentInChildren<T>();
         }
         return null;
     }

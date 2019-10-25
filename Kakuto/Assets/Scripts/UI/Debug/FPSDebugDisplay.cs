@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FPSDisplay : MonoBehaviour
+public class FPSDebugDisplay : MonoBehaviour
 {
     public bool m_DisplayFPS = false;
 
