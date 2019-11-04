@@ -25,7 +25,7 @@ public class TimeManager : MonoBehaviour
     float m_TimeScaleDuration = 2f;
     ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
 
-    void Update()
+    void FixedUpdate()
     {
         if (m_TimeScaleInProgress)
         {
@@ -33,7 +33,7 @@ public class TimeManager : MonoBehaviour
             {
                 Time.timeScale += (1f / m_TimeScaleDuration) * Time.unscaledDeltaTime;
                 Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
-                Time.fixedDeltaTime = Time.timeScale * .02f;
+                Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
                 if(Time.timeScale == 1f)
                 {
                     m_TimeScaleInProgress = false;
