@@ -249,6 +249,6 @@ public class CharacterController2D : MonoBehaviour
 
     public bool IsJumping()
     {
-        return m_CharacterIsJumping;
+        return m_CharacterIsJumping || !m_Grounded;
     }
 }
