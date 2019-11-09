@@ -51,7 +51,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackLaunched();
 
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString());
+        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString(), 0, 0);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
@@ -101,7 +101,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         if (this == attackLogic)
         {
-            m_Animator.Play(K_GRAB_CANCEL_ANIM);
+            m_Animator.Play(K_GRAB_CANCEL_ANIM, 0, 0);
         }
     }
 
@@ -111,7 +111,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         {
             if(!m_GrabTouchedEnemy)
             {
-                m_Animator.Play(K_GRAB_MISS_ANIM);
+                m_Animator.Play(K_GRAB_MISS_ANIM, 0, 0);
             }
             else
             {

@@ -936,6 +936,11 @@ PrefabInstance:
       objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
+      propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
       propertyPath: m_ControllerConfig
       value: 
       objectReference: {fileID: 11400000, guid: 9f262de54804f0340a35a0c9eedc66c4,

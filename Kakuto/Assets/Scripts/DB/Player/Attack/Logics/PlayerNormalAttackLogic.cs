@@ -14,7 +14,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString());
+        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
     }
 
     public override bool CanBlockAttack(bool isCrouching)
@@ -89,18 +89,18 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 case EPlayerStance.Stand:
                     hitAnimName += m_Config.m_HitHeight.ToString();
                     hitAnimName += m_Config.m_HitStrength.ToString();
+                    hitAnimName += "_In"; //Play the In animation
                     break;
                 case EPlayerStance.Crouch:
                     hitAnimName += "Low"; // Crouch hit is necessarily low
                     hitAnimName += m_Config.m_HitStrength.ToString();
+                    hitAnimName += "_In"; //Play the In animation
                     break;
                 case EPlayerStance.Jump:
                     // Jump hit doesn't need hit height / strength
                     break;
             }
         }
-
-        hitAnimName += "_In"; //Play the In animation
 
         return hitAnimName;
     }
