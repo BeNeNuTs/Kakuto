@@ -24,9 +24,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private float m_HorizontalMoveInput = 0f;
 
-    private bool m_WantToJump = false;
-    private bool m_JumpInput = false;
-    private float m_TimeToWaitBeforeJumping = 0f;
+    private bool m_TriggerJumpImpulse = false;
 
     private bool m_CrouchInput = false;
 
@@ -81,6 +79,7 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StopMovement, OnStopMovement);
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -99,6 +98,7 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StopMovement, OnStopMovement);
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
@@ -116,13 +116,11 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
 
-            if(!m_WantToJump)
+            if (m_Controller.CanJump() && !m_Animator.GetBool("IsJumping"))
             {
-                m_JumpInput = false;
-                if(InputManager.GetJumpInput(m_PlayerIndex))
+                if (InputManager.GetJumpInput(m_PlayerIndex))
                 {
-                    m_WantToJump = true;
-                    m_TimeToWaitBeforeJumping = MovementConfig.Instance.TimeToWaitBeforeJumping;
+                    m_Animator.SetBool("IsJumping", true);
                 }
             }
 
@@ -130,19 +128,6 @@ public class PlayerMovementComponent : MonoBehaviour
         }
 
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
-    }
-
-    void LateUpdate()
-    {
-        if(m_WantToJump && m_TimeToWaitBeforeJumping > 0f)
-        {
-            m_TimeToWaitBeforeJumping -= Time.deltaTime;
-            if(m_TimeToWaitBeforeJumping <= 0)
-            {
-                m_JumpInput = true;
-                m_WantToJump = false;
-            }
-        }
     }
 
     void UpdatePlayerSide()
@@ -179,6 +164,11 @@ public class PlayerMovementComponent : MonoBehaviour
         OnDirectionChanged();
     }
 
+    void OnTriggerJumpImpulse(bool dummy)
+    {
+        m_TriggerJumpImpulse = true;
+    }
+
     public void OnJumping(bool isJumping)
     {
         m_Animator.SetBool("IsJumping", isJumping);
@@ -203,7 +193,8 @@ public class PlayerMovementComponent : MonoBehaviour
         }
 
         // Move our character
-        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_JumpInput);
+        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_TriggerJumpImpulse);
+        m_TriggerJumpImpulse = false;
     }
 
     public EPlayerStance GetCurrentStance()
@@ -329,11 +320,6 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
-
-            if (isMovementBlocked)
-            {
-                m_WantToJump = false;
-            }
         }
     }
 }

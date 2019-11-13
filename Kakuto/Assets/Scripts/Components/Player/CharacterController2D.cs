@@ -75,13 +75,13 @@ public class CharacterController2D : MonoBehaviour
             {
                 if (Utils.IsInLayerMask(collider.gameObject.layer, MovementConfig.Instance.m_GroundLayerMask))
                 {
-                    m_Grounded = true;
                     if (!wasGrounded)
                     {
                         m_LastJumpLandingTimeStamp = Time.time;
-                        m_CharacterIsJumping = false;
                         OnJumpEvent.Invoke(false);
+                        m_CharacterIsJumping = false;
                     }
+                    m_Grounded = true;
                     break;
                 }
             }
@@ -144,23 +144,18 @@ public class CharacterController2D : MonoBehaviour
             }
         }
         // If the player should jump...
-        if (m_Grounded && jump)
+        if (jump && CanJump())
         {
-            float currentTime = Time.time;
-            if(currentTime > m_LastJumpTakeOffTimeStamp + k_TimeBetweenJumpsTakeOff &&
-               currentTime > m_LastJumpLandingTimeStamp + m_ControllerConfig.m_TimeBetweenJumps)
-            {
-                // Add a force to the player according to his direction.
-                m_LastJumpTakeOffTimeStamp = Time.time;
+            // Add a force to the player according to his direction.
+            m_LastJumpTakeOffTimeStamp = Time.time;
 
-                StopMovement();
+            StopMovement();
 
-                GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
-                Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
-                m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
+            GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
+            Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
+            m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
 
-                m_CharacterIsJumping = true;
-            }
+            m_CharacterIsJumping = true;
         }
     }
 
@@ -245,6 +240,21 @@ public class CharacterController2D : MonoBehaviour
     {
         m_Velocity = Vector2.zero;
         m_Rigidbody2D.velocity = m_Velocity;
+    }
+
+    public bool CanJump()
+    {
+        if(!IsJumping())
+        {
+            float currentTime = Time.time;
+            if (currentTime > m_LastJumpTakeOffTimeStamp + k_TimeBetweenJumpsTakeOff &&
+               currentTime > m_LastJumpLandingTimeStamp + m_ControllerConfig.m_TimeBetweenJumps)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool IsJumping()

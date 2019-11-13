@@ -76,4 +76,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.StopMovement, true);
     }
+
+    public void TriggerJumpImpulse()
+    {
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerJumpImpulse, true);
+    }
 }

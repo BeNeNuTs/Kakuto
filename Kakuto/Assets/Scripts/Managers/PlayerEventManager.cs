@@ -41,6 +41,8 @@ public enum EPlayerEvent
 
     StopMovement,
 
+    TriggerJumpImpulse,
+
     // For enemy
     Hit,
     GrabTry,
