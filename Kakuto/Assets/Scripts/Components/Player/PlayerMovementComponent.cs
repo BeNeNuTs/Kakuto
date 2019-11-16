@@ -24,6 +24,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private float m_HorizontalMoveInput = 0f;
 
+    private bool m_WaitingForJumpImpulse = false;
     private bool m_TriggerJumpImpulse = false;
 
     private bool m_CrouchInput = false;
@@ -121,6 +122,7 @@ public class PlayerMovementComponent : MonoBehaviour
                 if (InputManager.GetJumpInput(m_PlayerIndex))
                 {
                     m_Animator.SetBool("IsJumping", true);
+                    m_WaitingForJumpImpulse = true;
                 }
             }
 
@@ -166,7 +168,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnTriggerJumpImpulse(bool dummy)
     {
-        m_TriggerJumpImpulse = true;
+        if(!m_IsMovementBlocked)
+        {
+            m_TriggerJumpImpulse = true;
+            m_WaitingForJumpImpulse = false;
+        }
     }
 
     public void OnJumping(bool isJumping)
@@ -320,6 +326,18 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
+
+            if(m_IsMovementBlocked)
+            {
+                // I was waiting for jump impulse or jump impulse is ready but not applied yet
+                // but movement has been blocked before it happens
+                if (m_WaitingForJumpImpulse || m_TriggerJumpImpulse)
+                {
+                    m_Animator.SetBool("IsJumping", false);
+                }
+                m_TriggerJumpImpulse = false;
+                m_WaitingForJumpImpulse = false;
+            }
         }
     }
 }
