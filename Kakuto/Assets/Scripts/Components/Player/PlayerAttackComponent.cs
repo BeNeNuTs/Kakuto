@@ -37,6 +37,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
+    private bool m_IsAttackBlockedByTakeOff = false;
 
     private float m_TimeToWaitBeforeEvaluatingAttacks = 0f;
     private float m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
@@ -392,6 +393,20 @@ public class PlayerAttackComponent : MonoBehaviour
         }
         m_IsAttackBlocked = false;
         m_UnblockAttackConfig = null;
+    }
+
+    public void SetAttackBlockedByTakeOff(bool attackBlocked)
+    {
+        if(attackBlocked)
+        {
+            OnStunBegin(0f);
+            m_IsAttackBlockedByTakeOff = true;
+        }
+        else if(m_IsAttackBlockedByTakeOff)
+        {
+            OnStunEnd(0f);
+            m_IsAttackBlockedByTakeOff = false;
+        }
     }
 
     void OnRoundOver()

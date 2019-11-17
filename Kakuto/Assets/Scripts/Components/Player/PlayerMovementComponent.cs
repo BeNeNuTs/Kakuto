@@ -123,6 +123,7 @@ public class PlayerMovementComponent : MonoBehaviour
                 {
                     m_Animator.SetBool("IsJumping", true);
                     m_WaitingForJumpImpulse = true;
+                    m_AttackComponent.SetAttackBlockedByTakeOff(true);
                 }
             }
 
@@ -172,6 +173,7 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             m_TriggerJumpImpulse = true;
             m_WaitingForJumpImpulse = false;
+            m_AttackComponent.SetAttackBlockedByTakeOff(false);
         }
     }
 
@@ -337,6 +339,7 @@ public class PlayerMovementComponent : MonoBehaviour
                 }
                 m_TriggerJumpImpulse = false;
                 m_WaitingForJumpImpulse = false;
+                m_AttackComponent.SetAttackBlockedByTakeOff(false);
             }
         }
     }
