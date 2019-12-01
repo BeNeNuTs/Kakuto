@@ -17,6 +17,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 12
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -40,6 +41,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 17
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -61,6 +63,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 14
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -82,6 +85,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 12
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -105,6 +109,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 15
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -126,6 +131,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 16
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -147,6 +153,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 13
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -168,6 +175,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 11
     m_NeededStance: 2
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -189,6 +197,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 8
     m_NeededStance: 2
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -210,6 +219,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 9
     m_NeededStance: 2
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -231,6 +241,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 2
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -252,6 +263,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 7
     m_NeededStance: 1
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -273,6 +285,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 1
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -294,6 +307,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 0
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -315,6 +329,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 6
     m_NeededStance: 1
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -336,6 +351,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 10
     m_NeededStance: 2
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -357,6 +373,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 4
     m_NeededStance: 1
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -378,6 +395,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 3
     m_NeededStance: 0
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -399,6 +417,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 5
     m_NeededStance: 1
+    m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
@@ -416,5 +435,27 @@ MonoBehaviour:
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
     m_AttackConfig: {fileID: 11400000, guid: 310354e33b903854891289d429316587, type: 2}
+  - m_Name: trigger
+    m_Description: 
+    m_AnimationAttackName: 19
+    m_NeededStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - XA
+    m_ComputedInputStringList:
+    - X
+    m_BlockMovement: 1
+    m_Damage: 0
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0.05
+    m_TimeScaleDuration: 0.1
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0.02
+    m_CameraShakeDuration: 0.05
+    m_AttackConfig: {fileID: 11400000, guid: 8af8436137482924083c6865c4868229, type: 2}
   m_ComputeInputs: 0
   m_SortAttackList: 0
