@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de4b7d3321e34bb4fba39407a6636a48, type: 3}
-  m_Name: AttackConfig
+  m_Script: {fileID: 11500000, guid: 7611d46cf17f3924f9860ee852cbca5d, type: 3}
+  m_Name: PlayerTeleportAttackConfig
   m_EditorClassIdentifier: 
-  m_InputPersistency: 0.3
-  m_MaxInputs: 10
-  m_FramesToWaitBeforeEvaluatingAttacks: 3
-  m_MaxFramesToWaitBeforeEvaluatingAttacks: 10
+  m_TeleportCondition: 0
+  m_TeleportOffset: {x: 0, y: -0.7, z: 0}
