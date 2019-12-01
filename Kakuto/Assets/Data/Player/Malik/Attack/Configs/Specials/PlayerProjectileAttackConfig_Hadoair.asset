@@ -27,4 +27,27 @@ MonoBehaviour:
   m_ProjectilePrefab: {fileID: 587281410810692863, guid: afafe82ac278e164ca983c5bc48ce084,
     type: 3}
   m_ProjectileAngle: 45
-  m_ProjectileSpeed: 3
+  m_ProjectileSpeedOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4

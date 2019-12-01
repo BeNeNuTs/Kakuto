@@ -10,8 +10,8 @@ public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
     public GameObject m_ProjectilePrefab;
     [Tooltip("The angle to emit the projectile")]
     public float m_ProjectileAngle = 0.0f;
-    [Tooltip("The speed of the projectile"), Range(0.1f, 10f)]
-    public float m_ProjectileSpeed = 10.0f;
+    [Tooltip("The speed of the projectile over time")]
+    public AnimationCurve m_ProjectileSpeedOverTime;
 
     public override PlayerBaseAttackLogic CreateLogic()
     {

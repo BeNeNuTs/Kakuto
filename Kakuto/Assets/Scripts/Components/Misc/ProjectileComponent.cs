@@ -17,6 +17,7 @@ public class ProjectileComponent : MonoBehaviour
     private uint m_CurrentHitCount = 0;
     private float m_LastHitCountTimeStamp = 0f;
     private float m_LastVisibilityCheckTimeStamp = 0f;
+    private float m_LifeTime = 0f;
 
     private OutOfBoundsSubGameManager m_OutOfBoundsSubManager;
 
@@ -45,12 +46,14 @@ public class ProjectileComponent : MonoBehaviour
 
             m_LastVisibilityCheckTimeStamp = Time.time;
         }
+
+        m_LifeTime += Time.deltaTime;
     }
 
     void FixedUpdate()
     {
         Vector3 moveDirection = transform.right * transform.localScale.x;
-        m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeed * Time.fixedDeltaTime);
+        m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime) * Time.fixedDeltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
