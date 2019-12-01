@@ -95,10 +95,12 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if(MovementConfig.Instance.d_DisplayOverlapCircle)
+#if UNITY_EDITOR
+        if (MovementConfig.Instance.d_DisplayOverlapCircle)
         {
             Gizmos.DrawWireSphere(transform.position, MovementConfig.Instance.m_OverlapCircleRadius);
-        }        
+        }
+#endif
     }
 
     public void Move(float move, bool crouch, bool jump)
