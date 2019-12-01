@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 {
     private static readonly string K_PROJECTILE_HOOK = "ProjectileHook";
+    private static bool m_NextNonSuperProjectileIsGuardCrush = true;
 
     private readonly PlayerProjectileAttackConfig m_Config;
 
@@ -53,6 +54,16 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
     }
 
+    public override bool CanBlockAttack(bool isCrouching)
+    {
+        bool canBlockAttack = base.CanBlockAttack(isCrouching);
+        if (canBlockAttack)
+        {
+            canBlockAttack &= IsASuper() || !m_NextNonSuperProjectileIsGuardCrush;
+        }
+        return canBlockAttack;
+    }
+
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
@@ -66,11 +77,16 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     private void OnProjectileDestroyed(ProjectileComponent projectile)
     {
-        m_CurrentProjectile = null;
         if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)
         {
             Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + projectile);
         }
+
+        if(!IsASuper())
+        {
+            m_NextNonSuperProjectileIsGuardCrush = false;
+        }
+        m_CurrentProjectile = null;
     }
 
     private void OnTriggerProjectile(bool dummyBool)
@@ -89,5 +105,10 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
             Debug.LogError("ProjectileComponent could not be found on " + projectile);
             GameObject.Destroy(projectile);
         }
+    }
+
+    public static void SetNextNonSuperProjectileGuardCrush()
+    {
+        m_NextNonSuperProjectileIsGuardCrush = true;
     }
 }

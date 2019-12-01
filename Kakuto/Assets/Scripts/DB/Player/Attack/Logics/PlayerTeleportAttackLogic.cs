@@ -76,10 +76,10 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
 
     private void OnProjectileDestroyed(ProjectileComponent projectile)
     {
-        m_CurrentProjectile = null;
         if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)
         {
             Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + projectile);
         }
+        m_CurrentProjectile = null;
     }
 }
