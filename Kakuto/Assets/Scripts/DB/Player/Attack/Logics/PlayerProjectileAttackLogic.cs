@@ -9,7 +9,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     private readonly PlayerProjectileAttackConfig m_Config;
 
     private Transform m_ProjectileHook;
-    private GameObject m_CurrentProjectile;
+    private ProjectileComponent m_CurrentProjectile;
 
     public PlayerProjectileAttackLogic(PlayerProjectileAttackConfig config) : base(config)
     {
@@ -26,15 +26,15 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
             Debug.LogError(K_PROJECTILE_HOOK + " can't be found on " + m_Owner);
         }
 #endif
-        Utils.GetPlayerEventManager<GameObject>(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<GameObject>(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
 
     public override void OnShutdown()
     {
         base.OnShutdown();
-        Utils.GetPlayerEventManager<GameObject>(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<GameObject>(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
@@ -59,12 +59,12 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
     }
 
-    private void OnProjectileSpawned(GameObject projectile)
+    private void OnProjectileSpawned(ProjectileComponent projectile)
     {
         m_CurrentProjectile = projectile;
     }
 
-    private void OnProjectileDestroyed(GameObject projectile)
+    private void OnProjectileDestroyed(ProjectileComponent projectile)
     {
         m_CurrentProjectile = null;
         if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)

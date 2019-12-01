@@ -75,6 +75,8 @@ public abstract class PlayerBaseAttackLogic
     public GameObject GetOwner() { return m_Owner; }
     public PlayerAttack GetAttack() { return m_Attack; }
 
+    public bool IsASuper() { return m_Attack.m_IsASuper; }
+
     private void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
     {
         if(this == damageTakenInfo.m_AttackLogic)

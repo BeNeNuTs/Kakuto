@@ -17,6 +17,7 @@ public class PlayerAttack
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
     public EPlayerStance m_NeededStance = EPlayerStance.Stand;
+    public bool m_IsASuper = false;
 
     // Condition (AttackRequirement)
     [Header("Condition")]

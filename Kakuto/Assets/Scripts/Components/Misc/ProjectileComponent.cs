@@ -32,7 +32,7 @@ public class ProjectileComponent : MonoBehaviour
 
         m_OutOfBoundsSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
 
-        Utils.GetPlayerEventManager<GameObject>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, gameObject);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, this);
     }
 
     void Update()
@@ -98,10 +98,13 @@ public class ProjectileComponent : MonoBehaviour
         }
     }
 
-    void DestroyProjectile()
+    public void DestroyProjectile()
     {
-        Utils.GetPlayerEventManager<GameObject>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, gameObject);
+        Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, this);
         gameObject.SetActive(false);
         Destroy(gameObject);
     }
+
+    public PlayerProjectileAttackLogic GetLogic() { return m_Logic; }
+    public PlayerProjectileAttackConfig GetConfig() { return m_Config; }
 }
