@@ -6,6 +6,20 @@ public static class GamePadManager
     private static readonly int K_GAMEPAD_BUTTON = 4;
     private static readonly float K_GAMEPAD_CONNECTION_CHECK = 2f; // Check if gamepads are connected every 2 seconds
 
+    public enum EDirection
+    {
+        Down,
+        DownRight,
+        Right,
+        UpRight,
+        Up,
+        UpLeft,
+        Left, 
+        DownLeft,
+
+        Invalid
+    }
+
     private class PlayerGamePad
     {
         public int lastUpdate = -1;
@@ -18,6 +32,9 @@ public static class GamePadManager
         public bool left = false;
         public bool right = false;
 
+        public EDirection lastDirection = EDirection.Invalid;
+        public EDirection currentDirection = EDirection.Invalid;
+
         public bool NeedUpdate()
         {
             return lastUpdate != Time.frameCount;
@@ -26,6 +43,58 @@ public static class GamePadManager
         public void Update()
         {
             lastUpdate = Time.frameCount;
+            ComputeCurrentDirection();
+        }
+
+        private void ComputeCurrentDirection()
+        {
+            lastDirection = currentDirection;
+
+            if (up)
+            {
+                if (left)
+                {
+                    currentDirection = EDirection.UpLeft;
+                }
+                else if (right)
+                {
+                    currentDirection = EDirection.UpRight;
+                }
+                else
+                {
+                    currentDirection = EDirection.Up;
+                }
+            }
+            else if (down)
+            {
+                if (left)
+                {
+                    currentDirection = EDirection.DownLeft;
+                }
+                else if (right)
+                {
+                    currentDirection = EDirection.DownRight;
+                }
+                else
+                {
+                    currentDirection = EDirection.Down;
+                }
+            }
+            else
+            {
+                if (left)
+                {
+                    currentDirection = EDirection.Left;
+                }
+                else if (right)
+                {
+                    currentDirection = EDirection.Right;
+                }
+                else
+                {
+                    currentDirection = EDirection.Invalid;
+                }
+            }
         }
     }
 
@@ -37,7 +106,7 @@ public static class GamePadManager
     public static float GetHorizontalMovement(int playerIndex)
     {
         Update(playerIndex);
-        return playerGamePads[playerIndex].lastXAxis;
+        return Mathf.RoundToInt(playerGamePads[playerIndex].lastXAxis);
     }
 
     public static bool GetJumpInput(int playerIndex)
@@ -58,48 +127,39 @@ public static class GamePadManager
 
         string inputString = "";
 
-        bool isLeftKeyDown = playerGamePads[playerIndex].left;
-        bool isRightKeyDown = playerGamePads[playerIndex].right;
-        bool isUpKeyDown = playerGamePads[playerIndex].up;
-        bool isDownKeyDown = playerGamePads[playerIndex].down;
-
-        if (isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
+        if(playerGamePads[playerIndex].currentDirection != EDirection.Invalid)
         {
-            inputString += (isLeftSide) ? '←' : '→';
-        }
-        else if (isRightKeyDown && !isUpKeyDown && !isDownKeyDown)
-        {
-            inputString += (isLeftSide) ? '→' : '←';
-        }
-
-        if (isUpKeyDown)
-        {
-            if (isLeftKeyDown)
+            if (playerGamePads[playerIndex].lastDirection != playerGamePads[playerIndex].currentDirection)
             {
-                inputString += (isLeftSide) ? '↖' : '↗';
-            }
-            else if (isRightKeyDown)
-            {
-                inputString += (isLeftSide) ? '↗' : '↖';
-            }
-            else
-            {
-                inputString += '↑';
-            }
-        }
-        else if (isDownKeyDown)
-        {
-            if (isLeftKeyDown)
-            {
-                inputString += (isLeftSide) ? '↙' : '↘';
-            }
-            else if (isRightKeyDown)
-            {
-                inputString += (isLeftSide) ? '↘' : '↙';
-            }
-            else
-            {
-                inputString += '↓';
+                switch (playerGamePads[playerIndex].currentDirection)
+                {
+                    case EDirection.Down:
+                        inputString += '↓';
+                        break;
+                    case EDirection.DownRight:
+                        inputString += (isLeftSide) ? '↘' : '↙';
+                        break;
+                    case EDirection.Right:
+                        inputString += (isLeftSide) ? '→' : '←';
+                        break;
+                    case EDirection.UpRight:
+                        inputString += (isLeftSide) ? '↗' : '↖';
+                        break;
+                    case EDirection.Up:
+                        inputString += '↑';
+                        break;
+                    case EDirection.UpLeft:
+                        inputString += (isLeftSide) ? '↖' : '↗';
+                        break;
+                    case EDirection.Left:
+                        inputString += (isLeftSide) ? '←' : '→';
+                        break;
+                    case EDirection.DownLeft:
+                        inputString += (isLeftSide) ? '↙' : '↘';
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -159,12 +219,12 @@ public static class GamePadManager
             horizontalRawAxis = Input.GetAxisRaw("DpadX" + joystickNum);
         }
 
-        if (horizontalRawAxis > 0 && playerGamePads[playerIndex].lastXAxis <= 0)
+        if (horizontalRawAxis > 0)
         {
             playerGamePads[playerIndex].right = true;
             playerGamePads[playerIndex].left = false;
         }
-        else if (horizontalRawAxis < 0 && playerGamePads[playerIndex].lastXAxis >= 0)
+        else if (horizontalRawAxis < 0)
         {
             playerGamePads[playerIndex].right = false;
             playerGamePads[playerIndex].left = true;
@@ -188,12 +248,12 @@ public static class GamePadManager
             verticalRawAxis = Input.GetAxisRaw("DpadY" + joystickNum);
         }
 
-        if (verticalRawAxis > 0 && playerGamePads[playerIndex].lastYAxis <= 0)
+        if (verticalRawAxis > 0)
         {
             playerGamePads[playerIndex].up = true;
             playerGamePads[playerIndex].down = false;
         }
-        else if (verticalRawAxis < 0 && playerGamePads[playerIndex].lastYAxis >= 0)
+        else if (verticalRawAxis < 0)
         {
             playerGamePads[playerIndex].up = false;
             playerGamePads[playerIndex].down = true;
