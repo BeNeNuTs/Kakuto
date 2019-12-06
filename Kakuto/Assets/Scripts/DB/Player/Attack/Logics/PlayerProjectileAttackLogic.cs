@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 {
     private static readonly string K_PROJECTILE_HOOK = "ProjectileHook";
-    private static bool m_NextNonSuperProjectileIsGuardCrush = false;
+    private static bool[] m_NextNonSuperProjectileIsGuardCrush = { false, false };
 
     private readonly PlayerProjectileAttackConfig m_Config;
 
@@ -59,7 +59,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         bool canBlockAttack = base.CanBlockAttack(isCrouching);
         if (canBlockAttack)
         {
-            canBlockAttack &= IsASuper() || !m_NextNonSuperProjectileIsGuardCrush;
+            canBlockAttack &= IsASuper() || !IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
         }
         return canBlockAttack;
     }
@@ -84,7 +84,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
         if(!IsASuper())
         {
-            m_NextNonSuperProjectileIsGuardCrush = false;
+            SetNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex(), false);
         }
         m_CurrentProjectile = null;
     }
@@ -107,8 +107,13 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         }
     }
 
-    public static void SetNextNonSuperProjectileGuardCrush()
+    public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)
     {
-        m_NextNonSuperProjectileIsGuardCrush = true;
+        m_NextNonSuperProjectileIsGuardCrush[playerIndex] = active;
+    }
+
+    public static bool IsNextNonSuperProjectileGuardCrush(int playerIndex)
+    {
+        return m_NextNonSuperProjectileIsGuardCrush[playerIndex];
     }
 }

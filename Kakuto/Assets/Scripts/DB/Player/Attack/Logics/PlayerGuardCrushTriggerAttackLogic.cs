@@ -11,6 +11,29 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         m_Config = config;
     }
 
+    public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
+    {
+        bool conditionIsValid = base.EvaluateConditions(currentAttackLogic);
+
+        if(conditionIsValid)
+        {
+            conditionIsValid &= CheckConditionsInternal();
+        }
+
+        return conditionIsValid;
+    }
+
+    private bool CheckConditionsInternal()
+    {
+        switch (m_Config.m_GuardCrushType)
+        {
+            case PlayerGuardCrushTriggerAttackConfig.EGuardCrushType.NextNonSuperProjectile:
+                return !PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
+            default:
+                return false;
+        }
+    }
+
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
@@ -23,7 +46,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         switch (m_Config.m_GuardCrushType)
         {
             case PlayerGuardCrushTriggerAttackConfig.EGuardCrushType.NextNonSuperProjectile:
-                PlayerProjectileAttackLogic.SetNextNonSuperProjectileGuardCrush();
+                PlayerProjectileAttackLogic.SetNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex(), true);
                 break;
             default:
                 break;
