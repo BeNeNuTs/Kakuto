@@ -14,8 +14,6 @@ public class ProjectileComponent : MonoBehaviour
 
     private Rigidbody2D m_Rigidbody;
     private SpriteRenderer m_SpriteRenderer;
-    private uint m_CurrentHitCount = 0;
-    private float m_LastHitCountTimeStamp = 0f;
     private float m_LastVisibilityCheckTimeStamp = 0f;
     private float m_LifeTime = 0f;
 
@@ -72,16 +70,10 @@ public class ProjectileComponent : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
             {
-                if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + m_Config.m_DelayBetweenHits)
+                if(m_Logic != null)
                 {
-                    if (m_CurrentHitCount < m_Config.m_MaxHitCount)
-                    {
-                        m_CurrentHitCount++;
-                        m_LastHitCountTimeStamp = Time.time;
-                        Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_PlayerTag).TriggerEvent(EPlayerEvent.Hit, m_Logic);
-                    }
-
-                    if (m_CurrentHitCount >= m_Config.m_MaxHitCount)
+                    m_Logic.OnHit();
+                    if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                     {
                         DestroyProjectile();
                     }

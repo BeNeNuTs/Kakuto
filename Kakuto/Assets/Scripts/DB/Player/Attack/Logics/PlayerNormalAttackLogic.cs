@@ -6,6 +6,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 {
     private readonly PlayerNormalAttackConfig m_Config;
 
+    private uint m_CurrentHitCount = 0;
+    private float m_LastHitCountTimeStamp = 0f;
+
     public PlayerNormalAttackLogic(PlayerNormalAttackConfig config)
     {
         m_Config = config;
@@ -14,7 +17,30 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
+        m_CurrentHitCount = 0;
+        m_LastHitCountTimeStamp = 0f;
         m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
+    }
+
+    public override void OnHit()
+    {
+        base.OnHit();
+        if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
+        {
+            if (m_CurrentHitCount < GetMaxHitCount())
+            {
+                m_CurrentHitCount++;
+                m_LastHitCountTimeStamp = Time.time;
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
+            }
+        }
+    }
+
+    public override void OnAttackStopped()
+    {
+        base.OnAttackStopped();
+        m_CurrentHitCount = 0;
+        m_LastHitCountTimeStamp = 0f;
     }
 
     public override bool CanBlockAttack(bool isCrouching)
@@ -36,6 +62,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return (isAttackBlocked) ? m_Config.m_CheapDamage : m_Attack.m_Damage;
     }
 
+    public override uint GetCurrentHitCount() { return m_CurrentHitCount; }
     public override uint GetMaxHitCount() { return m_Config.m_MaxHitCount; }
     public override float GetDelayBetweenHits() { return m_Config.m_DelayBetweenHits; }
     public override bool IsHitKO() { return m_Config.m_HitKO; }
@@ -46,7 +73,8 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return (isAttackBlocked) ? m_Config.BlockStun : m_Config.HitStun;
     }
 
-    public override bool CanPushBack() { return true; }
+    // Pushback can be applied only on last hit
+    public override bool CanPushBack() { return GetCurrentHitCount() >= GetMaxHitCount(); }
     public override float GetPushBackForce(bool isAttackBlocked)
     {
         return (isAttackBlocked) ? m_Config.m_BlockPushBack : m_Config.m_HitPushBack;

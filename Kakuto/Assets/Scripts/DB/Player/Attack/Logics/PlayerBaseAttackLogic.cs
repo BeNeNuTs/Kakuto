@@ -55,6 +55,7 @@ public abstract class PlayerBaseAttackLogic
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
     public virtual uint GetHitDamage(bool isAttackBlocked) { return m_Attack.m_Damage; }
 
+    public virtual uint GetCurrentHitCount() { return 0; }
     public virtual uint GetMaxHitCount() { return 1; }
     public virtual float GetDelayBetweenHits() { return 0.1f; }
     public virtual bool IsHitKO() { return false; }
@@ -70,6 +71,7 @@ public abstract class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance) { return ""; }
 
+    public virtual void OnHit() { }
     public bool HasHit() { return m_HasHit; }
 
     public GameObject GetOwner() { return m_Owner; }

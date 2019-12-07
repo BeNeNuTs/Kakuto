@@ -7,9 +7,6 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
-    private uint m_CurrentHitCount = 0;
-    private float m_LastHitCountTimeStamp = 0f;
-
     private void Awake()
     {
         m_CurrentAttack = null;
@@ -35,8 +32,6 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
     void OnAttackLaunched(PlayerBaseAttackLogic attackLogic)
     {
         m_CurrentAttack = attackLogic;
-        m_CurrentHitCount = 0;
-        m_LastHitCountTimeStamp = 0f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,19 +52,10 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
             {
                 if (m_CurrentAttack != null)
                 {
-                    if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + m_CurrentAttack.GetDelayBetweenHits())
+                    m_CurrentAttack.OnHit();
+                    if(m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
                     {
-                        if (m_CurrentHitCount < m_CurrentAttack.GetMaxHitCount())
-                        {
-                            m_CurrentHitCount++;
-                            m_LastHitCountTimeStamp = Time.time;
-                            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.Hit, m_CurrentAttack);
-                        }
-
-                        if (m_CurrentHitCount >= m_CurrentAttack.GetMaxHitCount())
-                        {
-                            m_Collider.enabled = false;
-                        }
+                        m_Collider.enabled = false;
                     }
                 }
             }
