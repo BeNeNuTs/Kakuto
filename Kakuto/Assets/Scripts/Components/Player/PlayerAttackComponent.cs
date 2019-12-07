@@ -290,7 +290,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if (m_CurrentAttackLogic.CanPushBack())
             {
-                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(false);
+                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_IsAttackBlocked, false);
                 if (pushBackForce > 0.0f && m_MovementComponent)
                 {
                     m_MovementComponent.PushBack(pushBackForce);

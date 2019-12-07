@@ -51,20 +51,26 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     {
         return (isAttackBlocked) ? m_Config.m_BlockPushBack : m_Config.m_HitPushBack;
     }
-    public override float GetAttackerPushBackForce(bool enemyIsInACorner)
+    public override float GetAttackerPushBackForce(bool isAttackBlocked, bool enemyIsInACorner)
     {
-        switch (m_Config.m_AttackerPushBackCondition)
+        if ((isAttackBlocked && m_Config.m_ApplyAttackerBlockPushBack) || (!isAttackBlocked && m_Config.m_ApplyAttackerHitPushBack))
         {
-            case EAttackerPushBackCondition.Always:
-                return m_Config.m_AttackerPushBack;
-            case EAttackerPushBackCondition.OnlyIfEnemyIsInACorner:
-                if(enemyIsInACorner)
-                {
-                    return m_Config.m_AttackerPushBack;
-                }
-                break;
-            default:
-                return 0f;
+            EAttackerPushBackCondition condition = (isAttackBlocked) ? m_Config.m_AttackerBlockPushBackCondition : m_Config.m_AttackerHitPushBackCondition;
+            float pushBack = (isAttackBlocked) ? m_Config.m_AttackerBlockPushBack : m_Config.m_AttackerHitPushBack;
+
+            switch (condition)
+            {
+                case EAttackerPushBackCondition.Always:
+                    return pushBack;
+                case EAttackerPushBackCondition.OnlyIfEnemyIsInACorner:
+                    if (enemyIsInACorner)
+                    {
+                        return pushBack;
+                    }
+                    break;
+                default:
+                    return 0f;
+            }
         }
 
         return 0f;

@@ -64,7 +64,7 @@ public abstract class PlayerBaseAttackLogic
 
     public virtual bool CanPushBack() { return false; }
     public virtual float GetPushBackForce(bool isAttackBlocked) { return 0.0f; }
-    public virtual float GetAttackerPushBackForce(bool enemyIsInACorner) { return 0.0f; }
+    public virtual float GetAttackerPushBackForce(bool isAttackBlocked, bool enemyIsInACorner) { return 0.0f; }
 
     public virtual bool CanPlayDamageTakenAnim() { return false; }
     public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
