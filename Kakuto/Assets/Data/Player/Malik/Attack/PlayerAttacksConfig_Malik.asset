@@ -489,5 +489,28 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: 776b9f9c04e1b9c428dabc8bfefac08c, type: 2}
+  - m_Name: hadoblast
+    m_Description: 
+    m_AnimationAttackName: 20
+    m_NeededStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - "\u2193\u2199\u2190 + standLP"
+    - "\u2193\u2199\u2190 + standHP"
+    m_ComputedInputStringList:
+    - B
+    m_BlockMovement: 1
+    m_Damage: 15
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+    m_AttackConfig: {fileID: 11400000, guid: 51832556835b5c543bc74ed17fd6209b, type: 2}
   m_ComputeInputs: 0
   m_SortAttackList: 0
