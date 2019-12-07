@@ -62,3 +62,9 @@ public enum ETimeScaleBackToNormal
     Smooth,
     Instant
 }
+
+public enum EAttackerPushBackCondition
+{
+    Always,
+    OnlyIfEnemyIsInACorner
+}

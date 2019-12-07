@@ -51,9 +51,23 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     {
         return (isAttackBlocked) ? m_Config.m_BlockPushBack : m_Config.m_HitPushBack;
     }
-    public override float GetAttackerPushBackForce()
+    public override float GetAttackerPushBackForce(bool enemyIsInACorner)
     {
-        return m_Config.m_AttackerPushBack;
+        switch (m_Config.m_AttackerPushBackCondition)
+        {
+            case EAttackerPushBackCondition.Always:
+                return m_Config.m_AttackerPushBack;
+            case EAttackerPushBackCondition.OnlyIfEnemyIsInACorner:
+                if(enemyIsInACorner)
+                {
+                    return m_Config.m_AttackerPushBack;
+                }
+                break;
+            default:
+                return 0f;
+        }
+
+        return 0f;
     }
 
     public override bool CanPlayDamageTakenAnim() { return true; }

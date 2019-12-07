@@ -51,6 +51,7 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
     [Header("Attacker effect")]
     [Tooltip("The force of the push back applied to the attacker if this attack hit or is blocked")]
     public float m_AttackerPushBack = 0.0f;
+    public EAttackerPushBackCondition m_AttackerPushBackCondition = EAttackerPushBackCondition.OnlyIfEnemyIsInACorner;
 
     public override PlayerBaseAttackLogic CreateLogic()
     {

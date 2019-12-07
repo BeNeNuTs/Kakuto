@@ -290,7 +290,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if (m_CurrentAttackLogic.CanPushBack())
             {
-                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce();
+                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(false);
                 if (pushBackForce > 0.0f && m_MovementComponent)
                 {
                     m_MovementComponent.PushBack(pushBackForce);
@@ -375,12 +375,6 @@ public class PlayerAttackComponent : MonoBehaviour
     void OnStunBegin(float stunTimeStamp)
     {
         ClearTriggeredInputs();
-
-        if(m_CurrentAttackLogic != null)
-        {
-            m_CurrentAttackLogic.OnAttackStopped();
-            m_CurrentAttackLogic = null;
-        }
         m_IsAttackBlocked = true;
     }
 
