@@ -15,7 +15,7 @@ MonoBehaviour:
   m_AttackType: 1
   m_CheapDamage: 3
   m_MaxHitCount: 10
-  m_DelayBetweenHits: 0.1
+  m_DelayBetweenHits: 0.05
   m_HitKO: 0
   m_HitHeight: 1
   m_HitStrength: 1
@@ -36,23 +36,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      time: 0.00088119507
+      value: 4.99119
+      inSlope: -26.993202
+      outSlope: -26.993202
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.06540891
     - serializedVersion: 3
-      time: 1
-      value: 3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      time: 0.20077705
+      value: 0.49064326
+      inSlope: -0.37061414
+      outSlope: -0.37061414
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.013416367
       outWeight: 0
-    m_PreInfinity: 1
-    m_PostInfinity: 1
+    m_PreInfinity: 2
+    m_PostInfinity: 2
     m_RotationOrder: 4

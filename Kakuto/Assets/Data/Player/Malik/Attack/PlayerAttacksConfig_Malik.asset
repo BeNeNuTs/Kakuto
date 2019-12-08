@@ -31,8 +31,9 @@ MonoBehaviour:
     - "\u2193\u2198\u2192\u2193\u2198\u2192X"
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192X"
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192X"
+    - "\u2192X"
     m_BlockMovement: 1
-    m_Damage: 5
+    m_Damage: 3
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
