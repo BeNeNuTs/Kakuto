@@ -181,8 +181,16 @@ public class PlayerAttackComponent : MonoBehaviour
         }
         else
         {
-            m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
-            m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
+            if(m_TriggeredInputsList.Count > 0)
+            {
+                m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
+                m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
+            }
+            else
+            {
+                m_TimeToWaitBeforeEvaluatingAttacks = 0f;
+                m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+            }
         }
         
     }
