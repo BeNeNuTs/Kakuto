@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum EGamePadConnectedState
+{
+    Connected,
+    Disconnected
+}
+
 public static class GamePadManager
 {
     private static readonly int K_GAMEPAD_BUTTON = 4;
-    private static readonly float K_GAMEPAD_CONNECTION_CHECK = 2f; // Check if gamepads are connected every 2 seconds
+    private static readonly float K_GAMEPAD_CONNECTION_CHECK = 1f; // Check if gamepads are connected every second
 
     public enum EDirection
     {
@@ -24,6 +30,9 @@ public static class GamePadManager
     {
         public int lastUpdate = -1;
 
+        public int playerIndex = -1;
+        private int gamePadIndex = -1;
+
         public float lastXAxis = 0;
         public float lastYAxis = 0;
 
@@ -35,6 +44,26 @@ public static class GamePadManager
         public EDirection lastDirection = EDirection.Invalid;
         public EDirection currentDirection = EDirection.Invalid;
 
+        public PlayerGamePad(int _playerIndex)
+        {
+            playerIndex = _playerIndex;
+        }
+
+        public void ResetGamePadIndex()
+        {
+            gamePadIndex = -1;
+        }
+
+        public bool IsGamePadIndexValid()
+        {
+            return gamePadIndex >= 0;
+        }
+
+        public int GetJoystickNum()
+        {
+            return gamePadIndex + 1; // For gamePadIndex 0 we should looking for joystickNum 1
+        }
+
         public bool NeedUpdate()
         {
             return lastUpdate != Time.frameCount;
@@ -42,8 +71,105 @@ public static class GamePadManager
 
         public void Update()
         {
+            UpdateGamePadIndex();
+
+            if(IsGamePadIndexValid())
+            {
+                UpdateHorizontal();
+                UpdateVertical();
+                ComputeCurrentDirection();
+            }
+
             lastUpdate = Time.frameCount;
-            ComputeCurrentDirection();
+        }
+
+        private void UpdateGamePadIndex()
+        {
+            string[] joystickNames = Input.GetJoystickNames();
+
+            if(IsGamePadIndexValid())
+            {
+                if (gamePadIndex >= joystickNames.Length || string.IsNullOrEmpty(joystickNames[gamePadIndex]))
+                {
+                    ResetGamePadIndex();
+                }
+            }
+
+            // gamePadIndex is not valid
+            if (!IsGamePadIndexValid())
+            {
+                int nbValidGamePadFound = 0;
+                for (int i = 0 ; i < joystickNames.Length ; i++)
+                {
+                    if (string.IsNullOrEmpty(joystickNames[i]) == false)
+                    {
+                        if (nbValidGamePadFound == playerIndex)
+                        {
+                            gamePadIndex = i;
+                            break;
+                        }
+                        nbValidGamePadFound++;
+                        if(nbValidGamePadFound > playerIndex)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateHorizontal()
+        {
+            float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + GetJoystickNum());
+            if (horizontalRawAxis == 0)
+            {
+                horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum());
+            }
+
+            if (horizontalRawAxis > 0)
+            {
+                right = true;
+                left = false;
+            }
+            else if (horizontalRawAxis < 0)
+            {
+                right = false;
+                left = true;
+            }
+            else
+            {
+                right = false;
+                left = false;
+            }
+
+            lastXAxis = horizontalRawAxis;
+        }
+
+        private void UpdateVertical()
+        {
+            float verticalRawAxis = Input.GetAxisRaw("Vertical" + GetJoystickNum());
+            if (verticalRawAxis == 0)
+            {
+                verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum());
+            }
+
+            if (verticalRawAxis > 0)
+            {
+                up = true;
+                down = false;
+            }
+            else if (verticalRawAxis < 0)
+            {
+                up = false;
+                down = true;
+            }
+            else
+            {
+                up = false;
+                down = false;
+            }
+
+            lastYAxis = verticalRawAxis;
         }
 
         private void ComputeCurrentDirection()
@@ -99,9 +225,10 @@ public static class GamePadManager
     }
 
     private static float lastGamePadConnectedCheck = -1;
-    private static bool lastGamePadConnectedState = false;
+    private static EGamePadConnectedState lastGamePadConnectedState = EGamePadConnectedState.Disconnected;
+    private static int lastNbGamePadConnected = 0;
 
-    private static PlayerGamePad[] playerGamePads = { new PlayerGamePad(), new PlayerGamePad() };
+    private static PlayerGamePad[] playerGamePads = { new PlayerGamePad(0), new PlayerGamePad(1) };
 
     public static float GetHorizontalMovement(int playerIndex)
     {
@@ -127,144 +254,96 @@ public static class GamePadManager
 
         string inputString = "";
 
-        if(playerGamePads[playerIndex].currentDirection != EDirection.Invalid)
+        if(playerGamePads[playerIndex].IsGamePadIndexValid())
         {
-            if (playerGamePads[playerIndex].lastDirection != playerGamePads[playerIndex].currentDirection)
+            if (playerGamePads[playerIndex].currentDirection != EDirection.Invalid)
             {
-                switch (playerGamePads[playerIndex].currentDirection)
+                if (playerGamePads[playerIndex].lastDirection != playerGamePads[playerIndex].currentDirection)
                 {
-                    case EDirection.Down:
-                        inputString += '↓';
-                        break;
-                    case EDirection.DownRight:
-                        inputString += (isLeftSide) ? '↘' : '↙';
-                        break;
-                    case EDirection.Right:
-                        inputString += (isLeftSide) ? '→' : '←';
-                        break;
-                    case EDirection.UpRight:
-                        inputString += (isLeftSide) ? '↗' : '↖';
-                        break;
-                    case EDirection.Up:
-                        inputString += '↑';
-                        break;
-                    case EDirection.UpLeft:
-                        inputString += (isLeftSide) ? '↖' : '↗';
-                        break;
-                    case EDirection.Left:
-                        inputString += (isLeftSide) ? '←' : '→';
-                        break;
-                    case EDirection.DownLeft:
-                        inputString += (isLeftSide) ? '↙' : '↘';
-                        break;
-                    default:
-                        break;
+                    switch (playerGamePads[playerIndex].currentDirection)
+                    {
+                        case EDirection.Down:
+                            inputString += '↓';
+                            break;
+                        case EDirection.DownRight:
+                            inputString += (isLeftSide) ? '↘' : '↙';
+                            break;
+                        case EDirection.Right:
+                            inputString += (isLeftSide) ? '→' : '←';
+                            break;
+                        case EDirection.UpRight:
+                            inputString += (isLeftSide) ? '↗' : '↖';
+                            break;
+                        case EDirection.Up:
+                            inputString += '↑';
+                            break;
+                        case EDirection.UpLeft:
+                            inputString += (isLeftSide) ? '↖' : '↗';
+                            break;
+                        case EDirection.Left:
+                            inputString += (isLeftSide) ? '←' : '→';
+                            break;
+                        case EDirection.DownLeft:
+                            inputString += (isLeftSide) ? '↙' : '↘';
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-        }
 
-        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
-
-        for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
-        {
-            if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
+            int joystickNum = playerGamePads[playerIndex].GetJoystickNum();
+            for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
             {
-                inputString += ConvertGamePadButtonAsString(i);
+                if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
+                {
+                    inputString += ConvertGamePadButtonAsString(i);
+                }
             }
         }
 
         return inputString;
     }
 
-    public static bool AreGamepadsConnected()
+    public static EGamePadConnectedState UpdateGamePadsState()
     {
-        if(Time.unscaledTime < lastGamePadConnectedCheck + K_GAMEPAD_CONNECTION_CHECK)
+        if (Time.unscaledTime < lastGamePadConnectedCheck + K_GAMEPAD_CONNECTION_CHECK)
         {
             return lastGamePadConnectedState;
         }
 
-        bool gamepadConnected = false;
+        EGamePadConnectedState gamepadConnectedState = EGamePadConnectedState.Disconnected;
+        int nbGamePadsConnected = 0;
         foreach (string joystickName in Input.GetJoystickNames())
         {
             if (string.IsNullOrEmpty(joystickName) == false)
             {
-                gamepadConnected = true;
-                break;
+                gamepadConnectedState = EGamePadConnectedState.Connected;
+                nbGamePadsConnected++;
             }
         }
 
+        if (lastGamePadConnectedState != gamepadConnectedState || lastNbGamePadConnected != nbGamePadsConnected)
+        {
+            foreach (PlayerGamePad playerGamePad in playerGamePads)
+            {
+                playerGamePad.ResetGamePadIndex();
+            }
+        }
+
+        lastGamePadConnectedState = gamepadConnectedState;
+        lastNbGamePadConnected = nbGamePadsConnected;
         lastGamePadConnectedCheck = Time.unscaledTime;
-        lastGamePadConnectedState = gamepadConnected;
-        return gamepadConnected;
+
+        return gamepadConnectedState;
     }
 
     private static void Update(int playerIndex)
     {
         if (playerGamePads[playerIndex].NeedUpdate())
         {
-            UpdateHorizontal(playerIndex);
-            UpdateVertical(playerIndex);
-
             playerGamePads[playerIndex].Update();
         }
-    }
-
-    private static void UpdateHorizontal(int playerIndex)
-    {
-        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
-
-        float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + joystickNum);
-        if (horizontalRawAxis == 0)
-        {
-            horizontalRawAxis = Input.GetAxisRaw("DpadX" + joystickNum);
-        }
-
-        if (horizontalRawAxis > 0)
-        {
-            playerGamePads[playerIndex].right = true;
-            playerGamePads[playerIndex].left = false;
-        }
-        else if (horizontalRawAxis < 0)
-        {
-            playerGamePads[playerIndex].right = false;
-            playerGamePads[playerIndex].left = true;
-        }
-        else
-        {
-            playerGamePads[playerIndex].right = false;
-            playerGamePads[playerIndex].left = false;
-        }
-
-        playerGamePads[playerIndex].lastXAxis = horizontalRawAxis;
-    }
-
-    private static void UpdateVertical(int playerIndex)
-    {
-        int joystickNum = playerIndex + 1; // For playerIndex 0 we should looking for joystickNum 1
-
-        float verticalRawAxis = Input.GetAxisRaw("Vertical" + joystickNum);
-        if (verticalRawAxis == 0)
-        {
-            verticalRawAxis = Input.GetAxisRaw("DpadY" + joystickNum);
-        }
-
-        if (verticalRawAxis > 0)
-        {
-            playerGamePads[playerIndex].up = true;
-            playerGamePads[playerIndex].down = false;
-        }
-        else if (verticalRawAxis < 0)
-        {
-            playerGamePads[playerIndex].up = false;
-            playerGamePads[playerIndex].down = true;
-        }
-        else
-        {
-            playerGamePads[playerIndex].up = false;
-            playerGamePads[playerIndex].down = false;
-        }
-
-        playerGamePads[playerIndex].lastYAxis = verticalRawAxis;
     }
 
     private static string ConvertGamePadButtonAsString(int buttonIndex)

@@ -7,7 +7,7 @@ public static class InputManager
     public static float GetHorizontalMovement(int playerIndex)
     {
         float horizontalInput = 0f;
-        if (GamePadManager.AreGamepadsConnected())
+        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
         {
             horizontalInput = GamePadManager.GetHorizontalMovement(playerIndex);
         }
@@ -28,7 +28,7 @@ public static class InputManager
     public static bool GetJumpInput(int playerIndex)
     {
         bool isJumping = false;
-        if (GamePadManager.AreGamepadsConnected())
+        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
         {
             isJumping = GamePadManager.GetJumpInput(playerIndex);
         }
@@ -42,7 +42,7 @@ public static class InputManager
     public static bool GetCrouchInput(int playerIndex)
     {
         bool isCrouching = false;
-        if (GamePadManager.AreGamepadsConnected())
+        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
         {
             isCrouching = GamePadManager.GetCrouchInput(playerIndex);
         }
@@ -56,7 +56,7 @@ public static class InputManager
     public static string GetAttackInputString(int playerIndex, bool isLeftSide)
     {
         string inputString = "";
-        if (GamePadManager.AreGamepadsConnected())
+        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
         {
             inputString = GamePadManager.GetAttackInputString(playerIndex, isLeftSide);
         }
