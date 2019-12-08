@@ -224,8 +224,12 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         ////////////////////////////////////////////
 
+        if (IsBlockStunned())
+        {
+            return true;
+        }
+
         bool canBlockAttack = true;
-        canBlockAttack &= !IsStunned(); // Can't blocked attack when stunned
         if (m_AttackComponent)
         {
             // Check if we are not attacking
@@ -371,6 +375,11 @@ public class PlayerHealthComponent : MonoBehaviour
     public bool IsStunned()
     {
         return m_StunInfo.m_IsStunned;
+    }
+
+    public bool IsBlockStunned()
+    {
+        return m_StunInfo.m_IsStunned && m_StunInfo.m_StunType == EStunType.Block;
     }
 
     private void StopStun()
