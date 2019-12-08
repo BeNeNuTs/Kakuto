@@ -40,7 +40,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 1
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: ff6b5fe345af3c649b6af8c841d1e7c2, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 209a2d42736cd8f4ab390f4beeade51e, type: 2}
   - m_Name: Hadoground
     m_Description: 
     m_AnimationAttackName: 15
@@ -86,7 +86,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 700cbf23bad31654580ed6fe695c6377, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: bd33fbed8c061294b9001dd8afa60cc3, type: 2}
   - m_Name: Hadoair
     m_Description: 
     m_AnimationAttackName: 16
