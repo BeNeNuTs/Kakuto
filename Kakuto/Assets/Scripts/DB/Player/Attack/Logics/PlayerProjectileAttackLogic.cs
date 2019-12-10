@@ -107,6 +107,11 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         }
     }
 
+    public bool IsGuardCrush()
+    {
+        return !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
+    }
+
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)
     {
         m_NextNonSuperProjectileIsGuardCrush[playerIndex] = active;

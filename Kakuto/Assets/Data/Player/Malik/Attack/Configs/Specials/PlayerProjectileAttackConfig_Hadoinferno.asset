@@ -29,7 +29,7 @@ MonoBehaviour:
   m_ApplyAttackerBlockPushBack: 0
   m_AttackerBlockPushBack: 0
   m_AttackerBlockPushBackCondition: 1
-  m_ProjectilePrefab: {fileID: 587281410810692863, guid: afafe82ac278e164ca983c5bc48ce084,
+  m_ProjectilePrefab: {fileID: 5008399834560454162, guid: 7064702e086653a4b89f80dca37597de,
     type: 3}
   m_ProjectileAngle: 0
   m_ProjectileSpeedOverTime:

@@ -14,6 +14,7 @@ public class ProjectileComponent : MonoBehaviour
 
     private Rigidbody2D m_Rigidbody;
     private SpriteRenderer m_SpriteRenderer;
+    private Animator m_Animator;
     private float m_LastVisibilityCheckTimeStamp = 0f;
     private float m_LifeTime = 0f;
 
@@ -27,6 +28,10 @@ public class ProjectileComponent : MonoBehaviour
 
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        m_Animator = GetComponent<Animator>();
+        m_Animator.SetInteger("Angle", Mathf.FloorToInt(m_Config.m_ProjectileAngle));
+        m_Animator.SetBool("IsSuper", m_Logic.IsASuper());
+        m_Animator.SetBool("IsGuardCrush", m_Logic.IsGuardCrush());
 
         m_OutOfBoundsSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
 
