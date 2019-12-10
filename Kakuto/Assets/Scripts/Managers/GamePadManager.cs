@@ -20,9 +20,16 @@ public static class GamePadManager
         UpRight,
         Up,
         UpLeft,
-        Left, 
+        Left,
         DownLeft,
 
+        Invalid
+    }
+
+    public enum EGamePadType
+    {
+        Xbox,
+        PS4,
         Invalid
     }
 
@@ -32,6 +39,8 @@ public static class GamePadManager
 
         public int playerIndex = -1;
         private int gamePadIndex = -1;
+
+        public EGamePadType gamePadType = EGamePadType.Invalid;
 
         public float lastXAxis = 0;
         public float lastYAxis = 0;
@@ -52,6 +61,7 @@ public static class GamePadManager
         public void ResetGamePadIndex()
         {
             gamePadIndex = -1;
+            gamePadType = EGamePadType.Invalid;
         }
 
         public bool IsGamePadIndexValid()
@@ -73,7 +83,7 @@ public static class GamePadManager
         {
             UpdateGamePadIndex();
 
-            if(IsGamePadIndexValid())
+            if (IsGamePadIndexValid())
             {
                 UpdateHorizontal();
                 UpdateVertical();
@@ -87,7 +97,7 @@ public static class GamePadManager
         {
             string[] joystickNames = Input.GetJoystickNames();
 
-            if(IsGamePadIndexValid())
+            if (IsGamePadIndexValid())
             {
                 if (gamePadIndex >= joystickNames.Length || string.IsNullOrEmpty(joystickNames[gamePadIndex]))
                 {
@@ -99,17 +109,18 @@ public static class GamePadManager
             if (!IsGamePadIndexValid())
             {
                 int nbValidGamePadFound = 0;
-                for (int i = 0 ; i < joystickNames.Length ; i++)
+                for (int i = 0; i < joystickNames.Length; i++)
                 {
                     if (string.IsNullOrEmpty(joystickNames[i]) == false)
                     {
                         if (nbValidGamePadFound == playerIndex)
                         {
                             gamePadIndex = i;
+                            gamePadType = FindGamePadTypeFromName(joystickNames[i]);
                             break;
                         }
                         nbValidGamePadFound++;
-                        if(nbValidGamePadFound > playerIndex)
+                        if (nbValidGamePadFound > playerIndex)
                         {
                             break;
                         }
@@ -118,12 +129,24 @@ public static class GamePadManager
             }
         }
 
+        private EGamePadType FindGamePadTypeFromName(string joystickName)
+        {
+            if (joystickName.Contains("XBOX"))
+            {
+                return EGamePadType.Xbox;
+            }
+            else
+            {
+                return EGamePadType.PS4;
+            }
+        }
+
         private void UpdateHorizontal()
         {
             float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + GetJoystickNum());
             if (horizontalRawAxis == 0)
             {
-                horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum());
+                horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + gamePadType.ToString());
             }
 
             if (horizontalRawAxis > 0)
@@ -150,7 +173,7 @@ public static class GamePadManager
             float verticalRawAxis = Input.GetAxisRaw("Vertical" + GetJoystickNum());
             if (verticalRawAxis == 0)
             {
-                verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum());
+                verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + gamePadType.ToString());
             }
 
             if (verticalRawAxis > 0)
@@ -254,7 +277,7 @@ public static class GamePadManager
 
         string inputString = "";
 
-        if(playerGamePads[playerIndex].IsGamePadIndexValid())
+        if (playerGamePads[playerIndex].IsGamePadIndexValid())
         {
             if (playerGamePads[playerIndex].currentDirection != EDirection.Invalid)
             {
@@ -293,11 +316,12 @@ public static class GamePadManager
             }
 
             int joystickNum = playerGamePads[playerIndex].GetJoystickNum();
+            EGamePadType gamePadType = playerGamePads[playerIndex].gamePadType;
             for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
             {
                 if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
                 {
-                    inputString += ConvertGamePadButtonAsString(i);
+                    inputString += ConvertGamePadButtonAsString(i, gamePadType);
                 }
             }
         }
@@ -346,7 +370,21 @@ public static class GamePadManager
         }
     }
 
-    private static string ConvertGamePadButtonAsString(int buttonIndex)
+    private static string ConvertGamePadButtonAsString(int buttonIndex, EGamePadType gamePadType)
+    {
+        switch (gamePadType)
+        {
+            case EGamePadType.Xbox:
+                return ConvertXboxGamePadButtonAsString(buttonIndex);
+            case EGamePadType.PS4:
+                return ConvertPS4GamePadButtonAsString(buttonIndex);
+            case EGamePadType.Invalid:
+            default:
+                return "ERROR";
+        }
+    }
+
+    private static string ConvertXboxGamePadButtonAsString(int buttonIndex)
     {
         switch (buttonIndex)
         {
@@ -356,6 +394,23 @@ public static class GamePadManager
                 return "B";
             case 2:
                 return "X";
+            case 3:
+                return "Y";
+            default:
+                return "ERROR";
+        }
+    }
+
+    private static string ConvertPS4GamePadButtonAsString(int buttonIndex)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                return "X";
+            case 1:
+                return "A";
+            case 2:
+                return "B";
             case 3:
                 return "Y";
             default:
