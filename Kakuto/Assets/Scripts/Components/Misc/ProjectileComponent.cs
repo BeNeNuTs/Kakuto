@@ -89,10 +89,14 @@ public class ProjectileComponent : MonoBehaviour
             }
             else if (collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
             {
-                m_Logic.OnHit(false);
-                if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                ProjectileComponent collisionProjectile = collision.gameObject.GetComponent<ProjectileComponent>();
+                if(collisionProjectile != null && collisionProjectile.GetLogic().GetOwner().CompareTag(Utils.GetEnemyTag(m_PlayerTag))) // Collision with an enemy projectile
                 {
-                    DestroyProjectile();
+                    m_Logic.OnHit(false);
+                    if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                    {
+                        DestroyProjectile();
+                    }
                 }
             }
             else if (collision.CompareTag("Ground")) // Collision with Ground
