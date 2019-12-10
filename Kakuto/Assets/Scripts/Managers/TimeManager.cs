@@ -60,4 +60,16 @@ public class TimeManager : MonoBehaviour
         Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
         Instance.m_TimeScaleInProgress = true;
     }
+
+    public static void FreezeTime()
+    {
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = 0f;
+    }
+
+    public static void UnfreezeTime()
+    {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = K_DEFAULT_FIXED_DELTA_TIME;
+    }
 }

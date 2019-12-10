@@ -81,4 +81,18 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerJumpImpulse, true);
     }
+
+    public void UnfreezeTime()
+    {
+        TimeManager.UnfreezeTime();
+        Animator animator = GetComponent<Animator>();
+        if(animator != null)
+        {
+            animator.updateMode = AnimatorUpdateMode.Normal;
+        }
+        else
+        {
+            Debug.LogError("Animator component not found");
+        }
+    }
 }
