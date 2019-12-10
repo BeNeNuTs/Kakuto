@@ -71,7 +71,7 @@ public abstract class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance) { return ""; }
 
-    public virtual void OnHit() { }
+    public virtual void OnHit(bool triggerHitEvent) { }
     public bool HasHit() { return m_HasHit; }
 
     public GameObject GetOwner() { return m_Owner; }
@@ -85,7 +85,7 @@ public abstract class PlayerBaseAttackLogic
         {
             m_HasHit = true;
         }
-        else
+        else if(damageTakenInfo.m_AttackLogic.GetType() != typeof(PlayerProjectileAttackLogic))
         {
             Debug.LogError("DamageTaken event has been received in " + m_Attack.m_AnimationAttackName + " but damage taken doesn't come from this attack. This attack has not been stopped correctly");
         }

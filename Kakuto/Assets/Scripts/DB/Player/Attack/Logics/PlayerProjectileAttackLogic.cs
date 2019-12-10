@@ -10,7 +10,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     private readonly PlayerProjectileAttackConfig m_Config;
 
     private Transform m_ProjectileHook;
-    private ProjectileComponent m_CurrentProjectile;
+    private List<ProjectileComponent> m_CurrentProjectiles;
 
     public PlayerProjectileAttackLogic(PlayerProjectileAttackConfig config) : base(config)
     {
@@ -21,6 +21,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     {
         base.OnInit(owner, attack);
         m_ProjectileHook = m_Owner.transform.Find("Model/" + K_PROJECTILE_HOOK);
+        m_CurrentProjectiles = new List<ProjectileComponent>();
 #if UNITY_EDITOR
         if (m_ProjectileHook == null)
         {
@@ -43,7 +44,10 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         bool conditionIsValid = base.EvaluateConditions(currentAttackLogic);
         if(conditionIsValid)
         {
-            conditionIsValid &= m_CurrentProjectile == null; // Condition is valid only is there is no current projectile in the scene
+            foreach(ProjectileComponent projectile in m_CurrentProjectiles)
+            {
+                conditionIsValid &= projectile.GetLogic().IsASuper(); // Condition is valid only is there is no other projectiles than super in the scene
+            }
         }
         return conditionIsValid;
     }
@@ -72,21 +76,21 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     private void OnProjectileSpawned(ProjectileComponent projectile)
     {
-        m_CurrentProjectile = projectile;
+        m_CurrentProjectiles.Add(projectile);
     }
 
     private void OnProjectileDestroyed(ProjectileComponent projectile)
     {
-        if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)
+        if (!m_CurrentProjectiles.Contains(projectile))
         {
-            Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + projectile);
+            Debug.LogError("Trying to destroy a projectile which is not in the list");
         }
 
         if(!IsASuper())
         {
             SetNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex(), false);
         }
-        m_CurrentProjectile = null;
+        m_CurrentProjectiles.Remove(projectile);
     }
 
     private void OnTriggerProjectile(bool dummyBool)

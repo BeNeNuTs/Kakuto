@@ -22,16 +22,19 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
     }
 
-    public override void OnHit()
+    public override void OnHit(bool triggerHitEvent)
     {
-        base.OnHit();
+        base.OnHit(triggerHitEvent);
         if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
         {
             if (m_CurrentHitCount < GetMaxHitCount())
             {
                 m_CurrentHitCount++;
                 m_LastHitCountTimeStamp = Time.time;
-                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
+                if(triggerHitEvent)
+                {
+                    Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
+                }
             }
         }
     }

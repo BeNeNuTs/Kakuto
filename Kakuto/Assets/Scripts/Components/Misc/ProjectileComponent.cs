@@ -71,27 +71,34 @@ public class ProjectileComponent : MonoBehaviour
 
     void HandleCollision(Collider2D collision)
     {
-        if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
+        if(isActiveAndEnabled)
         {
-            if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+            if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
             {
-                if(m_Logic != null)
+                if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    m_Logic.OnHit();
-                    if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                    if (m_Logic != null)
                     {
-                        DestroyProjectile();
+                        m_Logic.OnHit(true);
+                        if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                        {
+                            DestroyProjectile();
+                        }
                     }
                 }
             }
-        }
-        else if (collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
-        {
-            DestroyProjectile();
-        }
-        else if (collision.CompareTag("Ground")) // Collision with Ground
-        {
-            DestroyProjectile();
+            else if (collision.CompareTag(gameObject.tag) && collision.gameObject != gameObject) // Collision with another projectile
+            {
+                m_Logic.OnHit(false);
+                if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                {
+                    DestroyProjectile();
+                }
+            }
+            else if (collision.CompareTag("Ground")) // Collision with Ground
+            {
+                DestroyProjectile();
+            }
         }
     }
 
