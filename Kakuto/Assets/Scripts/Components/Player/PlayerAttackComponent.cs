@@ -164,6 +164,11 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
+    public string GetTriggeredInputsString()
+    {
+        return m_TriggeredInputsString;
+    }
+
     void ClearTriggeredInputs()
     {
         m_TriggeredInputsList.Clear();

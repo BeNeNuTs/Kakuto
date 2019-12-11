@@ -8,8 +8,9 @@ public class TrainingMapDisplay : MonoBehaviour
     public EPlayer m_Target;
 
     //Training display
-    private Text m_TextToDisplayInputs;
-    private Text m_TextToDisplayAttacks;
+    public Text m_TextToDisplayInputs;
+    public Text m_TextToDisplayInputsAttack;
+    public Text m_TextToDisplayAttacks;
     private float m_DislayAttacksTimeStamp;
     private static readonly float s_DisplayAttacksTime = 2.0f;
 
@@ -21,19 +22,6 @@ public class TrainingMapDisplay : MonoBehaviour
 
     void Awake()
     {
-        //Training display
-        GameObject inputDisplayer = GameObject.FindGameObjectWithTag("InputDisplayer");
-        if (inputDisplayer)
-        {
-            m_TextToDisplayInputs = inputDisplayer.GetComponent<Text>();
-        }
-
-        GameObject attackDisplayer = GameObject.FindGameObjectWithTag("AttackDisplayer");
-        if (attackDisplayer)
-        {
-            m_TextToDisplayAttacks = attackDisplayer.GetComponent<Text>();
-        }
-
         m_PlayerMovementComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerMovementComponent>(m_Target.ToString());
         m_PlayerAttackComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerAttackComponent>(m_Target.ToString());
     }
@@ -56,6 +44,11 @@ public class TrainingMapDisplay : MonoBehaviour
             }
 
             m_TextToDisplayInputs.text = m_TriggeredInputs;
+        }
+
+        if (m_TextToDisplayInputsAttack != null)
+        {
+            m_TextToDisplayInputsAttack.text = m_PlayerAttackComponentToDisplay.GetTriggeredInputsString();
         }
     }
 

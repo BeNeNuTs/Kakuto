@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Ground
   - Block
-  - InputDisplayer
-  - AttackDisplayer
   - Player1
   - Player2
   - Projectile
