@@ -17,11 +17,19 @@ public class AttackConfig : ScriptableObject
 
     [Header("Inputs")]
 
-    [Tooltip("How much time each input will be kept before being deleted")]
-    public float m_InputPersistency = 2.0f;
+    [Tooltip("How much time by default each input will be kept before being deleted")]
+    public float m_DefaultInputPersistency = 0.3f;
+
+    [Tooltip("How much time we're going to add to each previous inputs when a new one is triggered")]
+    public float m_InputPersistencyBonus = 0.1f;
+
+    [Tooltip("How much time max an input can be kept before being deleted")]
+    public float m_MaxInputPersistency = 0.8f;
 
     [Tooltip("How many input can be stacked before being deleted")]
     public uint m_MaxInputs = 10;
+
+    [Header("Attack Evaluation")]
 
     [Tooltip("Each time an input is triggered, we're going to wait x frames before evaluating the sequence to find out if there is an attack matching with it. /!\\ based on 30 FPS /!\\")]
     [SerializeField]

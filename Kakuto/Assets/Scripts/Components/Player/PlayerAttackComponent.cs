@@ -6,22 +6,30 @@ using UnityEngine.UI;
 
 public class PlayerAttackComponent : MonoBehaviour
 {
-    struct TriggeredInput
+    class TriggeredInput
     {
         private readonly char m_Input;
         private readonly float m_TriggeredTime;
+        public float m_Persistency;
 
         public TriggeredInput(char input, float time)
         {
             m_Input = input;
             m_TriggeredTime = time;
+            m_Persistency = AttackConfig.Instance.m_DefaultInputPersistency;
         }
 
         public char GetInput() { return m_Input; }
 
-        public bool IsElapsed(float time, float persistency)
+        public bool IsElapsed(float time)
         {
-            return time > (m_TriggeredTime + persistency);
+            return time > (m_TriggeredTime + m_Persistency);
+        }
+
+        public void AddPersistency(float persistencyBonus)
+        {
+            m_Persistency += persistencyBonus;
+            m_Persistency = Mathf.Min(m_Persistency, AttackConfig.Instance.m_MaxInputPersistency);
         }
     }
 
@@ -137,17 +145,31 @@ public class PlayerAttackComponent : MonoBehaviour
         float currentTime = Time.unscaledTime;
 
         string attackInputs = InputManager.GetAttackInputString(m_MovementComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
+
+        // If there is new inputs
+        if (attackInputs.Length > 0) 
+        {
+            // We need to add persistency bonus to the previous ones
+            foreach(TriggeredInput triggeredInput in m_TriggeredInputsList)
+            {
+                triggeredInput.AddPersistency(AttackConfig.Instance.m_InputPersistencyBonus);
+            }
+        }
+
+        // Then add those new inputs in the list with the default persistency
         foreach (char c in attackInputs)
         {
             m_TriggeredInputsList.Add(new TriggeredInput(c, currentTime));
         }
 
+        // Remove those which exceeds max allowed inputs
         while (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
         {
             m_TriggeredInputsList.RemoveAt(0);
         }
 
-        m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime, AttackConfig.Instance.m_InputPersistency));
+        // Also remove those which have their persistency elapsed
+        m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime));
 
         if(attackInputs.Length > 0)
         {
