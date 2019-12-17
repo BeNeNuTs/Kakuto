@@ -24,14 +24,13 @@ MonoBehaviour:
     m_InputStringList:
     - "\u2193\u2198\u2192\u2193\u2198\u2192 + standLP"
     - "\u2193\u2198\u2192\u2193\u2198\u2192 + standHP"
-    - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192 + standHP"
+    - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192 + standLP"
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192 + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192\u2193\u2198\u2192Y"
     - "\u2193\u2198\u2192\u2193\u2198\u2192X"
+    - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192Y"
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192X"
-    - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192X"
-    - "\u2192X"
     m_BlockMovement: 1
     m_Damage: 3
     m_UseTimeScaleEffect: 1
@@ -278,18 +277,18 @@ MonoBehaviour:
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
     m_AttackConfig: {fileID: 11400000, guid: 8af8436137482924083c6865c4868229, type: 2}
-  - m_Name: crouchHK
+  - m_Name: crouchHP
     m_Description: 
-    m_AnimationAttackName: 7
+    m_AnimationAttackName: 5
     m_NeededStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - A
+    - X
     m_ComputedInputStringList:
-    - A
+    - X
     m_BlockMovement: 1
     m_Damage: 10
     m_UseTimeScaleEffect: 1
@@ -299,7 +298,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 1
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: 4e33e482daad34e429ae6669cda381ef, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 310354e33b903854891289d429316587, type: 2}
   - m_Name: standHP
     m_Description: 
     m_AnimationAttackName: 1
@@ -366,20 +365,20 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: 0317bd87846f59c49a32b5308f49c45f, type: 2}
-  - m_Name: jumpHP
+  - m_Name: crouchHK
     m_Description: 
-    m_AnimationAttackName: 9
-    m_NeededStance: 2
+    m_AnimationAttackName: 7
+    m_NeededStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - X
+    - A
     m_ComputedInputStringList:
-    - X
+    - A
     m_BlockMovement: 1
-    m_Damage: 12
+    m_Damage: 10
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -387,11 +386,11 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 1
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: aec8c6cdf1f0f20488b5d30be43eaf70, type: 2}
-  - m_Name: standLP
+    m_AttackConfig: {fileID: 11400000, guid: 4e33e482daad34e429ae6669cda381ef, type: 2}
+  - m_Name: crouchLP
     m_Description: 
-    m_AnimationAttackName: 0
-    m_NeededStance: 0
+    m_AnimationAttackName: 4
+    m_NeededStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
@@ -401,7 +400,7 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - Y
     m_BlockMovement: 1
-    m_Damage: 5
+    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -409,7 +408,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 14c7c14a57c64fd41b00de498110f477, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 700cbf23bad31654580ed6fe695c6377, type: 2}
   - m_Name: jumpLP
     m_Description: 
     m_AnimationAttackName: 8
@@ -476,32 +475,10 @@ MonoBehaviour:
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
     m_AttackConfig: {fileID: 11400000, guid: 0fa338721108e6142bf6d48cb397d687, type: 2}
-  - m_Name: crouchLP
+  - m_Name: jumpHP
     m_Description: 
-    m_AnimationAttackName: 4
-    m_NeededStance: 1
-    m_IsASuper: 0
-    m_HasCondition: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - Y
-    m_ComputedInputStringList:
-    - Y
-    m_BlockMovement: 1
-    m_Damage: 3
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleAmount: 0
-    m_TimeScaleDuration: 0
-    m_TimeScaleBackToNormal: 1
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeAmount: 0
-    m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 700cbf23bad31654580ed6fe695c6377, type: 2}
-  - m_Name: crouchHP
-    m_Description: 
-    m_AnimationAttackName: 5
-    m_NeededStance: 1
+    m_AnimationAttackName: 9
+    m_NeededStance: 2
     m_IsASuper: 0
     m_HasCondition: 0
     m_HasAttackRequirement: 0
@@ -511,7 +488,7 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - X
     m_BlockMovement: 1
-    m_Damage: 10
+    m_Damage: 12
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -519,7 +496,29 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 1
     m_CameraShakeAmount: 0.02
     m_CameraShakeDuration: 0.05
-    m_AttackConfig: {fileID: 11400000, guid: 310354e33b903854891289d429316587, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: aec8c6cdf1f0f20488b5d30be43eaf70, type: 2}
+  - m_Name: standLP
+    m_Description: 
+    m_AnimationAttackName: 0
+    m_NeededStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - Y
+    m_ComputedInputStringList:
+    - Y
+    m_BlockMovement: 1
+    m_Damage: 5
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleAmount: 0
+    m_TimeScaleDuration: 0
+    m_TimeScaleBackToNormal: 1
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeAmount: 0
+    m_CameraShakeDuration: 0
+    m_AttackConfig: {fileID: 11400000, guid: 14c7c14a57c64fd41b00de498110f477, type: 2}
   - m_Name: crouchLK
     m_Description: 
     m_AnimationAttackName: 6
