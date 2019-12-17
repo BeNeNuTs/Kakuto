@@ -123,21 +123,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
-        if (CanUpdateInputs())
-        {
-            UpdateTriggerInputList();
-            UpdateTriggerInputString();
-        }
-    }
-
-    bool CanUpdateInputs()
-    {
-        if (!m_IsAttackBlocked || (m_IsAttackBlocked && m_UnblockAttackConfig != null))
-        {
-            return true;
-        }
-
-        return false;
+        UpdateTriggerInputList();
+        UpdateTriggerInputString();
     }
 
     void UpdateTriggerInputList()
@@ -235,8 +222,7 @@ public class PlayerAttackComponent : MonoBehaviour
                 {
                     return true;
                 }
-
-                if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
+                else if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                 {
                     if (m_CurrentAttackLogic.HasHit())
                     {
