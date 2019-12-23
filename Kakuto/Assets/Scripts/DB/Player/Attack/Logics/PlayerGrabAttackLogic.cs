@@ -51,12 +51,15 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackLaunched();
 
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString(), 0, 0);
-
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
+    }
+
+    protected override string GetAnimationAttackName()
+    {
+        return m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString();
     }
 
     public override uint GetHitDamage(bool isAttackBlocked) { return m_Config.m_Damage; }

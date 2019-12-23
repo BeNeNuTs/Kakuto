@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
 {
@@ -64,7 +62,6 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
         m_Owner.transform.position = m_CurrentProjectile.transform.position + m_Config.m_TeleportOffset;
         m_CurrentProjectile.DestroyProjectile();
     }

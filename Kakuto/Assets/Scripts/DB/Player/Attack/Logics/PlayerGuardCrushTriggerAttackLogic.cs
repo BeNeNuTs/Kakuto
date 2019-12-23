@@ -37,7 +37,6 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
         TriggerGuardCrushEffect();
     }
 

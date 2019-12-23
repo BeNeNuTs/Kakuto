@@ -83,7 +83,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: bd33fbed8c061294b9001dd8afa60cc3, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 98aeb25f3afe1d247a0f287752c06f98, type: 2}
   - m_Name: Hadoair
     m_Description: 
     m_AnimationAttackName: 16
@@ -171,7 +171,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 1ec5000a4eb4285488000599298ee373, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 33069ec299c102347add437980ab2d97, type: 2}
   - m_Name: Grab Front Throw
     m_Description: 
     m_AnimationAttackName: 12
@@ -242,7 +242,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 0d126f391c3497c4298401d40beceaaa, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: f1390a035ca050441873c2005645cb03, type: 2}
   - m_Name: trigger
     m_Description: 
     m_AnimationAttackName: 19

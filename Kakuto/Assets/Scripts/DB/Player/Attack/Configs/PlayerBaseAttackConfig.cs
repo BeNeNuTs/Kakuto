@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerBaseAttackConfig : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerBaseAttackConfig", menuName = "Data/Player/Attacks/Configs/PlayerBaseAttackConfig", order = 0)]
+public class PlayerBaseAttackConfig : ScriptableObject
 {
-    public abstract PlayerBaseAttackLogic CreateLogic();
+    public virtual PlayerBaseAttackLogic CreateLogic()
+    {
+        return new PlayerBaseAttackLogic();
+    }
 }

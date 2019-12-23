@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerBaseAttackLogic
+public class PlayerBaseAttackLogic
 {
     protected GameObject m_Owner;
     protected PlayerAttack m_Attack;
@@ -44,6 +44,8 @@ public abstract class PlayerBaseAttackLogic
 
     public virtual void OnAttackLaunched()
     {
+        m_Animator.Play(GetAnimationAttackName(), 0, 0);
+
         m_HasHit = false;
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
@@ -53,6 +55,12 @@ public abstract class PlayerBaseAttackLogic
             m_Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
         }
     }
+
+    protected virtual string GetAnimationAttackName()
+    {
+        return m_Attack.m_AnimationAttackName.ToString();
+    }
+
     public virtual void OnAttackStopped()
     {
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);

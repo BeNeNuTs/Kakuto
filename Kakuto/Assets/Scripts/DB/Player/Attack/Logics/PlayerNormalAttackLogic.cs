@@ -19,7 +19,6 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         base.OnAttackLaunched();
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
-        m_Animator.Play(m_Attack.m_AnimationAttackName.ToString(), 0, 0);
     }
 
     public override void OnHit(bool triggerHitEvent)
