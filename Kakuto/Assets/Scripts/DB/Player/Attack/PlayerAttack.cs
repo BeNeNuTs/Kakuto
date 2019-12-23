@@ -45,9 +45,7 @@ public class PlayerAttack
     [Tooltip("Once this attack launched, player won't be able to move anymore until UnblockMovement/EndOfAnim is called")]
     public bool m_BlockMovement = false;
 
-    [Header("Enemy effect")]
-    [Range(0, 100)]
-    public uint m_Damage = 10;
+    [Header("Effects")]
     /////////////////////////////////////////////////////
     public bool m_UseTimeScaleEffect = false;
     [ConditionalField(true, "m_UseTimeScaleEffect")]
@@ -64,6 +62,7 @@ public class PlayerAttack
     [ConditionalField(true, "m_UseCameraShakeEffect")]
     public float m_CameraShakeDuration = 0.1f;
 
+    [Header("Config")]
     public PlayerBaseAttackConfig m_AttackConfig;
 
     public List<string> GetRawInputStringList(){ return m_InputStringList; }

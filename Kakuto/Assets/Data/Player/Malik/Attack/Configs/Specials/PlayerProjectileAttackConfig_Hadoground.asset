@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerProjectileAttackConfig_Hadoground
   m_EditorClassIdentifier: 
   m_AttackType: 1
+  m_Damage: 15
   m_CheapDamage: 3
   m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_Hadoblast
   m_EditorClassIdentifier: 
   m_AttackType: 1
+  m_Damage: 3
   m_CheapDamage: 0
   m_MaxHitCount: 4
   m_DelayBetweenHits: 0.1

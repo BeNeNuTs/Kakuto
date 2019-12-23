@@ -32,7 +32,6 @@ MonoBehaviour:
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192Y"
     - "\u2193\u2198\u2192\u2198\u2193\u2198\u2192X"
     m_BlockMovement: 1
-    m_Damage: 3
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -54,7 +53,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192Y"
     m_BlockMovement: 1
-    m_Damage: 15
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -78,7 +76,6 @@ MonoBehaviour:
     - "\u2193\u2198\u2192A"
     - "\u2193\u2198\u2192B"
     m_BlockMovement: 1
-    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -100,7 +97,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192X"
     m_BlockMovement: 1
-    m_Damage: 15
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -124,7 +120,6 @@ MonoBehaviour:
     - "\u2193\u2199\u2190Y"
     - "\u2193\u2199\u2190X"
     m_BlockMovement: 1
-    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -148,7 +143,6 @@ MonoBehaviour:
     - "\u2190YB"
     - "\u2190BY"
     m_BlockMovement: 1
-    m_Damage: 20
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -170,7 +164,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - "\u2190\u2190"
     m_BlockMovement: 1
-    m_Damage: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -194,7 +187,6 @@ MonoBehaviour:
     - YB
     - BY
     m_BlockMovement: 1
-    m_Damage: 20
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -222,7 +214,6 @@ MonoBehaviour:
     - BA
     - AB
     m_BlockMovement: 0
-    m_Damage: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -244,7 +235,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - "\u2192\u2192"
     m_BlockMovement: 1
-    m_Damage: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -268,7 +258,6 @@ MonoBehaviour:
     - XA
     - AX
     m_BlockMovement: 1
-    m_Damage: 0
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -290,7 +279,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - X
     m_BlockMovement: 1
-    m_Damage: 10
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -312,7 +300,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - X
     m_BlockMovement: 1
-    m_Damage: 10
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -334,7 +321,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - A
     m_BlockMovement: 1
-    m_Damage: 10
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -356,7 +342,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - B
     m_BlockMovement: 1
-    m_Damage: 6
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -378,7 +363,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - A
     m_BlockMovement: 1
-    m_Damage: 10
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -400,7 +384,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - Y
     m_BlockMovement: 1
-    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -422,7 +405,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - Y
     m_BlockMovement: 1
-    m_Damage: 6
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -444,7 +426,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - A
     m_BlockMovement: 1
-    m_Damage: 12
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -466,7 +447,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - B
     m_BlockMovement: 1
-    m_Damage: 5
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -488,7 +468,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - X
     m_BlockMovement: 1
-    m_Damage: 12
     m_UseTimeScaleEffect: 1
     m_TimeScaleAmount: 0.05
     m_TimeScaleDuration: 0.1
@@ -510,7 +489,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - Y
     m_BlockMovement: 1
-    m_Damage: 5
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0
@@ -532,7 +510,6 @@ MonoBehaviour:
     m_ComputedInputStringList:
     - B
     m_BlockMovement: 1
-    m_Damage: 3
     m_UseTimeScaleEffect: 0
     m_TimeScaleAmount: 0
     m_TimeScaleDuration: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_CrouchLP
   m_EditorClassIdentifier: 
   m_AttackType: 0
+  m_Damage: 3
   m_CheapDamage: 0
   m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1
@@ -23,3 +24,9 @@ MonoBehaviour:
   m_BlockStun: 8
   m_HitPushBack: 1
   m_BlockPushBack: 1.8
+  m_ApplyAttackerHitPushBack: 0
+  m_AttackerHitPushBack: 0
+  m_AttackerHitPushBackCondition: 1
+  m_ApplyAttackerBlockPushBack: 0
+  m_AttackerBlockPushBack: 0
+  m_AttackerBlockPushBackCondition: 1

@@ -59,6 +59,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
     }
 
+    public override uint GetHitDamage(bool isAttackBlocked) { return m_Config.m_Damage; }
+
     public override bool CanBlockAttack(bool isCrouching)
     {
         return !isCrouching;

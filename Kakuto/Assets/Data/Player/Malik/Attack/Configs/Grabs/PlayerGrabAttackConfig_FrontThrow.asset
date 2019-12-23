@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7dd5f751d01c24aad1f13f3af1484d, type: 3}
   m_Name: PlayerGrabAttackConfig_FrontThrow
   m_EditorClassIdentifier: 
+  m_Damage: 20
   m_GrabType: 0

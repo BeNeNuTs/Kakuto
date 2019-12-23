@@ -59,7 +59,7 @@ public abstract class PlayerBaseAttackLogic
     }
 
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
-    public virtual uint GetHitDamage(bool isAttackBlocked) { return m_Attack.m_Damage; }
+    public virtual uint GetHitDamage(bool isAttackBlocked) { return 0; }
 
     public virtual uint GetCurrentHitCount() { return 0; }
     public virtual uint GetMaxHitCount() { return 1; }

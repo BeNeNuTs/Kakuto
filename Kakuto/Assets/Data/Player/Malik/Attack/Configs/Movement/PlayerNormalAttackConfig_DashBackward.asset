@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_DashBackward
   m_EditorClassIdentifier: 
   m_AttackType: 1
+  m_Damage: 0
   m_CheapDamage: 0
+  m_MaxHitCount: 1
+  m_DelayBetweenHits: 0.1
   m_HitKO: 0
   m_HitHeight: 0
   m_HitStrength: 0
@@ -21,3 +24,9 @@ MonoBehaviour:
   m_BlockStun: 0
   m_HitPushBack: 0
   m_BlockPushBack: 0
+  m_ApplyAttackerHitPushBack: 0
+  m_AttackerHitPushBack: 0
+  m_AttackerHitPushBackCondition: 1
+  m_ApplyAttackerBlockPushBack: 0
+  m_AttackerBlockPushBack: 0
+  m_AttackerBlockPushBackCondition: 1

@@ -10,6 +10,8 @@ public class PlayerNormalAttackConfig : PlayerBaseAttackConfig
 
     [Header("Enemy effect")]
     [Range(0, 100)]
+    public uint m_Damage = 10;
+    [Range(0, 100)]
     public uint m_CheapDamage = 2;
     /////////////////////////////////////////////////////
     [Tooltip("The max number of hits allowed for this attack"), Range(1, 100)]
