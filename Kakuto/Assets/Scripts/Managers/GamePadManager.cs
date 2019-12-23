@@ -256,7 +256,15 @@ public static class GamePadManager
     public static float GetHorizontalMovement(int playerIndex)
     {
         Update(playerIndex);
-        return Mathf.RoundToInt(playerGamePads[playerIndex].lastXAxis);
+        float lastXAxis = playerGamePads[playerIndex].lastXAxis;
+        if (lastXAxis == 0f)
+        {
+            return lastXAxis;
+        }
+        else
+        {
+            return Mathf.Sign(lastXAxis);
+        }      
     }
 
     public static bool GetJumpInput(int playerIndex)
