@@ -47,7 +47,7 @@ public class ComboCounterComponent : MonoBehaviour
 
     private void OnDamageTaken(DamageTakenInfo damageTakenInfo)
     {
-        if(damageTakenInfo.m_IsHitStun || m_HitCounter == 0)
+        if(damageTakenInfo.m_IsAlreadyHitStunned || m_HitCounter == 0)
         {
             m_HitCounter++;
         }

@@ -79,7 +79,7 @@ public class ProjectileComponent : MonoBehaviour
                 {
                     if (m_Logic != null)
                     {
-                        m_Logic.OnHit(true);
+                        m_Logic.OnHandleCollision(true);
                         if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                         {
                             DestroyProjectile();
@@ -92,7 +92,7 @@ public class ProjectileComponent : MonoBehaviour
                 ProjectileComponent collisionProjectile = collision.gameObject.GetComponent<ProjectileComponent>();
                 if(collisionProjectile != null && collisionProjectile.GetLogic().GetOwner().CompareTag(Utils.GetEnemyTag(m_PlayerTag))) // Collision with an enemy projectile
                 {
-                    m_Logic.OnHit(false);
+                    m_Logic.OnHandleCollision(false);
                     if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                     {
                         DestroyProjectile();

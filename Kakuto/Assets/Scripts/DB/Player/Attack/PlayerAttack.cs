@@ -19,9 +19,13 @@ public class PlayerAttack
     public EPlayerStance m_NeededStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
 
-    // Condition (AttackRequirement)
+    // Condition (SuperGauge, AttackRequirement)
     [Header("Condition")]
     public bool m_HasCondition = false;
+
+    [ConditionalField(true, "m_HasCondition")]
+    [Tooltip("The needed amount of the super gauge to triggered this attack")]
+    public float m_SuperGaugeAmountNeeded = 0f;
 
     [ConditionalField(true, "m_HasCondition")]
     public bool m_HasAttackRequirement = false;

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-struct DamageTakenInfo
+public struct DamageTakenInfo
 {
     public PlayerBaseAttackLogic m_AttackLogic;
     public bool m_IsAttackBlocked;
     public float m_HealthRatio;
-    public bool m_IsHitStun;
+    public bool m_IsAlreadyHitStunned;
 
-    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked, bool isHitStun, float healthRatio)
+    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked, bool isAlreadyHitStunned, float healthRatio)
     {
         m_AttackLogic = attackLogic;
         m_IsAttackBlocked = isAttackBlocked;
         m_HealthRatio = healthRatio;
-        m_IsHitStun = isHitStun;
+        m_IsAlreadyHitStunned = isAlreadyHitStunned;
     }
 }
 
@@ -315,6 +315,12 @@ public class PlayerHealthComponent : MonoBehaviour
                     m_MovementComponent.PushBack(pushBackForce);
                 }
             }
+        }
+
+        PlayerSuperGaugeSubComponent superGaugeSC = m_AttackComponent.GetSuperGaugeSubComponent();
+        if(superGaugeSC != null)
+        {
+            superGaugeSC.IncreaseGaugeValue(AttackConfig.Instance.m_DefenderSuperGaugeBonus);
         }
 
         if(attack.m_UseTimeScaleEffect)

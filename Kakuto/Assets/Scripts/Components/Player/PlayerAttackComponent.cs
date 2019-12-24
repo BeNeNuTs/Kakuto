@@ -37,6 +37,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private List<PlayerBaseAttackLogic> m_AttackLogics;
 
     private PlayerMovementComponent m_MovementComponent;
+    private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
 
     private List<TriggeredInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
@@ -62,6 +63,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
+        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent();
         m_TriggeredInputsList = new List<TriggeredInput>();
 
         if(m_AttacksConfig)
@@ -476,5 +478,10 @@ public class PlayerAttackComponent : MonoBehaviour
             return m_CurrentAttackLogic.GetAttack();
         }
         return null;
+    }
+
+    public PlayerSuperGaugeSubComponent GetSuperGaugeSubComponent()
+    {
+        return m_SuperGaugeSC;
     }
 }

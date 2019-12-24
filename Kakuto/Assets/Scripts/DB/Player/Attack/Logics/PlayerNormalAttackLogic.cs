@@ -21,9 +21,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         m_LastHitCountTimeStamp = 0f;
     }
 
-    public override void OnHit(bool triggerHitEvent)
+    public override void OnHandleCollision(bool triggerHitEvent)
     {
-        base.OnHit(triggerHitEvent);
+        base.OnHandleCollision(triggerHitEvent);
         if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
         {
             if (m_CurrentHitCount < GetMaxHitCount())
@@ -38,9 +38,22 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         }
     }
 
+    protected override void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
+    {
+        base.OnEnemyTakesDamage(damageTakenInfo);
+        IncreaseSuperGauge(damageTakenInfo.m_IsAttackBlocked ? m_Config.m_SuperGaugeBlockBonus : m_Config.m_SuperGaugeHitBonus);
+    }
+
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
+
+        // If this attack ends without hitting the enemy, increase the super gauge amount with the whiff value
+        if (!HasHit())
+        {
+            IncreaseSuperGauge(m_Config.m_SuperGaugeWhiffBonus);
+        }
+
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
     }

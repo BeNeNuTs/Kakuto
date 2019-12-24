@@ -54,7 +54,7 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
                 {
                     if (m_CurrentAttack != null)
                     {
-                        m_CurrentAttack.OnHit(true);
+                        m_CurrentAttack.OnHandleCollision(true);
                         if (m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
                         {
                             m_Collider.enabled = false;

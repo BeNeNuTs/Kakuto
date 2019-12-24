@@ -56,4 +56,12 @@ public class AttackConfig : ScriptableObject
             return (float)m_MaxFramesToWaitBeforeEvaluatingAttacks / (float)GameConfig.K_ANIMATION_FPS;
         }
     }
+
+    [Header("Super Gauge")]
+
+    [Tooltip("The max amount of the super gauge")]
+    public float m_SuperGaugeMaxValue = 100f;
+
+    [Tooltip("The amount that have to be added to the super gauge of the defender if he blocks the attack or takes the hit")]
+    public float m_DefenderSuperGaugeBonus = 0f;
 }
