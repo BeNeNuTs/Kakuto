@@ -19,27 +19,28 @@ MonoBehaviour:
   m_FramesToWaitBeforeEvaluatingAttacks: 3
   m_MaxFramesToWaitBeforeEvaluatingAttacks: 10
   m_SuperGaugeMaxValue: 100
-  m_DefenderSuperGaugeBonus: 0
+  m_DefenderSuperGaugeBonus: 2
+  m_StunGaugeMaxValue: 100
   m_DamageScaling:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      inSlope: -0.08148621
+      outSlope: -0.08148621
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.2331899
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      time: 10.045809
+      value: 0.20472896
+      inSlope: -0.0006428638
+      outSlope: -0.0006428638
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.23537426
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -30,3 +30,6 @@ MonoBehaviour:
   m_ApplyAttackerBlockPushBack: 0
   m_AttackerBlockPushBack: 0
   m_AttackerBlockPushBackCondition: 1
+  m_SuperGaugeHitBonus: 2
+  m_SuperGaugeBlockBonus: 1
+  m_SuperGaugeWhiffBonus: 3
