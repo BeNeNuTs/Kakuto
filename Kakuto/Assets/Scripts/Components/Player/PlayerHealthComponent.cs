@@ -31,7 +31,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
 
-    [Header("Debug")]
+    [Separator("Debug")]
     [Space]
 
     public bool m_DEBUG_DisplayDamageTaken = false;

@@ -17,11 +17,11 @@ public class GameConfig : ScriptableObject
 
     public static uint K_ANIMATION_FPS = 30;
 
-    [Header("FPS")]
+    [Separator("FPS")]
     [Range(10, 120)]
     public int m_GameFPS = 30;
 
-    [Header("Round")]
+    [Separator("Round")]
 
     [Tooltip("The duration of one round"), Range(0,99)]
     public float m_RoundDuration = 60f;
@@ -32,7 +32,7 @@ public class GameConfig : ScriptableObject
     [Tooltip("The number of rounds a player should win to win the game"), Min(1)]
     public uint m_MaxRoundsToWin = 3;
 
-    [Header("Out of Bounds")]
+    [Separator("Out of Bounds")]
 
     [Tooltip("To define an offset for the out of bounds (in pixels)")]
     public uint m_BoundsOffset = 50;

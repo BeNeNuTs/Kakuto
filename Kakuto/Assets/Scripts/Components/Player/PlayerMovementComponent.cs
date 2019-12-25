@@ -36,7 +36,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
 #pragma warning restore 414
 
-    [Header("Debug")]
+    [Separator("Debug")]
     [Space]
 
     public bool m_DEBUG_IsStatic = false;

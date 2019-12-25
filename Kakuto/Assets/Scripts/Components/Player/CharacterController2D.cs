@@ -25,7 +25,7 @@ public class CharacterController2D : MonoBehaviour
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
-    [Header("Events")]
+    [Separator("Events")]
     [Space]
 
     public BoolEvent OnJumpEvent;

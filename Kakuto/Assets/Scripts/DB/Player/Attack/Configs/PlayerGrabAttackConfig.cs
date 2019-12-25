@@ -11,14 +11,19 @@ public enum EGrabType
 [CreateAssetMenu(fileName = "PlayerGrabAttackConfig", menuName = "Data/Player/Attacks/Configs/PlayerGrabAttackConfig", order = 1)]
 public class PlayerGrabAttackConfig : PlayerBaseAttackConfig
 {
-    [Header("Settings")]
+    [Separator("Settings")]
     public EGrabType m_GrabType;
 
-    [Header("Enemy effect")]
+    [Separator("Enemy effect")]
     [Range(0, 100)]
     public uint m_Damage = 10;
 
-    [Header("Gauge effect")]
+    [Space]
+
+    [Tooltip("The amount that have to be added to the stun gauge of the enemy if this attack hit him")]
+    public float m_StunGaugeHitAmount = 0f;
+
+    [Separator("Attacker effect")]
     [Tooltip("The amount that have to be added to the super gauge if this attack hit")]
     public float m_SuperGaugeHitBonus = 0f;
     [Tooltip("The amount that have to be added to the super gauge if this attack is blocked")]

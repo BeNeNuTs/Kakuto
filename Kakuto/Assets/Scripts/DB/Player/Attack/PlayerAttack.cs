@@ -12,7 +12,7 @@ public class PlayerAttack
     public string m_Description;
 
     // Setting (AnimName/AttackType/etc..)
-    [Header("Setting")]
+    [Separator("Setting")]
 
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
@@ -20,7 +20,7 @@ public class PlayerAttack
     public bool m_IsASuper = false;
 
     // Condition (SuperGauge, AttackRequirement)
-    [Header("Condition")]
+    [Separator("Condition")]
     public bool m_HasCondition = false;
 
     [ConditionalField(true, "m_HasCondition")]
@@ -33,7 +33,7 @@ public class PlayerAttack
     public string m_AttackRequired = "";
 
     // Attack input to trigger (E+Z+A)
-    [Header("Input")]
+    [Separator("Input")]
     [SerializeField,  Tooltip("Allowed inputs are : A B X Y ← → ↑ ↓ ↖ ↗ ↙ ↘ and AttackName to refer to another attack inputs. (eg : Grab = standLP + standLK)")]
 #pragma warning disable 0649
     private List<string> m_InputStringList;
@@ -45,11 +45,11 @@ public class PlayerAttack
     private bool m_IsInputStringComputed = false;
 
     // Effect (damage/stun/etc..)
-    [Header("Player effect")]
+    [Separator("Player effect")]
     [Tooltip("Once this attack launched, player won't be able to move anymore until UnblockMovement/EndOfAnim is called")]
     public bool m_BlockMovement = false;
 
-    [Header("Effects")]
+    [Separator("Effects")]
     /////////////////////////////////////////////////////
     public bool m_UseTimeScaleEffect = false;
     [ConditionalField(true, "m_UseTimeScaleEffect")]
@@ -66,7 +66,7 @@ public class PlayerAttack
     [ConditionalField(true, "m_UseCameraShakeEffect")]
     public float m_CameraShakeDuration = 0.1f;
 
-    [Header("Config")]
+    [Separator("Config")]
     public PlayerBaseAttackConfig m_AttackConfig;
 
     public List<string> GetRawInputStringList(){ return m_InputStringList; }

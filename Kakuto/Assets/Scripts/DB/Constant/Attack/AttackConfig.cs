@@ -15,7 +15,7 @@ public class AttackConfig : ScriptableObject
         }
     }
 
-    [Header("Inputs")]
+    [Separator("Inputs")]
 
     [Tooltip("How much time by default each input will be kept before being deleted")]
     public float m_DefaultInputPersistency = 0.3f;
@@ -29,7 +29,7 @@ public class AttackConfig : ScriptableObject
     [Tooltip("How many input can be stacked before being deleted")]
     public uint m_MaxInputs = 10;
 
-    [Header("Attack Evaluation")]
+    [Separator("Attack Evaluation")]
 
     [Tooltip("Each time an input is triggered, we're going to wait x frames before evaluating the sequence to find out if there is an attack matching with it. /!\\ based on 30 FPS /!\\")]
     [SerializeField]
@@ -57,7 +57,7 @@ public class AttackConfig : ScriptableObject
         }
     }
 
-    [Header("Super Gauge")]
+    [Separator("Super Gauge")]
 
     [Tooltip("The max amount of the super gauge")]
     public float m_SuperGaugeMaxValue = 100f;
@@ -65,12 +65,12 @@ public class AttackConfig : ScriptableObject
     [Tooltip("The amount that have to be added to the super gauge of the defender if he blocks the attack or takes the hit")]
     public float m_DefenderSuperGaugeBonus = 0f;
 
-    [Header("Stun Gauge")]
+    [Separator("Stun Gauge")]
 
     [Tooltip("The max amount of the stun gauge")]
     public float m_StunGaugeMaxValue = 100f;
 
-    [Header("Damage Scaling")]
+    [Separator("Damage Scaling")]
 
     [Tooltip("X = Hit Counter [0;+infinity] | Y = Damage ratio [0;1]")]
     public AnimationCurve m_DamageScaling;

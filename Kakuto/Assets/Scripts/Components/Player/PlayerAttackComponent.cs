@@ -55,7 +55,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private List<Collider2D> m_HitBoxes;
 
     /// DEBUG
-    [Header("Debug")]
+    [Separator("Debug")]
     [Space]
 
     public bool m_DEBUG_BreakOnTriggerAttack = false;

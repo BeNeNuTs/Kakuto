@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerProjectileAttackConfig", menuName = "Data/Player/Attacks/Configs/PlayerProjectileAttackConfig", order = 2)]
 public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
 {
-    [Header("Projectile")]
+    [Separator("Projectile")]
     [Tooltip("The projectile prefab to emit")]
     public GameObject m_ProjectilePrefab;
     [Tooltip("The angle to emit the projectile")]
