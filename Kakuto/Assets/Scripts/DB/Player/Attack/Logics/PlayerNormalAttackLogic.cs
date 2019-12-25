@@ -74,7 +74,13 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     }
     public override uint GetHitDamage(bool isAttackBlocked)
     {
-        return (isAttackBlocked) ? m_Config.m_CheapDamage : m_Config.m_Damage;
+        float damage = m_Config.m_Damage;
+        if (isAttackBlocked)
+        {
+            damage = m_Config.m_CheapDamage;
+        }
+
+        return (uint)(damage * GetDamageRatio());
     }
 
     public override uint GetCurrentHitCount() { return m_CurrentHitCount; }

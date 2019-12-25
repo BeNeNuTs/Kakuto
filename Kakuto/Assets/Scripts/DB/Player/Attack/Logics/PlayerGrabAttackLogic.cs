@@ -62,7 +62,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         return m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString();
     }
 
-    public override uint GetHitDamage(bool isAttackBlocked) { return m_Config.m_Damage; }
+    public override uint GetHitDamage(bool isAttackBlocked) { return (uint)(m_Config.m_Damage * GetDamageRatio()); }
 
     public override bool CanBlockAttack(bool isCrouching)
     {

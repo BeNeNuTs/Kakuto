@@ -64,4 +64,9 @@ public class AttackConfig : ScriptableObject
 
     [Tooltip("The amount that have to be added to the super gauge of the defender if he blocks the attack or takes the hit")]
     public float m_DefenderSuperGaugeBonus = 0f;
+
+    [Header("Damage Scaling")]
+
+    [Tooltip("X = Hit Counter [0;+infinity] | Y = Damage ratio [0;1]")]
+    public AnimationCurve m_DamageScaling;
 }
