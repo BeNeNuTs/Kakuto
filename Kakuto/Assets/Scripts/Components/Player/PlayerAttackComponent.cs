@@ -279,6 +279,10 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void TriggerAttack(PlayerBaseAttackLogic attackLogic)
     {
+        ClearTriggeredInputs();
+        m_IsAttackBlocked = true;
+        m_UnblockAttackConfig = null;
+
         // If current attack logic is != null, this means we're canceling this attack by another one
         // In that case, we need to trigger EndOfAttack of this current attack before triggering the other one
         // As the EndOfAttack triggered by the animation will happen only 1 frame later and the current attack logic will already be replaced
