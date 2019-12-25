@@ -279,7 +279,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void EndOfAttack(EAnimationAttackName attackName)
     {
-        if(m_IsMovementBlocked)
+        if(m_IsMovementBlocked && (m_AttackComponent.GetCurrentAttack() == null || m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName))
         {
             SetMovementBlocked(false, EBlockedReason.None);
         }
