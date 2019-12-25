@@ -286,21 +286,17 @@ public class PlayerAttackComponent : MonoBehaviour
         // If current attack logic is != null, this means we're canceling this attack by another one
         // In that case, we need to trigger EndOfAttack of this current attack before triggering the other one
         // As the EndOfAttack triggered by the animation will happen only 1 frame later and the current attack logic will already be replaced
-        if(m_CurrentAttackLogic != null)
+        if (m_CurrentAttackLogic != null)
         {
-            EndOfAttack(m_CurrentAttackLogic.GetAttack().m_AnimationAttackName);
+            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, m_CurrentAttackLogic.GetAttack().m_AnimationAttackName);
         }
 
-        PlayerAttack attack = attackLogic.GetAttack();
-
-        ClearTriggeredInputs();
+        m_MovementComponent.UpdatePlayerSide();
 
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
 
-        m_IsAttackBlocked = true;
-        m_UnblockAttackConfig = null;
-        m_MovementComponent.SetMovementBlockedByAttack(attack.m_BlockMovement);
+        m_MovementComponent.SetMovementBlockedByAttack(attackLogic.GetAttack().m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
 
@@ -339,7 +335,7 @@ public class PlayerAttackComponent : MonoBehaviour
         PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
         if (currentAttack.m_AnimationAttackName != attackName)
         {
-            Debug.LogError("Trying to " + methodName + " from " + attackName.ToString() + " but current attack is " + currentAttack.m_AnimationAttackName.ToString());
+            // This can happen when attackName has been cancelled by currentAttack (In that case, EndOfAttack has been called in TriggerAttack
             return false;
         }
         return true;
@@ -368,8 +364,6 @@ public class PlayerAttackComponent : MonoBehaviour
 
             // Prevent to keep hit/grab boxes enabled if cancelling an attack by another while hit/grab boxes still enabled
             DisableAllHitBoxes();
-
-            m_MovementComponent.UpdatePlayerSide();
         }
     }
 
