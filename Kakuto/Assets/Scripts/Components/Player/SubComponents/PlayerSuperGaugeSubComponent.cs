@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerSuperGaugeSubComponent
+public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 {
     private float m_CurrentGaugeValue = 0f;
 
     public event UnityAction OnGaugeValueChanged;
+
+    public PlayerSuperGaugeSubComponent(GameObject owner) : base(owner)
+    {
+    }
 
     public void IncreaseGaugeValue(float value)
     {

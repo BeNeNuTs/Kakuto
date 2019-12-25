@@ -38,6 +38,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private PlayerMovementComponent m_MovementComponent;
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
+    private PlayerComboCounterSubComponent m_ComboCounterSC;
 
     private List<TriggeredInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
@@ -63,7 +64,8 @@ public class PlayerAttackComponent : MonoBehaviour
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
-        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent();
+        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(gameObject);
+        m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
         m_TriggeredInputsList = new List<TriggeredInput>();
 
         if(m_AttacksConfig)
@@ -483,5 +485,10 @@ public class PlayerAttackComponent : MonoBehaviour
     public PlayerSuperGaugeSubComponent GetSuperGaugeSubComponent()
     {
         return m_SuperGaugeSC;
+    }
+
+    public PlayerComboCounterSubComponent GetComboCounterSubComponent()
+    {
+        return m_ComboCounterSC;
     }
 }
