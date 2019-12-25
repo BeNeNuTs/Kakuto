@@ -363,7 +363,9 @@ public class PlayerAttackComponent : MonoBehaviour
             m_CurrentAttackLogic = null;
 
             // Prevent to keep hit/grab boxes enabled if cancelling an attack by another while hit/grab boxes still enabled
-            DisableAllHitBoxes(); 
+            DisableAllHitBoxes();
+
+            m_MovementComponent.UpdatePlayerSide();
         }
     }
 

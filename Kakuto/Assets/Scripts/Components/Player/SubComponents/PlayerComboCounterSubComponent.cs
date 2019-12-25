@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 {
-    private uint m_HitCounter = 0;
+    private uint m_ComboCounter = 0;
 
     public event UnityAction OnHitCounterChanged;
 
@@ -21,21 +21,21 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 
     private void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
     {
-        if(damageTakenInfo.m_IsAlreadyHitStunned || m_HitCounter == 0)
+        if(damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
         {
-            m_HitCounter++;
+            m_ComboCounter++;
             OnHitCounterChanged();
         }
     }
 
     private void OnEnemyStunEnd(float stunTimer)
     {
-        m_HitCounter = 0;
+        m_ComboCounter = 0;
         OnHitCounterChanged();
     }
 
-    public uint GetHitCounter()
+    public uint GetComboCounter()
     {
-        return m_HitCounter;
+        return m_ComboCounter;
     }
 }

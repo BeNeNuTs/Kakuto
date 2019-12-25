@@ -42,8 +42,8 @@ public class ComboCounterDisplayer : MonoBehaviour
         {
             if (!m_FreezeHitCounterDisplay)
             {
-                m_ComboText.enabled = m_PlayerComboCounterSC.GetHitCounter() >= 2;
-                m_ComboText.text = m_PlayerComboCounterSC.GetHitCounter() + " HIT";
+                m_ComboText.enabled = m_PlayerComboCounterSC.GetComboCounter() >= 2;
+                m_ComboText.text = m_PlayerComboCounterSC.GetComboCounter() + " HIT";
             }
             else
             {
@@ -61,7 +61,7 @@ public class ComboCounterDisplayer : MonoBehaviour
     {
         if(m_PlayerComboCounterSC != null)
         {
-            if(m_PlayerComboCounterSC.GetHitCounter() == 0)
+            if(m_PlayerComboCounterSC.GetComboCounter() == 0)
             {
                 if (m_ComboText.enabled)
                 {

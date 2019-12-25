@@ -133,10 +133,10 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
     }
 
-    void UpdatePlayerSide()
+    public void UpdatePlayerSide()
     {
         // If we're not stunned AND not jumping AND not attacking
-        if(!m_HealthComponent.IsStunned() && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
+        if(!m_HealthComponent.GetStunInfoSubComponent().IsStunned() && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
         {
             // If movement is not blocked OR blocked by time over => Then we can update player side
             if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)

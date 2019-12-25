@@ -141,7 +141,7 @@ public class PlayerBaseAttackLogic
         PlayerComboCounterSubComponent comboSC = m_AttackComponent.GetComboCounterSubComponent();
         if (comboSC != null)
         {
-            uint hitCounter = comboSC.GetHitCounter();
+            uint hitCounter = comboSC.GetComboCounter();
             damageRatio = AttackConfig.Instance.m_DamageScaling.Evaluate(hitCounter);
             damageRatio = Mathf.Clamp(damageRatio, 0f, 1f);
         }
