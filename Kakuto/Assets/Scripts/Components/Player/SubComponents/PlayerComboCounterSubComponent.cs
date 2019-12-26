@@ -24,14 +24,14 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
         if(damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
         {
             m_ComboCounter++;
-            OnHitCounterChanged();
+            OnHitCounterChanged?.Invoke();
         }
     }
 
     private void OnEnemyStunEnd(float stunTimer)
     {
         m_ComboCounter = 0;
-        OnHitCounterChanged();
+        OnHitCounterChanged?.Invoke();
     }
 
     public uint GetComboCounter()

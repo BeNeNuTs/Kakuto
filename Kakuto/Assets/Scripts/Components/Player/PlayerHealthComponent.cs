@@ -279,6 +279,11 @@ public class PlayerHealthComponent : MonoBehaviour
             superGaugeSC.IncreaseGaugeValue(AttackConfig.Instance.m_DefenderSuperGaugeBonus);
         }
 
+        if(!isAttackBlocked)
+        {
+            m_StunInfoSC.IncreaseGaugeValue(attackLogic.GetStunGaugeHitAmount());
+        }
+
         if(attack.m_UseTimeScaleEffect)
         {
             TimeManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration, attack.m_TimeScaleBackToNormal);

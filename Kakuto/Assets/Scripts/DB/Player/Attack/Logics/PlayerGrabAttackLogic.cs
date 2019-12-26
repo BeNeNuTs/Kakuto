@@ -64,6 +64,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     public override uint GetHitDamage(bool isAttackBlocked) { return (uint)(m_Config.m_Damage * GetDamageRatio()); }
 
+    public override float GetStunGaugeHitAmount() { return m_Config.m_StunGaugeHitAmount; }
+
     public override bool CanBlockAttack(bool isCrouching)
     {
         return !isCrouching;

@@ -35,7 +35,7 @@ public class SuperGaugeDisplayer : MonoBehaviour
         {
             float gaugeRatio = m_PlayerSuperGaugeSC.GetCurrentGaugeValue() / AttackConfig.Instance.m_SuperGaugeMaxValue;
             m_GaugeImage.fillAmount = gaugeRatio;
-            m_GaugeTextAmount.text = m_PlayerSuperGaugeSC.GetCurrentGaugeValue().ToString();
+            m_GaugeTextAmount.text = ((uint)(m_PlayerSuperGaugeSC.GetCurrentGaugeValue())).ToString();
         }
     }
 

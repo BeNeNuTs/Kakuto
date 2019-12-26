@@ -85,14 +85,14 @@ public class RoundSubGameManager : SubGameManagerBase
             m_Player2RoundVictoryCounter++;
         }
 
-        OnRoundVictoryCounterChanged.Invoke();
+        OnRoundVictoryCounterChanged?.Invoke();
     }
 
     private void OnRoundOver_Internal()
     {
         Invoker.InvokeDelayed(RestartRound, GameConfig.Instance.m_TimeToWaitBetweenRounds);
         m_RoundIsOver = true;
-        OnRoundOver.Invoke();
+        OnRoundOver?.Invoke();
     }
 
     private void RestartRound()

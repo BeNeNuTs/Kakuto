@@ -70,6 +70,12 @@ public class AttackConfig : ScriptableObject
     [Tooltip("The max amount of the stun gauge")]
     public float m_StunGaugeMaxValue = 100f;
 
+    [Tooltip("How much time the stun gauge should be frozen after hitstun/blockstun before starting decreasing")]
+    public float m_StunGaugeDecreaseCooldown = 2f;
+
+    [Tooltip("How much amount the stun gauge should decrease every seconds after the cooldown (amount per sec)")]
+    public float m_StunGaugeDecreaseSpeed = 2f;
+
     [Separator("Damage Scaling")]
 
     [Tooltip("X = Hit Counter [0;+infinity] | Y = Damage ratio [0;1]")]

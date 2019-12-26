@@ -28,6 +28,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private StunInfo m_StunInfo;
 
     private float m_CurrentGaugeValue = 0f;
+    private float m_StabilizeGaugeCooldown = 0f;
     public event UnityAction OnGaugeValueChanged;
 
     // DEBUG /////////////////////////////
@@ -59,6 +60,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
                 StopStun();
             }
         }
+
+        StabilizeGauge();
 
         // DEBUG /////////////////////////////////////
         if (m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
@@ -125,8 +128,10 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_StunType = EStunType.None;
         m_StunInfo.m_EndOfStunTimestamp = 0;
         m_StunInfo.m_IsAnimStunned = false;
-        Utils.GetPlayerEventManager<float>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, m_StunInfo.m_EndOfStunTimestamp);
 
+        m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
+
+        Utils.GetPlayerEventManager<float>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, m_StunInfo.m_EndOfStunTimestamp);
 
         // DEBUG ///////////////////////////////////
         if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
@@ -190,19 +195,27 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         m_CurrentGaugeValue += value;
         ClampGaugeValue();
-        OnGaugeValueChanged();
+        OnGaugeValueChanged?.Invoke();
     }
 
-    public void DecreaseGaugeValue(float value)
+    private void StabilizeGauge()
     {
-        if(value > m_CurrentGaugeValue)
+        if (!IsStunned())
         {
-            Debug.LogError("The amount to decrease to the stun gauge is superior to the current amount: Current Amount(" + m_CurrentGaugeValue + ") - Amount to Decrease(" + value + ")");
+            if(m_StabilizeGaugeCooldown <= 0f)
+            {
+                if (m_CurrentGaugeValue > 0f)
+                {
+                    m_CurrentGaugeValue -= AttackConfig.Instance.m_StunGaugeDecreaseSpeed * Time.unscaledDeltaTime;
+                    ClampGaugeValue();
+                    OnGaugeValueChanged?.Invoke();
+                }
+            }
+            else
+            {
+                m_StabilizeGaugeCooldown -= Time.unscaledDeltaTime;
+            }
         }
-
-        m_CurrentGaugeValue -= value;
-        ClampGaugeValue();
-        OnGaugeValueChanged();
     }
 
     public float GetCurrentGaugeValue()

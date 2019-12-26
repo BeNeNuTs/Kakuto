@@ -93,6 +93,7 @@ public class PlayerBaseAttackLogic
 
     public virtual bool CanStun() { return false; }
     public virtual float GetStunDuration(bool isAttackBlocked) { return 0.0f; }
+    public virtual float GetStunGaugeHitAmount() { return 0f; }
 
     public virtual bool CanPushBack() { return false; }
     public virtual float GetPushBackForce(bool isAttackBlocked) { return 0.0f; }

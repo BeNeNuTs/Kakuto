@@ -93,6 +93,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     {
         return (isAttackBlocked) ? m_Config.BlockStun : m_Config.HitStun;
     }
+    public override float GetStunGaugeHitAmount() { return m_Config.m_StunGaugeHitAmount; }
 
     // Pushback can be applied only on last hit
     public override bool CanPushBack() { return GetCurrentHitCount() >= GetMaxHitCount(); }

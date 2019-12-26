@@ -15,7 +15,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
     {
         m_CurrentGaugeValue += value;
         ClampGaugeValue();
-        OnGaugeValueChanged();
+        OnGaugeValueChanged?.Invoke();
     }
 
     public void DecreaseGaugeValue(float value)
@@ -27,7 +27,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
         m_CurrentGaugeValue -= value;
         ClampGaugeValue();
-        OnGaugeValueChanged();
+        OnGaugeValueChanged?.Invoke();
     }
 
     public float GetCurrentGaugeValue()
