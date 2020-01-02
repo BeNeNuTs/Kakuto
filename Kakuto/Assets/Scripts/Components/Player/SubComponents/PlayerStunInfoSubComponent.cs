@@ -5,7 +5,6 @@ public enum EStunType
 {
     Hit,
     Block,
-    Grab,
     None
 }
 
@@ -14,11 +13,10 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     struct StunInfo
     {
         public bool m_IsStunned;
-        public bool m_StunnedWhileJumping;
-        public bool m_StunnedByHitKO;
-        public bool m_IsAnimStunned;
         public EStunType m_StunType;
+        public bool m_IsDurationAnimDriven;
         public float m_EndOfStunTimestamp;
+        public bool m_EndOfStunAnimRequested;
     }
 
     private PlayerHealthComponent m_HealthComponent;
@@ -41,23 +39,24 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_MovementComponent = movementComp;
         m_Anim = anim;
 
-        Utils.GetPlayerEventManager<AnimStunInfo>(m_Owner).StartListening(EPlayerEvent.StartAnimStun, OnStartAnimStun);
-        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.StopAnimStun, OnStopAnimStun);
+        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
     }
 
     ~PlayerStunInfoSubComponent()
     {
-        Utils.GetPlayerEventManager<AnimStunInfo>(m_Owner).StopListening(EPlayerEvent.StartAnimStun, OnStartAnimStun);
-        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.StopAnimStun, OnStopAnimStun);
+        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
     }
 
     public void Update()
     {
         if (IsStunned())
         {
-            if (Time.unscaledTime > m_StunInfo.m_EndOfStunTimestamp)
+            if(!m_StunInfo.m_EndOfStunAnimRequested)
             {
-                StopStun();
+                if (!m_StunInfo.m_IsDurationAnimDriven && m_StunInfo.m_EndOfStunTimestamp > 0f && Time.unscaledTime > m_StunInfo.m_EndOfStunTimestamp)
+                {
+                    TriggerOnStunEndAnim();
+                }
             }
         }
 
@@ -77,45 +76,53 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         //////////////////////////////////////////////
     }
 
-    private void OnStartAnimStun(AnimStunInfo stunInfo)
+    private void OnStunAnimEnd(bool dummy)
     {
-        StartStun(stunInfo.m_StunDuration, stunInfo.m_IsHitKO, stunInfo.m_StunType, true);
-    }
-
-    private void OnStopAnimStun(bool dummy)
-    {
-        // OnStopAnimStun is allowed to stop only anim stunned 
-        // because the machinebehavior will go through state exit and then state enter
-        // but on code side, we trigger the animation and in the same frame we start the stun
-        // So StopAnimStun could stun a new stun applied by code
-        if (IsAnimStunned())
+        if(IsStunned())
         {
-            StopStun();
+            if (m_StunInfo.m_IsDurationAnimDriven || m_StunInfo.m_EndOfStunAnimRequested)
+            {
+                StopStun();
+            }
         }
     }
 
-    public void StartStun(float stunDuration, bool isHitKO, EStunType stunType, bool animStunned)
+    public void StartStun(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
     {
-        m_StunInfo.m_EndOfStunTimestamp = Time.unscaledTime + stunDuration;
-        if (!IsStunned())
-        {
-            m_StunInfo.m_IsStunned = true;
-            m_StunInfo.m_StunnedWhileJumping = m_MovementComponent.IsJumping();
-            m_StunInfo.m_StunnedByHitKO = isHitKO;
-            m_StunInfo.m_StunType = stunType;
-            m_StunInfo.m_IsAnimStunned = animStunned;
-            Utils.GetPlayerEventManager<float>(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, m_StunInfo.m_EndOfStunTimestamp);
-        }
+        m_StunInfo.m_IsStunned = true;
+        m_StunInfo.m_StunType = (isAttackBlocked) ? EStunType.Block : EStunType.Hit;
+        m_StunInfo.m_IsDurationAnimDriven = m_MovementComponent.IsJumping() || attackLogic.IsHitKO() || attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab; // Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
+        m_StunInfo.m_EndOfStunAnimRequested = false;
 
-        if (animStunned)
+        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, true);
+
+        if (m_StunInfo.m_IsDurationAnimDriven)
         {
-            Debug.Log("Player : " + m_Owner.name + " is anim stunned");
+            Debug.Log(Time.time + " | Player : " + m_Owner.name + " is anim stunned");
+        }
+    }
+
+    public void SetStunDuration(float stunDuration)
+    {
+        if(m_StunInfo.m_IsStunned && !m_StunInfo.m_IsDurationAnimDriven)
+        {
+            // retirer de la duration la durée de l'anim de out
+            m_StunInfo.m_EndOfStunTimestamp = Time.unscaledTime + stunDuration;
+
+            Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
         }
         else
         {
-            Debug.Log("Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
+            Debug.LogError("Trying to set stun duration but " + m_Owner + " is not stunned or duration is anim driven");
         }
+    }
 
+    private void TriggerOnStunEndAnim()
+    {
+        m_Anim.SetTrigger("OnStunEnd");
+        m_StunInfo.m_EndOfStunAnimRequested = true;
+
+        Debug.Log(Time.time + " | TriggerOnStunEndAnim");
     }
 
     private void StopStun()
@@ -123,15 +130,16 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         EStunType stunType = m_StunInfo.m_StunType;
 
         m_StunInfo.m_IsStunned = false;
-        m_StunInfo.m_StunnedWhileJumping = false;
-        m_StunInfo.m_StunnedByHitKO = false;
         m_StunInfo.m_StunType = EStunType.None;
         m_StunInfo.m_EndOfStunTimestamp = 0;
-        m_StunInfo.m_IsAnimStunned = false;
+        m_StunInfo.m_IsDurationAnimDriven = false;
+        m_StunInfo.m_EndOfStunAnimRequested = false;
 
         m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
 
-        Utils.GetPlayerEventManager<float>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, m_StunInfo.m_EndOfStunTimestamp);
+        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, false);
+
+        Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
 
         // DEBUG ///////////////////////////////////
         if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
@@ -139,11 +147,6 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             DEBUG_StartBlockingAttacks();
         }
         ////////////////////////////////////////////
-        else
-        {
-            m_Anim.SetTrigger("OnStunEnd");
-            Debug.Log("Player : " + m_Owner.name + " is no more stunned");
-        }
     }
 
     public bool IsStunned()
@@ -159,11 +162,6 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     public bool IsBlockStunned()
     {
         return m_StunInfo.m_IsStunned && m_StunInfo.m_StunType == EStunType.Block;
-    }
-
-    public bool IsAnimStunned()
-    {
-        return m_StunInfo.m_IsStunned && m_StunInfo.m_IsAnimStunned;
     }
 
     // DEBUG /////////////////////////////////////

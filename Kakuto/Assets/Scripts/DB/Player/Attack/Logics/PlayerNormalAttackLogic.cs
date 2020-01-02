@@ -88,7 +88,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override float GetDelayBetweenHits() { return m_Config.m_DelayBetweenHits; }
     public override bool IsHitKO() { return m_Config.m_HitKO; }
 
-    public override bool CanStun() { return true; }
+    public override bool CanStunOnDamage() { return true; }
     public override float GetStunDuration(bool isAttackBlocked)
     {
         return (isAttackBlocked) ? m_Config.BlockStun : m_Config.HitStun;

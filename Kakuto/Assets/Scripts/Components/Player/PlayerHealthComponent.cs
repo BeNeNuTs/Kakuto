@@ -116,6 +116,7 @@ public class PlayerHealthComponent : MonoBehaviour
         if(CanBlockGrabAttack(attackLogic))
         {
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
+            m_StunInfoSC.StartStun(attackLogic, true);
             PlayBlockAnimation(attackLogic);
         }
         else if(!m_StunInfoSC.IsStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
@@ -151,6 +152,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         transform.position = grabbedInfo.GetGrabHookPosition();
+        m_StunInfoSC.StartStun(grabbedInfo.GetAttackLogic(), false);
         PlayHitAnimation(grabbedInfo.GetAttackLogic());
     }
 
@@ -251,15 +253,20 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         PlayerAttack attack = attackLogic.GetAttack();
 
-        // Stun duration and pushback are anim driven for hit air/KO
-        if(!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
+        if (attackLogic.CanStunOnDamage())
         {
-            if (attackLogic.CanStun())
+            m_StunInfoSC.StartStun(attackLogic, isAttackBlocked);
+        }
+
+        // Stun duration and pushback are anim driven for hit air/KO
+        if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
+        {
+            if (attackLogic.CanStunOnDamage())
             {
                 float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
-                if (stunDuration > 0)
+                if (stunDuration > 0f)
                 {
-                    m_StunInfoSC.StartStun(stunDuration, attackLogic.IsHitKO(), (isAttackBlocked) ? EStunType.Block : EStunType.Hit, false);
+                    m_StunInfoSC.SetStunDuration(stunDuration);
                 }
             }
 

@@ -84,8 +84,8 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockAttack, BlockAttack);
         Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
-        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
@@ -117,8 +117,8 @@ public class PlayerAttackComponent : MonoBehaviour
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockAttack, BlockAttack);
         Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
-        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
@@ -397,13 +397,13 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    void OnStunBegin(float stunTimeStamp)
+    void OnStunBegin(bool isStunned = true)
     {
         ClearTriggeredInputs();
         m_IsAttackBlocked = true;
     }
 
-    void OnStunEnd(float stunTimeStamp)
+    void OnStunEnd(bool isStunned = false)
     {
         if(m_IsAttackBlocked == false)
         {
@@ -418,12 +418,12 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if(attackBlocked)
         {
-            OnStunBegin(0f);
+            OnStunBegin();
             m_IsAttackBlockedByTakeOff = true;
         }
         else if(m_IsAttackBlockedByTakeOff)
         {
-            OnStunEnd(0f);
+            OnStunEnd();
             m_IsAttackBlockedByTakeOff = false;
         }
     }

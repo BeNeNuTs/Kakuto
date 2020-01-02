@@ -82,8 +82,8 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StopMovement, OnStopMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
-        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<float>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -101,8 +101,8 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StopMovement, OnStopMovement);
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
-        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<float>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -305,12 +305,12 @@ public class PlayerMovementComponent : MonoBehaviour
         SetMovementBlocked(false, EBlockedReason.None);
     }
 
-    void OnStunBegin(float stunTimeStamp)
+    void OnStunBegin(bool isStunned = true)
     {
         SetMovementBlocked(true, EBlockedReason.Stun);
     }
 
-    void OnStunEnd(float stunTimeStamp)
+    void OnStunEnd(bool isStunned = false)
     {
         SetMovementBlocked(false, EBlockedReason.None);
     }

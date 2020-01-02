@@ -10,13 +10,13 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
     public PlayerComboCounterSubComponent(GameObject owner) : base(owner)
     {
         Utils.GetEnemyEventManager<DamageTakenInfo>(owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
-        Utils.GetEnemyEventManager<float>(owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
+        Utils.GetEnemyEventManager<bool>(owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }
 
     ~PlayerComboCounterSubComponent()
     {
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
-        Utils.GetEnemyEventManager<float>(m_Owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
+        Utils.GetEnemyEventManager<bool>(m_Owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }
 
     private void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
@@ -28,7 +28,7 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
         }
     }
 
-    private void OnEnemyStunEnd(float stunTimer)
+    private void OnEnemyStunEnd(bool isStunned = false)
     {
         m_ComboCounter = 0;
         OnHitCounterChanged?.Invoke();

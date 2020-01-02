@@ -91,7 +91,7 @@ public class PlayerBaseAttackLogic
     public virtual float GetDelayBetweenHits() { return 0.1f; }
     public virtual bool IsHitKO() { return false; }
 
-    public virtual bool CanStun() { return false; }
+    public virtual bool CanStunOnDamage() { return false; }
     public virtual float GetStunDuration(bool isAttackBlocked) { return 0.0f; }
     public virtual float GetStunGaugeHitAmount() { return 0f; }
 

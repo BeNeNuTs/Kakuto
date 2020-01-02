@@ -25,9 +25,8 @@ public enum EPlayerEvent
     UnblockMovement,
     EndOfAttack,
 
-    StartAnimStun,
-    StopAnimStun,
     StunBegin,
+    OnStunAnimEnd,
     StunEnd,
     DamageTaken,
     OnDeath,
