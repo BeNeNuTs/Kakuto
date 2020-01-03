@@ -126,7 +126,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     }
 
     public override bool CanPlayDamageTakenAnim() { return true; }
-    public override string GetBlockAnimName(EPlayerStance playerStance)
+    public override string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state)
     {
         string blockAnimName = "Block";
 
@@ -137,11 +137,11 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
             Debug.LogError("A player can't block an attack while jumping.");
         }
 
-        blockAnimName += "_In"; //Play the In animation
+        blockAnimName += "_" + state.ToString();
 
         return blockAnimName;
     }
-    public override string GetHitAnimName(EPlayerStance playerStance)
+    public override string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state)
     {
         string hitAnimName = "Hit";
 
@@ -158,12 +158,12 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 case EPlayerStance.Stand:
                     hitAnimName += m_Config.m_HitHeight.ToString();
                     hitAnimName += m_Config.m_HitStrength.ToString();
-                    hitAnimName += "_In"; //Play the In animation
+                    hitAnimName += "_" + state.ToString();
                     break;
                 case EPlayerStance.Crouch:
                     hitAnimName += "Low"; // Crouch hit is necessarily low
                     hitAnimName += m_Config.m_HitStrength.ToString();
-                    hitAnimName += "_In"; //Play the In animation
+                    hitAnimName += "_" + state.ToString();
                     break;
                 case EPlayerStance.Jump:
                     // Jump hit doesn't need hit height / strength

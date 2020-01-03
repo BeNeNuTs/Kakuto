@@ -266,7 +266,7 @@ public class PlayerHealthComponent : MonoBehaviour
                 float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
                 if (stunDuration > 0f)
                 {
-                    m_StunInfoSC.SetStunDuration(stunDuration);
+                    m_StunInfoSC.SetStunDuration(attackLogic, stunDuration);
                 }
             }
 
@@ -320,14 +320,14 @@ public class PlayerHealthComponent : MonoBehaviour
     private void PlayBlockAnimation(PlayerBaseAttackLogic attackLogic)
     {
         //Play block anim
-        string blockAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance());
+        string blockAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.In);
         m_Anim.Play(blockAnimName, 0, 0);
     }
 
     private void PlayHitAnimation(PlayerBaseAttackLogic attackLogic)
     {
         //Play hit anim
-        string hitAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance());
+        string hitAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.In);
         m_Anim.Play(hitAnimName, 0, 0);
     }
 

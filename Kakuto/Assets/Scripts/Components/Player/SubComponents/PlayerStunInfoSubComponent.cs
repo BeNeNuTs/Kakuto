@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public enum EStunType
@@ -15,13 +16,15 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         public bool m_IsStunned;
         public EStunType m_StunType;
         public bool m_IsDurationAnimDriven;
-        public float m_EndOfStunTimestamp;
+        public float m_EndOfStunAnimTimestamp;
         public bool m_EndOfStunAnimRequested;
     }
 
     private PlayerHealthComponent m_HealthComponent;
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
+
+    Dictionary<string, float> m_AnimationsLengthDictionary = new Dictionary<string, float>();
 
     private StunInfo m_StunInfo;
 
@@ -39,7 +42,30 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_MovementComponent = movementComp;
         m_Anim = anim;
 
+        InitAnimationsLengthDictionary();
+
         Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
+    }
+
+    void InitAnimationsLengthDictionary()
+    {
+        if(m_Anim != null)
+        {
+            AnimatorOverrideController overrideController = m_Anim.runtimeAnimatorController as AnimatorOverrideController;
+            if (overrideController != null)
+            {
+                List<KeyValuePair<AnimationClip, AnimationClip>> animationsOverrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+                overrideController.GetOverrides(animationsOverrides);
+                foreach (KeyValuePair<AnimationClip, AnimationClip> animOverride in animationsOverrides)
+                {
+                    m_AnimationsLengthDictionary.Add(animOverride.Key.name, animOverride.Value.length);
+                }
+            }
+            else
+            {
+                Debug.LogError(m_Owner + " doesn't use an AnimatorOverrideController");
+            }
+        }
     }
 
     ~PlayerStunInfoSubComponent()
@@ -53,7 +79,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             if(!m_StunInfo.m_EndOfStunAnimRequested)
             {
-                if (!m_StunInfo.m_IsDurationAnimDriven && m_StunInfo.m_EndOfStunTimestamp > 0f && Time.unscaledTime > m_StunInfo.m_EndOfStunTimestamp)
+                if (!m_StunInfo.m_IsDurationAnimDriven && m_StunInfo.m_EndOfStunAnimTimestamp > 0f && Time.time > m_StunInfo.m_EndOfStunAnimTimestamp)
                 {
                     TriggerOnStunEndAnim();
                 }
@@ -67,7 +93,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             if (m_HealthComponent.m_DEBUG_IsBlockingAllAttacks && m_DEBUG_BlockingAttacksTimer > 0.0f)
             {
-                if (Time.unscaledTime > m_DEBUG_BlockingAttacksTimer)
+                if (Time.time > m_DEBUG_BlockingAttacksTimer)
                 {
                     DEBUG_StopBlockingAttacks();
                 }
@@ -102,12 +128,33 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
     }
 
-    public void SetStunDuration(float stunDuration)
+    public void SetStunDuration(PlayerBaseAttackLogic attackLogic, float stunDuration)
     {
         if(m_StunInfo.m_IsStunned && !m_StunInfo.m_IsDurationAnimDriven)
         {
-            // retirer de la duration la durée de l'anim de out
-            m_StunInfo.m_EndOfStunTimestamp = Time.unscaledTime + stunDuration;
+            string outStunAnimName = "UNKNOWN";
+            if (m_StunInfo.m_StunType == EStunType.Hit)
+            {
+                outStunAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
+            }
+            else if(m_StunInfo.m_StunType == EStunType.Block)
+            {
+                outStunAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
+            }
+
+            if (!m_AnimationsLengthDictionary.TryGetValue(outStunAnimName, out float outStunAnimDuration))
+            {
+                Debug.LogError(outStunAnimName + " animation can't be found in AnimationsLength dictionary for " + m_Owner);
+            }
+
+            if (outStunAnimDuration >= stunDuration)
+            {
+                Debug.LogError(outStunAnimName + " animation has a length (" + outStunAnimDuration + ") superior to the " + m_StunInfo.m_StunType.ToString() + " stun duration (" + stunDuration + ") of " + attackLogic.GetAttack().m_Name);
+                outStunAnimDuration = stunDuration;
+            }
+
+            float finalDuration = stunDuration - outStunAnimDuration;
+            m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
 
             Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
         }
@@ -131,8 +178,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         m_StunInfo.m_IsStunned = false;
         m_StunInfo.m_StunType = EStunType.None;
-        m_StunInfo.m_EndOfStunTimestamp = 0;
         m_StunInfo.m_IsDurationAnimDriven = false;
+        m_StunInfo.m_EndOfStunAnimTimestamp = 0;
         m_StunInfo.m_EndOfStunAnimRequested = false;
 
         m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
@@ -167,7 +214,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     // DEBUG /////////////////////////////////////
     private void DEBUG_StartBlockingAttacks()
     {
-        m_DEBUG_BlockingAttacksTimer = Time.unscaledTime + m_HealthComponent.m_DEBUG_BlockingAttacksDuration;
+        m_DEBUG_BlockingAttacksTimer = Time.time + m_HealthComponent.m_DEBUG_BlockingAttacksDuration;
         m_HealthComponent.m_DEBUG_IsBlockingAllAttacks = true;
 
         m_Anim.Play("BlockStand_In", 0, 0);

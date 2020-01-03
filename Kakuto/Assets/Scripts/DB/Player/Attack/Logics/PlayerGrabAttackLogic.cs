@@ -73,13 +73,13 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         return !isCrouching;
     }
 
-    public override string GetBlockAnimName(EPlayerStance playerStance)
+    public override string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state)
     {
         string blockAnimName = K_GRAB_BLOCK_ANIM;
         return blockAnimName;
     }
 
-    public override string GetHitAnimName(EPlayerStance playerStance)
+    public override string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state)
     {
         string hitAnimName = K_GRAB_HIT_ANIM;
         hitAnimName += m_Config.m_GrabType.ToString();

@@ -1,6 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public enum EStunAnimState
+{
+    In,
+    Loop,
+    Out
+}
 
 public class PlayerBaseAttackLogic
 {
@@ -103,8 +108,8 @@ public class PlayerBaseAttackLogic
     public virtual float GetAttackerPushBackForce(bool isAttackBlocked, bool enemyIsInACorner) { return 0.0f; }
 
     public virtual bool CanPlayDamageTakenAnim() { return false; }
-    public virtual string GetBlockAnimName(EPlayerStance playerStance) { return ""; }
-    public virtual string GetHitAnimName(EPlayerStance playerStance) { return ""; }
+    public virtual string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
+    public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
     public virtual void OnHandleCollision(bool triggerHitEvent) { }
     public bool HasHit() { return m_HasHit; }
