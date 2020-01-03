@@ -49,6 +49,8 @@ public class PlayerHealthComponent : MonoBehaviour
 
     public bool m_DEBUG_IsInvincible = false;
 
+    public bool m_DEBUG_IsImmuneToStunGauge = false;
+
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;

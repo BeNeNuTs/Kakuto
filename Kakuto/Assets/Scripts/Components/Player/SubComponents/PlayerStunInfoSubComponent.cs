@@ -299,7 +299,16 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void ClampGaugeValue()
     {
-        m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue);
+        // DEBUG /////////////////////////////////////
+        if (m_HealthComponent.m_DEBUG_IsImmuneToStunGauge)
+        {
+            m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue - 1);
+        }
+        /////////////////////////////////////////////
+        else
+        {
+            m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue);
+        }
     }
 
     private void PlayStunAnim()
