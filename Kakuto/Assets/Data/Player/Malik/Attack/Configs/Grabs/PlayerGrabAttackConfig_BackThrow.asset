@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7dd5f751d01c24aad1f13f3af1484d, type: 3}
   m_Name: PlayerGrabAttackConfig_BackThrow
   m_EditorClassIdentifier: 
-  m_Damage: 20
   m_GrabType: 1
+  m_Damage: 20
+  m_StunGaugeHitAmount: 20
+  m_SuperGaugeBaseBonus: 0
+  m_SuperGaugeHitBonus: 0
+  m_SuperGaugeBlockBonus: 0

@@ -24,12 +24,13 @@ MonoBehaviour:
   m_BlockStun: 7
   m_HitPushBack: 1.2
   m_BlockPushBack: 3.5
+  m_StunGaugeHitAmount: 5
   m_ApplyAttackerHitPushBack: 0
   m_AttackerHitPushBack: 0
   m_AttackerHitPushBackCondition: 1
   m_ApplyAttackerBlockPushBack: 0
   m_AttackerBlockPushBack: 0
   m_AttackerBlockPushBackCondition: 1
+  m_SuperGaugeBaseBonus: 0
   m_SuperGaugeHitBonus: 4
   m_SuperGaugeBlockBonus: 2
-  m_SuperGaugeWhiffBonus: 0
