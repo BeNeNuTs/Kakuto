@@ -5,10 +5,17 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 {
     private float m_CurrentGaugeValue = 0f;
 
+    private PlayerAttackComponent m_AttackComponent;
+
     public event UnityAction OnGaugeValueChanged;
 
-    public PlayerSuperGaugeSubComponent(GameObject owner) : base(owner)
+    public PlayerSuperGaugeSubComponent(PlayerAttackComponent attackComp) : base(attackComp.gameObject)
     {
+        m_AttackComponent = attackComp;
+        if (m_AttackComponent.m_DEBUG_SuperGaugeAlwaysFilled)
+        {
+            IncreaseGaugeValue(AttackConfig.Instance.m_SuperGaugeMaxValue);
+        }
     }
 
     public void IncreaseGaugeValue(float value)
@@ -20,7 +27,12 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
     public void DecreaseGaugeValue(float value)
     {
-        if(value > m_CurrentGaugeValue)
+        if (m_AttackComponent.m_DEBUG_SuperGaugeAlwaysFilled)
+        {
+            return;
+        }
+
+        if (value > m_CurrentGaugeValue)
         {
             Debug.LogError("The amount to decrease to the super gauge is superior to the current amount: Current Amount(" + m_CurrentGaugeValue + ") - Amount to Decrease(" + value + ")");
         }

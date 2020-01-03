@@ -59,12 +59,13 @@ public class PlayerAttackComponent : MonoBehaviour
     [Space]
 
     public bool m_DEBUG_BreakOnTriggerAttack = false;
+    public bool m_DEBUG_SuperGaugeAlwaysFilled = false;
     /// DEBUG
 
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
-        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(gameObject);
+        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(this);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
         m_TriggeredInputsList = new List<TriggeredInput>();
 

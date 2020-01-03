@@ -25,6 +25,7 @@ public class SuperGaugeDisplayer : MonoBehaviour
             {
                 m_PlayerSuperGaugeSC = playerAttackComponent.GetSuperGaugeSubComponent();
                 m_PlayerSuperGaugeSC.OnGaugeValueChanged += OnGaugeValueChanged;
+                OnGaugeValueChanged();
             }
         }
     }

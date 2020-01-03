@@ -25,6 +25,7 @@ public class StunGaugeDisplayer : MonoBehaviour
             {
                 m_PlayerStunInfoSC = playerHealthComponent.GetStunInfoSubComponent();
                 m_PlayerStunInfoSC.OnGaugeValueChanged += OnGaugeValueChanged;
+                OnGaugeValueChanged();
             }
         }
     }
