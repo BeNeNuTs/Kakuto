@@ -24,15 +24,16 @@ MonoBehaviour:
   m_BlockStun: 9
   m_HitPushBack: 1.5
   m_BlockPushBack: 1
+  m_StunGaugeHitAmount: 0
   m_ApplyAttackerHitPushBack: 0
   m_AttackerHitPushBack: 0
   m_AttackerHitPushBackCondition: 1
   m_ApplyAttackerBlockPushBack: 0
   m_AttackerBlockPushBack: 0
   m_AttackerBlockPushBackCondition: 1
+  m_SuperGaugeBaseBonus: 5
   m_SuperGaugeHitBonus: 0
   m_SuperGaugeBlockBonus: 0
-  m_SuperGaugeWhiffBonus: 5
   m_ProjectilePrefab: {fileID: 5008399834560454162, guid: 7064702e086653a4b89f80dca37597de,
     type: 3}
   m_ProjectileAngle: 0
