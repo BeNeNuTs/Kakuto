@@ -35,7 +35,15 @@ public class StunGaugeDisplayer : MonoBehaviour
         {
             float gaugeRatio = m_PlayerStunInfoSC.GetCurrentGaugeValue() / AttackConfig.Instance.m_StunGaugeMaxValue;
             m_GaugeImage.fillAmount = gaugeRatio;
-            m_GaugeTextAmount.text = ((uint)(m_PlayerStunInfoSC.GetCurrentGaugeValue())).ToString();
+
+            if(gaugeRatio < 1f)
+            {
+                m_GaugeTextAmount.text = ((uint)(m_PlayerStunInfoSC.GetCurrentGaugeValue())).ToString();
+            }
+            else
+            {
+                m_GaugeTextAmount.text = "STUNNED";
+            }
         }
     }
 

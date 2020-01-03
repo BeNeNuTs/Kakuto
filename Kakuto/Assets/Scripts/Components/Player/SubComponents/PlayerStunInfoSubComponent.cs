@@ -58,7 +58,10 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
                 overrideController.GetOverrides(animationsOverrides);
                 foreach (KeyValuePair<AnimationClip, AnimationClip> animOverride in animationsOverrides)
                 {
-                    m_AnimationsLengthDictionary.Add(animOverride.Key.name, animOverride.Value.length);
+                    if(animOverride.Key != null && animOverride.Value != null)
+                    {
+                        m_AnimationsLengthDictionary.Add(animOverride.Key.name, animOverride.Value.length);
+                    }
                 }
             }
             else
@@ -102,22 +105,17 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         //////////////////////////////////////////////
     }
 
-    private void OnStunAnimEnd(bool dummy)
+    public void StartStun(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
     {
-        if(IsStunned())
-        {
-            if (m_StunInfo.m_IsDurationAnimDriven || m_StunInfo.m_EndOfStunAnimRequested)
-            {
-                StopStun();
-            }
-        }
+        StartStun_Internal(attackLogic.IsHitKO(), attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab, isAttackBlocked);
     }
 
-    public void StartStun(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
+    void StartStun_Internal(bool isHitKO, bool isGrabAttack, bool isAttackBlocked)
     {
         m_StunInfo.m_IsStunned = true;
         m_StunInfo.m_StunType = (isAttackBlocked) ? EStunType.Block : EStunType.Hit;
-        m_StunInfo.m_IsDurationAnimDriven = m_MovementComponent.IsJumping() || attackLogic.IsHitKO() || attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab; // Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
+        m_StunInfo.m_IsDurationAnimDriven = m_MovementComponent.IsJumping() || isHitKO || isGrabAttack; // Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
+        m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
 
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, true);
@@ -172,6 +170,17 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         Debug.Log(Time.time + " | TriggerOnStunEndAnim");
     }
 
+    private void OnStunAnimEnd(bool stunAnimEnd = true)
+    {
+        if (IsStunned())
+        {
+            if (m_StunInfo.m_IsDurationAnimDriven || m_StunInfo.m_EndOfStunAnimRequested)
+            {
+                StopStun();
+            }
+        }
+    }
+
     private void StopStun()
     {
         EStunType stunType = m_StunInfo.m_StunType;
@@ -182,6 +191,10 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_EndOfStunAnimTimestamp = 0;
         m_StunInfo.m_EndOfStunAnimRequested = false;
 
+        if(m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
+        {
+            ResetGaugeValue();
+        }
         m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
 
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, false);
@@ -238,8 +251,24 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     public void IncreaseGaugeValue(float value)
     {
-        m_CurrentGaugeValue += value;
-        ClampGaugeValue();
+        if(m_CurrentGaugeValue < AttackConfig.Instance.m_StunGaugeMaxValue)
+        {
+            m_CurrentGaugeValue += value;
+            ClampGaugeValue();
+            OnGaugeValueChanged?.Invoke();
+
+            if (m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
+            {
+                StartStun_Internal(true, false, false);
+                PlayStunAnim();
+            }
+        }
+    }
+
+
+    public void ResetGaugeValue()
+    {
+        m_CurrentGaugeValue = 0f;
         OnGaugeValueChanged?.Invoke();
     }
 
@@ -271,5 +300,11 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private void ClampGaugeValue()
     {
         m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue);
+    }
+
+    private void PlayStunAnim()
+    {
+        string stunAnimName = "Stun" + m_MovementComponent.GetCurrentStance().ToString() + "KO";
+        m_Anim.Play(stunAnimName, 0, 0);
     }
 }

@@ -234,11 +234,12 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         else
         {
-            TriggerEffects(attackLogic, damage, isAttackBlocked);
             if (attackLogic.CanPlayDamageTakenAnim())
             {
                 PlayDamageTakenAnim(attackLogic, isAttackBlocked);
             }
+
+            TriggerEffects(attackLogic, damage, isAttackBlocked);
         }
 
         // DEBUG /////////////////////////////////////
