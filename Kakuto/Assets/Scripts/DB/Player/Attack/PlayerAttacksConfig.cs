@@ -1,33 +1,43 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using System.Linq;
 
 [CreateAssetMenu(fileName = "PlayerAttacksConfig", menuName = "Data/Player/Attacks/PlayerAttacksConfig", order = 0)]
-public class PlayerAttacksConfig : ScriptableObject
+public class PlayerAttacksConfig : BakeableScriptableObject
 {
     [Tooltip("Contain the attack list of this player")]
     public List<PlayerAttack> m_AttackList;
 
+#if UNITY_EDITOR
+#pragma warning disable 414
     [ButtonAttribute("ComputeInputStringList", "Compute inputs", "Allow to compute final inputs according to Input string list.", false, false)]
-    public bool m_ComputeInputs = false;
+    [SerializeField] bool m_ComputeInputs = false;
 
     [ButtonAttribute("SortAttackList", "Sort Attack List", "Allow to sort the attack list by input in order to avoid conflict.", false, false)]
-    public bool m_SortAttackList = false;
+    [SerializeField] bool m_SortAttackList = false;
+#pragma warning restore 414
 
-    private bool m_IsInitialized = false;
+    bool m_IsDataBaked = false;
+#endif
 
     public void Init()
     {
-        if(!m_IsInitialized)
+#if UNITY_EDITOR
+        BakeData();
+#endif
+    }
+
+#if UNITY_EDITOR
+    public override void BakeData()
+    {
+        if (!m_IsDataBaked)
         {
             ComputeInputStringList();
             SortAttackList();
-
-            m_IsInitialized = true;
+            m_IsDataBaked = true;
         }
     }
+#endif
 
     public List<PlayerBaseAttackLogic> CreateLogics(PlayerAttackComponent playerAttackComponent)
     {
@@ -51,8 +61,17 @@ public class PlayerAttacksConfig : ScriptableObject
 
     public void Shutdown()
     {
-        m_IsInitialized = false;
+#if UNITY_EDITOR
+        ResetBakeData();
+#endif
     }
+
+#if UNITY_EDITOR
+    public override void ResetBakeData()
+    {
+        m_IsDataBaked = false;
+    }
+#endif
 
     private void ComputeInputStringList()
     {
