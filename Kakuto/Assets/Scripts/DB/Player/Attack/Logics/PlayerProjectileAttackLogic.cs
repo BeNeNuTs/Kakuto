@@ -11,6 +11,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     private Transform m_ProjectileHook;
     private List<ProjectileComponent> m_CurrentProjectiles;
+    private ProjectileComponent m_MyProjectile;
 
     public PlayerProjectileAttackLogic(PlayerProjectileAttackConfig config) : base(config)
     {
@@ -68,6 +69,11 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         return canBlockAttack;
     }
 
+    protected override bool CanStopListeningEnemyTakesDamage()
+    {
+        return m_MyProjectile == null;
+    }
+
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
@@ -81,6 +87,12 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     private void OnProjectileDestroyed(ProjectileComponent projectile)
     {
+        if(m_MyProjectile == projectile)
+        {
+            Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+            m_MyProjectile = null;
+        }
+
         if (!m_CurrentProjectiles.Contains(projectile))
         {
             Debug.LogError("Trying to destroy a projectile which is not in the list");
@@ -103,6 +115,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         if(projectileComponent)
         {
             projectileComponent.OnInit(this, m_Config);
+            m_MyProjectile = projectileComponent;
         }
         else
         {

@@ -40,8 +40,11 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
     protected override void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
     {
-        base.OnEnemyTakesDamage(damageTakenInfo);
-        IncreaseSuperGauge(damageTakenInfo.m_IsAttackBlocked ? m_Config.m_SuperGaugeBlockBonus : m_Config.m_SuperGaugeHitBonus);
+        if (this == damageTakenInfo.m_AttackLogic)
+        {
+            base.OnEnemyTakesDamage(damageTakenInfo);
+            IncreaseSuperGauge(damageTakenInfo.m_IsAttackBlocked ? m_Config.m_SuperGaugeBlockBonus : m_Config.m_SuperGaugeHitBonus);
+        }
     }
 
     public override void OnAttackStopped()

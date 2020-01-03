@@ -80,7 +80,10 @@ public class PlayerBaseAttackLogic
 
     public virtual void OnAttackStopped()
     {
-        Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+        if(CanStopListeningEnemyTakesDamage())
+        {
+            Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+        }
     }
 
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
@@ -111,6 +114,7 @@ public class PlayerBaseAttackLogic
 
     public bool IsASuper() { return m_Attack.m_IsASuper; }
 
+    protected virtual bool CanStopListeningEnemyTakesDamage() { return true; }
     protected virtual void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
     {
         if(this == damageTakenInfo.m_AttackLogic)
