@@ -51,6 +51,8 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackLaunched();
 
+        IncreaseSuperGauge(m_Config.m_SuperGaugeBaseBonus);
+
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
@@ -120,8 +122,6 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         {
             if(!m_GrabTouchedEnemy)
             {
-                // If this attack ends without touch the enemy, increase the super gauge amount with the whiff value
-                IncreaseSuperGauge(m_Config.m_SuperGaugeWhiffBonus);
                 m_Animator.Play(K_GRAB_MISS_ANIM, 0, 0);
             }
             else

@@ -17,6 +17,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
+
+        IncreaseSuperGauge(m_Config.m_SuperGaugeBaseBonus);
+
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
     }
@@ -50,13 +53,6 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
-
-        // If this attack ends without hitting the enemy, increase the super gauge amount with the whiff value
-        if (!HasHit())
-        {
-            IncreaseSuperGauge(m_Config.m_SuperGaugeWhiffBonus);
-        }
-
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
     }
