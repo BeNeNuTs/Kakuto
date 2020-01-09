@@ -16,17 +16,19 @@
     JumpHK,
 
     Grab,
+    Parry,
+    Dash,
 
-    DashForward,
-    DashBackward,
-
-    SpecialStand1,
-    SpecialStand2,
-    SpecialStand3,
-    SpecialStand4,
-    SpecialStand5,
-    SpecialStand6,
-    SpecialStand7,
+    Special1,
+    Special2,
+    Special3,
+    Special4,
+    Special5,
+    Special6,
+    Special7,
+    Special8,
+    Special9,
+    Special10,
 
     // Add enum at the end to avoid shifting all enum data
 }

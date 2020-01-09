@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2264826c600724fb90585790786178, type: 3}
-  m_Name: PlayerBaseAttackConfig_DashForward
+  m_Script: {fileID: 11500000, guid: ecfc9f280b4622b40b061e322d302b57, type: 3}
+  m_Name: PlayerDashAttackConfig_DashBackward
   m_EditorClassIdentifier: 
+  m_DashType: 1

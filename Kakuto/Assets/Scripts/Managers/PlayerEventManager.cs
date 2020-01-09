@@ -33,6 +33,8 @@ public enum EPlayerEvent
 
     ApplyGrabDamages,
     EndOfGrab,
+    EndOfParry,
+    ParrySuccess,
 
     TriggerProjectile,
     ProjectileSpawned,

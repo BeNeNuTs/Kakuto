@@ -57,6 +57,11 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         }
     }
 
+    public void EndOfParry()
+    {
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfParry, EAnimationAttackName.Parry);
+    }
+
     public void EndOfGrab()
     {
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfGrab, EAnimationAttackName.Grab);

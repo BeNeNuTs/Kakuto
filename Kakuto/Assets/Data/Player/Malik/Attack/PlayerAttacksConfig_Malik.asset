@@ -178,7 +178,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: 33069ec299c102347add437980ab2d97, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 6f99922f0aee11d42806c944722fa979, type: 2}
   - m_Name: Grab Front Throw
     m_Description: 
     m_AnimationAttackName: 12
@@ -233,7 +233,7 @@ MonoBehaviour:
     m_AttackConfig: {fileID: 11400000, guid: ac2774042432eec47a308b407d8dc9fc, type: 2}
   - m_Name: dashforward
     m_Description: 
-    m_AnimationAttackName: 13
+    m_AnimationAttackName: 14
     m_NeededStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeAmount: 0
     m_CameraShakeDuration: 0
-    m_AttackConfig: {fileID: 11400000, guid: f1390a035ca050441873c2005645cb03, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 315885cabd2e5c442bf5b6a460bd370e, type: 2}
   - m_Name: trigger
     m_Description: 
     m_AnimationAttackName: 19

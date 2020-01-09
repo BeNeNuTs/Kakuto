@@ -240,10 +240,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_DEBUG_BlockingAttacksTimer = 0.0f;
         m_HealthComponent.m_DEBUG_IsBlockingAllAttacks = false;
 
-        if (!m_StunInfo.m_IsStunned)
-        {
-            m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
-        }
+        m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
 
         Debug.Log("Player : " + m_Owner.name + " doesn't block attacks anymore");
     }

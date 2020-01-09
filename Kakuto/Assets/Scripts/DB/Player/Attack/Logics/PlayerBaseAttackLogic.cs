@@ -15,7 +15,7 @@ public class PlayerBaseAttackLogic
     protected PlayerMovementComponent m_MovementComponent;
     protected PlayerAttackComponent m_AttackComponent;
 
-    private bool m_HasHit = false;
+    protected bool m_HasHit = false;
 
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
