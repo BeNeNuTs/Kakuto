@@ -131,13 +131,13 @@ public static class GamePadManager
 
         private EGamePadType FindGamePadTypeFromName(string joystickName)
         {
-            if(joystickName.ToUpper().Contains("PS4"))
+            if (joystickName.Contains("XBOX"))
             {
-                return EGamePadType.PS4;
+                return EGamePadType.Xbox;
             }
             else
             {
-                return EGamePadType.Xbox;
+                return EGamePadType.PS4;
             }
         }
 
