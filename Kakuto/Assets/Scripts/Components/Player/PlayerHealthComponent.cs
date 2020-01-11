@@ -165,14 +165,37 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-        GetHitInfo(attackLogic, out uint hitDamage, out bool isAttackBlocked);
-        ApplyDamage(attackLogic, hitDamage, isAttackBlocked);
+        GetHitInfo(attackLogic, out uint hitDamage, out bool isAttackBlocked, out bool isAttackParried);
+        ApplyDamage(attackLogic, hitDamage, isAttackBlocked, isAttackParried);
     }
 
-    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out bool isAttackBlocked)
+    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out bool isAttackBlocked, out bool isAttackParried)
     {
-        isAttackBlocked = CanBlockAttack(attackLogic);
-        hitDamage = attackLogic.GetHitDamage(isAttackBlocked);
+        hitDamage = 0;
+        isAttackBlocked = false;
+
+        isAttackParried = CanParryAttack(attackLogic);
+        if(!isAttackParried)
+        {
+            isAttackBlocked = CanBlockAttack(attackLogic);
+            hitDamage = attackLogic.GetHitDamage(isAttackBlocked);
+        }
+    }
+
+    private bool CanParryAttack(PlayerBaseAttackLogic attackLogic)
+    {
+        if(m_AttackComponent)
+        {
+            // Check if we are playing parry attack
+            PlayerAttack attack = m_AttackComponent.GetCurrentAttack();
+            if (attack != null && attack.m_AnimationAttackName == EAnimationAttackName.Parry)
+            {
+                PlayerParryAttackLogic parryAttackLogic = m_AttackComponent.GetCurrentAttackLogic() as PlayerParryAttackLogic;
+                return parryAttackLogic != null && parryAttackLogic.CanParryAttack(attackLogic);
+            }
+        }
+
+        return false;
     }
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
@@ -209,7 +232,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked, bool isAttackParried)
     {
         if (damage >= m_HP)
         {
@@ -220,12 +243,12 @@ public class PlayerHealthComponent : MonoBehaviour
             m_HP -= damage;
         }
 
-        OnDamageTaken(attackLogic, damage, isAttackBlocked);
+        OnDamageTaken(attackLogic, damage, isAttackBlocked, isAttackParried);
     }
 
-    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked, bool isAttackParried)
     {
-        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
+        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked + " attack parried : " + isAttackParried);
 
         DamageTakenInfo damageTakenInfo = new DamageTakenInfo(attackLogic, isAttackBlocked, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
@@ -236,12 +259,12 @@ public class PlayerHealthComponent : MonoBehaviour
         }
         else
         {
-            if (attackLogic.CanPlayDamageTakenAnim())
+            if (!isAttackParried && attackLogic.CanPlayDamageTakenAnim())
             {
                 PlayDamageTakenAnim(attackLogic, isAttackBlocked);
             }
 
-            TriggerEffects(attackLogic, damage, isAttackBlocked);
+            TriggerEffects(attackLogic, damage, isAttackBlocked, isAttackParried);
         }
 
         // DEBUG /////////////////////////////////////
@@ -252,33 +275,36 @@ public class PlayerHealthComponent : MonoBehaviour
         /////////////////////////////////////////////
     }
 
-    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked, bool isAttackParried)
     {
         PlayerAttack attack = attackLogic.GetAttack();
 
-        if (attackLogic.CanStunOnDamage())
-        {
-            m_StunInfoSC.StartStun(attackLogic, isAttackBlocked);
-        }
-
-        // Stun duration and pushback are anim driven for hit air/KO
-        if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
+        if(!isAttackParried)
         {
             if (attackLogic.CanStunOnDamage())
             {
-                float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
-                if (stunDuration > 0f)
-                {
-                    m_StunInfoSC.SetStunDuration(attackLogic, stunDuration);
-                }
+                m_StunInfoSC.StartStun(attackLogic, isAttackBlocked);
             }
 
-            if (attackLogic.CanPushBack())
+            // Stun duration and pushback are anim driven for hit air/KO
+            if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
             {
-                float pushBackForce = attackLogic.GetPushBackForce(isAttackBlocked);
-                if (pushBackForce > 0.0f && m_MovementComponent)
+                if (attackLogic.CanStunOnDamage())
                 {
-                    m_MovementComponent.PushBack(pushBackForce);
+                    float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
+                    if (stunDuration > 0f)
+                    {
+                        m_StunInfoSC.SetStunDuration(attackLogic, stunDuration);
+                    }
+                }
+
+                if (attackLogic.CanPushBack())
+                {
+                    float pushBackForce = attackLogic.GetPushBackForce(isAttackBlocked);
+                    if (pushBackForce > 0.0f && m_MovementComponent)
+                    {
+                        m_MovementComponent.PushBack(pushBackForce);
+                    }
                 }
             }
         }
@@ -289,7 +315,7 @@ public class PlayerHealthComponent : MonoBehaviour
             superGaugeSC.IncreaseGaugeValue(AttackConfig.Instance.m_DefenderSuperGaugeBonus);
         }
 
-        if(!isAttackBlocked)
+        if(!isAttackBlocked && !isAttackParried)
         {
             m_StunInfoSC.IncreaseGaugeValue(attackLogic.GetStunGaugeHitAmount());
         }
