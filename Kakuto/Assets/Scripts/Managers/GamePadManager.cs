@@ -7,6 +7,13 @@ public enum EGamePadConnectedState
     Disconnected
 }
 
+public enum EGamePadType
+{
+    Xbox,
+    PS4,
+    Invalid
+}
+
 public static class GamePadManager
 {
     private static readonly int K_GAMEPAD_BUTTON = 4;
@@ -23,13 +30,6 @@ public static class GamePadManager
         Left,
         DownLeft,
 
-        Invalid
-    }
-
-    public enum EGamePadType
-    {
-        Xbox,
-        PS4,
         Invalid
     }
 
@@ -131,13 +131,20 @@ public static class GamePadManager
 
         private EGamePadType FindGamePadTypeFromName(string joystickName)
         {
-            if (joystickName.ToUpper().Contains("PS4"))
+            string lowerJoystickName = joystickName.ToLower();
+            if (lowerJoystickName.Contains("xbox") || lowerJoystickName.Contains("microsoft"))
+            {
+                return EGamePadType.Xbox;
+            }
+            else if (lowerJoystickName.Contains("ps3") || lowerJoystickName.Contains("ps4") || lowerJoystickName.Contains("sony"))
             {
                 return EGamePadType.PS4;
             }
             else
             {
-                return EGamePadType.Xbox;
+                EGamePadType defaultGamepadType = GameConfig.Instance.m_DefaultGamepadType;
+                Debug.LogError("Gamepad : " + joystickName + " has not been recognized. Default mapping : " + defaultGamepadType.ToString());
+                return defaultGamepadType;
             }
         }
 

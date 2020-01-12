@@ -36,4 +36,9 @@ public class GameConfig : ScriptableObject
 
     [Tooltip("To define an offset for the out of bounds (in pixels)")]
     public uint m_BoundsOffset = 50;
+
+    [Separator("Gamepad")]
+
+    [Tooltip("If a gamepad is not recognized, define the default gamepad type to use")]
+    public EGamePadType m_DefaultGamepadType = EGamePadType.PS4;
 }
