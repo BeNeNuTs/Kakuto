@@ -6403,7 +6403,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special3
+  m_Name: Special03
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -6762,7 +6762,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special8
+  m_Name: Special08
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -6930,7 +6930,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special6
+  m_Name: Special06
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -7347,7 +7347,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special1
+  m_Name: Special01
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -7489,7 +7489,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special9
+  m_Name: Special09
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -7739,7 +7739,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special4
+  m_Name: Special04
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -8294,7 +8294,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special7
+  m_Name: Special07
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -8598,7 +8598,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special2
+  m_Name: Special02
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -8767,7 +8767,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special5
+  m_Name: Special05
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
