@@ -16,6 +16,8 @@ public class PlayerBaseAttackLogic
     protected PlayerAttackComponent m_AttackComponent;
 
     protected bool m_HasTouched = false;
+    protected float m_DamageRatio = 1f;
+    protected bool m_DamageRatioComputed = false;
 
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
@@ -69,6 +71,8 @@ public class PlayerBaseAttackLogic
         }
 
         m_HasTouched = false;
+        m_DamageRatio = 1f;
+        m_DamageRatioComputed = false;
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         if(IsASuper())
@@ -146,16 +150,18 @@ public class PlayerBaseAttackLogic
 
     protected float GetDamageRatio()
     {
-        float damageRatio = 1f;
-
-        PlayerComboCounterSubComponent comboSC = m_AttackComponent.GetComboCounterSubComponent();
-        if (comboSC != null)
+        if(!m_DamageRatioComputed)
         {
-            uint hitCounter = comboSC.GetComboCounter();
-            damageRatio = AttackConfig.Instance.m_DamageScaling.Evaluate(hitCounter);
-            damageRatio = Mathf.Clamp(damageRatio, 0f, 1f);
+            PlayerComboCounterSubComponent comboSC = m_AttackComponent.GetComboCounterSubComponent();
+            if (comboSC != null)
+            {
+                uint hitCounter = comboSC.GetComboCounter();
+                m_DamageRatio = AttackConfig.Instance.m_DamageScaling.Evaluate(hitCounter);
+                m_DamageRatio = Mathf.Clamp(m_DamageRatio, 0f, 1f);
+                m_DamageRatioComputed = true;
+            }
         }
 
-        return damageRatio;
+        return m_DamageRatio;
     }
 }
