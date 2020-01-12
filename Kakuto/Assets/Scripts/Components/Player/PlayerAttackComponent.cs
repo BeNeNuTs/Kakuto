@@ -229,7 +229,7 @@ public class PlayerAttackComponent : MonoBehaviour
                 }
                 else if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                 {
-                    if (m_CurrentAttackLogic.HasHit())
+                    if (m_CurrentAttackLogic.HasTouched())
                     {
                         // Can update attacks and cancel the current one if it has hit the enemy
                         return true;
@@ -314,12 +314,15 @@ public class PlayerAttackComponent : MonoBehaviour
         // If enemy takes damage from the current attack logic
         if(damageTakenInfo.m_AttackLogic == m_CurrentAttackLogic)
         {
-            if (m_CurrentAttackLogic.CanPushBack())
+            if(damageTakenInfo.m_AttackResult != EAttackResult.Parried)
             {
-                float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_IsAttackBlocked, false);
-                if (pushBackForce > 0.0f && m_MovementComponent)
+                if (m_CurrentAttackLogic.CanPushBack())
                 {
-                    m_MovementComponent.PushBack(pushBackForce);
+                    float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_AttackResult, false);
+                    if (pushBackForce > 0.0f && m_MovementComponent)
+                    {
+                        m_MovementComponent.PushBack(pushBackForce);
+                    }
                 }
             }
         }

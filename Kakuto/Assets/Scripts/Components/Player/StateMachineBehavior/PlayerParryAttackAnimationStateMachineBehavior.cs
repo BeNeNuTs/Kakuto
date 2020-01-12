@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGrabAttackAnimationStateMachineBehavior : StateMachineBehaviour
+public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -28,9 +28,9 @@ public class PlayerGrabAttackAnimationStateMachineBehavior : StateMachineBehavio
         }
 
         //If the next clip to play is not a throw animation, then this is the end of the grab
-        if (clipInfoList[0].clip.name.ToLower().Contains("throw") == false)
+        if (clipInfoList[0].clip.name.ToLower().Contains("parry") == false)
         {
-            Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, EAnimationAttackName.Grab);
+            Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, EAnimationAttackName.Parry);
         }
     }
 

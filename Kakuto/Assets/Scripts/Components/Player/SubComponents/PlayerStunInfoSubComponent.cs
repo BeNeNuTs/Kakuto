@@ -105,15 +105,18 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         //////////////////////////////////////////////
     }
 
-    public void StartStun(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
+    public void StartStun(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult)
     {
-        StartStun_Internal(attackLogic.IsHitKO(), attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab, isAttackBlocked);
+        if(attackResult != EAttackResult.Parried)
+        {
+            StartStun_Internal(attackLogic.IsHitKO(), attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab, (attackResult == EAttackResult.Blocked) ? EStunType.Block : EStunType.Hit);
+        }
     }
 
-    void StartStun_Internal(bool isHitKO, bool isGrabAttack, bool isAttackBlocked)
+    void StartStun_Internal(bool isHitKO, bool isGrabAttack, EStunType stunType)
     {
         m_StunInfo.m_IsStunned = true;
-        m_StunInfo.m_StunType = (isAttackBlocked) ? EStunType.Block : EStunType.Hit;
+        m_StunInfo.m_StunType = stunType;
         m_StunInfo.m_IsDurationAnimDriven = m_MovementComponent.IsJumping() || isHitKO || isGrabAttack; // Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
         m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
@@ -256,7 +259,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
             if (m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
             {
-                StartStun_Internal(true, false, false);
+                StartStun_Internal(true, false, EStunType.Hit);
                 PlayStunAnim();
             }
         }

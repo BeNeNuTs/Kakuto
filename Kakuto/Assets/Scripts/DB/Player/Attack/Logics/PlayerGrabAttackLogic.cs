@@ -64,7 +64,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         return m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString();
     }
 
-    public override uint GetHitDamage(bool isAttackBlocked) { return (uint)(m_Config.m_Damage * GetDamageRatio()); }
+    public override uint GetHitDamage(EAttackResult attackResult) { return (uint)(m_Config.m_Damage * GetDamageRatio()); }
 
     public override float GetStunGaugeHitAmount() { return m_Config.m_StunGaugeHitAmount; }
 

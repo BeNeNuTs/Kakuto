@@ -46,7 +46,15 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         if (this == damageTakenInfo.m_AttackLogic)
         {
             base.OnEnemyTakesDamage(damageTakenInfo);
-            IncreaseSuperGauge(damageTakenInfo.m_IsAttackBlocked ? m_Config.m_SuperGaugeBlockBonus : m_Config.m_SuperGaugeHitBonus);
+
+            if(damageTakenInfo.m_AttackResult == EAttackResult.Hit)
+            {
+                IncreaseSuperGauge(m_Config.m_SuperGaugeHitBonus);
+            }
+            else if(damageTakenInfo.m_AttackResult == EAttackResult.Blocked)
+            {
+                IncreaseSuperGauge(m_Config.m_SuperGaugeBlockBonus);
+            }
         }
     }
 
@@ -71,12 +79,21 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 return false;
         }
     }
-    public override uint GetHitDamage(bool isAttackBlocked)
+    public override uint GetHitDamage(EAttackResult attackResult)
     {
-        float damage = m_Config.m_Damage;
-        if (isAttackBlocked)
+        float damage = 0f;
+        switch (attackResult)
         {
-            damage = m_Config.m_CheapDamage;
+            case EAttackResult.Hit:
+                damage = m_Config.m_Damage;
+                break;
+            case EAttackResult.Blocked:
+                damage = m_Config.m_CheapDamage;
+                break;
+            case EAttackResult.Parried:
+            default:
+                damage = 0f;
+                break;
         }
 
         return (uint)(damage * GetDamageRatio());
@@ -88,33 +105,49 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     public override bool IsHitKO() { return m_Config.m_HitKO; }
 
     public override bool CanStunOnDamage() { return true; }
-    public override float GetStunDuration(bool isAttackBlocked)
+    public override float GetStunDuration(EAttackResult attackResult)
     {
-        return (isAttackBlocked) ? m_Config.BlockStun : m_Config.HitStun;
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                return m_Config.HitStun;
+            case EAttackResult.Blocked:
+                return m_Config.BlockStun;
+            case EAttackResult.Parried:
+            default:
+                return 0f;
+        }
     }
     public override float GetStunGaugeHitAmount() { return m_Config.m_StunGaugeHitAmount; }
 
     // Pushback can be applied only on last hit
     public override bool CanPushBack() { return GetCurrentHitCount() >= GetMaxHitCount(); }
-    public override float GetPushBackForce(bool isAttackBlocked)
+    public override float GetPushBackForce(EAttackResult attackResult)
     {
-        return (isAttackBlocked) ? m_Config.m_BlockPushBack : m_Config.m_HitPushBack;
-    }
-    public override float GetAttackerPushBackForce(bool isAttackBlocked, bool enemyIsInACorner)
-    {
-        if ((isAttackBlocked && m_Config.m_ApplyAttackerBlockPushBack) || (!isAttackBlocked && m_Config.m_ApplyAttackerHitPushBack))
+        switch (attackResult)
         {
-            EAttackerPushBackCondition condition = (isAttackBlocked) ? m_Config.m_AttackerBlockPushBackCondition : m_Config.m_AttackerHitPushBackCondition;
-            float pushBack = (isAttackBlocked) ? m_Config.m_AttackerBlockPushBack : m_Config.m_AttackerHitPushBack;
-
-            switch (condition)
+            case EAttackResult.Hit:
+                return m_Config.m_HitPushBack;
+            case EAttackResult.Blocked:
+                return m_Config.m_BlockPushBack;
+            case EAttackResult.Parried:
+            default:
+                return 0f;
+        }
+    }
+    public override float GetAttackerPushBackForce(EAttackResult attackResult, bool enemyIsInACorner)
+    {
+        GetAttackerPushbackInfo(attackResult, out bool applyPushBack, out EAttackerPushBackCondition pushBackCondition, out float pushBackForce);
+        if (applyPushBack)
+        {
+            switch (pushBackCondition)
             {
                 case EAttackerPushBackCondition.Always:
-                    return pushBack;
+                    return pushBackForce;
                 case EAttackerPushBackCondition.OnlyIfEnemyIsInACorner:
                     if (enemyIsInACorner)
                     {
-                        return pushBack;
+                        return pushBackForce;
                     }
                     break;
                 default:
@@ -123,6 +156,29 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         }
 
         return 0f;
+    }
+
+    private void GetAttackerPushbackInfo(EAttackResult attackResult, out bool applyPushBack, out EAttackerPushBackCondition pushBackCondition, out float pushBackForce)
+    {
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                applyPushBack = m_Config.m_ApplyAttackerHitPushBack;
+                pushBackCondition = m_Config.m_AttackerHitPushBackCondition;
+                pushBackForce = m_Config.m_AttackerHitPushBack;
+                break;
+            case EAttackResult.Blocked:
+                applyPushBack = m_Config.m_ApplyAttackerBlockPushBack;
+                pushBackCondition = m_Config.m_AttackerBlockPushBackCondition;
+                pushBackForce = m_Config.m_AttackerBlockPushBack;
+                break;
+            case EAttackResult.Parried:
+            default:
+                applyPushBack = false;
+                pushBackCondition = EAttackerPushBackCondition.Always;
+                pushBackForce = 0f;
+                break;
+        }
     }
 
     public override bool CanPlayDamageTakenAnim() { return true; }

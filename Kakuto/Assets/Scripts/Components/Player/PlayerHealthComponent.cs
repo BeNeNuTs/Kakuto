@@ -1,19 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+public enum EAttackResult
+{
+    Hit,
+    Blocked,
+    Parried
+}
 
 public struct DamageTakenInfo
 {
     public PlayerBaseAttackLogic m_AttackLogic;
-    public bool m_IsAttackBlocked;
+    public EAttackResult m_AttackResult;
     public float m_HealthRatio;
     public bool m_IsAlreadyHitStunned;
 
-    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked, bool isAlreadyHitStunned, float healthRatio)
+    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio)
     {
         m_AttackLogic = attackLogic;
-        m_IsAttackBlocked = isAttackBlocked;
+        m_AttackResult = attackResult;
         m_HealthRatio = healthRatio;
         m_IsAlreadyHitStunned = isAlreadyHitStunned;
     }
@@ -118,7 +123,7 @@ public class PlayerHealthComponent : MonoBehaviour
         if(CanBlockGrabAttack(attackLogic))
         {
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
-            m_StunInfoSC.StartStun(attackLogic, true);
+            m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
             PlayBlockAnimation(attackLogic);
         }
         else if(!m_StunInfoSC.IsStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
@@ -154,7 +159,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         transform.position = grabbedInfo.GetGrabHookPosition();
-        m_StunInfoSC.StartStun(grabbedInfo.GetAttackLogic(), false);
+        m_StunInfoSC.StartStun(grabbedInfo.GetAttackLogic(), EAttackResult.Hit);
         PlayHitAnimation(grabbedInfo.GetAttackLogic());
     }
 
@@ -165,14 +170,38 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-        GetHitInfo(attackLogic, out uint hitDamage, out bool isAttackBlocked);
-        ApplyDamage(attackLogic, hitDamage, isAttackBlocked);
+        GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult);
+        ApplyDamage(attackLogic, hitDamage, attackResult);
     }
 
-    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out bool isAttackBlocked)
+    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult)
     {
-        isAttackBlocked = CanBlockAttack(attackLogic);
-        hitDamage = attackLogic.GetHitDamage(isAttackBlocked);
+        if(CanParryAttack(attackLogic))
+        {
+            attackResult = EAttackResult.Parried;
+            hitDamage = 0;
+        }
+        else if(CanBlockAttack(attackLogic))
+        {
+            attackResult = EAttackResult.Blocked;
+            hitDamage = attackLogic.GetHitDamage(attackResult);
+        }
+        else
+        {
+            attackResult = EAttackResult.Hit;
+            hitDamage = attackLogic.GetHitDamage(attackResult);
+        }
+    }
+
+    private bool CanParryAttack(PlayerBaseAttackLogic attackLogic)
+    {
+        if(m_AttackComponent)
+        {
+            // Check if we are playing parry attack
+            return m_AttackComponent.GetCurrentAttackLogic() is PlayerParryAttackLogic parryAttackLogic && parryAttackLogic.CanParryAttack(attackLogic);
+        }
+
+        return false;
     }
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
@@ -209,7 +238,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
     {
         if (damage >= m_HP)
         {
@@ -220,14 +249,14 @@ public class PlayerHealthComponent : MonoBehaviour
             m_HP -= damage;
         }
 
-        OnDamageTaken(attackLogic, damage, isAttackBlocked);
+        OnDamageTaken(attackLogic, damage, attackResult);
     }
 
-    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
     {
-        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack blocked : " + isAttackBlocked);
+        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(attackLogic, isAttackBlocked, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (IsDead())
@@ -238,10 +267,10 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             if (attackLogic.CanPlayDamageTakenAnim())
             {
-                PlayDamageTakenAnim(attackLogic, isAttackBlocked);
+                PlayDamageTakenAnim(attackLogic, attackResult);
             }
-
-            TriggerEffects(attackLogic, damage, isAttackBlocked);
+            
+            TriggerEffects(attackLogic, damage, attackResult);
         }
 
         // DEBUG /////////////////////////////////////
@@ -252,33 +281,37 @@ public class PlayerHealthComponent : MonoBehaviour
         /////////////////////////////////////////////
     }
 
-    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, bool isAttackBlocked)
+    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
     {
         PlayerAttack attack = attackLogic.GetAttack();
 
-        if (attackLogic.CanStunOnDamage())
-        {
-            m_StunInfoSC.StartStun(attackLogic, isAttackBlocked);
-        }
-
-        // Stun duration and pushback are anim driven for hit air/KO
-        if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
+        // No stun neither pushback when an attack is parried
+        if (attackResult != EAttackResult.Parried)
         {
             if (attackLogic.CanStunOnDamage())
             {
-                float stunDuration = attackLogic.GetStunDuration(isAttackBlocked);
-                if (stunDuration > 0f)
-                {
-                    m_StunInfoSC.SetStunDuration(attackLogic, stunDuration);
-                }
+                m_StunInfoSC.StartStun(attackLogic, attackResult);
             }
 
-            if (attackLogic.CanPushBack())
+            // Stun duration and pushback are anim driven for hit air/KO
+            if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
             {
-                float pushBackForce = attackLogic.GetPushBackForce(isAttackBlocked);
-                if (pushBackForce > 0.0f && m_MovementComponent)
+                if (attackLogic.CanStunOnDamage())
                 {
-                    m_MovementComponent.PushBack(pushBackForce);
+                    float stunDuration = attackLogic.GetStunDuration(attackResult);
+                    if (stunDuration > 0f)
+                    {
+                        m_StunInfoSC.SetStunDuration(attackLogic, stunDuration);
+                    }
+                }
+
+                if (attackLogic.CanPushBack())
+                {
+                    float pushBackForce = attackLogic.GetPushBackForce(attackResult);
+                    if (pushBackForce > 0.0f && m_MovementComponent)
+                    {
+                        m_MovementComponent.PushBack(pushBackForce);
+                    }
                 }
             }
         }
@@ -289,7 +322,7 @@ public class PlayerHealthComponent : MonoBehaviour
             superGaugeSC.IncreaseGaugeValue(AttackConfig.Instance.m_DefenderSuperGaugeBonus);
         }
 
-        if(!isAttackBlocked)
+        if(attackResult == EAttackResult.Hit)
         {
             m_StunInfoSC.IncreaseGaugeValue(attackLogic.GetStunGaugeHitAmount());
         }
@@ -299,7 +332,7 @@ public class PlayerHealthComponent : MonoBehaviour
             TimeManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration, attack.m_TimeScaleBackToNormal);
         }
 
-        if (!isAttackBlocked)
+        if (attackResult != EAttackResult.Blocked)
         {
             if (attack.m_UseCameraShakeEffect)
             {
@@ -308,16 +341,29 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
-    private void PlayDamageTakenAnim(PlayerBaseAttackLogic attackLogic, bool isAttackBlocked)
+    private void PlayDamageTakenAnim(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult)
     {
-        if(isAttackBlocked)
+        switch (attackResult)
         {
-            PlayBlockAnimation(attackLogic);
+            case EAttackResult.Hit:
+                PlayHitAnimation(attackLogic);
+                break;
+            case EAttackResult.Blocked:
+                PlayBlockAnimation(attackLogic);
+                break;
+            case EAttackResult.Parried:
+                PlayParriedAnimation(attackLogic);
+                break;
+            default:
+                break;
         }
-        else
-        {
-            PlayHitAnimation(attackLogic);
-        }
+    }
+
+    private void PlayHitAnimation(PlayerBaseAttackLogic attackLogic)
+    {
+        //Play hit anim
+        string hitAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.In);
+        m_Anim.Play(hitAnimName, 0, 0);
     }
 
     private void PlayBlockAnimation(PlayerBaseAttackLogic attackLogic)
@@ -327,11 +373,9 @@ public class PlayerHealthComponent : MonoBehaviour
         m_Anim.Play(blockAnimName, 0, 0);
     }
 
-    private void PlayHitAnimation(PlayerBaseAttackLogic attackLogic)
+    private void PlayParriedAnimation(PlayerBaseAttackLogic attackLogic)
     {
-        //Play hit anim
-        string hitAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.In);
-        m_Anim.Play(hitAnimName, 0, 0);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.ParrySuccess, EAnimationAttackName.Parry);
     }
 
     private void OnDeath()

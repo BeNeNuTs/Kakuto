@@ -21,10 +21,13 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 
     private void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
     {
-        if(damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
+        if(damageTakenInfo.m_AttackResult == EAttackResult.Hit)
         {
-            m_ComboCounter++;
-            OnHitCounterChanged?.Invoke();
+            if (damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
+            {
+                m_ComboCounter++;
+                OnHitCounterChanged?.Invoke();
+            }
         }
     }
 

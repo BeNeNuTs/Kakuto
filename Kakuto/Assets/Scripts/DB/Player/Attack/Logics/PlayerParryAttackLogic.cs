@@ -53,7 +53,7 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         {
             IncreaseSuperGauge(m_Config.m_SuperGaugeParrySuccessBonus);
             m_ParryState = EParryState.Counter;
-            m_HasHit = true; // Set it to true in order to allow unblock attack and cancelling this one by another one if needed (parry success is considered as a regular attack hit)
+            m_HasTouched = true; // Set it to true in order to allow unblock attack and cancelling this one by another one if needed (parry success is considered as a regular attack hit)
 
             m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
         }

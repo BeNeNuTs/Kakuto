@@ -15,7 +15,7 @@ public class PlayerBaseAttackLogic
     protected PlayerMovementComponent m_MovementComponent;
     protected PlayerAttackComponent m_AttackComponent;
 
-    protected bool m_HasHit = false;
+    protected bool m_HasTouched = false;
 
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
@@ -68,7 +68,7 @@ public class PlayerBaseAttackLogic
             superGaugeSC.DecreaseGaugeValue(GetAttack().m_SuperGaugeAmountNeeded);
         }
 
-        m_HasHit = false;
+        m_HasTouched = false;
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         if(IsASuper())
@@ -92,7 +92,7 @@ public class PlayerBaseAttackLogic
     }
 
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }
-    public virtual uint GetHitDamage(bool isAttackBlocked) { return 0; }
+    public virtual uint GetHitDamage(EAttackResult attackResult) { return 0; }
 
     public virtual uint GetCurrentHitCount() { return 0; }
     public virtual uint GetMaxHitCount() { return 1; }
@@ -100,19 +100,19 @@ public class PlayerBaseAttackLogic
     public virtual bool IsHitKO() { return false; }
 
     public virtual bool CanStunOnDamage() { return false; }
-    public virtual float GetStunDuration(bool isAttackBlocked) { return 0.0f; }
+    public virtual float GetStunDuration(EAttackResult attackResult) { return 0.0f; }
     public virtual float GetStunGaugeHitAmount() { return 0f; }
 
     public virtual bool CanPushBack() { return false; }
-    public virtual float GetPushBackForce(bool isAttackBlocked) { return 0.0f; }
-    public virtual float GetAttackerPushBackForce(bool isAttackBlocked, bool enemyIsInACorner) { return 0.0f; }
+    public virtual float GetPushBackForce(EAttackResult attackResult) { return 0.0f; }
+    public virtual float GetAttackerPushBackForce(EAttackResult attackResult, bool enemyIsInACorner) { return 0.0f; }
 
     public virtual bool CanPlayDamageTakenAnim() { return false; }
     public virtual string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
     public virtual void OnHandleCollision(bool triggerHitEvent) { }
-    public bool HasHit() { return m_HasHit; }
+    public bool HasTouched() { return m_HasTouched; }
 
     public GameObject GetOwner() { return m_Owner; }
     public PlayerAttack GetAttack() { return m_Attack; }
@@ -124,7 +124,7 @@ public class PlayerBaseAttackLogic
     {
         if(this == damageTakenInfo.m_AttackLogic)
         {
-            m_HasHit = true;
+            m_HasTouched = true;
         }
         else if(damageTakenInfo.m_AttackLogic.GetType() != typeof(PlayerProjectileAttackLogic))
         {
