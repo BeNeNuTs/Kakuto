@@ -6,6 +6,7 @@ public enum EStunType
 {
     Hit,
     Block,
+    Gauge,
     None
 }
 
@@ -259,7 +260,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
             if (m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
             {
-                StartStun_Internal(true, false, EStunType.Hit);
+                StartStun_Internal(true, false, EStunType.Gauge);
                 PlayStunAnim();
             }
         }
@@ -280,14 +281,14 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             {
                 if (m_CurrentGaugeValue > 0f)
                 {
-                    m_CurrentGaugeValue -= AttackConfig.Instance.m_StunGaugeDecreaseSpeed * Time.unscaledDeltaTime;
+                    m_CurrentGaugeValue -= AttackConfig.Instance.m_StunGaugeDecreaseSpeed * Time.deltaTime;
                     ClampGaugeValue();
                     OnGaugeValueChanged?.Invoke();
                 }
             }
             else
             {
-                m_StabilizeGaugeCooldown -= Time.unscaledDeltaTime;
+                m_StabilizeGaugeCooldown -= Time.deltaTime;
             }
         }
     }

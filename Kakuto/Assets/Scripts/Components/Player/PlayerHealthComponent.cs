@@ -126,7 +126,7 @@ public class PlayerHealthComponent : MonoBehaviour
             m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
             PlayBlockAnimation(attackLogic);
         }
-        else if(!m_StunInfoSC.IsStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
+        else if(!m_StunInfoSC.IsHitStunned() && !m_StunInfoSC.IsBlockStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
         {
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, attackLogic);
         }
