@@ -18,12 +18,14 @@ public class TrainingMapDisplay : MonoBehaviour
     private PlayerAttackComponent m_PlayerAttackComponentToDisplay;
     private PlayerAttack m_CurrentDisplayAttack;
 
-    private string m_TriggeredInputs;
+    private List<GameInput> m_TriggeredInputs;
 
     void Awake()
     {
         m_PlayerMovementComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerMovementComponent>(m_Target.ToString());
         m_PlayerAttackComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerAttackComponent>(m_Target.ToString());
+
+        m_TriggeredInputs = new List<GameInput>();
     }
 
     void LateUpdate()
@@ -37,13 +39,17 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if (m_TextToDisplayInputs != null)
         {
-            m_TriggeredInputs += InputManager.GetAttackInputString(m_PlayerMovementComponentToDisplay.GetPlayerIndex(), m_PlayerMovementComponentToDisplay.IsLeftSide());
-            if (m_TriggeredInputs.Length > AttackConfig.Instance.m_MaxInputs)
+            m_TriggeredInputs.AddRange(InputManager.GetAttackInputList(m_PlayerMovementComponentToDisplay.GetPlayerIndex(), m_PlayerMovementComponentToDisplay.IsLeftSide()));
+            if (m_TriggeredInputs.Count > AttackConfig.Instance.m_MaxInputs)
             {
-                m_TriggeredInputs = m_TriggeredInputs.Remove(0, (int)(m_TriggeredInputs.Length - AttackConfig.Instance.m_MaxInputs));
+                m_TriggeredInputs.RemoveRange(0, (int)(m_TriggeredInputs.Count - AttackConfig.Instance.m_MaxInputs));
             }
 
-            m_TextToDisplayInputs.text = m_TriggeredInputs;
+            m_TextToDisplayInputs.text = string.Empty;
+            foreach (GameInput input in m_TriggeredInputs)
+            {
+                m_TextToDisplayInputs.text += input.GetInputString();
+            }
         }
 
         if (m_TextToDisplayInputsAttack != null)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using System;
 
 [System.Serializable]
 public class PlayerAttack
@@ -34,12 +35,16 @@ public class PlayerAttack
 
     // Attack input to trigger (E+Z+A)
     [Separator("Input")]
-    [SerializeField,  Tooltip("Allowed inputs are : A B X Y ← → ↑ ↓ ↖ ↗ ↙ ↘ and AttackName to refer to another attack inputs. (eg : Grab = standLP + standLK)")]
+    [SerializeField,  Tooltip("Allowed inputs are : A B X Y RB LB ← → ↑ ↓ ↖ ↗ ↙ ↘ and AttackName to refer to another attack inputs. (eg : Grab = standLP + standLK)")]
 #pragma warning disable 0649
     private List<string> m_InputStringList;
 #pragma warning restore 0649
     [SerializeField, ReadOnly]
     public List<string> m_ComputedInputStringList;
+#pragma warning disable 0649
+    [ReadOnly]
+    private List<List<GameInput>> m_ComputedGameInputList;
+#pragma warning restore 0649
 
     private bool m_IsInputStringProcessing = false;
     private bool m_IsInputStringComputed = false;
@@ -74,6 +79,10 @@ public class PlayerAttack
     public void ResetComputedInputString()
     {
         m_ComputedInputStringList.Clear();
+        if(m_ComputedGameInputList != null)
+        {
+            m_ComputedGameInputList.Clear();
+        }
         m_IsInputStringProcessing = false;
         m_IsInputStringComputed = false;
     }
@@ -99,6 +108,34 @@ public class PlayerAttack
     {
         m_IsInputStringComputed = true;
         m_IsInputStringProcessing = false;
+
+        m_ComputedGameInputList = new List<List<GameInput>>();
+
+        // Parse all the computed input list
+        foreach (string inputs in m_ComputedInputStringList)
+        {
+            List<GameInput> gameInputList = new List<GameInput>();
+
+            string inputToCheck = string.Empty;
+            // Parse all single character
+            foreach (char c in inputs)
+            {
+                inputToCheck += c;
+                // For each inputToCheck, try to find the matching EInputKey
+                foreach (EInputKey inputKey in Enum.GetValues(typeof(EInputKey)))
+                {
+                    string inputKeyToString = GameInput.ConvertInputKeyToString(inputKey);
+                    if(inputToCheck.Equals(inputKeyToString))
+                    {
+                        gameInputList.Add(new GameInput(inputKey));
+                        inputToCheck = string.Empty;
+                        break;
+                    }
+                }
+            }
+
+            m_ComputedGameInputList.Add(gameInputList);
+        }
     }
 
     public List<string> GetInputStringList()
@@ -110,5 +147,16 @@ public class PlayerAttack
         }
 #endif
         return m_ComputedInputStringList;
+    }
+
+    public List<List<GameInput>> GetInputList()
+    {
+#if UNITY_EDITOR
+        if(m_ComputedGameInputList.Count == 0)
+        {
+            Debug.LogError("PlayerAttack " + m_Name + " has empty computed game input list.");
+        }
+#endif
+        return m_ComputedGameInputList;
     }
 }

@@ -7,7 +7,7 @@ public static class InputManager
     public static float GetHorizontalMovement(int playerIndex)
     {
         float horizontalInput = 0f;
-        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
             horizontalInput = GamePadManager.GetHorizontalMovement(playerIndex);
         }
@@ -28,7 +28,7 @@ public static class InputManager
     public static bool GetJumpInput(int playerIndex)
     {
         bool isJumping = false;
-        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
             isJumping = GamePadManager.GetJumpInput(playerIndex);
         }
@@ -42,7 +42,7 @@ public static class InputManager
     public static bool GetCrouchInput(int playerIndex)
     {
         bool isCrouching = false;
-        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
             isCrouching = GamePadManager.GetCrouchInput(playerIndex);
         }
@@ -53,12 +53,12 @@ public static class InputManager
         return isCrouching;
     }
 
-    public static string GetAttackInputString(int playerIndex, bool isLeftSide)
+    public static List<GameInput> GetAttackInputList(int playerIndex, bool isLeftSide)
     {
-        string inputString = "";
-        if (GamePadManager.UpdateGamePadsState() == EGamePadConnectedState.Connected)
+        List<GameInput> gameInputList = new List<GameInput>();
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
-            inputString = GamePadManager.GetAttackInputString(playerIndex, isLeftSide);
+            gameInputList = GamePadManager.GetAttackInputList(playerIndex, isLeftSide);
         }
         else
         {
@@ -69,27 +69,27 @@ public static class InputManager
 
             if(isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
             {
-                inputString += (isLeftSide) ? '←' : '→';
+                gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Left : EInputKey.Right));
             }
 
             if (isRightKeyDown && !isUpKeyDown && !isDownKeyDown)
             {
-                inputString += (isLeftSide) ? '→' : '←';
+                gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Right : EInputKey.Left));
             }
 
             if (isUpKeyDown)
             {
                 if(isLeftKeyDown)
                 {
-                    inputString += (isLeftSide) ? '↖' : '↗';
+                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpLeft : EInputKey.UpRight));
                 }
                 else if(isRightKeyDown)
                 {
-                    inputString += (isLeftSide) ? '↗' : '↖';
+                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpRight : EInputKey.UpLeft));
                 }
                 else
                 {
-                    inputString += '↑';
+                    gameInputList.Add(new GameInput(EInputKey.Up));
                 }
             }
 
@@ -97,21 +97,24 @@ public static class InputManager
             {
                 if (isLeftKeyDown)
                 {
-                    inputString += (isLeftSide) ? '↙' : '↘';
+                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownLeft : EInputKey.DownRight));
                 }
                 else if (isRightKeyDown)
                 {
-                    inputString += (isLeftSide) ? '↘' : '↙';
+                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownRight : EInputKey.DownLeft));
                 }
                 else
                 {
-                    inputString += '↓';
+                    gameInputList.Add(new GameInput(EInputKey.Down));
                 }
             }
 
-            inputString += Input.inputString.ToUpper();
+            foreach(char c in Input.inputString)
+            {
+                gameInputList.Add(new GameInput(c.ToString().ToUpper()));
+            }
         }
 
-        return inputString;
+        return gameInputList;
     }
 }

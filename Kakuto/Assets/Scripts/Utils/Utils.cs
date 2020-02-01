@@ -1,9 +1,23 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.Collections.Generic;
 
 public static class Utils
 {
+    public static bool FindSubList<T, U>(this IList<T> list, IList<U> sublist)
+    {
+        for (int listIndex = 0; listIndex <= list.Count - sublist.Count; listIndex++)
+        {
+            int count = 0;
+            while (count < sublist.Count && sublist[count].Equals(list[listIndex + count]))
+                count++;
+            if (count == sublist.Count)
+                return true;
+        }
+        return false;
+    }
+
     public static T GetCurrentBehaviour<T>(this GameObject gameObject) where T : AdvancedStateMachineBehaviour
     {
         Animator animator = gameObject.GetComponent<Animator>();

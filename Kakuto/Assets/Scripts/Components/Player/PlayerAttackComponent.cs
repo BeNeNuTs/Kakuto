@@ -2,37 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerAttackComponent : MonoBehaviour
 {
-    class TriggeredInput
-    {
-        private readonly char m_Input;
-        private readonly float m_TriggeredTime;
-        public float m_Persistency;
-
-        public TriggeredInput(char input, float time)
-        {
-            m_Input = input;
-            m_TriggeredTime = time;
-            m_Persistency = AttackConfig.Instance.m_DefaultInputPersistency;
-        }
-
-        public char GetInput() { return m_Input; }
-
-        public bool IsElapsed(float time)
-        {
-            return time > (m_TriggeredTime + m_Persistency);
-        }
-
-        public void AddPersistency(float persistencyBonus)
-        {
-            m_Persistency += persistencyBonus;
-            m_Persistency = Mathf.Min(m_Persistency, AttackConfig.Instance.m_MaxInputPersistency);
-        }
-    }
-
     public PlayerAttacksConfig m_AttacksConfig;
     private List<PlayerBaseAttackLogic> m_AttackLogics;
 
@@ -40,7 +12,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
 
-    private List<TriggeredInput> m_TriggeredInputsList;
+    private List<TriggeredGameInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
 
     private PlayerBaseAttackLogic m_CurrentAttackLogic;
@@ -67,7 +39,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(this);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
-        m_TriggeredInputsList = new List<TriggeredInput>();
+        m_TriggeredInputsList = new List<TriggeredGameInput>();
 
         if(m_AttacksConfig)
         {
@@ -128,30 +100,30 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
-        UpdateTriggerInputList();
-        UpdateTriggerInputString();
+        UpdateTriggerInputsList();
+        UpdateTriggerInputsString();
     }
 
-    void UpdateTriggerInputList()
+    void UpdateTriggerInputsList()
     {
         float currentTime = Time.unscaledTime;
 
-        string attackInputs = InputManager.GetAttackInputString(m_MovementComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
+        List<GameInput> attackInputs = InputManager.GetAttackInputList(m_MovementComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
 
         // If there is new inputs
-        if (attackInputs.Length > 0) 
+        if (attackInputs.Count > 0) 
         {
             // We need to add persistency bonus to the previous ones
-            foreach(TriggeredInput triggeredInput in m_TriggeredInputsList)
+            foreach(TriggeredGameInput triggeredInput in m_TriggeredInputsList)
             {
                 triggeredInput.AddPersistency(AttackConfig.Instance.m_InputPersistencyBonus);
             }
         }
 
         // Then add those new inputs in the list with the default persistency
-        foreach (char c in attackInputs)
+        foreach (GameInput input in attackInputs)
         {
-            m_TriggeredInputsList.Add(new TriggeredInput(c, currentTime));
+            m_TriggeredInputsList.Add(new TriggeredGameInput(input, currentTime));
         }
 
         // Remove those which exceeds max allowed inputs
@@ -163,18 +135,18 @@ public class PlayerAttackComponent : MonoBehaviour
         // Also remove those which have their persistency elapsed
         m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime));
 
-        if(attackInputs.Length > 0)
+        if(attackInputs.Count > 0)
         {
             m_TimeToWaitBeforeEvaluatingAttacks = AttackConfig.Instance.TimeToWaitBeforeEvaluatingAttacks;
         }
     }
 
-    void UpdateTriggerInputString()
+    void UpdateTriggerInputsString()
     {
         m_TriggeredInputsString = string.Empty;
-        foreach (TriggeredInput triggeredInput in m_TriggeredInputsList)
+        foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
         {
-            m_TriggeredInputsString += triggeredInput.GetInput();
+            m_TriggeredInputsString += triggeredInput.GetInputString();
         }
     }
 
@@ -186,7 +158,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void ClearTriggeredInputs()
     {
         m_TriggeredInputsList.Clear();
-        m_TriggeredInputsString = "";
+        m_TriggeredInputsString = string.Empty;
     }
 
     void LateUpdate()
@@ -268,9 +240,9 @@ public class PlayerAttackComponent : MonoBehaviour
 
     bool CheckAttackInputs(PlayerBaseAttackLogic attackLogic)
     {
-        foreach(string inputString in attackLogic.GetAttack().GetInputStringList())
+        foreach(List<GameInput> inputList in attackLogic.GetAttack().GetInputList())
         {
-            if (m_TriggeredInputsString.Contains(inputString))
+            if(m_TriggeredInputsList.FindSubList(inputList))
             {
                 return true;
             }
