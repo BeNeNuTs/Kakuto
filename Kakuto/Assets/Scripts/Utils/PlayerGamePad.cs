@@ -25,6 +25,8 @@ public enum EDirection
 
 public class PlayerGamePad
 {
+    private static readonly int K_GAMEPAD_BUTTON = 6;
+
     public int m_LastUpdate = -1;
 
     public int m_PlayerIndex = -1;
@@ -32,8 +34,13 @@ public class PlayerGamePad
 
     public EGamePadType m_GamePadType = EGamePadType.Invalid;
 
-    public float m_LastXAxis = 0;
-    public float m_LastYAxis = 0;
+    public float m_LastXAxis = 0f;
+    public float m_LastYAxis = 0f;
+
+    public float m_CurrentLTAxis = -1f;
+    public float m_LastLTAxis = -1f;
+    public float m_CurrentRTAxis = -1f;
+    public float m_LastRTAxis = -1f;
 
     public bool m_Up = false;
     public bool m_Down = false;
@@ -71,19 +78,20 @@ public class PlayerGamePad
 
     public void Update()
     {
-        Updatem_GamePadIndex();
+        UpdateGamePadIndex();
 
         if (IsGamePadIndexValid())
         {
             UpdateHorizontal();
             UpdateVertical();
             ComputeCurrentDirection();
+            UpdateTriggers();
         }
 
         m_LastUpdate = Time.frameCount;
     }
 
-    private void Updatem_GamePadIndex()
+    private void UpdateGamePadIndex()
     {
         string[] joystickNames = Input.GetJoystickNames();
 
@@ -240,6 +248,120 @@ public class PlayerGamePad
             {
                 m_CurrentDirection = EDirection.Invalid;
             }
+        }
+    }
+
+    private void UpdateTriggers()
+    {
+        // Need to check if application is focused due a bug with PS4 gamepads 
+        // By default, a released trigger on PS4 gamepads is equal to -1
+        // But when application is not focused, Input.GetAxisRaw returns 0 even if the trigger is still released
+        if(Application.isFocused)
+        {
+            int joystickNum = GetJoystickNum();
+
+            m_LastLTAxis = m_CurrentLTAxis;
+            m_CurrentLTAxis = Input.GetAxisRaw("LT" + joystickNum + "_" + m_GamePadType.ToString());
+
+            m_LastRTAxis = m_CurrentRTAxis;
+            m_CurrentRTAxis = Input.GetAxisRaw("RT" + joystickNum + "_" + m_GamePadType.ToString());
+        }
+    }
+
+    private float GetMinTriggerValue()
+    {
+        switch (m_GamePadType)
+        {
+            case EGamePadType.Xbox:
+                return 0f;
+            case EGamePadType.PS4:
+                return -1f;
+            case EGamePadType.Invalid:
+            default:
+                return 0f;
+        }
+    }
+
+    public List<EInputKey> GetInputKeysDown()
+    {
+        List<EInputKey> inputKeysDown = new List<EInputKey>();
+
+        int joystickNum = GetJoystickNum();
+        for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
+        {
+            if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
+            {
+                inputKeysDown.Add(ConvertGamePadButtonAsKey(i));
+            }
+        }
+
+        float minTriggerValue = GetMinTriggerValue();
+        if (m_CurrentLTAxis > minTriggerValue && m_LastLTAxis == minTriggerValue)
+        {
+            inputKeysDown.Add(EInputKey.LT);
+        }
+
+        if (m_CurrentRTAxis > minTriggerValue && m_LastRTAxis == minTriggerValue)
+        {
+            inputKeysDown.Add(EInputKey.RT);
+        }
+
+        return inputKeysDown;
+    }
+
+    public EInputKey ConvertGamePadButtonAsKey(int buttonIndex)
+    {
+        switch (m_GamePadType)
+        {
+            case EGamePadType.Xbox:
+                return ConvertXboxGamePadButtonAsKey(buttonIndex);
+            case EGamePadType.PS4:
+                return ConvertPS4GamePadButtonAsKey(buttonIndex);
+            case EGamePadType.Invalid:
+            default:
+                return EInputKey.Invalid;
+        }
+    }
+
+    private static EInputKey ConvertXboxGamePadButtonAsKey(int buttonIndex)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                return EInputKey.A;
+            case 1:
+                return EInputKey.B;
+            case 2:
+                return EInputKey.X;
+            case 3:
+                return EInputKey.Y;
+            case 4:
+                return EInputKey.LB;
+            case 5:
+                return EInputKey.RB;
+            default:
+                return EInputKey.Invalid;
+        }
+    }
+
+    private static EInputKey ConvertPS4GamePadButtonAsKey(int buttonIndex)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                return EInputKey.X;
+            case 1:
+                return EInputKey.A;
+            case 2:
+                return EInputKey.B;
+            case 3:
+                return EInputKey.Y;
+            case 4:
+                return EInputKey.LB;
+            case 5:
+                return EInputKey.RB;
+            default:
+                return EInputKey.Invalid;
         }
     }
 }

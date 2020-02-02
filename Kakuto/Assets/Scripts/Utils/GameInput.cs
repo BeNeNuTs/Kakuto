@@ -19,6 +19,8 @@ public enum EInputKey
     Y,
     RB,
     LB,
+    LT,
+    RT,
 
     Invalid
 }
@@ -82,6 +84,8 @@ public class GameInput
             case EInputKey.Y:
             case EInputKey.RB:
             case EInputKey.LB:
+            case EInputKey.RT:
+            case EInputKey.LT:
                 inputString = key.ToString();
                 break;
 
@@ -140,6 +144,12 @@ public class GameInput
                 break;
             case "LB":
                 inputKey = EInputKey.LB;
+                break;
+            case "RT":
+                inputKey = EInputKey.RT;
+                break;
+            case "LT":
+                inputKey = EInputKey.LT;
                 break;
 
             default:

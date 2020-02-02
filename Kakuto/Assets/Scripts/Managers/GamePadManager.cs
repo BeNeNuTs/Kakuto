@@ -10,7 +10,6 @@ public enum EGamePadsConnectedState
 
 public static class GamePadManager
 {
-    private static readonly int K_GAMEPAD_BUTTON = 6;
     private static readonly float K_GAMEPAD_CONNECTION_CHECK = 1f; // Check if gamepads are connected every second
 
     private static float m_LastGamePadsConnectedCheck = -1;
@@ -89,14 +88,10 @@ public static class GamePadManager
                 }
             }
 
-            int joystickNum = m_PlayerGamePads[playerIndex].GetJoystickNum();
-            EGamePadType gamePadType = m_PlayerGamePads[playerIndex].m_GamePadType;
-            for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
+            List<EInputKey> inputKeysDown = m_PlayerGamePads[playerIndex].GetInputKeysDown();
+            foreach (EInputKey inputKey in inputKeysDown)
             {
-                if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
-                {
-                    gameInputList.Add(new GameInput(ConvertGamePadButtonAsKey(i, gamePadType)));
-                }
+                gameInputList.Add(new GameInput(inputKey));
             }
         }
 
@@ -141,62 +136,6 @@ public static class GamePadManager
         if (m_PlayerGamePads[playerIndex].NeedUpdate())
         {
             m_PlayerGamePads[playerIndex].Update();
-        }
-    }
-
-    private static EInputKey ConvertGamePadButtonAsKey(int buttonIndex, EGamePadType gamePadType)
-    {
-        switch (gamePadType)
-        {
-            case EGamePadType.Xbox:
-                return ConvertXboxGamePadButtonAsKey(buttonIndex);
-            case EGamePadType.PS4:
-                return ConvertPS4GamePadButtonAsKey(buttonIndex);
-            case EGamePadType.Invalid:
-            default:
-                return EInputKey.Invalid;
-        }
-    }
-
-    private static EInputKey ConvertXboxGamePadButtonAsKey(int buttonIndex)
-    {
-        switch (buttonIndex)
-        {
-            case 0:
-                return EInputKey.A;
-            case 1:
-                return EInputKey.B;
-            case 2:
-                return EInputKey.X;
-            case 3:
-                return EInputKey.Y;
-            case 4:
-                return EInputKey.LB;
-            case 5:
-                return EInputKey.RB;
-            default:
-                return EInputKey.Invalid;
-        }
-    }
-
-    private static EInputKey ConvertPS4GamePadButtonAsKey(int buttonIndex)
-    {
-        switch (buttonIndex)
-        {
-            case 0:
-                return EInputKey.X;
-            case 1:
-                return EInputKey.A;
-            case 2:
-                return EInputKey.B;
-            case 3:
-                return EInputKey.Y;
-            case 4:
-                return EInputKey.LB;
-            case 5:
-                return EInputKey.RB;
-            default:
-                return EInputKey.Invalid;
         }
     }
 }
