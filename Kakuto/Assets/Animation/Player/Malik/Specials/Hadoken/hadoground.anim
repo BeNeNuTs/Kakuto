@@ -3241,3 +3241,18 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.23333333
+    functionName: UnblockAttack
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 5b5841caad916314db6d80e91c8e46ee,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6
+    functionName: BlockAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
