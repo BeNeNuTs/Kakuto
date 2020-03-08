@@ -102,6 +102,27 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         UpdateTriggerInputsList();
         UpdateTriggerInputsString();
+
+        if (CanUpdateAttack())
+        {
+            UpdateAttack();
+
+            m_TimeToWaitBeforeEvaluatingAttacks = 0f;
+            m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+        }
+        else
+        {
+            if (m_TriggeredInputsList.Count > 0)
+            {
+                m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
+                m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
+            }
+            else
+            {
+                m_TimeToWaitBeforeEvaluatingAttacks = 0f;
+                m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+            }
+        }
     }
 
     void UpdateTriggerInputsList()
@@ -159,31 +180,6 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         m_TriggeredInputsList.Clear();
         m_TriggeredInputsString = string.Empty;
-    }
-
-    void LateUpdate()
-    {
-        if(CanUpdateAttack())
-        {
-            UpdateAttack();
-
-            m_TimeToWaitBeforeEvaluatingAttacks = 0f;
-            m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
-        }
-        else
-        {
-            if(m_TriggeredInputsList.Count > 0)
-            {
-                m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
-                m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
-            }
-            else
-            {
-                m_TimeToWaitBeforeEvaluatingAttacks = 0f;
-                m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
-            }
-        }
-        
     }
 
     bool CanUpdateAttack()
@@ -253,8 +249,6 @@ public class PlayerAttackComponent : MonoBehaviour
     void TriggerAttack(PlayerBaseAttackLogic attackLogic)
     {
         ClearTriggeredInputs();
-        m_IsAttackBlocked = true;
-        m_UnblockAttackConfig = null;
 
         // If current attack logic is != null, this means we're canceling this attack by another one
         // In that case, we need to trigger EndOfAttack of this current attack before triggering the other one
@@ -266,6 +260,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
         m_MovementComponent.UpdatePlayerSide();
 
+        m_IsAttackBlocked = true;
+        m_UnblockAttackConfig = null;
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
 
