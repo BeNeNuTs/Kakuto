@@ -43,6 +43,7 @@ public enum EPlayerEvent
     StopMovement,
 
     TriggerJumpImpulse,
+    ApplyDashImpulse,
 
     // For enemy
     Hit,
