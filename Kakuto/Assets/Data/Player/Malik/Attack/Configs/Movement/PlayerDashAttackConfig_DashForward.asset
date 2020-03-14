@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PlayerDashAttackConfig_DashForward
   m_EditorClassIdentifier: 
   m_DashType: 0
+  m_Impulse: 5

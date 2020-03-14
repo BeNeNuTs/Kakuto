@@ -2,5 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHurtBoxHandler : MonoBehaviour {
+public class PlayerHurtBoxHandler : PlayerGizmoBoxColliderDrawer
+{
 }

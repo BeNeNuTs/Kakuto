@@ -87,6 +87,11 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerJumpImpulse, true);
     }
 
+    public void ApplyDashImpulse()
+    {
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.ApplyDashImpulse, true);
+    }
+
     public void FreezeTime()
     {
         TimeManager.FreezeTime();

@@ -232,6 +232,11 @@ public class CharacterController2D : MonoBehaviour
         transform.localScale = theScale;
     }
 
+    public void PushForward(float pushForce)
+    {
+        PushBack(-pushForce);
+    }
+
     public void PushBack(float pushForce)
     {
         StopMovement();

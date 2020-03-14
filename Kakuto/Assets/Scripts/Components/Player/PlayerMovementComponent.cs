@@ -257,6 +257,11 @@ public class PlayerMovementComponent : MonoBehaviour
         return m_PlayerIndex;
     }
 
+    public void PushForward(float pushForce)
+    {
+        m_Controller.PushForward(pushForce);
+    }
+
     public void PushBack(float pushForce)
     {
         m_Controller.PushBack(pushForce);

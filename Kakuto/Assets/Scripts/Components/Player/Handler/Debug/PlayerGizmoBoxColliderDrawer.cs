@@ -27,10 +27,6 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
                     Gizmos.DrawWireCube(offset, size);
                 }
             }
-            else
-            {
-                Debug.LogError("No BoxCollider2D found on " + this);
-            }
         }
     }
 #endif
