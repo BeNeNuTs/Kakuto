@@ -37,6 +37,9 @@ public class GameConfig : ScriptableObject
     [Tooltip("To define an offset for the out of bounds (in pixels)")]
     public uint m_BoundsOffset = 50;
 
+    [Tooltip("To define the distance to be considered in a corner (in pixels). If a player is considered in a corner, the pushback can be applied to the attacker")]
+    public uint m_MaxDistanceToBeConsideredInACorner = 50;
+
     [Separator("Gamepad")]
 
     [Tooltip("If a gamepad is not recognized, define the default gamepad type to use")]

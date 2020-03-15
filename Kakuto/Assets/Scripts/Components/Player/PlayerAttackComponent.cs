@@ -286,7 +286,8 @@ public class PlayerAttackComponent : MonoBehaviour
             {
                 if (m_CurrentAttackLogic.CanPushBack())
                 {
-                    float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_AttackResult, false);
+                    OutOfBoundsSubGameManager OOBSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
+                    float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_AttackResult, OOBSubManager.IsInACorner(damageTakenInfo.m_Victim));
                     if (pushBackForce > 0.0f && m_MovementComponent)
                     {
                         m_MovementComponent.PushBack(pushBackForce);

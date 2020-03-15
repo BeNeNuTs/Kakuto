@@ -10,13 +10,15 @@ public enum EAttackResult
 
 public struct DamageTakenInfo
 {
+    public GameObject m_Victim;
     public PlayerBaseAttackLogic m_AttackLogic;
     public EAttackResult m_AttackResult;
     public float m_HealthRatio;
     public bool m_IsAlreadyHitStunned;
 
-    public DamageTakenInfo(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio)
+    public DamageTakenInfo(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio)
     {
+        m_Victim = victim;
         m_AttackLogic = attackLogic;
         m_AttackResult = attackResult;
         m_HealthRatio = healthRatio;
@@ -256,7 +258,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (IsDead())
