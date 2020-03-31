@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public static class Utils
 {
-    public static bool FindSubList<T, U>(this IList<T> list, IList<U> sublist)
+    public static bool FindSubList<T>(this IList<T> list, GameInputList sublist)
     {
         for (int listIndex = 0; listIndex <= list.Count - sublist.Count; listIndex++)
         {

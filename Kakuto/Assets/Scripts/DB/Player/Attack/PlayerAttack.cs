@@ -42,8 +42,8 @@ public class PlayerAttack
     [SerializeField, ReadOnly]
     public List<string> m_ComputedInputStringList;
 #pragma warning disable 0649
-    [ReadOnly]
-    private List<List<GameInput>> m_ComputedGameInputList;
+    [SerializeField, ReadOnly]
+    private List<GameInputList> m_ComputedGameInputList;
 #pragma warning restore 0649
 
     private bool m_IsInputStringProcessing = false;
@@ -109,12 +109,12 @@ public class PlayerAttack
         m_IsInputStringComputed = true;
         m_IsInputStringProcessing = false;
 
-        m_ComputedGameInputList = new List<List<GameInput>>();
+        m_ComputedGameInputList = new List<GameInputList>();
 
         // Parse all the computed input list
         foreach (string inputs in m_ComputedInputStringList)
         {
-            List<GameInput> gameInputList = new List<GameInput>();
+            GameInputList gameInputList = new GameInputList();
 
             string inputToCheck = string.Empty;
             // Parse all single character
@@ -141,7 +141,7 @@ public class PlayerAttack
     public List<string> GetInputStringList()
     {
 #if UNITY_EDITOR
-        if(m_ComputedInputStringList.Count == 0)
+        if(m_ComputedGameInputList == null || m_ComputedInputStringList.Count == 0)
         {
             Debug.LogError("PlayerAttack " + m_Name + " has empty computed input string list.");
         }
@@ -149,10 +149,10 @@ public class PlayerAttack
         return m_ComputedInputStringList;
     }
 
-    public List<List<GameInput>> GetInputList()
+    public List<GameInputList> GetInputList()
     {
 #if UNITY_EDITOR
-        if(m_ComputedGameInputList.Count == 0)
+        if(m_ComputedGameInputList == null || m_ComputedGameInputList.Count == 0)
         {
             Debug.LogError("PlayerAttack " + m_Name + " has empty computed game input list.");
         }

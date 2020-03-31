@@ -25,10 +25,36 @@ public enum EInputKey
     Invalid
 }
 
+[Serializable]
+public class GameInputList
+{
+    [SerializeField]
+    private List<GameInput> m_GameInputList = new List<GameInput>();
+
+    public int Count
+    {
+        get { return m_GameInputList.Count; }
+    }
+
+    public void Add(GameInput input)
+    {
+        m_GameInputList.Add(input);
+    }
+
+    public GameInput this[int i]
+    {
+        get { return m_GameInputList[i]; }
+        set { m_GameInputList[i] = value; }
+    }
+}
+
+[Serializable]
 public class GameInput
 {
-    private readonly EInputKey m_InputKey = EInputKey.Invalid;
-    private readonly string m_InputString = "";
+    [SerializeField]
+    private string m_InputString = "";
+    [SerializeField]
+    private EInputKey m_InputKey = EInputKey.Invalid;
 
     public GameInput(GameInput input)
     {

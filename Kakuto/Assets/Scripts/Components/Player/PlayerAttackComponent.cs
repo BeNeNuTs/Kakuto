@@ -236,7 +236,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     bool CheckAttackInputs(PlayerBaseAttackLogic attackLogic)
     {
-        foreach(List<GameInput> inputList in attackLogic.GetAttack().GetInputList())
+        foreach(GameInputList inputList in attackLogic.GetAttack().GetInputList())
         {
             if(m_TriggeredInputsList.FindSubList(inputList))
             {
