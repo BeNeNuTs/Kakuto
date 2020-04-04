@@ -368,10 +368,8 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - standLP + standHK
-    - standHK + standLP
-    - standHP + standLK
-    - standLK + standHP
+    - RB
+    - LB
     m_ComputedInputStringList:
     - YA
     - AY
