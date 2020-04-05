@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-[System.Serializable]
+[Serializable]
 public class PlayerAttack
 {
     [Tooltip("The real attack name")]
@@ -58,18 +58,11 @@ public class PlayerAttack
     /////////////////////////////////////////////////////
     public bool m_UseTimeScaleEffect = false;
     [ConditionalField(true, "m_UseTimeScaleEffect")]
-    public float m_TimeScaleAmount = 0.5f;
-    [ConditionalField(true, "m_UseTimeScaleEffect")]
-    public float m_TimeScaleDuration = 0.1f;
-    [ConditionalField(true, "m_UseTimeScaleEffect")]
-    [Tooltip("Smooth will gradually smoothing time scale effect from timeScaleAmount to 1 in timeScaleDuration. Instant will set back instantly timeScale to 1 after timeScaleDuration")]
-    public ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
+    public TimeScaleParams m_TimeScaleParams;
     /////////////////////////////////////////////////////
     public bool m_UseCameraShakeEffect = false;
     [ConditionalField(true, "m_UseCameraShakeEffect")]
-    public float m_CameraShakeAmount = 0.5f;
-    [ConditionalField(true, "m_UseCameraShakeEffect")]
-    public float m_CameraShakeDuration = 0.1f;
+    public CameraShakeParams m_CameraShakeParams;
 
     [Separator("Config")]
     public PlayerBaseAttackConfig m_AttackConfig;

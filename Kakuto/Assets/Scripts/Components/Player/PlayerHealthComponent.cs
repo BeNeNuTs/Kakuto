@@ -331,14 +331,26 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if(attack.m_UseTimeScaleEffect)
         {
-            TimeManager.StartTimeScale(attack.m_TimeScaleAmount, attack.m_TimeScaleDuration, attack.m_TimeScaleBackToNormal);
+            TimeManager.StartTimeScale(attack.m_TimeScaleParams);
         }
 
         if (attackResult != EAttackResult.Blocked)
         {
             if (attack.m_UseCameraShakeEffect)
             {
-                CameraShakeManager.Shake(attack.m_CameraShakeAmount, attack.m_CameraShakeDuration);
+                Vector3 hitPoint = Vector2.zero;
+                Collider2D hitCollider = attackLogic.GetLastHitCollider();
+                if(hitCollider != null)
+                {
+                    hitPoint = hitCollider.bounds.center;
+                }
+                else
+                {
+                    hitPoint = attackLogic.GetOwner().transform.position;
+                }
+
+                Vector3 hitDirection = (transform.position - attackLogic.GetOwner().transform.position).normalized;
+                CameraShakeManager.GenerateImpulseAt(attack.m_CameraShakeParams, hitPoint, hitDirection);
             }
         }
     }

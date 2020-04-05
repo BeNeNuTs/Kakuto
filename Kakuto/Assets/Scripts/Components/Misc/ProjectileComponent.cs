@@ -12,6 +12,7 @@ public class ProjectileComponent : MonoBehaviour
     private PlayerProjectileAttackConfig m_Config;
     private string m_PlayerTag = "Unknown";
 
+    Collider2D m_Collider;
     private Rigidbody2D m_Rigidbody;
     private SpriteRenderer m_SpriteRenderer;
     private Animator m_Animator;
@@ -26,6 +27,7 @@ public class ProjectileComponent : MonoBehaviour
         m_Config = config;
         m_PlayerTag = logic.GetOwner().tag;
 
+        m_Collider = GetComponent<Collider2D>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
@@ -71,7 +73,7 @@ public class ProjectileComponent : MonoBehaviour
 
     void HandleCollision(Collider2D collision)
     {
-        if(isActiveAndEnabled)
+        if(isActiveAndEnabled && m_Collider.isActiveAndEnabled)
         {
             if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
             {
@@ -79,7 +81,7 @@ public class ProjectileComponent : MonoBehaviour
                 {
                     if (m_Logic != null)
                     {
-                        m_Logic.OnHandleCollision(true);
+                        m_Logic.OnHandleCollision(true, m_Collider);
                         if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                         {
                             DestroyProjectile();
@@ -92,7 +94,7 @@ public class ProjectileComponent : MonoBehaviour
                 ProjectileComponent collisionProjectile = collision.gameObject.GetComponent<ProjectileComponent>();
                 if(collisionProjectile != null && collisionProjectile.GetLogic().GetOwner().CompareTag(Utils.GetEnemyTag(m_PlayerTag))) // Collision with an enemy projectile
                 {
-                    m_Logic.OnHandleCollision(false);
+                    m_Logic.OnHandleCollision(false, m_Collider);
                     if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                     {
                         DestroyProjectile();
@@ -110,6 +112,7 @@ public class ProjectileComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, this);
         gameObject.SetActive(false);
+        m_Collider.enabled = false;
         Destroy(gameObject);
     }
 

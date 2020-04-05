@@ -115,7 +115,7 @@ public class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
-    public virtual void OnHandleCollision(bool triggerHitEvent) { }
+    public virtual void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider) { }
     public bool HasTouched() { return m_HasTouched; }
 
     public GameObject GetOwner() { return m_Owner; }
@@ -163,5 +163,10 @@ public class PlayerBaseAttackLogic
         }
 
         return m_DamageRatio;
+    }
+
+    public virtual Collider2D GetLastHitCollider()
+    {
+        return null;
     }
 }

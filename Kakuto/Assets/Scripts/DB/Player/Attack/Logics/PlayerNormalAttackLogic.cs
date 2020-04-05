@@ -8,6 +8,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
     private uint m_CurrentHitCount = 0;
     private float m_LastHitCountTimeStamp = 0f;
+    private Collider2D m_LastHitCollider;
 
     public PlayerNormalAttackLogic(PlayerNormalAttackConfig config)
     {
@@ -22,18 +23,20 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
+        m_LastHitCollider = null;
     }
 
-    public override void OnHandleCollision(bool triggerHitEvent)
+    public override void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider)
     {
-        base.OnHandleCollision(triggerHitEvent);
+        base.OnHandleCollision(triggerHitEvent, hitCollider);
         if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
         {
             if (m_CurrentHitCount < GetMaxHitCount())
             {
                 m_CurrentHitCount++;
                 m_LastHitCountTimeStamp = Time.time;
-                if(triggerHitEvent)
+                m_LastHitCollider = hitCollider;
+                if (triggerHitEvent)
                 {
                     Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
                 }
@@ -228,5 +231,10 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         }
 
         return hitAnimName;
+    }
+
+    public override Collider2D GetLastHitCollider()
+    {
+        return m_LastHitCollider;
     }
 }

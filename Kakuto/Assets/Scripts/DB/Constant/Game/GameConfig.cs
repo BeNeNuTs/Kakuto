@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
+using Cinemachine;
 
 public class GameConfig : ScriptableObject
 {
@@ -44,4 +43,15 @@ public class GameConfig : ScriptableObject
 
     [Tooltip("If a gamepad is not recognized, define the default gamepad type to use")]
     public EGamePadType m_DefaultGamepadType = EGamePadType.PS4;
+
+    [Separator("Camera")]
+
+    [CinemachineImpulseChannelProperty]
+    [Tooltip("Impulse events generated here will appear on the channels included in the mask.")]
+    public int m_ImpulseChannel;
+
+    [CinemachineEmbeddedAssetProperty(true)]
+    [Header("Signal Shape")]
+    [Tooltip("Defines the signal that will be generated.")]
+    public SignalSourceAsset m_ImpulseRawSignal;
 }

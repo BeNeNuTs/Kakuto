@@ -51,12 +51,12 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public static void StartTimeScale(float timeScaleFactor, float timeScaleDuration, ETimeScaleBackToNormal timeScaleBackToNormal)
+    public static void StartTimeScale(TimeScaleParams timeScaleParams)
     {
-        Time.timeScale = timeScaleFactor;
+        Time.timeScale = timeScaleParams.m_TimeScaleAmount;
         Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
-        Instance.m_TimeScaleDuration = timeScaleDuration;
-        Instance.m_TimeScaleBackToNormal = timeScaleBackToNormal;
+        Instance.m_TimeScaleDuration = timeScaleParams.m_TimeScaleDuration;
+        Instance.m_TimeScaleBackToNormal = timeScaleParams.m_TimeScaleBackToNormal;
         Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
         Instance.m_TimeScaleInProgress = true;
     }

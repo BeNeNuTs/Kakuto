@@ -23,6 +23,6 @@ public class MovementConfig : ScriptableObject
 
 #if UNITY_EDITOR
     [Tooltip("Debug : Display the overlap circle in the scene")]
-    public bool d_DisplayOverlapCircle = false;
+    public bool m_DEBUG_DisplayOverlapCircle = false;
 #endif
 }

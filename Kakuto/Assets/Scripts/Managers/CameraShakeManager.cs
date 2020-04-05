@@ -1,61 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Cinemachine;
 
-public class CameraShakeManager : MonoBehaviour
+public static class CameraShakeManager
 {
-    private static CameraShakeManager m_Instance = null;
-    public static CameraShakeManager Instance
+    public static void GenerateImpulseAt(CameraShakeParams shakeParams, Vector3 position, Vector3 direction)
     {
-        get
-        {
-            if (m_Instance == null)
-            {
-                GameObject go = new GameObject();
-                m_Instance = go.AddComponent<CameraShakeManager>();
-                go.name = "_CameraShakeManager";
-            }
-            return m_Instance;
-        }
-    }
+        CinemachineImpulseDefinition impulseDefinition = new CinemachineImpulseDefinition();
+        impulseDefinition.m_ImpulseChannel = GameConfig.Instance.m_ImpulseChannel;
+        impulseDefinition.m_RawSignal = GameConfig.Instance.m_ImpulseRawSignal;
+        impulseDefinition.m_AmplitudeGain = shakeParams.m_AmplitudeGain;
+        impulseDefinition.m_FrequencyGain = shakeParams.m_FrequencyGain;
+        impulseDefinition.m_RepeatMode = CinemachineImpulseDefinition.RepeatMode.Stretch;
+        impulseDefinition.m_Randomize = true;
 
-    private Transform m_CamTransform;
+        impulseDefinition.m_TimeEnvelope.m_AttackTime = shakeParams.m_AttackTime;
+        impulseDefinition.m_TimeEnvelope.m_SustainTime = shakeParams.m_SustainTime;
+        impulseDefinition.m_TimeEnvelope.m_DecayTime = shakeParams.m_DecayTime;
 
-    // How long the object should shake for.
-    private float m_ShakeDuration = 0f;
-    private float m_CurrentShakeDuration = 0f;
+        impulseDefinition.m_ImpactRadius = 100f;
+        impulseDefinition.m_DirectionMode = CinemachineImpulseManager.ImpulseEvent.DirectionMode.Fixed;
+        impulseDefinition.m_DissipationMode = CinemachineImpulseManager.ImpulseEvent.DissipationMode.ExponentialDecay;
+        impulseDefinition.m_DissipationDistance = 1000f;
 
-    // Amplitude of the shake. A larger value shakes the camera harder.
-    private float m_ShakeAmount = 0.7f;
-
-    void OnEnable()
-    {
-        m_CamTransform = Camera.main.transform;
-    }
-
-    void Update()
-    {
-        if (m_CurrentShakeDuration > 0)
-        {
-            m_CamTransform.localPosition += Random.insideUnitSphere * m_ShakeAmount;
-            m_ShakeAmount -= Time.deltaTime * (m_ShakeDuration - m_CurrentShakeDuration);
-            m_ShakeAmount = Mathf.Max(m_ShakeAmount, 0.0f);
-            m_CurrentShakeDuration -= Time.deltaTime;
-        }
-        else
-        {
-            m_ShakeAmount = 0f;
-            m_CurrentShakeDuration = 0f;
-            m_ShakeDuration = 0f;
-        }
-    }
-
-    public static void Shake(float shakeAmount, float shakeDuration)
-    {
-        if(shakeAmount > 0)
-        {
-            Instance.m_ShakeAmount = shakeAmount;
-            Instance.m_ShakeDuration = shakeDuration;
-            Instance.m_CurrentShakeDuration = shakeDuration;
-        }
+        impulseDefinition.CreateEvent(position, direction);
     }
 }
