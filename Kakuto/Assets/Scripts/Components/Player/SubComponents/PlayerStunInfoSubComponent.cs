@@ -128,6 +128,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             Debug.Log(Time.time + " | Player : " + m_Owner.name + " is anim stunned");
         }
+
+        m_Anim.ResetTrigger("OnStunEnd");
     }
 
     public void SetStunDuration(PlayerBaseAttackLogic attackLogic, float stunDuration)
