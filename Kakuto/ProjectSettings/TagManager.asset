@@ -9,6 +9,7 @@ TagManager:
   - Player1
   - Player2
   - Projectile
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - HitBox
   - GrabBox
   - Projectile
-  - 
+  - CameraConfiner
   - 
   - 
   - 

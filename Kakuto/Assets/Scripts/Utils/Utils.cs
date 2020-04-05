@@ -1,10 +1,19 @@
 ﻿using UnityEngine;
-using UnityEditor;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
 public static class Utils
 {
+    public static Vector3 Round(this Vector3 v, int decimals = 1)
+    {
+        float RoundedX = (float)Math.Round(v.x, decimals);
+        float RoundedY = (float)Math.Round(v.y, decimals);
+        float RoundedZ = (float)Math.Round(v.z, decimals);
+
+        return new Vector3(RoundedX, RoundedY, RoundedZ);
+    }
+
     public static bool FindSubList<T>(this IList<T> list, GameInputList sublist)
     {
         for (int listIndex = 0; listIndex <= list.Count - sublist.Count; listIndex++)
@@ -46,7 +55,7 @@ public static class Utils
 
     public static T FindComponentMatchingWithTag<T>(string tag) where T : MonoBehaviour
     {
-        T[] components = Object.FindObjectsOfType<T>();
+        T[] components = UnityEngine.Object.FindObjectsOfType<T>();
         foreach (T comp in components)
         {
             if (comp.gameObject.CompareTag(tag))

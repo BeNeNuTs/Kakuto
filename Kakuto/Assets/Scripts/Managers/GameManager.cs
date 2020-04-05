@@ -37,7 +37,8 @@ public class GameManager : Singleton<GameManager>
         {
             { ESubManager.FrameRate, new FrameRateSubGameManager() },
             { ESubManager.Round, new RoundSubGameManager() },
-            { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() }
+            { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() },
+            { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() }
         };
     }
 
@@ -70,6 +71,10 @@ public class GameManager : Singleton<GameManager>
     public void RegisterPlayer(GameObject player)
     {
         m_Players.Add(player);
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        {
+            subManager.OnPlayerRegistered(player);
+        }
     }
 
     public List<GameObject> GetPlayers()
@@ -95,5 +100,9 @@ public class GameManager : Singleton<GameManager>
     public void UnregisterPlayer(GameObject player)
     {
         m_Players.Remove(player);
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        {
+            subManager.OnPlayerUnregistered(player);
+        }
     }
 }
