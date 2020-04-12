@@ -25,7 +25,7 @@ public class TimeManager : MonoBehaviour
     float m_TimeScaleDuration = 2f;
     ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
 
-    void FixedUpdate()
+    void Update()
     {
         if (m_TimeScaleInProgress)
         {

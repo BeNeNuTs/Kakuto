@@ -23,13 +23,12 @@ public class PlayerMovementComponent : MonoBehaviour
     private int m_PlayerIndex;
 
     private float m_HorizontalMoveInput = 0f;
-
-    private bool m_WaitingForJumpImpulse = false;
-    private bool m_TriggerJumpImpulse = false;
-
+    private bool m_JumpInput = false;
     private bool m_CrouchInput = false;
 
-    private bool m_IsCrouching = false;
+    private bool m_TriggerJumpImpulse = false;
+
+    private EPlayerStance m_PlayerStance = EPlayerStance.Stand;
 
     private bool m_IsMovementBlocked = false;
 #pragma warning disable 414
@@ -113,21 +112,24 @@ public class PlayerMovementComponent : MonoBehaviour
         UpdatePlayerSide();
 
         m_HorizontalMoveInput = 0f;
+        m_JumpInput = false;
+        m_CrouchInput = false;
         if (!m_IsMovementBlocked && !m_DEBUG_IsStatic)
         {
             m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
+            m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
+            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
 
-            if (m_Controller.CanJump() && !m_Animator.GetBool("IsJumping"))
+            if(IsStanding())
             {
-                if (InputManager.GetJumpInput(m_PlayerIndex))
+                if(m_JumpInput && !m_TriggerJumpImpulse && m_Controller.CanJump())
                 {
-                    m_Animator.SetBool("IsJumping", true);
-                    m_WaitingForJumpImpulse = true;
+                    m_Animator.SetTrigger("TakeOff");
                     m_AttackComponent.SetAttackBlockedByTakeOff(true);
                 }
             }
 
-            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+            m_Animator.SetBool("IsCrouching", m_CrouchInput);
         }
 
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
@@ -172,20 +174,22 @@ public class PlayerMovementComponent : MonoBehaviour
         if(!m_IsMovementBlocked)
         {
             m_TriggerJumpImpulse = true;
-            m_WaitingForJumpImpulse = false;
-            m_AttackComponent.SetAttackBlockedByTakeOff(false);
+            m_Animator.ResetTrigger("TakeOff");
         }
     }
 
     public void OnJumping(bool isJumping)
     {
         m_Animator.SetBool("IsJumping", isJumping);
-    }
-
-    public void OnCrouching(bool isCrouching)
-    {
-        m_IsCrouching = isCrouching;
-        m_Animator.SetBool("IsCrouching", isCrouching);
+        if(isJumping)
+        {
+            ChangePlayerStance(EPlayerStance.Jump);
+            m_AttackComponent.SetAttackBlockedByTakeOff(false);
+        }
+        else
+        {
+            ChangePlayerStance(EPlayerStance.Stand);
+        }
     }
 
     public void OnDirectionChanged()
@@ -205,34 +209,42 @@ public class PlayerMovementComponent : MonoBehaviour
         m_TriggerJumpImpulse = false;
     }
 
+    public void ChangePlayerStance(EPlayerStance newStance)
+    {
+        if(m_PlayerStance != newStance)
+        {
+            m_PlayerStance = newStance;
+        }
+    }
+
     public EPlayerStance GetCurrentStance()
     {
-        EPlayerStance currentStance = EPlayerStance.Stand;
-        if (IsCrouching())
+        EPlayerStance playerStance = EPlayerStance.Stand;
+        if(IsCrouching())
         {
-            currentStance = EPlayerStance.Crouch;
+            playerStance = EPlayerStance.Crouch;
         }
         else if(IsJumping())
         {
-            currentStance = EPlayerStance.Jump;
+            playerStance = EPlayerStance.Jump;
         }
 
-        return currentStance;
+        return playerStance;
     }
 
     public bool IsStanding()
     {
-        return !IsCrouching() && !IsJumping();
+        return m_PlayerStance == EPlayerStance.Stand;
     }
 
     public bool IsCrouching()
     {
-        return m_IsCrouching;
+        return m_PlayerStance == EPlayerStance.Crouch && m_CrouchInput;
     }
 
     public bool IsJumping()
     {
-        return m_Controller.IsJumping();
+        return m_PlayerStance == EPlayerStance.Jump && m_Controller.IsJumping();
     }
 
     public bool IsMovingBack()
@@ -336,14 +348,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
             if(m_IsMovementBlocked)
             {
-                // I was waiting for jump impulse or jump impulse is ready but not applied yet
-                // but movement has been blocked before it happens
-                if (m_WaitingForJumpImpulse || m_TriggerJumpImpulse)
-                {
-                    m_Animator.SetBool("IsJumping", false);
-                }
+                m_Animator.ResetTrigger("TakeOff");
                 m_TriggerJumpImpulse = false;
-                m_WaitingForJumpImpulse = false;
                 m_AttackComponent.SetAttackBlockedByTakeOff(false);
             }
         }

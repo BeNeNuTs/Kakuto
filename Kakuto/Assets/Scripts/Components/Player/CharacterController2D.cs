@@ -29,7 +29,6 @@ public class CharacterController2D : MonoBehaviour
     [Space]
 
     public BoolEvent OnJumpEvent;
-    public BoolEvent OnCrouchEvent;
     public UnityEvent OnDirectionChangedEvent;
     private bool m_wasCrouching = false;
 
@@ -42,9 +41,6 @@ public class CharacterController2D : MonoBehaviour
 
         if (OnJumpEvent == null)
             OnJumpEvent = new BoolEvent();
-
-        if (OnCrouchEvent == null)
-            OnCrouchEvent = new BoolEvent();
 
         if (OnDirectionChangedEvent == null)
             OnDirectionChangedEvent = new UnityEvent();
@@ -105,27 +101,43 @@ public class CharacterController2D : MonoBehaviour
 
     public void Move(float move, bool crouch, bool jump)
     {
+        // If the player should jump...
+        if (jump && CanJump())
+        {
+            // Add a force to the player according to his direction.
+            m_LastJumpTakeOffTimeStamp = Time.time;
+
+            StopMovement();
+
+            GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
+            Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
+            m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
+
+            m_CharacterIsJumping = true;
+        }
+
         //only control the player if grounded or airControl is turned on
         if ((m_Grounded && !m_CharacterIsJumping) || m_ControllerConfig.m_AirControl)
         {
-            // If crouching
-            if (crouch)
+            if(m_Grounded && !m_CharacterIsJumping)
             {
-                if (!m_wasCrouching)
+                // If crouching
+                if (crouch)
                 {
-                    m_wasCrouching = true;
-                    OnCrouchEvent.Invoke(true);
-                }
+                    if (!m_wasCrouching)
+                    {
+                        m_wasCrouching = true;
+                    }
 
-                // Reduce the speed by the crouchSpeed multiplier
-                move *= m_ControllerConfig.m_CrouchSpeed;
-            }
-            else
-            {
-                if (m_wasCrouching)
+                    // Reduce the speed by the crouchSpeed multiplier
+                    move *= m_ControllerConfig.m_CrouchSpeed;
+                }
+                else
                 {
-                    m_wasCrouching = false;
-                    OnCrouchEvent.Invoke(false);
+                    if (m_wasCrouching)
+                    {
+                        m_wasCrouching = false;
+                    }
                 }
             }
             
@@ -144,20 +156,6 @@ public class CharacterController2D : MonoBehaviour
             {
                 OnDirectionChanged();
             }
-        }
-        // If the player should jump...
-        if (jump && CanJump())
-        {
-            // Add a force to the player according to his direction.
-            m_LastJumpTakeOffTimeStamp = Time.time;
-
-            StopMovement();
-
-            GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
-            Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
-            m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
-
-            m_CharacterIsJumping = true;
         }
     }
 
