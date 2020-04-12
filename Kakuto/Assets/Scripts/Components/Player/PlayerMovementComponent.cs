@@ -285,11 +285,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
         if (!IsJumping())
         {
-            m_Controller.StopMovement();
+            OnStopMovement();
         }
     }
 
-    private void OnStopMovement(bool dummyBool)
+    private void OnStopMovement(bool dummyBool = true)
     {
         m_Controller.StopMovement();
     }
@@ -351,6 +351,11 @@ public class PlayerMovementComponent : MonoBehaviour
                 m_Animator.ResetTrigger("TakeOff");
                 m_TriggerJumpImpulse = false;
                 m_AttackComponent.SetAttackBlockedByTakeOff(false);
+                
+                if(m_Controller.IsJumping() && reason == EBlockedReason.Stun)
+                {
+                    OnStopMovement();
+                }
             }
         }
     }
