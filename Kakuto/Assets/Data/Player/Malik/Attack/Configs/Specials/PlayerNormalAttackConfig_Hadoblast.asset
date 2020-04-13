@@ -16,10 +16,10 @@ MonoBehaviour:
   m_Damage: 3
   m_CheapDamage: 0
   m_MaxHitCount: 4
-  m_DelayBetweenHits: 0.07
+  m_DelayBetweenHits: 0.05
   m_HitKO: 0
   m_HitHeight: 1
-  m_HitStrength: 0
+  m_HitStrength: 1
   m_HitStun: 15
   m_BlockStun: 8
   m_HitPushBack: 4.2
