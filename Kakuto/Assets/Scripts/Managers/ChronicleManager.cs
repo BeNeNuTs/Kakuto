@@ -49,8 +49,6 @@ public static class ChronicleManager
         writer.Write(text);
         writer.Write(writer.NewLine);
 
-        Debug.LogError(Path.GetFullPath(GetFilePath(playerTag)));
-
         writer.Close();
     }
 

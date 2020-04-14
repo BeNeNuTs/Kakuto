@@ -103,6 +103,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void ApplyDashImpulse()
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Apply dash impulse");
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.ApplyDashImpulse, true);
     }
 
