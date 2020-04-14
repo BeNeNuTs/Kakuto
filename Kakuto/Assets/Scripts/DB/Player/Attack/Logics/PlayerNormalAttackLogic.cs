@@ -36,6 +36,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 m_CurrentHitCount++;
                 m_LastHitCountTimeStamp = Time.time;
                 m_LastHitCollider = hitCollider;
+
+                ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On handle collision | Hit count : " + GetCurrentHitCount() + ", Max hit count : " + GetMaxHitCount());
+
                 if (triggerHitEvent)
                 {
                     Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);

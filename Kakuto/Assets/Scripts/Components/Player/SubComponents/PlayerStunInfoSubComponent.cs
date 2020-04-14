@@ -122,6 +122,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
 
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Start stun | Type : " + stunType.ToString() + ", Duration anim driven : " + m_StunInfo.m_IsDurationAnimDriven);
+
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, true);
 
         if (m_StunInfo.m_IsDurationAnimDriven)
@@ -161,6 +163,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
 
             Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Set stun duration : " + stunDuration);
         }
         else
         {
@@ -189,6 +192,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void StopStun()
     {
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Stop stun");
+
         EStunType stunType = m_StunInfo.m_StunType;
 
         m_StunInfo.m_IsStunned = false;
@@ -267,7 +272,6 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             }
         }
     }
-
 
     public void ResetGaugeValue()
     {

@@ -258,6 +258,8 @@ public class PlayerAttackComponent : MonoBehaviour
             Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, m_CurrentAttackLogic.GetAttack().m_AnimationAttackName);
         }
 
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Trigger attack : " + attackLogic.GetAttack().m_Name);
+
         m_MovementComponent.UpdatePlayerSide();
 
         m_IsAttackBlocked = true;
@@ -290,6 +292,7 @@ public class PlayerAttackComponent : MonoBehaviour
                     float pushBackForce = m_CurrentAttackLogic.GetAttackerPushBackForce(damageTakenInfo.m_AttackResult, OOBSubManager.IsInACorner(damageTakenInfo.m_Victim));
                     if (pushBackForce > 0.0f && m_MovementComponent)
                     {
+                        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On enemy takes damage, apply attacker pushback.");
                         m_MovementComponent.PushBack(pushBackForce);
                     }
                 }
@@ -318,6 +321,8 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + attackName);
+
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
 
             bool attackWasBlocked = m_IsAttackBlocked;
@@ -350,6 +355,8 @@ public class PlayerAttackComponent : MonoBehaviour
                 return;
             }
 
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is blocked by : " + attackName);
+
             ClearTriggeredInputs();
             m_IsAttackBlocked = true;
             m_UnblockAttackConfig = null;
@@ -366,12 +373,16 @@ public class PlayerAttackComponent : MonoBehaviour
                 return;
             }
 
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is unblocked by : " + unblockEvent.m_AttackToUnblock);
+
             m_UnblockAttackConfig = unblockEvent.m_Config;
         }
     }
 
     void OnStunBegin(bool isStunned = true)
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun begin");
+
         ClearTriggeredInputs();
         m_IsAttackBlocked = true;
     }
@@ -383,19 +394,24 @@ public class PlayerAttackComponent : MonoBehaviour
             Debug.LogError("Attack was not blocked by stun");
             return;
         }
+
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun end");
+
         m_IsAttackBlocked = false;
         m_UnblockAttackConfig = null;
     }
 
     public void SetAttackBlockedByTakeOff(bool attackBlocked)
     {
-        if(attackBlocked)
+        if (attackBlocked)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack blocked by take off");
             OnStunBegin();
             m_IsAttackBlockedByTakeOff = true;
         }
         else if(m_IsAttackBlockedByTakeOff)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack unblocked by take off");
             OnStunEnd();
             m_IsAttackBlockedByTakeOff = false;
         }

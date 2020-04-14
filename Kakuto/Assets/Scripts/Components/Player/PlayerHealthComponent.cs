@@ -122,14 +122,20 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-        if(CanBlockGrabAttack(attackLogic))
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab try");
+
+        if (CanBlockGrabAttack(attackLogic))
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab blocked");
+
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
             m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
             PlayBlockAnimation(attackLogic);
         }
         else if(!m_StunInfoSC.IsHitStunned() && !m_StunInfoSC.IsBlockStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab touched");
+
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, attackLogic);
         }
     }
@@ -160,6 +166,8 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + grabbedInfo.GetAttackLogic().GetAttack().m_Name);
+
         transform.position = grabbedInfo.GetGrabHookPosition();
         m_StunInfoSC.StartStun(grabbedInfo.GetAttackLogic(), EAttackResult.Hit);
         PlayHitAnimation(grabbedInfo.GetAttackLogic());
@@ -173,6 +181,8 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + attackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult);
+
         ApplyDamage(attackLogic, hitDamage, attackResult);
     }
 
@@ -257,6 +267,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 
         DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);

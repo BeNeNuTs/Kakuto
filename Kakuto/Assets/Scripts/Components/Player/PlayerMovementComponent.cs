@@ -9,7 +9,10 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         None,
         PlayAttack,
+        EndAttack,
+        RequestByAttack,
         Stun,
+        StunEnd,
         TimeOver
     }
 
@@ -26,6 +29,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_JumpInput = false;
     private bool m_CrouchInput = false;
 
+    private bool m_JumpTakeOffRequested = false;
     private bool m_TriggerJumpImpulse = false;
 
     private EPlayerStance m_PlayerStance = EPlayerStance.Stand;
@@ -122,10 +126,13 @@ public class PlayerMovementComponent : MonoBehaviour
 
             if(IsStanding())
             {
-                if(m_JumpInput && !m_TriggerJumpImpulse && m_Controller.CanJump())
+                if(m_JumpInput && !m_JumpTakeOffRequested && !m_TriggerJumpImpulse && m_Controller.CanJump())
                 {
+                    ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
+
                     m_Animator.SetTrigger("TakeOff");
                     m_AttackComponent.SetAttackBlockedByTakeOff(true);
+                    m_JumpTakeOffRequested = true;
                 }
             }
 
@@ -173,8 +180,15 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if(!m_IsMovementBlocked)
         {
+            m_JumpTakeOffRequested = false;
             m_TriggerJumpImpulse = true;
             m_Animator.ResetTrigger("TakeOff");
+
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump impulse requested after take off");
+        }
+        else
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump impulse can't be requested because movement has been blocked, reason : " + m_MovementBlockedReason);
         }
     }
 
@@ -183,11 +197,15 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Animator.SetBool("IsJumping", isJumping);
         if(isJumping)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Jumping");
+
             ChangePlayerStance(EPlayerStance.Jump);
             m_AttackComponent.SetAttackBlockedByTakeOff(false);
         }
         else
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Landing");
+
             ChangePlayerStance(EPlayerStance.Stand);
         }
     }
@@ -213,6 +231,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if(m_PlayerStance != newStance)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On player stance changed | " + string.Format("{0,-20} {1,-20}", ("Old stance : " + m_PlayerStance), "New stance : " + newStance));
             m_PlayerStance = newStance;
         }
     }
@@ -271,11 +290,13 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void PushForward(float pushForce)
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On push forward");
         m_Controller.PushForward(pushForce);
     }
 
     public void PushBack(float pushForce)
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On push back");
         m_Controller.PushBack(pushForce);
     }
 
@@ -291,14 +312,16 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void OnStopMovement(bool dummyBool = true)
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On movement stopped");
         m_Controller.StopMovement();
     }
 
     void EndOfAttack(EAnimationAttackName attackName)
     {
-        if(m_IsMovementBlocked && (m_AttackComponent.GetCurrentAttack() == null || m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName))
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On end of attack : " + attackName);
+        if (m_IsMovementBlocked && (m_AttackComponent.GetCurrentAttack() == null || m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName))
         {
-            SetMovementBlocked(false, EBlockedReason.None);
+            SetMovementBlocked(false, EBlockedReason.EndAttack);
         }
     }
 
@@ -309,6 +332,7 @@ public class PlayerMovementComponent : MonoBehaviour
             Debug.LogError("Movement was already blocked");
             return;
         }
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Block movement requested by : " + attackName);
         SetMovementBlocked(true, EBlockedReason.PlayAttack);
     }
 
@@ -319,7 +343,8 @@ public class PlayerMovementComponent : MonoBehaviour
             Debug.LogError("Movement was not blocked");
             return;
         }
-        SetMovementBlocked(false, EBlockedReason.None);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Unblock movement requested by : " + attackName);
+        SetMovementBlocked(false, EBlockedReason.RequestByAttack);
     }
 
     void OnStunBegin(bool isStunned = true)
@@ -329,7 +354,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnStunEnd(bool isStunned = false)
     {
-        SetMovementBlocked(false, EBlockedReason.None);
+        SetMovementBlocked(false, EBlockedReason.StunEnd);
     }
 
     void OnRoundOver()
@@ -346,9 +371,12 @@ public class PlayerMovementComponent : MonoBehaviour
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
 
-            if(m_IsMovementBlocked)
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Movement has been "+ (m_IsMovementBlocked ? "blocked" : "unblocked") + ", reason : " + reason);
+
+            if (m_IsMovementBlocked)
             {
                 m_Animator.ResetTrigger("TakeOff");
+                m_JumpTakeOffRequested = false;
                 m_TriggerJumpImpulse = false;
                 m_AttackComponent.SetAttackBlockedByTakeOff(false);
                 
