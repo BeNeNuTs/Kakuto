@@ -409,7 +409,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012914956, y: 0.19619355}
+  m_Offset: {x: -0.05473167, y: 0.1610071}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -420,7 +420,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5233387, y: 0.48910552}
+  m_Size: {x: 0.4130582, y: 0.4187327}
   m_EdgeRadius: 0
 --- !u!1 &5087005313472474529
 GameObject:
@@ -826,7 +826,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0111221075, y: 0.5083542}
+  m_Offset: {x: -0.008507133, y: 0.5083542}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -837,7 +837,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31279826, y: 0.2785356}
+  m_Size: {x: 0.2761886, y: 0.2785356}
   m_EdgeRadius: 0
 --- !u!1001 &3947019223277676588
 PrefabInstance:
@@ -851,44 +851,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Malik
       objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 2.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050454, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_AttacksConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: fa8efa038804019448142c14c70c0a0b,
-        type: 2}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_HealthConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: f45fcd7dc67883144a3131ab43f27a77,
-        type: 2}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_DEBUG_DisplayDamageTaken
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_DEBUG_DamageTakenUIPrefab
-      value: 
-      objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
-        type: 3}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_DEBUG_DamageTakenParent
-      value: 
-      objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050450, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -944,22 +906,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_ControllerConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 9f262de54804f0340a35a0c9eedc66c4,
-        type: 2}
-    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_GroundCheck
-      value: 
-      objectReference: {fileID: 2767454797925657538}
     - target: {fileID: 6641475777147264860, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -990,6 +936,60 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050454, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_AttacksConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: fa8efa038804019448142c14c70c0a0b,
+        type: 2}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_HealthConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: f45fcd7dc67883144a3131ab43f27a77,
+        type: 2}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DisplayDamageTaken
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DamageTakenUIPrefab
+      value: 
+      objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
+        type: 3}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DEBUG_DamageTakenParent
+      value: 
+      objectReference: {fileID: 7705063140870539881}
+    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_ControllerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f262de54804f0340a35a0c9eedc66c4,
+        type: 2}
+    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_GroundCheck
+      value: 
+      objectReference: {fileID: 2767454797925657538}
     - target: {fileID: 5696211310121973515, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_RootOrder
