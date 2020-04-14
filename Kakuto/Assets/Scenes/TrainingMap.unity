@@ -978,5 +978,10 @@ PrefabInstance:
       propertyPath: m_DisplayAnimationDebug
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 269492121497382317, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d262ccd779fb4a47a06d25a96884107, type: 3}
