@@ -99,7 +99,7 @@ public class CharacterController2D : MonoBehaviour
 #endif
     }
 
-    public void Move(float move, bool crouch, bool jump)
+    public void Move(float move, bool crouch, bool jump, EJumpPhase jumpPhase)
     {
         // If the player should jump...
         if (jump && CanJump())
@@ -142,7 +142,7 @@ public class CharacterController2D : MonoBehaviour
             }
             
             // Move the character by finding the target velocity
-            Vector2 targetVelocity = new Vector2(move * GetWalkSpeed(move) * 10.0f, m_Rigidbody2D.velocity.y);
+            Vector2 targetVelocity = new Vector2(move * GetWalkSpeed(move, jumpPhase) * 10.0f, m_Rigidbody2D.velocity.y);
             // And then smoothing it out and applying it to the character
             m_Rigidbody2D.velocity = Vector2.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_ControllerConfig.m_MovementSmoothing);
 
@@ -159,20 +159,21 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
-    private float GetWalkSpeed(float move)
+    private float GetWalkSpeed(float move, EJumpPhase jumpPhase)
     {
-        if (move > 0f)
+        if(jumpPhase != EJumpPhase.TakeOff && jumpPhase != EJumpPhase.Landing)
         {
-            return (m_FacingRight) ? m_ControllerConfig.m_WalkForwardSpeed : m_ControllerConfig.m_WalkBackwardSpeed;
+            if (move > 0f)
+            {
+                return (m_FacingRight) ? m_ControllerConfig.m_WalkForwardSpeed : m_ControllerConfig.m_WalkBackwardSpeed;
+            }
+            else if (move < 0f)
+            {
+                return (m_FacingRight) ? m_ControllerConfig.m_WalkBackwardSpeed : m_ControllerConfig.m_WalkForwardSpeed;
+            }
         }
-        else if(move < 0f)
-        {
-            return (m_FacingRight) ? m_ControllerConfig.m_WalkBackwardSpeed : m_ControllerConfig.m_WalkForwardSpeed;
-        }
-        else
-        {
-            return 0f;
-        }
+
+        return 0f;
     }
 
     private void GetJumpAngleAndForce(float move, out float jumpAngleInDegree, out float jumpForce)

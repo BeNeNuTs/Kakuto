@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EJumpPhase
+{
+    None,
+    TakeOff,
+    Air,
+    Landing
+}
+
 [RequireComponent(typeof(CharacterController2D))]
 public class PlayerMovementComponent : MonoBehaviour
 {
@@ -33,6 +41,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_TriggerJumpImpulse = false;
 
     private EPlayerStance m_PlayerStance = EPlayerStance.Stand;
+    private EJumpPhase m_JumpPhase = EJumpPhase.None;
 
     private bool m_IsMovementBlocked = false;
 #pragma warning disable 414
@@ -199,14 +208,14 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Jumping");
 
-            ChangePlayerStance(EPlayerStance.Jump);
+            ChangePlayerStance(EPlayerStance.Jump, EJumpPhase.Air);
             m_AttackComponent.SetAttackBlockedByTakeOff(false);
         }
         else
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Landing");
 
-            ChangePlayerStance(EPlayerStance.Stand);
+            ChangePlayerStance(EPlayerStance.Stand, EJumpPhase.Landing);
         }
     }
 
@@ -223,16 +232,22 @@ public class PlayerMovementComponent : MonoBehaviour
         }
 
         // Move our character
-        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_TriggerJumpImpulse);
+        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_TriggerJumpImpulse, m_JumpPhase);
         m_TriggerJumpImpulse = false;
     }
 
-    public void ChangePlayerStance(EPlayerStance newStance)
+    public void ChangePlayerStance(EPlayerStance newStance, EJumpPhase newJumpPhase)
     {
         if(m_PlayerStance != newStance)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On player stance changed | " + string.Format("{0,-20} {1,-20}", ("Old stance : " + m_PlayerStance), "New stance : " + newStance));
             m_PlayerStance = newStance;
+        }
+
+        if(m_JumpPhase != newJumpPhase)
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On player jump phase changed | " + string.Format("{0,-20} {1,-20}", ("Old phase : " + m_JumpPhase), "New phase : " + newJumpPhase));
+            m_JumpPhase = newJumpPhase;
         }
     }
 

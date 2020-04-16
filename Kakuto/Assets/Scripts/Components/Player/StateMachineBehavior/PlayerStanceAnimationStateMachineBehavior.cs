@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStanceAnimationStateMachineBehavior : StateMachineBehaviour
 {
     public EPlayerStance m_PlayerStance;
+    public EJumpPhase m_JumpPhase;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -12,7 +13,7 @@ public class PlayerStanceAnimationStateMachineBehavior : StateMachineBehaviour
         PlayerMovementComponent playerMovementComp = animator.GetComponentInParent<PlayerMovementComponent>();
         if(playerMovementComp != null)
         {
-            playerMovementComp.ChangePlayerStance(m_PlayerStance);
+            playerMovementComp.ChangePlayerStance(m_PlayerStance, m_JumpPhase);
         }
     }
 
