@@ -388,7 +388,7 @@ public class PlayerMovementComponent : MonoBehaviour
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
 
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Movement has been "+ (m_IsMovementBlocked ? "blocked" : "unblocked") + ", reason : " + reason);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Movement has been "+ (isMovementBlocked ? "blocked" : "unblocked") + ", reason : " + reason);
 
             if (m_IsMovementBlocked)
             {
@@ -403,6 +403,10 @@ public class PlayerMovementComponent : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "/!\\ Movement has NOT been " + (isMovementBlocked ? "blocked" : "unblocked") + " by reason : " + reason);
+        }
     }
 
     bool CanUpdateMovementBlockedStatus(bool isMovementBlocked, EBlockedReason reason)
@@ -413,24 +417,27 @@ public class PlayerMovementComponent : MonoBehaviour
         //Unblock reasons : 
         // EndAttack, RequestByAttack, StunEnd
 
-        if (m_IsMovementBlocked != isMovementBlocked)
+        if (m_IsMovementBlocked)
         {
-            if (m_IsMovementBlocked)
+            if(m_MovementBlockedReason == EBlockedReason.TimeOver)
+            {
+                // We can't update the block status if the current block reason is TimeOver
+                return false;
+            }
+
+            // If we need to unblock movement
+            if (!isMovementBlocked)
             {
                 switch (m_MovementBlockedReason)
                 {
-                    // If movement blocked reason is Play/RequestBy Attack, you can unblock the movement with anything
+                    // If movement blocked reason is Play/RequestBy Attack, you can unblock the movement with EndAttack or RequestByAttack
                     case EBlockedReason.PlayAttack:
                     case EBlockedReason.RequestByAttack:
-                        return true;
+                        return reason == EBlockedReason.EndAttack || reason == EBlockedReason.RequestByAttack;
 
                     // If movement blocked reason is Stun, you can unblock the movement only with a StunEnd reason
                     case EBlockedReason.Stun:
                         return reason == EBlockedReason.StunEnd;
-
-                    // If movement blocked reason is TimeOver, you can't unblock the movement
-                    case EBlockedReason.TimeOver:
-                        return false;
 
                     default:
                         string errorMsg = "Movement has been blocked with an invalid reason : " + m_MovementBlockedReason + " and trying to unblock with reason : " + reason;
@@ -439,12 +446,8 @@ public class PlayerMovementComponent : MonoBehaviour
                         return true;
                 }
             }
-            else
-            {
-                return true;
-            }
         }
 
-        return false;
+        return true;
     }
 }

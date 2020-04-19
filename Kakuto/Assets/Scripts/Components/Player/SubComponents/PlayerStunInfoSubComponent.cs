@@ -185,6 +185,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             if (m_StunInfo.m_IsDurationAnimDriven || m_StunInfo.m_EndOfStunAnimRequested)
             {
+                ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "OnStunAnimEnd | Duration anim driven : " + m_StunInfo.m_IsDurationAnimDriven + ", End of stun anim requested : " + m_StunInfo.m_EndOfStunAnimRequested);
                 StopStun();
             }
         }

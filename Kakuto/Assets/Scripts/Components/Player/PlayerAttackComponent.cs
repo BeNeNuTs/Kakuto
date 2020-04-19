@@ -325,8 +325,6 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + attackName);
-
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
 
             bool attackWasBlocked = m_IsAttackBlocked;
@@ -335,10 +333,12 @@ public class PlayerAttackComponent : MonoBehaviour
                 m_IsAttackBlocked = false;
             }
 
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + attackName + " | attack was blocked : " + attackWasBlocked + ", attack is blocked : " + m_IsAttackBlocked);
+
             // If attack was blocked and there is still unblock attack parameters
             // This means no allowed attack have been triggered
             // So need to clear triggered inputs in order to not launch unwanted attacks
-            if(attackWasBlocked && m_UnblockAttackConfig != null)
+            if (attackWasBlocked && m_UnblockAttackConfig != null)
             {
                 ClearTriggeredInputs();
                 m_UnblockAttackConfig = null;
@@ -390,7 +390,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void OnStunBegin(bool isStunned = true)
     {
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun begin");
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun begin | Attack is blocked");
 
         ClearTriggeredInputs();
         m_IsAttackBlocked = true;
@@ -404,7 +404,7 @@ public class PlayerAttackComponent : MonoBehaviour
             return;
         }
 
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun end");
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun end | Attack is unblocked");
 
         m_IsAttackBlocked = false;
         m_UnblockAttackConfig = null;
