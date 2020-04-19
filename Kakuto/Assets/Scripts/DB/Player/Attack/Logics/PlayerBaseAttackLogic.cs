@@ -37,7 +37,7 @@ public class PlayerBaseAttackLogic
         PlayerAttack attack = GetAttack();
         if (m_MovementComponent != null)
         {
-            conditionIsValid &= (attack.m_NeededStance == m_MovementComponent.GetCurrentStance());
+            conditionIsValid &= (attack.m_NeededStanceList.Contains(m_MovementComponent.GetCurrentStance()));
         }
 
         if (attack.m_HasCondition)

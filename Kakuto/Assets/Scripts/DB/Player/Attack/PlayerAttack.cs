@@ -17,7 +17,9 @@ public class PlayerAttack
 
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
-    public EPlayerStance m_NeededStance = EPlayerStance.Stand;
+    public List<EPlayerStance> m_NeededStanceList;
+    [Tooltip("Which is the attack default stance at the beggining of the animation ?")]
+    public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
 
     // Condition (SuperGauge, AttackRequirement)
@@ -128,6 +130,24 @@ public class PlayerAttack
             }
 
             m_ComputedGameInputList.Add(gameInputList);
+        }
+
+        if(m_NeededStanceList.Count == 0)
+        {
+            Debug.LogError("Needed stance list is empty for attack " + m_Name);
+        }
+        else
+        {
+            for(int i = 0; i < m_NeededStanceList.Count; i++)
+            {
+                for(int j = i+1; j < m_NeededStanceList.Count; j++)
+                {
+                    if(m_NeededStanceList[i] == m_NeededStanceList[j])
+                    {
+                        Debug.LogError("Needed stance list contains the stance " + m_NeededStanceList[i] + " twice for attack " + m_Name);
+                    }
+                }
+            }
         }
     }
 
