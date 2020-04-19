@@ -9,6 +9,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private List<PlayerBaseAttackLogic> m_AttackLogics;
 
     private PlayerMovementComponent m_MovementComponent;
+    private PlayerHealthComponent m_HealthComponent;
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
 
@@ -37,6 +38,7 @@ public class PlayerAttackComponent : MonoBehaviour
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
+        m_HealthComponent = GetComponent<PlayerHealthComponent>();
         m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(this);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
         m_TriggeredInputsList = new List<TriggeredGameInput>();
@@ -328,7 +330,10 @@ public class PlayerAttackComponent : MonoBehaviour
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
 
             bool attackWasBlocked = m_IsAttackBlocked;
-            m_IsAttackBlocked = false;
+            if(CanUnblockAttack())
+            {
+                m_IsAttackBlocked = false;
+            }
 
             // If attack was blocked and there is still unblock attack parameters
             // This means no allowed attack have been triggered
@@ -375,9 +380,11 @@ public class PlayerAttackComponent : MonoBehaviour
                 return;
             }
 
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is unblocked by : " + unblockEvent.m_AttackToUnblock);
-
-            m_UnblockAttackConfig = unblockEvent.m_Config;
+            if(CanUnblockAttack())
+            {
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is unblocked by : " + unblockEvent.m_AttackToUnblock);
+                m_UnblockAttackConfig = unblockEvent.m_Config;
+            }
         }
     }
 
@@ -407,16 +414,29 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (attackBlocked)
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack blocked by take off");
-            OnStunBegin();
+            ClearTriggeredInputs();
+            m_IsAttackBlocked = true;
             m_IsAttackBlockedByTakeOff = true;
+
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack blocked by take off");
         }
         else if(m_IsAttackBlockedByTakeOff)
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack unblocked by take off");
-            OnStunEnd();
+            if(CanUnblockAttack())
+            {
+                m_IsAttackBlocked = false;
+                m_UnblockAttackConfig = null;
+
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack unblocked by take off");
+            }
             m_IsAttackBlockedByTakeOff = false;
         }
+    }
+
+    bool CanUnblockAttack()
+    {
+        // Attack can be unblocked only if we're not stunned
+        return !m_HealthComponent.GetStunInfoSubComponent().IsStunned();
     }
 
     void OnRoundOver()

@@ -13,6 +13,8 @@ public enum EJumpPhase
 [RequireComponent(typeof(CharacterController2D))]
 public class PlayerMovementComponent : MonoBehaviour
 {
+    // If new values added to EBlockedReason
+    // Please update CanUpdateMovementBlockedStatus method
     enum EBlockedReason
     {
         None,
@@ -381,7 +383,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void SetMovementBlocked(bool isMovementBlocked, EBlockedReason reason)
     {
-        if(!m_IsMovementBlocked || m_MovementBlockedReason != EBlockedReason.TimeOver)
+        if(CanUpdateMovementBlockedStatus(isMovementBlocked, reason))
         {
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
@@ -401,5 +403,48 @@ public class PlayerMovementComponent : MonoBehaviour
                 }
             }
         }
+    }
+
+    bool CanUpdateMovementBlockedStatus(bool isMovementBlocked, EBlockedReason reason)
+    {
+        //Block reasons : 
+        // PlayAttack, RequestByAttack, Stun, TimeOver
+
+        //Unblock reasons : 
+        // EndAttack, RequestByAttack, StunEnd
+
+        if (m_IsMovementBlocked != isMovementBlocked)
+        {
+            if (m_IsMovementBlocked)
+            {
+                switch (m_MovementBlockedReason)
+                {
+                    // If movement blocked reason is Play/RequestBy Attack, you can unblock the movement with anything
+                    case EBlockedReason.PlayAttack:
+                    case EBlockedReason.RequestByAttack:
+                        return true;
+
+                    // If movement blocked reason is Stun, you can unblock the movement only with a StunEnd reason
+                    case EBlockedReason.Stun:
+                        return reason == EBlockedReason.StunEnd;
+
+                    // If movement blocked reason is TimeOver, you can't unblock the movement
+                    case EBlockedReason.TimeOver:
+                        return false;
+
+                    default:
+                        string errorMsg = "Movement has been blocked with an invalid reason : " + m_MovementBlockedReason + " and trying to unblock with reason : " + reason;
+                        Debug.LogError(errorMsg);
+                        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "ERROR : " + errorMsg);
+                        return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
