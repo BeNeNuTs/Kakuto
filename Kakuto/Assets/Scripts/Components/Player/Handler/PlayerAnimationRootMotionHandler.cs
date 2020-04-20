@@ -8,6 +8,9 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
 {
     private CharacterController2D m_CharacterController2D;
     private PlayerMovementComponent m_PlayerMovementComponent;
+    private Rigidbody2D m_Rigidbody;
+
+    private float m_GravityScale = 2.25f;
 
 #if UNITY_EDITOR
     private bool m_LastUpdateCalled = false;
@@ -51,6 +54,7 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
     {
         m_CharacterController2D = GetComponentInParent<CharacterController2D>();
         m_PlayerMovementComponent = GetComponentInParent<PlayerMovementComponent>();
+        m_Rigidbody = GetComponentInParent<Rigidbody2D>();
         m_FailedPosToReach = new List<Vector3>();
     }
 
@@ -100,6 +104,8 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 {
                     m_CharacterController2D.enabled = false;
                     m_PlayerMovementComponent.enabled = false;
+                    m_GravityScale = m_Rigidbody.gravityScale;
+                    m_Rigidbody.gravityScale = 0f;
                 }
             }
 
@@ -155,6 +161,13 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 {
                     m_CharacterController2D.enabled = true;
                     m_PlayerMovementComponent.enabled = true;
+
+                    if (m_GravityScale == 0f)
+                    {
+                        Debug.LogError("Stored gravity scale of " + transform.root.gameObject.name + " is zero !!");
+                        m_GravityScale = 2.25f;
+                    }
+                    m_Rigidbody.gravityScale = m_GravityScale;
                 }
                 else
                 {
