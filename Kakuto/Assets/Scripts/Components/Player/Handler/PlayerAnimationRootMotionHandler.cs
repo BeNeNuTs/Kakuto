@@ -18,10 +18,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
 
     private bool m_OriginalRootPositionSetted = false;
     private Vector3 m_OriginalRootPosition = Vector3.zero;
-    private Vector3 m_PreviousPosToReach = Vector3.zero;
-
-    private static readonly float k_Epsilon = 0.001f;
-    private List<Vector3> m_FailedPosToReach;
 
     [SerializeField, ReadOnly]
     private bool m_RootMotionEnabled = false;
@@ -55,7 +51,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
         m_CharacterController2D = GetComponentInParent<CharacterController2D>();
         m_PlayerMovementComponent = GetComponentInParent<PlayerMovementComponent>();
         m_Rigidbody = GetComponentInParent<Rigidbody2D>();
-        m_FailedPosToReach = new List<Vector3>();
     }
 
     private void LateUpdate()
@@ -96,8 +91,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
             if (!m_OriginalRootPositionSetted)
             {
                 m_OriginalRootPosition = transform.root.position;
-                m_PreviousPosToReach = m_OriginalRootPosition;
-                m_FailedPosToReach.Clear();
                 m_OriginalRootPositionSetted = true;
 
                 if (Application.isPlaying)
@@ -109,49 +102,8 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 }
             }
 
-            if(Application.isPlaying)
-            {
-                // If the transform position is different than the previous pos to reach
-                // This means something has blocked the player displacement
-                // In this case, store the previousPosToReach in FailedPosToReach in order to keep it in memory
-                if(Vector3.SqrMagnitude(transform.root.position - m_PreviousPosToReach) > k_Epsilon)
-                {
-                    m_FailedPosToReach.Add(m_PreviousPosToReach);
-                }
-            }
-
             Vector3 newPosToReach = m_OriginalRootPosition + RootMotion;
-            bool transformPositionUpdated = false;
-
-            // If there are some failed pos to reach in the list
-            if (m_FailedPosToReach.Count > 0)
-            {
-                // Try to reach them before trying to reach the new current one
-                for(int i = 0; i < m_FailedPosToReach.Count; i++)
-                {
-                    // If the first one is not reached yet, try to reach it
-                    if (Vector3.SqrMagnitude(transform.root.position - m_FailedPosToReach[i]) > k_Epsilon)
-                    {
-                        transform.root.position = m_FailedPosToReach[i];
-                        transformPositionUpdated = true;
-                        break;
-                    }
-                    // If this pos is already reached, remove it
-                    else
-                    {
-                        m_FailedPosToReach.RemoveAt(i);
-                        i--;
-                    }
-                }
-            }
-            
-            // If transform position has not been updated (by a previous pos to reach for example), update it with the new pos to reach
-            if(!transformPositionUpdated)
-            {
-                transform.root.position = newPosToReach;
-            }
-            
-            m_PreviousPosToReach = newPosToReach;
+            transform.root.position = newPosToReach;
         }
         else
         {
@@ -175,8 +127,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 }
 
                 m_OriginalRootPosition = Vector3.zero;
-                m_PreviousPosToReach = Vector3.zero;
-                m_FailedPosToReach.Clear();
                 m_OriginalRootPositionSetted = false;
             }
         }
