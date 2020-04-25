@@ -36,15 +36,8 @@ public class AnimationDebugDisplay : MonoBehaviour
         animationInfo = "";
         if (animator != null)
         {
-            AnimatorClipInfo[] clips = animator.GetCurrentAnimatorClipInfo(0);
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (clips.Length > 0)
-            {
-                float clipLength = clips[0].clip.length;
-                float clipFrameRate = clips[0].clip.frameRate;
-                float clipFrameCount = clipLength * clipFrameRate;
-                animationInfo = clips[0].clip.name + " (" + Mathf.Floor((clipFrameCount * stateInfo.normalizedTime) % clipFrameCount) + " / " + clipFrameCount + ")";
-            }
+            Utils.GetCurrentAnimInfo(animator, out string clipName, out float currentFrame, out float frameCount);
+            animationInfo = clipName + " (" + Mathf.Floor(currentFrame) + " / " + frameCount + ")";
         }
     }
 

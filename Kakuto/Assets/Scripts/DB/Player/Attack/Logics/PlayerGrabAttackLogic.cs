@@ -17,6 +17,15 @@ public struct GrabbedInfo
     public Vector3 GetGrabHookPosition() { return m_GrabHook.position; }
 }
 
+public enum EGrabPhase
+{
+    Startup,
+    Grabbed,
+    Missed, 
+    Blocked
+}
+
+
 public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 {
     private readonly PlayerGrabAttackConfig m_Config;
@@ -27,8 +36,13 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     private static readonly string K_GRAB_HIT_ANIM = "HitGrab";
     private static readonly string K_GRAB_HOOK = "GrabHook";
 
+    private static readonly int K_MAX_LAST_FRAME_TO_GRAB = 2;
+
     private bool m_GrabTouchedEnemy = false;
+    private int m_LastGrabTouchedFrameCount = 0;
     private Transform m_GrabHook;
+
+    private EGrabPhase m_GrabPhase = EGrabPhase.Startup;
 
     public PlayerGrabAttackLogic(PlayerGrabAttackConfig config)
     {
@@ -51,6 +65,9 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackLaunched();
 
+        m_GrabTouchedEnemy = false;
+        m_LastGrabTouchedFrameCount = 0;
+        m_GrabPhase = EGrabPhase.Startup;
         IncreaseSuperGauge(m_Config.m_SuperGaugeBaseBonus);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabTouched, OnGrabTouched);
@@ -86,6 +103,11 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         return hitAnimName;
     }
 
+    public EGrabPhase GetGrabPhase()
+    {
+        return m_GrabPhase;
+    }
+
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
@@ -96,21 +118,28 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
 
         m_GrabTouchedEnemy = false;
+        m_LastGrabTouchedFrameCount = 0;
         Utils.IgnorePushBoxLayerCollision(false);
     }
 
     void OnGrabTouched(PlayerBaseAttackLogic attackLogic)
     {
-        if(this == attackLogic)
+        if(this == attackLogic && m_GrabPhase == EGrabPhase.Startup)
         {
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On grab touched");
+
             m_GrabTouchedEnemy = true;
+            m_LastGrabTouchedFrameCount = Time.frameCount;
         }
     }
 
     void OnGrabBlocked(PlayerBaseAttackLogic attackLogic)
     {
-        if (this == attackLogic)
+        if (this == attackLogic && m_GrabPhase == EGrabPhase.Startup)
         {
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On grab blocked");
+
+            m_GrabPhase = EGrabPhase.Blocked;
             IncreaseSuperGauge(m_Config.m_SuperGaugeBlockBonus);
             m_Animator.Play(K_GRAB_CANCEL_ANIM, 0, 0);
         }
@@ -118,37 +147,42 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     void OnEndOfGrab(EAnimationAttackName attackName)
     {
-        if (m_Attack.m_AnimationAttackName == attackName)
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "End of grab phase");
+
+        if (m_Attack.m_AnimationAttackName == attackName && m_GrabPhase == EGrabPhase.Startup)
         {
-            if(!m_GrabTouchedEnemy)
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "Grab touched enemy : " + m_GrabTouchedEnemy + ", Last grab touched frame count : " + m_LastGrabTouchedFrameCount);
+
+            if (!m_GrabTouchedEnemy || (Time.frameCount - m_LastGrabTouchedFrameCount) > K_MAX_LAST_FRAME_TO_GRAB)
             {
+                ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On grab missed");
+
+                m_GrabPhase = EGrabPhase.Missed;
                 m_Animator.Play(K_GRAB_MISS_ANIM, 0, 0);
             }
             else
             {
+                ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On grab enemy");
+
+                m_GrabPhase = EGrabPhase.Grabbed;
+
+                Utils.IgnorePushBoxLayerCollision();
+
                 //Launch grabbed event
                 GrabbedInfo grabbedInfo = new GrabbedInfo(this, m_GrabHook);
                 Utils.GetEnemyEventManager<GrabbedInfo>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, grabbedInfo);
-                Utils.IgnorePushBoxLayerCollision();
             }
         }
     }
 
     void OnApplyGrabDamages(EAnimationAttackName attackName)
     {
-        if (m_Attack.m_AnimationAttackName == attackName)
+        if (m_Attack.m_AnimationAttackName == attackName && m_GrabPhase == EGrabPhase.Grabbed)
         {
-            if (m_GrabTouchedEnemy)
-            {
-                IncreaseSuperGauge(m_Config.m_SuperGaugeHitBonus);
+            IncreaseSuperGauge(m_Config.m_SuperGaugeHitBonus);
 
-                //Launch hit event
-                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
-            }
-            else
-            {
-                Debug.LogError("Can't apply grab damages without grabbing him.");
-            }
+            //Launch hit event
+            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
         }
     }
 }

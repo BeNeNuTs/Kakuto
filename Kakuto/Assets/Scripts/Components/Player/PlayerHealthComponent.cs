@@ -126,11 +126,18 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if (CanBlockGrabAttack(attackLogic))
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab blocked");
+            // Here, both players are currently playing grab attack
+            // But one is the attacker, and the second the defender
+            // Only the defender can trigger GrabBlocked event and start a block animation
+            // If the player who's trying to grab is the first one to have triggered the grab attack, he's the attacker, so we can block it
+            if (IsGrabAttacker(attackLogic))
+            {
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab blocked");
 
-            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
-            m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
-            PlayBlockAnimation(attackLogic);
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
+                m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
+                PlayBlockAnimation(attackLogic);
+            }
         }
         else if(!m_StunInfoSC.IsHitStunned() && !m_StunInfoSC.IsBlockStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
         {
@@ -148,15 +155,36 @@ public class PlayerHealthComponent : MonoBehaviour
             if (m_AttackComponent)
             {
                 // Check if we are playing grab attack as well
-                PlayerAttack attack = m_AttackComponent.GetCurrentAttack();
-                if(attack != null)
+                if (m_AttackComponent.GetCurrentAttackLogic() is PlayerGrabAttackLogic grabAttack)
                 {
-                    return (attack.m_AnimationAttackName == EAnimationAttackName.Grab);
-                }   
+                    return (grabAttack.GetGrabPhase() == EGrabPhase.Startup);
+                }
             }
         }
 
         return false;
+    }
+
+    private bool IsGrabAttacker(PlayerBaseAttackLogic grabLogic)
+    {
+        bool isGrabAttacker = false;
+        GameObject grabInstigator = grabLogic.GetOwner();
+        Animator grabInstigatorAnim = grabLogic.GetAnimator();
+        float currentGrabInstigatorFrame = Utils.GetCurrentAnimFrame(grabInstigatorAnim);
+        float currentGrabOwnerFrame = Utils.GetCurrentAnimFrame(m_Anim);
+
+        // If grab instigator has been triggered at exact same frame than owner
+        if(currentGrabInstigatorFrame == currentGrabOwnerFrame)
+        {
+            isGrabAttacker = grabInstigator.CompareTag(Player.Player1);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "Is " + grabInstigator.tag + " GrabAttacker | Grab attack has been triggered at same frame on both players. Player1 defined as attacker by default");
+        }
+        else
+        {
+            isGrabAttacker = currentGrabInstigatorFrame > currentGrabOwnerFrame;
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "Is " + grabInstigator.tag + " GrabAttacker | " + ((isGrabAttacker) ? grabInstigator.tag : gameObject.tag) + " is grab attacker");
+        }
+        return isGrabAttacker;
     }
 
     void OnGrabbed(GrabbedInfo grabbedInfo)

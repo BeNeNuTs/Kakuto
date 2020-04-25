@@ -120,6 +120,7 @@ public class PlayerBaseAttackLogic
 
     public GameObject GetOwner() { return m_Owner; }
     public PlayerAttack GetAttack() { return m_Attack; }
+    public Animator GetAnimator() { return m_Animator; }
 
     public bool IsASuper() { return m_Attack.m_IsASuper; }
 

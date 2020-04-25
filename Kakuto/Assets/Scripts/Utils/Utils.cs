@@ -42,6 +42,31 @@ public static class Utils
         return null;
     }
 
+    public static float GetCurrentAnimFrame(Animator anim)
+    {
+        GetCurrentAnimInfo(anim, out string clipName, out float currentFrame, out float frameCount);
+        return currentFrame;
+    }
+
+    public static void GetCurrentAnimInfo(Animator anim, out string clipName, out float currentFrame, out float frameCount)
+    {
+        clipName = "";
+        currentFrame = 0f;
+        frameCount = 0f;
+
+        AnimatorClipInfo[] clips = anim.GetCurrentAnimatorClipInfo(0);
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        if (clips.Length > 0)
+        {
+            float clipLength = clips[0].clip.length;
+            float clipFrameRate = clips[0].clip.frameRate;
+
+            clipName = clips[0].clip.name;
+            frameCount = clipLength * clipFrameRate;
+            currentFrame = (frameCount * stateInfo.normalizedTime) % frameCount;
+        }
+    }
+
     public static bool IsInLayerMask(int layer, LayerMask layermask)
     {
         return layermask == (layermask | (1 << layer));
