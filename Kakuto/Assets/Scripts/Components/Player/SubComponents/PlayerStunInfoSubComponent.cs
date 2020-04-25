@@ -33,10 +33,6 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private float m_StabilizeGaugeCooldown = 0f;
     public event UnityAction OnGaugeValueChanged;
 
-    // DEBUG /////////////////////////////
-    private float m_DEBUG_BlockingAttacksTimer = 0.0f;
-    //////////////////////////////////////
-
     public PlayerStunInfoSubComponent(PlayerHealthComponent healthComponent, PlayerMovementComponent movementComp, Animator anim) : base(healthComponent.gameObject)
     {
         m_HealthComponent = healthComponent;
@@ -81,9 +77,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         if (IsStunned())
         {
-            if(!m_StunInfo.m_EndOfStunAnimRequested)
+            if(!m_StunInfo.m_IsDurationAnimDriven)
             {
-                if (!m_StunInfo.m_IsDurationAnimDriven && m_StunInfo.m_EndOfStunAnimTimestamp > 0f && Time.time > m_StunInfo.m_EndOfStunAnimTimestamp)
+                if (!m_StunInfo.m_EndOfStunAnimRequested && m_StunInfo.m_EndOfStunAnimTimestamp > 0f && Time.time > m_StunInfo.m_EndOfStunAnimTimestamp)
                 {
                     TriggerOnStunEndAnim();
                 }
@@ -91,19 +87,6 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
 
         StabilizeGauge();
-
-        // DEBUG /////////////////////////////////////
-        if (m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
-        {
-            if (m_HealthComponent.m_DEBUG_IsBlockingAllAttacks && m_DEBUG_BlockingAttacksTimer > 0.0f)
-            {
-                if (Time.time > m_DEBUG_BlockingAttacksTimer)
-                {
-                    DEBUG_StopBlockingAttacks();
-                }
-            }
-        }
-        //////////////////////////////////////////////
     }
 
     public void StartStun(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult)
@@ -136,39 +119,43 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     public void SetStunDuration(PlayerBaseAttackLogic attackLogic, float stunDuration)
     {
-        if(m_StunInfo.m_IsStunned && !m_StunInfo.m_IsDurationAnimDriven)
+        if (m_StunInfo.m_IsStunned && !m_StunInfo.m_IsDurationAnimDriven)
         {
             string outStunAnimName = "UNKNOWN";
             if (m_StunInfo.m_StunType == EStunType.Hit)
             {
                 outStunAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
             }
-            else if(m_StunInfo.m_StunType == EStunType.Block)
+            else if (m_StunInfo.m_StunType == EStunType.Block)
             {
                 outStunAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
             }
-
-            if (!m_AnimationsLengthDictionary.TryGetValue(outStunAnimName, out float outStunAnimDuration))
-            {
-                Debug.LogError(outStunAnimName + " animation can't be found in AnimationsLength dictionary for " + m_Owner);
-            }
-
-            if (outStunAnimDuration >= stunDuration)
-            {
-                Debug.LogError(outStunAnimName + " animation has a length (" + outStunAnimDuration + ") superior to the " + m_StunInfo.m_StunType.ToString() + " stun duration (" + stunDuration + ") of " + attackLogic.GetAttack().m_Name);
-                outStunAnimDuration = stunDuration;
-            }
-
-            float finalDuration = stunDuration - outStunAnimDuration;
-            m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
-
-            Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
-            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Set stun duration : " + stunDuration);
+            SetStunDuration_Internal(attackLogic.GetAttack().m_Name, outStunAnimName, stunDuration);
         }
         else
         {
             Debug.LogError("Trying to set stun duration but " + m_Owner + " is not stunned or duration is anim driven");
         }
+    }
+
+    private void SetStunDuration_Internal(string attackName, string outStunAnimName, float stunDuration)
+    {
+        if (!m_AnimationsLengthDictionary.TryGetValue(outStunAnimName, out float outStunAnimDuration))
+        {
+            Debug.LogError(outStunAnimName + " animation can't be found in AnimationsLength dictionary for " + m_Owner);
+        }
+
+        if (outStunAnimDuration >= stunDuration)
+        {
+            Debug.LogError(outStunAnimName + " animation has a length (" + outStunAnimDuration + ") superior to the " + m_StunInfo.m_StunType.ToString() + " stun duration (" + stunDuration + ") of " + attackName);
+            outStunAnimDuration = stunDuration;
+        }
+
+        float finalDuration = stunDuration - outStunAnimDuration;
+        m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
+
+        Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Set stun duration : " + stunDuration);
     }
 
     private void TriggerOnStunEndAnim()
@@ -216,6 +203,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         // DEBUG ///////////////////////////////////
         if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
         {
+            m_MovementComponent.UpdatePlayerSide();
             DEBUG_StartBlockingAttacks();
         }
         ////////////////////////////////////////////
@@ -239,22 +227,13 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     // DEBUG /////////////////////////////////////
     private void DEBUG_StartBlockingAttacks()
     {
-        m_DEBUG_BlockingAttacksTimer = Time.time + m_HealthComponent.m_DEBUG_BlockingAttacksDuration;
-        m_HealthComponent.m_DEBUG_IsBlockingAllAttacks = true;
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "DEBUG_StartBlockingAttacks | Duration : " + m_HealthComponent.m_DEBUG_BlockingAttacksDuration);
 
+        StartStun_Internal(false, false, EStunType.Block);
+        SetStunDuration_Internal("DEBUG_StartBlockingAttacks", "BlockStand_Out", m_HealthComponent.m_DEBUG_BlockingAttacksDuration);
         m_Anim.Play("BlockStand_In", 0, 0);
 
         Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + m_HealthComponent.m_DEBUG_BlockingAttacksDuration + " seconds");
-    }
-
-    private void DEBUG_StopBlockingAttacks()
-    {
-        m_DEBUG_BlockingAttacksTimer = 0.0f;
-        m_HealthComponent.m_DEBUG_IsBlockingAllAttacks = false;
-
-        m_Anim.SetTrigger("OnStunEnd"); // To trigger end of blocking animation
-
-        Debug.Log("Player : " + m_Owner.name + " doesn't block attacks anymore");
     }
     /////////////////////////////////////////////
 
