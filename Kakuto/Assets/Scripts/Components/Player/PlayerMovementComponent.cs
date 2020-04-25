@@ -128,7 +128,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
         m_HorizontalMoveInput = 0f;
         m_JumpInput = false;
-        m_CrouchInput = false;
         if (!m_IsMovementBlocked && !m_DEBUG_IsStatic)
         {
             m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
