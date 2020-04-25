@@ -19,6 +19,15 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         public bool m_IsDurationAnimDriven;
         public float m_EndOfStunAnimTimestamp;
         public bool m_EndOfStunAnimRequested;
+
+        public void Reset()
+        {
+            m_IsStunned = false;
+            m_StunType = EStunType.None;
+            m_IsDurationAnimDriven = false;
+            m_EndOfStunAnimTimestamp = 0;
+            m_EndOfStunAnimRequested = false;
+        }
     }
 
     private PlayerHealthComponent m_HealthComponent;
@@ -101,7 +110,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         m_StunInfo.m_IsStunned = true;
         m_StunInfo.m_StunType = stunType;
-        m_StunInfo.m_IsDurationAnimDriven = m_MovementComponent.IsJumping() || isHitKO || isGrabAttack; // Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
+        m_StunInfo.m_IsDurationAnimDriven = IsStunDurationAnimDriven(isHitKO, isGrabAttack, stunType); 
         m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
 
@@ -115,6 +124,23 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
 
         m_Anim.ResetTrigger("OnStunEnd");
+    }
+
+    bool IsStunDurationAnimDriven(bool isHitKO, bool isGrabAttack, EStunType stunType)
+    {
+        switch (stunType)
+        {
+            case EStunType.Hit:
+                return m_MovementComponent.IsJumping() || isHitKO || isGrabAttack;  // Hit : Stun duration is anim driven if we're jumping / taking a hit KO / or be grabbed
+            case EStunType.Block:
+                return isGrabAttack;                                                // Block : Stun duration is anim driven if playing a grab block
+            case EStunType.Gauge:
+                return true;                                                        // Gauge : Stun duration is always anim drive
+            case EStunType.None:
+            default:
+                Debug.LogError("Invalid stun type : " + stunType);
+                return false;
+        }
     }
 
     public void SetStunDuration(PlayerBaseAttackLogic attackLogic, float stunDuration)
@@ -184,11 +210,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         EStunType stunType = m_StunInfo.m_StunType;
 
-        m_StunInfo.m_IsStunned = false;
-        m_StunInfo.m_StunType = EStunType.None;
-        m_StunInfo.m_IsDurationAnimDriven = false;
-        m_StunInfo.m_EndOfStunAnimTimestamp = 0;
-        m_StunInfo.m_EndOfStunAnimRequested = false;
+        m_StunInfo.Reset();
 
         if(m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
         {
@@ -222,6 +244,11 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     public bool IsBlockStunned()
     {
         return m_StunInfo.m_IsStunned && m_StunInfo.m_StunType == EStunType.Block;
+    }
+
+    public bool IsStunDurationAnimDriven()
+    {
+        return m_StunInfo.m_IsStunned && m_StunInfo.m_IsDurationAnimDriven;
     }
 
     // DEBUG /////////////////////////////////////

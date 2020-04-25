@@ -334,8 +334,8 @@ public class PlayerHealthComponent : MonoBehaviour
                 m_StunInfoSC.StartStun(attackLogic, attackResult);
             }
 
-            // Stun duration and pushback are anim driven for hit air/KO
-            if (!m_MovementComponent.IsJumping() && !attackLogic.IsHitKO())
+            // If stun duration is not anim driven, we can set the duration and apply a pushback
+            if (!m_StunInfoSC.IsStunDurationAnimDriven())
             {
                 if (attackLogic.CanStunOnDamage())
                 {
