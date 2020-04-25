@@ -22,8 +22,8 @@ MonoBehaviour:
   m_HitStrength: 1
   m_HitStun: 20
   m_BlockStun: 9
-  m_HitPushBack: 1.8
-  m_BlockPushBack: 4
+  m_HitPushBack: 1.2
+  m_BlockPushBack: 2.2
   m_StunGaugeHitAmount: 10
   m_ApplyAttackerHitPushBack: 0
   m_AttackerHitPushBack: 0
