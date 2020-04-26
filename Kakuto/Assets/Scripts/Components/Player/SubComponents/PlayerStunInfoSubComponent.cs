@@ -16,6 +16,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         public bool m_IsStunned;
         public EStunType m_StunType;
+        public bool m_StunByGrabAttack;
         public bool m_IsDurationAnimDriven;
         public float m_EndOfStunAnimTimestamp;
         public bool m_EndOfStunAnimRequested;
@@ -24,6 +25,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             m_IsStunned = false;
             m_StunType = EStunType.None;
+            m_StunByGrabAttack = false;
             m_IsDurationAnimDriven = false;
             m_EndOfStunAnimTimestamp = 0;
             m_EndOfStunAnimRequested = false;
@@ -38,6 +40,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private StunInfo m_StunInfo;
 
+    private bool m_CanIncreaseGaugeValue = true;
     private float m_CurrentGaugeValue = 0f;
     private float m_StabilizeGaugeCooldown = 0f;
     public event UnityAction OnGaugeValueChanged;
@@ -108,8 +111,14 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     void StartStun_Internal(bool isHitKO, bool isGrabAttack, EStunType stunType)
     {
+        if (IsGaugeStunned())
+        {
+            ResetGaugeValue();
+        }
+
         m_StunInfo.m_IsStunned = true;
         m_StunInfo.m_StunType = stunType;
+        m_StunInfo.m_StunByGrabAttack = isGrabAttack;
         m_StunInfo.m_IsDurationAnimDriven = IsStunDurationAnimDriven(isHitKO, isGrabAttack, stunType); 
         m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
@@ -207,16 +216,16 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private void StopStun()
     {
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Stop stun");
-
-        EStunType stunType = m_StunInfo.m_StunType;
-
-        m_StunInfo.Reset();
-
-        if(m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
+        
+        if (IsGaugeStunned())
         {
             ResetGaugeValue();
         }
+        m_CanIncreaseGaugeValue = true;
         m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
+
+        EStunType stunType = m_StunInfo.m_StunType;
+        m_StunInfo.Reset();
 
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, false);
 
@@ -238,12 +247,22 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     public bool IsHitStunned()
     {
-        return m_StunInfo.m_IsStunned && m_StunInfo.m_StunType == EStunType.Hit;
+        return IsStunned() && m_StunInfo.m_StunType == EStunType.Hit;
+    }
+
+    public bool IsGrabHitStunned()
+    {
+        return IsHitStunned() && m_StunInfo.m_StunByGrabAttack;
     }
 
     public bool IsBlockStunned()
     {
-        return m_StunInfo.m_IsStunned && m_StunInfo.m_StunType == EStunType.Block;
+        return IsStunned() && m_StunInfo.m_StunType == EStunType.Block;
+    }
+
+    public bool IsGaugeStunned()
+    {
+        return IsStunned() && m_StunInfo.m_StunType == EStunType.Gauge;
     }
 
     public bool IsStunDurationAnimDriven()
@@ -266,21 +285,44 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     public void IncreaseGaugeValue(float value)
     {
-        if(m_CurrentGaugeValue < AttackConfig.Instance.m_StunGaugeMaxValue)
+        if(CanIncreaseGaugeValue())
         {
             m_CurrentGaugeValue += value;
             ClampGaugeValue();
             OnGaugeValueChanged?.Invoke();
 
-            if (m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue)
+            if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
             {
-                StartStun_Internal(true, false, EStunType.Gauge);
-                PlayStunAnim();
+                TriggerGaugeStun();
             }
         }
     }
 
-    public void ResetGaugeValue()
+    private bool CanIncreaseGaugeValue()
+    {
+        return m_CurrentGaugeValue < AttackConfig.Instance.m_StunGaugeMaxValue && m_CanIncreaseGaugeValue;
+    }
+
+    private bool ShouldTriggerGaugeStun()
+    {
+        return m_CurrentGaugeValue >= AttackConfig.Instance.m_StunGaugeMaxValue && !IsGaugeStunned();
+    }
+
+    private bool CanTriggerGaugeStun()
+    {
+        return !IsStunned() || (IsStunned() && !IsGrabHitStunned());
+    }
+
+    private void TriggerGaugeStun()
+    {
+        StartStun_Internal(true, false, EStunType.Gauge);
+        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
+        PlayStunAnim();
+
+        m_CanIncreaseGaugeValue = false;
+    }
+
+    private void ResetGaugeValue()
     {
         m_CurrentGaugeValue = 0f;
         OnGaugeValueChanged?.Invoke();
