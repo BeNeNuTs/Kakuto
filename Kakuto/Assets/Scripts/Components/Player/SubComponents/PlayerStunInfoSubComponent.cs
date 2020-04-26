@@ -221,23 +221,35 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             ResetGaugeValue();
         }
+
         m_CanIncreaseGaugeValue = true;
         m_StabilizeGaugeCooldown = AttackConfig.Instance.m_StunGaugeDecreaseCooldown;
 
         EStunType stunType = m_StunInfo.m_StunType;
+        bool wasStunByGrabAttack = m_StunInfo.m_StunByGrabAttack;
         m_StunInfo.Reset();
 
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, false);
-
         Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
 
-        // DEBUG ///////////////////////////////////
-        if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
+        if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
         {
             m_MovementComponent.UpdatePlayerSide();
-            DEBUG_StartBlockingAttacks();
+
+            // If we were stun by a grab attack, we don't want to play KO anim but stunned anim directly
+            bool playKOAnimation = !wasStunByGrabAttack;
+            TriggerGaugeStun(playKOAnimation);
         }
-        ////////////////////////////////////////////
+        else
+        {
+            // DEBUG ///////////////////////////////////
+            if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
+            {
+                m_MovementComponent.UpdatePlayerSide();
+                DEBUG_StartBlockingAttacks();
+            }
+            ////////////////////////////////////////////
+        }
     }
 
     public bool IsStunned()
@@ -293,7 +305,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
             if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
             {
-                TriggerGaugeStun();
+                TriggerGaugeStun(true);
             }
         }
     }
@@ -313,13 +325,27 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         return !IsStunned() || (IsStunned() && !IsGrabHitStunned());
     }
 
-    private void TriggerGaugeStun()
+    private void TriggerGaugeStun(bool playKOAnimation)
     {
         StartStun_Internal(true, false, EStunType.Gauge);
         Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
-        PlayStunAnim();
+        PlayGaugeStunAnim(playKOAnimation);
 
         m_CanIncreaseGaugeValue = false;
+    }
+
+    private void PlayGaugeStunAnim(bool playKOAnimation)
+    {
+        string stunAnimName = "";
+        if(playKOAnimation)
+        {
+            stunAnimName = "Stun" + m_MovementComponent.GetCurrentStance().ToString() + "KO";
+        }
+        else
+        {
+            stunAnimName = "Stunned";
+        }
+        m_Anim.Play(stunAnimName, 0, 0);
     }
 
     private void ResetGaugeValue()
@@ -365,11 +391,5 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         {
             m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue);
         }
-    }
-
-    private void PlayStunAnim()
-    {
-        string stunAnimName = "Stun" + m_MovementComponent.GetCurrentStance().ToString() + "KO";
-        m_Anim.Play(stunAnimName, 0, 0);
     }
 }
