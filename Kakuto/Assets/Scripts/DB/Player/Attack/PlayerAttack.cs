@@ -18,7 +18,10 @@ public class PlayerAttack
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
     public List<EPlayerStance> m_NeededStanceList;
-    [Tooltip("Which is the attack default stance at the beggining of the animation ?")]
+
+    [Tooltip("If true, stance will be automatically switched to this default stance at first attack frame.")]
+    public bool m_UseDefaultStance = true;
+    [Tooltip("Which is the attack default stance at the beggining of the animation ?"), ConditionalField(true, "m_UseDefaultStance")]
     public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
 

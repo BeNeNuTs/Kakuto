@@ -269,8 +269,11 @@ public class PlayerAttackComponent : MonoBehaviour
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
 
-        EPlayerStance attackDefaultStance = attackLogic.GetAttack().m_DefaultStance;
-        m_MovementComponent.ChangePlayerStance(attackDefaultStance, (attackDefaultStance == EPlayerStance.Jump) ? EJumpPhase.Air : EJumpPhase.None);
+        if(attackLogic.GetAttack().m_UseDefaultStance)
+        {
+            EPlayerStance attackDefaultStance = attackLogic.GetAttack().m_DefaultStance;
+            m_MovementComponent.ChangePlayerStance(attackDefaultStance, (attackDefaultStance == EPlayerStance.Jump) ? EJumpPhase.Air : EJumpPhase.None);
+        }
         m_MovementComponent.SetMovementBlockedByAttack(attackLogic.GetAttack().m_BlockMovement);
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);

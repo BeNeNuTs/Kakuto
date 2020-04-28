@@ -17,6 +17,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 21
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 1
     m_HasCondition: 1
@@ -110,6 +111,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 15
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -142,6 +144,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 17
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -183,6 +186,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 16
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -215,6 +219,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 20
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -256,6 +261,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 12
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -293,6 +299,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 19
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -326,6 +333,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 14
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -352,6 +360,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 13
     m_NeededStanceList: 0000000001000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -381,6 +390,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 12
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -414,6 +424,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 14
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -440,6 +451,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 18
     m_NeededStanceList: 0100000000000000
+    m_UseDefaultStance: 0
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -487,6 +499,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 11
     m_NeededStanceList: 02000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 2
     m_IsASuper: 0
     m_HasCondition: 0
@@ -513,6 +526,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 8
     m_NeededStanceList: 02000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 2
     m_IsASuper: 0
     m_HasCondition: 0
@@ -537,6 +551,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 4
     m_NeededStanceList: 01000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
@@ -561,6 +576,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 5
     m_NeededStanceList: 01000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
@@ -587,6 +603,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 10
     m_NeededStanceList: 02000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 2
     m_IsASuper: 0
     m_HasCondition: 0
@@ -611,6 +628,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 3
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -637,6 +655,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 1
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -663,6 +682,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 0
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -687,6 +707,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 7
     m_NeededStanceList: 01000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
@@ -713,6 +734,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 6
     m_NeededStanceList: 01000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 1
     m_IsASuper: 0
     m_HasCondition: 0
@@ -737,6 +759,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 2
     m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
     m_HasCondition: 0
@@ -761,6 +784,7 @@ MonoBehaviour:
     m_Description: 
     m_AnimationAttackName: 9
     m_NeededStanceList: 02000000
+    m_UseDefaultStance: 1
     m_DefaultStance: 2
     m_IsASuper: 0
     m_HasCondition: 0
