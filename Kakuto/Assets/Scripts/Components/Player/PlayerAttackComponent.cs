@@ -10,6 +10,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private PlayerMovementComponent m_MovementComponent;
     private PlayerHealthComponent m_HealthComponent;
+    private PlayerInfoComponent m_InfoComponent;
+
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
 
@@ -32,18 +34,19 @@ public class PlayerAttackComponent : MonoBehaviour
     [Space]
 
     public bool m_DEBUG_BreakOnTriggerAttack = false;
-    public bool m_DEBUG_SuperGaugeAlwaysFilled = false;
     /// DEBUG
 
     void Awake()
     {
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_HealthComponent = GetComponent<PlayerHealthComponent>();
-        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(this);
+        m_InfoComponent = GetComponent<PlayerInfoComponent>();
+
+        m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(m_InfoComponent);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
         m_TriggeredInputsList = new List<TriggeredGameInput>();
 
-        if(m_AttacksConfig)
+        if (m_AttacksConfig)
         {
             m_AttacksConfig.Init();
             m_AttackLogics = m_AttacksConfig.CreateLogics(this);
@@ -131,7 +134,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         float currentTime = Time.unscaledTime;
 
-        List<GameInput> attackInputs = InputManager.GetAttackInputList(m_MovementComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
+        List<GameInput> attackInputs = InputManager.GetAttackInputList(m_InfoComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
 
         // If there is new inputs
         if (attackInputs.Count > 0) 

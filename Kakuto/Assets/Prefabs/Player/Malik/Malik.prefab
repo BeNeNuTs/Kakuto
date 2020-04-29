@@ -960,20 +960,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
-      propertyPath: m_DEBUG_DisplayDamageTaken
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: m_DamageTakenParent
+      value: 
+      objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
-      propertyPath: m_DEBUG_DamageTakenUIPrefab
+      propertyPath: m_DamageTakenUIPrefab
       value: 
       objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
         type: 3}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_DEBUG_DamageTakenParent
-      value: 
-      objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size

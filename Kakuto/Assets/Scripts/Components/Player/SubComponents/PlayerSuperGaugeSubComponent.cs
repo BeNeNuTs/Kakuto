@@ -5,14 +5,14 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 {
     private float m_CurrentGaugeValue = 0f;
 
-    private PlayerAttackComponent m_AttackComponent;
+    private PlayerInfoComponent m_InfoComponent;
 
     public event UnityAction OnGaugeValueChanged;
 
-    public PlayerSuperGaugeSubComponent(PlayerAttackComponent attackComp) : base(attackComp.gameObject)
+    public PlayerSuperGaugeSubComponent(PlayerInfoComponent infoComp) : base(infoComp.gameObject)
     {
-        m_AttackComponent = attackComp;
-        if (m_AttackComponent.m_DEBUG_SuperGaugeAlwaysFilled)
+        m_InfoComponent = infoComp;
+        if (m_InfoComponent.GetPlayerSettings().m_SuperGaugeAlwaysFilled)
         {
             IncreaseGaugeValue(AttackConfig.Instance.m_SuperGaugeMaxValue);
         }
@@ -27,7 +27,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
     public void DecreaseGaugeValue(float value)
     {
-        if (m_AttackComponent.m_DEBUG_SuperGaugeAlwaysFilled)
+        if (m_InfoComponent.GetPlayerSettings().m_SuperGaugeAlwaysFilled)
         {
             return;
         }

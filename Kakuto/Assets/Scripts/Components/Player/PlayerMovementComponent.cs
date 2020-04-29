@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum EJumpPhase
 {
@@ -30,10 +28,10 @@ public class PlayerMovementComponent : MonoBehaviour
     private Animator m_Animator;
     private PlayerAttackComponent m_AttackComponent;
     private PlayerHealthComponent m_HealthComponent;
+    private PlayerInfoComponent m_InfoComponent;
 
     private Transform m_Enemy;
     private bool m_IsLeftSide;
-    private int m_PlayerIndex;
 
     private float m_HorizontalMoveInput = 0f;
     private bool m_JumpInput = false;
@@ -50,23 +48,21 @@ public class PlayerMovementComponent : MonoBehaviour
     private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
 #pragma warning restore 414
 
-    [Separator("Debug")]
-    [Space]
-
-    public bool m_DEBUG_IsStatic = false;
-
     void Awake()
     {
         m_Controller = GetComponent<CharacterController2D>();
         m_Animator = GetComponentInChildren<Animator>();
         m_AttackComponent = GetComponent<PlayerAttackComponent>();
         m_HealthComponent = GetComponent<PlayerHealthComponent>();
-
-        m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
-        m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
-        m_IsLeftSide = (m_PlayerIndex == 0) ? true : false;
+        m_InfoComponent = GetComponent<PlayerInfoComponent>();
 
         RegisterListeners();
+    }
+
+    void Start()
+    {
+        m_Enemy = GameObject.FindGameObjectWithTag(Utils.GetEnemyTag(gameObject)).transform.root;
+        m_IsLeftSide = (m_InfoComponent.GetPlayerIndex() == 0) ? true : false;
 
 #if UNITY_EDITOR
         CheckPlayerTags();
@@ -128,11 +124,12 @@ public class PlayerMovementComponent : MonoBehaviour
 
         m_HorizontalMoveInput = 0f;
         m_JumpInput = false;
-        if (!m_IsMovementBlocked && !m_DEBUG_IsStatic)
+        if (!m_IsMovementBlocked && !m_InfoComponent.GetPlayerSettings().m_IsStatic)
         {
-            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(m_PlayerIndex);
-            m_JumpInput = InputManager.GetJumpInput(m_PlayerIndex);
-            m_CrouchInput = InputManager.GetCrouchInput(m_PlayerIndex);
+            int playerIndex = m_InfoComponent.GetPlayerIndex();
+            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
+            m_JumpInput = InputManager.GetJumpInput(playerIndex);
+            m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
 
             if(IsStanding())
             {
@@ -297,11 +294,6 @@ public class PlayerMovementComponent : MonoBehaviour
     public bool IsLeftSide()
     {
         return m_IsLeftSide;
-    }
-
-    public int GetPlayerIndex()
-    {
-        return m_PlayerIndex;
     }
 
     public void PushForward(float pushForce)

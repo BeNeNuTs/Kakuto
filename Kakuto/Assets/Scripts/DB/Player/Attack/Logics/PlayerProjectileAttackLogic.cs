@@ -64,7 +64,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         bool canBlockAttack = base.CanBlockAttack(isCrouching);
         if (canBlockAttack)
         {
-            canBlockAttack &= IsASuper() || !IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
+            canBlockAttack &= IsASuper() || !IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
         }
         return canBlockAttack;
     }
@@ -100,7 +100,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
         if(!IsASuper())
         {
-            SetNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex(), false);
+            SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
         }
         m_CurrentProjectiles.Remove(projectile);
     }
@@ -126,7 +126,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     public bool IsGuardCrush()
     {
-        return !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
+        return !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
     }
 
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)

@@ -16,6 +16,7 @@ public class TrainingMapDisplay : MonoBehaviour
 
     private PlayerMovementComponent m_PlayerMovementComponentToDisplay;
     private PlayerAttackComponent m_PlayerAttackComponentToDisplay;
+    private PlayerInfoComponent m_PlayerInfoComponentToDisplay;
     private PlayerAttack m_CurrentDisplayAttack;
 
     private List<GameInput> m_TriggeredInputs;
@@ -24,6 +25,7 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         m_PlayerMovementComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerMovementComponent>(m_Target.ToString());
         m_PlayerAttackComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerAttackComponent>(m_Target.ToString());
+        m_PlayerInfoComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerInfoComponent>(m_Target.ToString());
 
         m_TriggeredInputs = new List<GameInput>();
     }
@@ -39,7 +41,7 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if (m_TextToDisplayInputs != null)
         {
-            m_TriggeredInputs.AddRange(InputManager.GetAttackInputList(m_PlayerMovementComponentToDisplay.GetPlayerIndex(), m_PlayerMovementComponentToDisplay.IsLeftSide()));
+            m_TriggeredInputs.AddRange(InputManager.GetAttackInputList(m_PlayerInfoComponentToDisplay.GetPlayerIndex(), m_PlayerMovementComponentToDisplay.IsLeftSide()));
             if (m_TriggeredInputs.Count > AttackConfig.Instance.m_MaxInputs)
             {
                 m_TriggeredInputs.RemoveRange(0, (int)(m_TriggeredInputs.Count - AttackConfig.Instance.m_MaxInputs));

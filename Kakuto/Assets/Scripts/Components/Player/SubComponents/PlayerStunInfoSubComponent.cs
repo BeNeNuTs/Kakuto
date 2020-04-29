@@ -32,7 +32,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
     }
 
-    private PlayerHealthComponent m_HealthComponent;
+    private PlayerInfoComponent m_InfoComponent;
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
 
@@ -45,9 +45,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private float m_StabilizeGaugeCooldown = 0f;
     public event UnityAction OnGaugeValueChanged;
 
-    public PlayerStunInfoSubComponent(PlayerHealthComponent healthComponent, PlayerMovementComponent movementComp, Animator anim) : base(healthComponent.gameObject)
+    public PlayerStunInfoSubComponent(PlayerInfoComponent infoComponent, PlayerMovementComponent movementComp, Animator anim) : base(infoComponent.gameObject)
     {
-        m_HealthComponent = healthComponent;
+        m_InfoComponent = infoComponent;
         m_MovementComponent = movementComp;
         m_Anim = anim;
 
@@ -242,13 +242,11 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
         else
         {
-            // DEBUG ///////////////////////////////////
-            if (stunType == EStunType.Hit && m_HealthComponent.m_DEBUG_IsBlockingAllAttacksAfterHitStun)
+            if (stunType == EStunType.Hit && m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacksAfterHitStun)
             {
                 m_MovementComponent.UpdatePlayerSide();
-                DEBUG_StartBlockingAttacks();
+                StartAutoBlockingAttacks();
             }
-            ////////////////////////////////////////////
         }
     }
 
@@ -282,18 +280,17 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         return m_StunInfo.m_IsStunned && m_StunInfo.m_IsDurationAnimDriven;
     }
 
-    // DEBUG /////////////////////////////////////
-    private void DEBUG_StartBlockingAttacks()
+    private void StartAutoBlockingAttacks()
     {
-        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "DEBUG_StartBlockingAttacks | Duration : " + m_HealthComponent.m_DEBUG_BlockingAttacksDuration);
+        float blockingAttackDuration = m_InfoComponent.GetPlayerSettings().m_BlockingAttacksDuration;
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "StartAutoBlockingAttacks | Duration : " + blockingAttackDuration);
 
         StartStun_Internal(false, false, EStunType.Block);
-        SetStunDuration_Internal("DEBUG_StartBlockingAttacks", "BlockStand_Out", m_HealthComponent.m_DEBUG_BlockingAttacksDuration);
+        SetStunDuration_Internal("StartAutoBlockingAttacks", "BlockStand_Out", blockingAttackDuration);
         m_Anim.Play("BlockStand_In", 0, 0);
 
-        Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + m_HealthComponent.m_DEBUG_BlockingAttacksDuration + " seconds");
+        Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
     }
-    /////////////////////////////////////////////
 
     public void IncreaseGaugeValue(float value)
     {
@@ -381,12 +378,10 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void ClampGaugeValue()
     {
-        // DEBUG /////////////////////////////////////
-        if (m_HealthComponent.m_DEBUG_IsImmuneToStunGauge)
+        if (m_InfoComponent.GetPlayerSettings().m_IsImmuneToStunGauge)
         {
             m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue - 1);
         }
-        /////////////////////////////////////////////
         else
         {
             m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue);

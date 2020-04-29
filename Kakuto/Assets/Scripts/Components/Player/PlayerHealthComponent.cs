@@ -34,6 +34,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private PlayerAttackComponent m_AttackComponent;
     private PlayerMovementComponent m_MovementComponent;
+    private PlayerInfoComponent m_InfoComponent;
     private Animator m_Anim;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
@@ -41,34 +42,21 @@ public class PlayerHealthComponent : MonoBehaviour
     [Separator("Debug")]
     [Space]
 
-    public bool m_DEBUG_DisplayDamageTaken = false;
-    [ConditionalField(true, "m_DEBUG_DisplayDamageTaken")]
-    public GameObject m_DEBUG_DamageTakenUIPrefab;
-    [ConditionalField(true, "m_DEBUG_DisplayDamageTaken")]
-    public Transform m_DEBUG_DamageTakenParent;
-
-    [ConditionalField(false, "m_DEBUG_IsBlockingAllAttacksAfterHitStun")]
-    public bool m_DEBUG_IsBlockingAllAttacks = false;
-    [ConditionalField(false, "m_DEBUG_IsBlockingAllAttacks")]
-    public bool m_DEBUG_IsBlockingAllAttacksAfterHitStun = false;
-    [ConditionalField(true, "m_DEBUG_IsBlockingAllAttacksAfterHitStun")]
-    public float m_DEBUG_BlockingAttacksDuration = 1.0f;
-
-    public bool m_DEBUG_IsInvincible = false;
-
-    public bool m_DEBUG_IsImmuneToStunGauge = false;
+    public GameObject m_DamageTakenUIPrefab;
+    public Transform m_DamageTakenParent;
 
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;
         m_AttackComponent = GetComponent<PlayerAttackComponent>();
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
+        m_InfoComponent = GetComponent<PlayerInfoComponent>();
+
         m_Anim = GetComponentInChildren<Animator>();
 
-        m_StunInfoSC = new PlayerStunInfoSubComponent(this, m_MovementComponent, m_Anim);
+        m_StunInfoSC = new PlayerStunInfoSubComponent(m_InfoComponent, m_MovementComponent, m_Anim);
 
         RegisterListeners();
-        GameManager.Instance.RegisterPlayer(gameObject);
     }
 
     void RegisterListeners()
@@ -83,12 +71,6 @@ public class PlayerHealthComponent : MonoBehaviour
     void OnDestroy()
     {
         UnregisterListeners();
-
-        GameManager gameMgr = GameManager.Instance;
-        if (gameMgr)
-        {
-            gameMgr.UnregisterPlayer(gameObject);
-        }
     }
 
     void UnregisterListeners()
@@ -246,12 +228,10 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
     {
-        // DEBUG ///////////////////////////////////
-        if (m_DEBUG_IsBlockingAllAttacks)
+        if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks)
         {
             return true;
         }
-        ////////////////////////////////////////////
 
         if (m_StunInfoSC.IsBlockStunned())
         {
@@ -282,7 +262,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         if (damage >= m_HP)
         {
-            m_HP = (uint)(m_DEBUG_IsInvincible ? 1 : 0);
+            m_HP = (uint)(m_InfoComponent.GetPlayerSettings().m_IsInvincible ? 1 : 0);
         }
         else
         {
@@ -314,12 +294,10 @@ public class PlayerHealthComponent : MonoBehaviour
             TriggerEffects(attackLogic, damage, attackResult);
         }
 
-        // DEBUG /////////////////////////////////////
-        if (damage > 0 && m_DEBUG_DisplayDamageTaken)
+        if (damage > 0 && m_InfoComponent.GetPlayerSettings().m_DisplayDamageTaken)
         {
-            DEBUG_DisplayDamageTakenUI(damage);
+            DisplayDamageTakenUI(damage);
         }
-        /////////////////////////////////////////////
     }
 
     private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
@@ -453,14 +431,12 @@ public class PlayerHealthComponent : MonoBehaviour
         return m_StunInfoSC;
     }
 
-    // DEBUG /////////////////////////////////////
-    private void DEBUG_DisplayDamageTakenUI(uint damage)
+    private void DisplayDamageTakenUI(uint damage)
     {
         //DamageTakenUIInstance will be automatically destroyed
-        GameObject damageTakenUI = Instantiate(m_DEBUG_DamageTakenUIPrefab, Vector3.zero, Quaternion.identity);
-        damageTakenUI.transform.SetParent(m_DEBUG_DamageTakenParent);
+        GameObject damageTakenUI = Instantiate(m_DamageTakenUIPrefab, Vector3.zero, Quaternion.identity);
+        damageTakenUI.transform.SetParent(m_DamageTakenParent);
         damageTakenUI.transform.localPosition = Vector3.zero;
         damageTakenUI.GetComponentInChildren<Text>().text = "-" + damage.ToString();
     }
-    /////////////////////////////////////////////
 }

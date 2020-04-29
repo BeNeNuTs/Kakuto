@@ -14,6 +14,7 @@ public class PlayerBaseAttackLogic
     protected Animator m_Animator;
     protected PlayerMovementComponent m_MovementComponent;
     protected PlayerAttackComponent m_AttackComponent;
+    protected PlayerInfoComponent m_InfoComponent;
 
     protected bool m_HasTouched = false;
     protected float m_DamageRatio = 1f;
@@ -26,6 +27,7 @@ public class PlayerBaseAttackLogic
         m_Animator = m_Owner.GetComponentInChildren<Animator>();
         m_MovementComponent = m_Owner.GetComponent<PlayerMovementComponent>();
         m_AttackComponent = m_Owner.GetComponent<PlayerAttackComponent>();
+        m_InfoComponent = m_Owner.GetComponent<PlayerInfoComponent>();
     }
 
     public virtual void OnShutdown() {}

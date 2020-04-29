@@ -28,7 +28,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         switch (m_Config.m_GuardCrushType)
         {
             case PlayerGuardCrushTriggerAttackConfig.EGuardCrushType.NextNonSuperProjectile:
-                return !PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex());
+                return !PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
             default:
                 return false;
         }
@@ -45,7 +45,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         switch (m_Config.m_GuardCrushType)
         {
             case PlayerGuardCrushTriggerAttackConfig.EGuardCrushType.NextNonSuperProjectile:
-                PlayerProjectileAttackLogic.SetNextNonSuperProjectileGuardCrush(m_MovementComponent.GetPlayerIndex(), true);
+                PlayerProjectileAttackLogic.SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), true);
                 break;
             default:
                 break;

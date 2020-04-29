@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9528bedbc03894ab4c4e8b7cffa03c, type: 3}
+  m_Name: ScenesConfig
+  m_EditorClassIdentifier: 
+  m_SceneSettings:
+  - m_Scene: TrainingMap
+    m_PlayerSettings:
+    - m_Name: Player1
+      m_SuperGaugeAlwaysFilled: 1
+      m_IsStatic: 0
+      m_DisplayDamageTaken: 1
+      m_IsBlockingAllAttacks: 0
+      m_IsBlockingAllAttacksAfterHitStun: 0
+      m_BlockingAttacksDuration: 0
+      m_IsInvincible: 0
+      m_IsImmuneToStunGauge: 0
+    - m_Name: Player2
+      m_SuperGaugeAlwaysFilled: 1
+      m_IsStatic: 1
+      m_DisplayDamageTaken: 1
+      m_IsBlockingAllAttacks: 0
+      m_IsBlockingAllAttacksAfterHitStun: 1
+      m_BlockingAttacksDuration: 1
+      m_IsInvincible: 1
+      m_IsImmuneToStunGauge: 1
+  - m_Scene: 1v1
+    m_PlayerSettings:
+    - m_Name: Player1
+      m_SuperGaugeAlwaysFilled: 0
+      m_IsStatic: 0
+      m_DisplayDamageTaken: 1
+      m_IsBlockingAllAttacks: 0
+      m_IsBlockingAllAttacksAfterHitStun: 0
+      m_BlockingAttacksDuration: 0
+      m_IsInvincible: 0
+      m_IsImmuneToStunGauge: 0
+    - m_Name: Player2
+      m_SuperGaugeAlwaysFilled: 0
+      m_IsStatic: 0
+      m_DisplayDamageTaken: 1
+      m_IsBlockingAllAttacks: 0
+      m_IsBlockingAllAttacksAfterHitStun: 0
+      m_BlockingAttacksDuration: 0
+      m_IsInvincible: 0
+      m_IsImmuneToStunGauge: 0
