@@ -2,14 +2,18 @@
 
 public class PlayerInfoComponent : MonoBehaviour
 {
+    public PlayerInfoConfig m_InfoConfig;
+    public EPalette m_CurrentPalette = EPalette.Default;
+
     private int m_PlayerIndex = -1;
-    private PlayerSettings m_PlayerSettings = null;
+    private PlayerSettings m_Settings = null;
 
     void Awake()
     {
         InitPlayerTags();
         InitPlayerIndex();
         InitPlayerSettings();
+        InitPalette();
 
         GameManager.Instance.RegisterPlayer(gameObject);
     }
@@ -41,7 +45,20 @@ public class PlayerInfoComponent : MonoBehaviour
 
     void InitPlayerSettings()
     {
-        m_PlayerSettings = ScenesConfig.GetPlayerSettings(gameObject);
+        m_Settings = ScenesConfig.GetPlayerSettings(gameObject);
+    }
+
+    void InitPalette()
+    {
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if(spriteRenderer != null)
+        {
+            Material mat = spriteRenderer.material;
+            if(mat != null)
+            {
+                mat.SetTexture("_PaletteTex", m_InfoConfig.m_Palettes[(int)m_CurrentPalette].texture);
+            }
+        }
     }
 
     public int GetPlayerIndex()
@@ -51,6 +68,6 @@ public class PlayerInfoComponent : MonoBehaviour
 
     public PlayerSettings GetPlayerSettings()
     {
-        return m_PlayerSettings;
+        return m_Settings;
     }
 }
