@@ -20,6 +20,7 @@ public class PlayerSettings
     private string m_Name;
 
     [Separator("Attack")]
+    public bool m_AttackEnabled;
     public bool m_SuperGaugeAlwaysFilled;
 
     [Separator("Movement")]

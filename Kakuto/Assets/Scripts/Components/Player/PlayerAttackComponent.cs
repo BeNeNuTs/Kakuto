@@ -105,6 +105,11 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
+        if(!m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
+        {
+            return;
+        }
+
         UpdateTriggerInputsList();
         UpdateTriggerInputsString();
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4954275649339087225}
   m_Layer: 14
   m_Name: Grabbox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 2108314755646108442}
   m_Layer: 10
   m_Name: PushBox02
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 1838544080}
   m_Layer: 11
   m_Name: Hurtbox05
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 7436580204411013188}
   m_Layer: 10
   m_Name: PushBox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 6872168045849260140}
   m_Layer: 11
   m_Name: Hurtbox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 5355964113340573335}
   m_Layer: 11
   m_Name: Hurtbox02
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 2909271646764673180}
   m_Layer: 13
   m_Name: Hitbox02
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -506,7 +506,7 @@ GameObject:
   - component: {fileID: 2767454797925657538}
   m_Layer: 9
   m_Name: GroundBox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,7 +564,7 @@ GameObject:
   - component: {fileID: 3621991013176271123}
   m_Layer: 11
   m_Name: Hurtbox04
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 4657808730088706198}
   m_Layer: 13
   m_Name: Hitbox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 4610003865067841643}
   m_Layer: 12
   m_Name: GrabHurtbox01
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 2965940117716402298}
   m_Layer: 11
   m_Name: Hurtbox03
-  m_TagString: Player1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -906,6 +906,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6641475778176475718, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475777147264860, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -936,6 +941,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6641475777147264861, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_GravityScale
@@ -960,15 +970,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
-      propertyPath: m_DamageTakenParent
-      value: 
-      objectReference: {fileID: 7705063140870539881}
-    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
       propertyPath: m_DamageTakenUIPrefab
       value: 
       objectReference: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
         type: 3}
+    - target: {fileID: 6641475778014050455, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_DamageTakenParent
+      value: 
+      objectReference: {fileID: 7705063140870539881}
     - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size
@@ -990,16 +1000,41 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2722015654465949671, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1598330534609111412, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1598330534609111412, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1132961074550827253, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 893650843566728160, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532469668762550432, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475777147264857, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6dcc606eb915bb249b019aacba5216ea,
+      objectReference: {fileID: 21300000, guid: 831d9d3b39250cc4985a84f9d3f85d0e,
         type: 3}
     - target: {fileID: 6641475777147264857, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
@@ -1022,10 +1057,25 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 6716289924726796138, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 5337721017874791291, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Layer
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337721017874791291, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458480501282629491, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd623bf673cf2346b8230dbde6c4547, type: 3}

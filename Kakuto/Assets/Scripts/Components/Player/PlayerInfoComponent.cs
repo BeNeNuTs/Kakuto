@@ -3,10 +3,11 @@
 public class PlayerInfoComponent : MonoBehaviour
 {
     private int m_PlayerIndex = -1;
-    private PlayerSettings m_PlayerSettings;
+    private PlayerSettings m_PlayerSettings = null;
 
     void Awake()
     {
+        InitPlayerTags();
         InitPlayerIndex();
         InitPlayerSettings();
 
@@ -22,31 +23,34 @@ public class PlayerInfoComponent : MonoBehaviour
         }
     }
 
+    void InitPlayerTags()
+    {
+        string playerTag = transform.root.tag;
+
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
+        foreach (Transform child in allChildren)
+        {
+            child.tag = playerTag;
+        }
+    }
+
     void InitPlayerIndex()
     {
-        if(m_PlayerIndex == -1)
-        {
-            m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
-        }
+        m_PlayerIndex = gameObject.CompareTag(Player.Player1) ? 0 : 1;
     }
 
     void InitPlayerSettings()
     {
-        if(m_PlayerSettings == null)
-        {
-            m_PlayerSettings = ScenesConfig.GetPlayerSettings(gameObject);
-        }
+        m_PlayerSettings = ScenesConfig.GetPlayerSettings(gameObject);
     }
 
     public int GetPlayerIndex()
     {
-        InitPlayerIndex();
         return m_PlayerIndex;
     }
 
     public PlayerSettings GetPlayerSettings()
     {
-        InitPlayerSettings();
         return m_PlayerSettings;
     }
 }

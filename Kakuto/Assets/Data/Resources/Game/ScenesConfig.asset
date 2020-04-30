@@ -16,6 +16,7 @@ MonoBehaviour:
   - m_Scene: TrainingMap
     m_PlayerSettings:
     - m_Name: Player1
+      m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 1
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
@@ -25,6 +26,7 @@ MonoBehaviour:
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     - m_Name: Player2
+      m_AttackEnabled: 0
       m_SuperGaugeAlwaysFilled: 1
       m_IsStatic: 1
       m_DisplayDamageTaken: 1
@@ -36,6 +38,7 @@ MonoBehaviour:
   - m_Scene: 1v1
     m_PlayerSettings:
     - m_Name: Player1
+      m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 0
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
@@ -45,6 +48,7 @@ MonoBehaviour:
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     - m_Name: Player2
+      m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 0
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
