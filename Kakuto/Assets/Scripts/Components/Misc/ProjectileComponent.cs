@@ -37,7 +37,22 @@ public class ProjectileComponent : MonoBehaviour
 
         m_OutOfBoundsSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
 
+        InitPalette();
+
         Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, this);
+    }
+
+    void InitPalette()
+    {
+        GameObject owner = m_Logic.GetOwner();
+        if (owner != null)
+        {
+            PlayerInfoComponent infoComp = owner.GetComponent<PlayerInfoComponent>();
+            if (infoComp != null)
+            {
+                infoComp.InitWithCurrentPalette(m_SpriteRenderer);
+            }
+        }
     }
 
     void Update()

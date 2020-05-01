@@ -51,12 +51,17 @@ public class PlayerInfoComponent : MonoBehaviour
     void InitPalette()
     {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if(spriteRenderer != null)
+        InitWithCurrentPalette(spriteRenderer);
+    }
+
+    public void InitWithCurrentPalette(SpriteRenderer spriteRenderer)
+    {
+        if (spriteRenderer != null)
         {
             Material mat = spriteRenderer.material;
-            if(mat != null)
+            if (mat != null && mat.HasProperty("_PaletteTex"))
             {
-                mat.SetTexture("_PaletteTex", m_InfoConfig.m_Palettes[(int)m_CurrentPalette].texture);
+                mat.SetTexture("_PaletteTex", GetCurrentPalette());
             }
         }
     }
@@ -69,5 +74,10 @@ public class PlayerInfoComponent : MonoBehaviour
     public PlayerSettings GetPlayerSettings()
     {
         return m_Settings;
+    }
+
+    public Texture GetCurrentPalette()
+    {
+        return m_InfoConfig.m_Palettes[(int)m_CurrentPalette].texture;
     }
 }
