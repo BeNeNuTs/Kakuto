@@ -450,49 +450,24 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8515562094821041517, guid: 7d262ccd779fb4a47a06d25a96884107,
+    - target: {fileID: 5630087516398521070, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
-      propertyPath: m_DisplayFPS
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699350366402534097, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8815272188833007668, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_havePropertiesChanged
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3699350364984810468, guid: 7d262ccd779fb4a47a06d25a96884107,
+    - target: {fileID: 5630087516398521070, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_isInputParsingRequired
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3699350365929295167, guid: 7d262ccd779fb4a47a06d25a96884107,
+    - target: {fileID: 2333050518198701927, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_havePropertiesChanged
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3699350366237144339, guid: 7d262ccd779fb4a47a06d25a96884107,
+    - target: {fileID: 2333050518198701927, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8426806149240136517, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699350366521868969, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6896588714574488750, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_isInputParsingRequired
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

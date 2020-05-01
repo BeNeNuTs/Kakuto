@@ -4,16 +4,19 @@ public class AttackTriggerDebugDisplay : MonoBehaviour
 {
     void OnGUI()
     {
-        // Display Trigger : Non Super Projectile Guard Crush for PLAYER 1 ///////////////
-        if (PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(0))
+        if(ScenesConfig.GetDebugSettings().m_DisplayAttackTriggerInfo)
         {
-            DisplayNextNonSuperProjectileGuardCrush(0);
-        }
+            // Display Trigger : Non Super Projectile Guard Crush for PLAYER 1 ///////////////
+            if (PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(0))
+            {
+                DisplayNextNonSuperProjectileGuardCrush(0);
+            }
 
-        // Display Trigger : Non Super Projectile Guard Crush for PLAYER 2 ///////////////
-        if (PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(1))
-        {
-            DisplayNextNonSuperProjectileGuardCrush(1);
+            // Display Trigger : Non Super Projectile Guard Crush for PLAYER 2 ///////////////
+            if (PlayerProjectileAttackLogic.IsNextNonSuperProjectileGuardCrush(1))
+            {
+                DisplayNextNonSuperProjectileGuardCrush(1);
+            }
         }
     }
 

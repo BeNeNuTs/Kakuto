@@ -41,12 +41,33 @@ public class PlayerSettings
 }
 
 [Serializable]
+public class UISettings
+{
+    [Separator("Round")]
+    public bool m_IsTimerEnabled;
+    public bool m_IsCounterEnabled;
+}
+
+[Serializable]
+public class DebugSettings
+{
+    public bool m_DisplayInputsInfo;
+    public bool m_DisplayAttacksInfo;
+    public bool m_DisplayFPS;
+    public bool m_DisplayFrameCounter;
+    public bool m_DisplayAnimationInfo;
+    public bool m_DisplayAttackTriggerInfo;
+}
+
+[Serializable]
 public class SceneSettings
 {
     [Scene]
     public string m_Scene;
 
     public PlayerSettings[] m_PlayerSettings;
+    public UISettings m_UISettings;
+    public DebugSettings m_DebugSettings;
 }
 
 public class ScenesConfig : ScriptableObject
@@ -109,17 +130,53 @@ public class ScenesConfig : ScriptableObject
         return GetPlayerSettings(playerIndex);
     }
 
-    public static PlayerSettings GetPlayerSettings(int playerIndex)
+    public static SceneSettings GetSceneSettings()
     {
         foreach (SceneSettings sceneSettings in Instance.m_SceneSettings)
         {
             if (sceneSettings.m_Scene == SceneManager.GetActiveScene().name)
             {
-                return sceneSettings.m_PlayerSettings[playerIndex];
+                return sceneSettings;
             }
         }
 
+        Debug.LogError("Scene settings not found for the current scene : " + SceneManager.GetActiveScene().name);
+        return null;
+    }
+
+    public static PlayerSettings GetPlayerSettings(int playerIndex)
+    {
+        SceneSettings sceneSettings = GetSceneSettings();
+        if(sceneSettings != null)
+        {
+            return sceneSettings.m_PlayerSettings[playerIndex];
+        }
+
         Debug.LogError("Player settings not found for player " + playerIndex + " in the current scene : " + SceneManager.GetActiveScene().name);
+        return null;
+    }
+
+    public static UISettings GetUISettings()
+    {
+        SceneSettings sceneSettings = GetSceneSettings();
+        if (sceneSettings != null)
+        {
+            return sceneSettings.m_UISettings;
+        }
+
+        Debug.LogError("UI settings not found in the current scene : " + SceneManager.GetActiveScene().name);
+        return null;
+    }
+
+    public static DebugSettings GetDebugSettings()
+    {
+        SceneSettings sceneSettings = GetSceneSettings();
+        if (sceneSettings != null)
+        {
+            return sceneSettings.m_DebugSettings;
+        }
+
+        Debug.LogError("UI settings not found in the current scene : " + SceneManager.GetActiveScene().name);
         return null;
     }
 }

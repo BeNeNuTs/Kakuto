@@ -35,6 +35,16 @@ MonoBehaviour:
       m_BlockingAttacksDuration: 1
       m_IsInvincible: 1
       m_IsImmuneToStunGauge: 1
+    m_UISettings:
+      m_IsTimerEnabled: 0
+      m_IsCounterEnabled: 0
+    m_DebugSettings:
+      m_DisplayInputsInfo: 1
+      m_DisplayAttacksInfo: 1
+      m_DisplayFPS: 1
+      m_DisplayFrameCounter: 1
+      m_DisplayAnimationInfo: 1
+      m_DisplayAttackTriggerInfo: 1
   - m_Scene: 1v1
     m_PlayerSettings:
     - m_Name: Player1
@@ -57,3 +67,13 @@ MonoBehaviour:
       m_BlockingAttacksDuration: 0
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
+    m_UISettings:
+      m_IsTimerEnabled: 1
+      m_IsCounterEnabled: 1
+    m_DebugSettings:
+      m_DisplayInputsInfo: 0
+      m_DisplayAttacksInfo: 0
+      m_DisplayFPS: 0
+      m_DisplayFrameCounter: 1
+      m_DisplayAnimationInfo: 0
+      m_DisplayAttackTriggerInfo: 0

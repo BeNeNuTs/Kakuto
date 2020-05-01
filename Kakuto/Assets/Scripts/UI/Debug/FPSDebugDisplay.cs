@@ -2,8 +2,6 @@
 
 public class FPSDebugDisplay : MonoBehaviour
 {
-    public bool m_DisplayFPS = false;
-
     float m_DeltaTime = 0.0f;
 
     void Update()
@@ -13,10 +11,10 @@ public class FPSDebugDisplay : MonoBehaviour
 
     void OnGUI()
     {
-        if(m_DisplayFPS)
-        {
-            int w = Screen.width, h = Screen.height;
+        int w = Screen.width, h = Screen.height;
 
+        if (ScenesConfig.GetDebugSettings().m_DisplayFPS)
+        {
             // Display FPS ///////////////
             {
                 GUIStyle style = new GUIStyle
@@ -31,7 +29,10 @@ public class FPSDebugDisplay : MonoBehaviour
                 GUI.Label(new Rect(0, 0, w, style.fontSize), text, style);
             }
             //////////////////////////////
+        }
 
+        if (ScenesConfig.GetDebugSettings().m_DisplayFrameCounter)
+        {
             // Display Frame Counter /////
             {
                 GUIStyle style = new GUIStyle

@@ -5,9 +5,6 @@ using TMPro;
 
 public class RoundComponent : MonoBehaviour
 {
-    public bool m_IsTimerEnabled = true;
-    public bool m_IsCounterEnabled = true;
-
     public TextMeshProUGUI m_TimerText;
     public TextMeshProUGUI m_CounterText;
 
@@ -29,12 +26,15 @@ public class RoundComponent : MonoBehaviour
 
     void UpdateCounterText()
     {
-        m_CounterText.SetText(m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player1) + " - " + m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player2));
+        if(ScenesConfig.GetUISettings().m_IsCounterEnabled)
+        {
+            m_CounterText.SetText(m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player1) + " - " + m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player2));
+        }
     }
 
     void Update()
     {
-        if(m_IsTimerEnabled && !m_RoundSubGameManager.IsRoundOver())
+        if(ScenesConfig.GetUISettings().m_IsTimerEnabled && !m_RoundSubGameManager.IsRoundOver())
         {
             m_RemaningTime = (uint)Mathf.Max(0f, GameConfig.Instance.m_RoundDuration - (Time.unscaledTime - m_InitTimestamp));
             m_TimerText.SetText(m_RemaningTime.ToString());

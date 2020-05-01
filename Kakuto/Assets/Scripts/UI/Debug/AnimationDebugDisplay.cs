@@ -2,8 +2,6 @@
 
 public class AnimationDebugDisplay : MonoBehaviour
 {
-    public bool m_DisplayAnimationDebug = false;
-
     private Animator m_Player1Animator;
     private Animator m_Player2Animator;
 
@@ -56,7 +54,7 @@ public class AnimationDebugDisplay : MonoBehaviour
 
     void OnGUI()
     {
-        if (m_DisplayAnimationDebug)
+        if (ScenesConfig.GetDebugSettings().m_DisplayAnimationInfo)
         {
             int w = Screen.width, h = Screen.height;
 

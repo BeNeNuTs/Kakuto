@@ -8,8 +8,11 @@ public class TrainingMapDisplay : MonoBehaviour
     public EPlayer m_Target;
 
     //Training display
+    public Text m_TextInputs;
     public Text m_TextToDisplayInputs;
+    public Text m_TextInputsAttack;
     public Text m_TextToDisplayInputsAttack;
+    public Text m_TextAttacks;
     public Text m_TextToDisplayAttacks;
     private float m_DislayAttacksTimeStamp;
     private static readonly float s_DisplayAttacksTime = 2.0f;
@@ -32,9 +35,23 @@ public class TrainingMapDisplay : MonoBehaviour
 
     void LateUpdate()
     {
-        //Training display
-        DisplayInputs();
-        DisplayAttack();
+        bool displayInputsInfo = ScenesConfig.GetDebugSettings().m_DisplayInputsInfo;
+        m_TextInputs.enabled = displayInputsInfo;
+        m_TextToDisplayInputs.enabled = displayInputsInfo;
+        m_TextInputsAttack.enabled = displayInputsInfo;
+        m_TextToDisplayInputsAttack.enabled = displayInputsInfo;
+        if (displayInputsInfo)
+        {
+            DisplayInputs();
+        }
+
+        bool displayAttacksInfo = ScenesConfig.GetDebugSettings().m_DisplayAttacksInfo;
+        m_TextAttacks.enabled = displayAttacksInfo;
+        m_TextToDisplayAttacks.enabled = displayAttacksInfo;
+        if (displayAttacksInfo)
+        {
+            DisplayAttack();
+        }
     }
 
     void DisplayInputs()

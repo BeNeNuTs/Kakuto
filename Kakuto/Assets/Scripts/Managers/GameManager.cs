@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
     private Dictionary<ESubManager, SubGameManagerBase> m_SubManagers;
 
     private List<GameObject> m_Players = new List<GameObject>();
+
+    private static event UnityAction<GameObject> OnPlayer1Registered;
+    private static event UnityAction<GameObject> OnPlayer2Registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
@@ -49,7 +53,7 @@ public class GameManager : Singleton<GameManager>
 
     private void InitSubManagers()
     {
-        foreach(SubGameManagerBase subManager in m_SubManagers.Values)
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
         {
             subManager.Init();
         }
@@ -70,11 +74,18 @@ public class GameManager : Singleton<GameManager>
 
     public void RegisterPlayer(GameObject player)
     {
+        if(!player.CompareTag(Player.Player1) && !player.CompareTag(Player.Player2))
+        {
+            Debug.LogError("GameManager::RegisterPlayer - Trying to register an invalid player " + player);
+            return;
+        }
+
         m_Players.Add(player);
         foreach (SubGameManagerBase subManager in m_SubManagers.Values)
         {
             subManager.OnPlayerRegistered(player);
         }
+        GetOnPlayerRegisteredCallback(player.tag)?.Invoke(player);
     }
 
     public List<GameObject> GetPlayers()
@@ -90,7 +101,7 @@ public class GameManager : Singleton<GameManager>
     public T GetPlayerComponent<T>(EPlayer player) where T : Behaviour
     {
         GameObject playerGO = m_Players.Find(p => p.tag == player.ToString());
-        if(playerGO)
+        if (playerGO)
         {
             return playerGO.GetComponentInChildren<T>();
         }
@@ -99,10 +110,49 @@ public class GameManager : Singleton<GameManager>
 
     public void UnregisterPlayer(GameObject player)
     {
+        if (!player.CompareTag(Player.Player1) && !player.CompareTag(Player.Player2))
+        {
+            Debug.LogError("GameManager::UnregisterPlayer - Trying to unregister an invalid player " + player);
+            return;
+        }
+
         m_Players.Remove(player);
         foreach (SubGameManagerBase subManager in m_SubManagers.Values)
         {
             subManager.OnPlayerUnregistered(player);
+        }
+    }
+
+    public void AddOnPlayerRegisteredCallback(UnityAction<GameObject> method, EPlayer player)
+    {
+        GetOnPlayerRegisteredCallback(player) += method;
+
+        GameObject playerGO = GetPlayer(player);
+        if (playerGO != null)
+        {
+            method?.Invoke(playerGO);
+        }
+    }
+
+    public void RemoveOnPlayerRegisteredCallback(UnityAction<GameObject> method, EPlayer player)
+    {
+        GetOnPlayerRegisteredCallback(player) -= method;
+    }
+
+    private ref UnityAction<GameObject> GetOnPlayerRegisteredCallback(EPlayer player)
+    {
+        return ref GetOnPlayerRegisteredCallback(player.ToString());
+    }
+
+    private ref UnityAction<GameObject> GetOnPlayerRegisteredCallback(string playerTag)
+    {
+        if (playerTag.CompareTo(Player.Player1) == 0)
+        {
+            return ref OnPlayer1Registered;
+        }
+        else
+        {
+            return ref OnPlayer2Registered;
         }
     }
 }
