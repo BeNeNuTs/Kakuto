@@ -15,6 +15,7 @@ public enum EPalette
 public class PlayerInfoConfig : ScriptableObject
 {
     public string m_PlayerName = "Player";
+    public Sprite m_PlayerIcon;
 
     public List<Sprite> m_Palettes;
 

@@ -19,7 +19,7 @@ public class FPSDebugDisplay : MonoBehaviour
             {
                 GUIStyle style = new GUIStyle
                 {
-                    alignment = TextAnchor.UpperLeft,
+                    alignment = TextAnchor.UpperCenter,
                     fontSize = h * 2 / 100
                 };
                 style.normal.textColor = new Color(0.0f, 0.0f, 0.5f, 1.0f);

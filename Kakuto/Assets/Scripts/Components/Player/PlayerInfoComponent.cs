@@ -51,18 +51,17 @@ public class PlayerInfoComponent : MonoBehaviour
     void InitPalette()
     {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        InitWithCurrentPalette(spriteRenderer);
+        if(spriteRenderer != null)
+        {
+            InitWithCurrentPalette(spriteRenderer.material);
+        }
     }
 
-    public void InitWithCurrentPalette(SpriteRenderer spriteRenderer)
+    public void InitWithCurrentPalette(Material material)
     {
-        if (spriteRenderer != null)
+        if (material != null && material.HasProperty("_PaletteTex"))
         {
-            Material mat = spriteRenderer.material;
-            if (mat != null && mat.HasProperty("_PaletteTex"))
-            {
-                mat.SetTexture("_PaletteTex", GetCurrentPalette());
-            }
+            material.SetTexture("_PaletteTex", GetCurrentPalette());
         }
     }
 

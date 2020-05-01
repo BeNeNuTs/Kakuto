@@ -50,7 +50,7 @@ public class ProjectileComponent : MonoBehaviour
             PlayerInfoComponent infoComp = owner.GetComponent<PlayerInfoComponent>();
             if (infoComp != null)
             {
-                infoComp.InitWithCurrentPalette(m_SpriteRenderer);
+                infoComp.InitWithCurrentPalette(m_SpriteRenderer.material);
             }
         }
     }

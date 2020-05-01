@@ -11,6 +11,7 @@ public class HealthBarComponent : MonoBehaviour
     public Image m_HealthBar;
 
     public TextMeshProUGUI m_PlayerName;
+    public Image m_PlayerIcon;
 
     private void Awake()
     {
@@ -30,6 +31,11 @@ public class HealthBarComponent : MonoBehaviour
         if(infoComponent != null)
         {
             m_PlayerName.SetText(infoComponent.m_InfoConfig.m_PlayerName);
+            m_PlayerIcon.sprite = infoComponent.m_InfoConfig.m_PlayerIcon;
+
+            Material instianciatedMaterial = Instantiate(m_PlayerIcon.material); // By default Image material is shared...
+            infoComponent.InitWithCurrentPalette(instianciatedMaterial);
+            m_PlayerIcon.material = instianciatedMaterial;
         }
     }
 
