@@ -15,3 +15,4 @@ MonoBehaviour:
   m_PlayerName: Malik
   m_Palettes:
   - {fileID: 21300000, guid: e45c2d8632681aa4bb722687f6a6cf9a, type: 3}
+  - {fileID: 21300000, guid: d71ed3ce1f138004ba36c32ded0fd062, type: 3}
