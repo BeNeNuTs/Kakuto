@@ -34,7 +34,7 @@ MonoBehaviour:
       m_IsBlockingAllAttacksAfterHitStun: 1
       m_BlockingAttacksDuration: 1
       m_IsInvincible: 1
-      m_IsImmuneToStunGauge: 1
+      m_IsImmuneToStunGauge: 0
     m_UISettings:
       m_IsTimerEnabled: 0
       m_IsCounterEnabled: 0
