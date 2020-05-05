@@ -101,10 +101,10 @@ MonoBehaviour:
         m_InputKey: 10
     m_BlockMovement: 1
     m_UseTimeScaleEffect: 1
-    m_TimeScaleParams: {fileID: 11400000, guid: e3516fda8dee08c4fa9427f5a4018eef,
+    m_TimeScaleParams: {fileID: 11400000, guid: 8bba7c0a636dbb54791f86b46efa91f3,
       type: 2}
     m_UseCameraShakeEffect: 1
-    m_CameraShakeParams: {fileID: 11400000, guid: c5fc81eae7480d94f8adf15c6bbf6d78,
+    m_CameraShakeParams: {fileID: 11400000, guid: 08811b0ac26e8ec449d8cca9d6dd01e4,
       type: 2}
     m_AttackConfig: {fileID: 11400000, guid: 209a2d42736cd8f4ab390f4beeade51e, type: 2}
   - m_Name: Hadoground
@@ -295,41 +295,7 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeParams: {fileID: 0}
     m_AttackConfig: {fileID: 11400000, guid: 5aa56e3c9abcd0942824b1ef5c94362d, type: 2}
-  - m_Name: trigger
-    m_Description: 
-    m_AnimationAttackName: 19
-    m_NeededStanceList: 00000000
-    m_UseDefaultStance: 1
-    m_DefaultStance: 0
-    m_IsASuper: 0
-    m_HasCondition: 0
-    m_SuperGaugeAmountNeeded: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - standHP + standHK
-    - standHK + standHP
-    m_ComputedInputStringList:
-    - XA
-    - AX
-    m_ComputedGameInputList:
-    - m_GameInputList:
-      - m_InputString: X
-        m_InputKey: 10
-      - m_InputString: A
-        m_InputKey: 8
-    - m_GameInputList:
-      - m_InputString: A
-        m_InputKey: 8
-      - m_InputString: X
-        m_InputKey: 10
-    m_BlockMovement: 1
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleParams: {fileID: 0}
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeParams: {fileID: 0}
-    m_AttackConfig: {fileID: 11400000, guid: 8af8436137482924083c6865c4868229, type: 2}
-  - m_Name: dashforward
+  - m_Name: dashbackward
     m_Description: 
     m_AnimationAttackName: 14
     m_NeededStanceList: 00000000
@@ -341,51 +307,21 @@ MonoBehaviour:
     m_HasAttackRequirement: 0
     m_AttackRequired: 
     m_InputStringList:
-    - "\u2192\u2192"
+    - "\u2190\u2190"
     m_ComputedInputStringList:
-    - "\u2192\u2192"
+    - "\u2190\u2190"
     m_ComputedGameInputList:
     - m_GameInputList:
-      - m_InputString: "\u2192"
-        m_InputKey: 2
-      - m_InputString: "\u2192"
-        m_InputKey: 2
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: "\u2190"
+        m_InputKey: 6
     m_BlockMovement: 1
     m_UseTimeScaleEffect: 0
     m_TimeScaleParams: {fileID: 0}
     m_UseCameraShakeEffect: 0
     m_CameraShakeParams: {fileID: 0}
-    m_AttackConfig: {fileID: 11400000, guid: 315885cabd2e5c442bf5b6a460bd370e, type: 2}
-  - m_Name: parry
-    m_Description: 
-    m_AnimationAttackName: 13
-    m_NeededStanceList: 0000000001000000
-    m_UseDefaultStance: 1
-    m_DefaultStance: 0
-    m_IsASuper: 0
-    m_HasCondition: 0
-    m_SuperGaugeAmountNeeded: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - RB
-    - LB
-    m_ComputedInputStringList:
-    - RB
-    - LB
-    m_ComputedGameInputList:
-    - m_GameInputList:
-      - m_InputString: RB
-        m_InputKey: 12
-    - m_GameInputList:
-      - m_InputString: LB
-        m_InputKey: 13
-    m_BlockMovement: 1
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleParams: {fileID: 0}
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeParams: {fileID: 0}
-    m_AttackConfig: {fileID: 11400000, guid: 38a85c39450f5f243a86996a7c185959, type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 6f99922f0aee11d42806c944722fa979, type: 2}
   - m_Name: Grab Front Throw
     m_Description: 
     m_AnimationAttackName: 12
@@ -420,33 +356,6 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeParams: {fileID: 0}
     m_AttackConfig: {fileID: 11400000, guid: fc9fad10039d39e4782010ef233a0b36, type: 2}
-  - m_Name: dashbackward
-    m_Description: 
-    m_AnimationAttackName: 14
-    m_NeededStanceList: 00000000
-    m_UseDefaultStance: 1
-    m_DefaultStance: 0
-    m_IsASuper: 0
-    m_HasCondition: 0
-    m_SuperGaugeAmountNeeded: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - "\u2190\u2190"
-    m_ComputedInputStringList:
-    - "\u2190\u2190"
-    m_ComputedGameInputList:
-    - m_GameInputList:
-      - m_InputString: "\u2190"
-        m_InputKey: 6
-      - m_InputString: "\u2190"
-        m_InputKey: 6
-    m_BlockMovement: 1
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleParams: {fileID: 0}
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeParams: {fileID: 0}
-    m_AttackConfig: {fileID: 11400000, guid: 6f99922f0aee11d42806c944722fa979, type: 2}
   - m_Name: teleport
     m_Description: 
     m_AnimationAttackName: 18
@@ -495,6 +404,122 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeParams: {fileID: 0}
     m_AttackConfig: {fileID: 11400000, guid: ac2774042432eec47a308b407d8dc9fc, type: 2}
+  - m_Name: dashforward
+    m_Description: 
+    m_AnimationAttackName: 14
+    m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_SuperGaugeAmountNeeded: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - "\u2192\u2192"
+    m_ComputedInputStringList:
+    - "\u2192\u2192"
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleParams: {fileID: 0}
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeParams: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: 315885cabd2e5c442bf5b6a460bd370e, type: 2}
+  - m_Name: trigger
+    m_Description: 
+    m_AnimationAttackName: 19
+    m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_SuperGaugeAmountNeeded: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - standHP + standHK
+    - standHK + standHP
+    m_ComputedInputStringList:
+    - XA
+    - AX
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: X
+        m_InputKey: 10
+      - m_InputString: A
+        m_InputKey: 8
+    - m_GameInputList:
+      - m_InputString: A
+        m_InputKey: 8
+      - m_InputString: X
+        m_InputKey: 10
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleParams: {fileID: 0}
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeParams: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: 8af8436137482924083c6865c4868229, type: 2}
+  - m_Name: parry
+    m_Description: 
+    m_AnimationAttackName: 13
+    m_NeededStanceList: 0000000001000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_SuperGaugeAmountNeeded: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - RB
+    - LB
+    m_ComputedInputStringList:
+    - RB
+    - LB
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: RB
+        m_InputKey: 12
+    - m_GameInputList:
+      - m_InputString: LB
+        m_InputKey: 13
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleParams: {fileID: 0}
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeParams: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: 38a85c39450f5f243a86996a7c185959, type: 2}
+  - m_Name: standLK
+    m_Description: 
+    m_AnimationAttackName: 2
+    m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 0
+    m_HasCondition: 0
+    m_SuperGaugeAmountNeeded: 0
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 
+    m_InputStringList:
+    - B
+    m_ComputedInputStringList:
+    - B
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: B
+        m_InputKey: 9
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 0
+    m_TimeScaleParams: {fileID: 0}
+    m_UseCameraShakeEffect: 0
+    m_CameraShakeParams: {fileID: 0}
+    m_AttackConfig: {fileID: 11400000, guid: 0fa338721108e6142bf6d48cb397d687, type: 2}
   - m_Name: jumpHK
     m_Description: 
     m_AnimationAttackName: 11
@@ -755,31 +780,6 @@ MonoBehaviour:
     m_UseCameraShakeEffect: 0
     m_CameraShakeParams: {fileID: 0}
     m_AttackConfig: {fileID: 11400000, guid: 776b9f9c04e1b9c428dabc8bfefac08c, type: 2}
-  - m_Name: standLK
-    m_Description: 
-    m_AnimationAttackName: 2
-    m_NeededStanceList: 00000000
-    m_UseDefaultStance: 1
-    m_DefaultStance: 0
-    m_IsASuper: 0
-    m_HasCondition: 0
-    m_SuperGaugeAmountNeeded: 0
-    m_HasAttackRequirement: 0
-    m_AttackRequired: 
-    m_InputStringList:
-    - B
-    m_ComputedInputStringList:
-    - B
-    m_ComputedGameInputList:
-    - m_GameInputList:
-      - m_InputString: B
-        m_InputKey: 9
-    m_BlockMovement: 1
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleParams: {fileID: 0}
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeParams: {fileID: 0}
-    m_AttackConfig: {fileID: 11400000, guid: 0fa338721108e6142bf6d48cb397d687, type: 2}
   - m_Name: jumpHP
     m_Description: 
     m_AnimationAttackName: 9
