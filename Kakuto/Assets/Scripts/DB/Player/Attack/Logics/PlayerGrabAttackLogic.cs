@@ -1,21 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public struct GrabbedInfo
-{
-    PlayerBaseAttackLogic m_AttackLogic;
-    Transform m_GrabHook;
-
-    public GrabbedInfo(PlayerBaseAttackLogic attackLogic, Transform grabHook)
-    {
-        m_AttackLogic = attackLogic;
-        m_GrabHook = grabHook;
-    }
-
-    public PlayerBaseAttackLogic GetAttackLogic() { return m_AttackLogic; }
-    public Vector3 GetGrabHookPosition() { return m_GrabHook.position; }
-}
+﻿using UnityEngine;
 
 public enum EGrabPhase
 {
@@ -24,7 +7,6 @@ public enum EGrabPhase
     Missed, 
     Blocked
 }
-
 
 public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 {
@@ -74,6 +56,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StartListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
+        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
     }
 
     protected override string GetAnimationAttackName()
@@ -116,6 +99,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(m_Owner).StopListening(EPlayerEvent.GrabBlocked, OnGrabBlocked);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.EndOfGrab, OnEndOfGrab);
         Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.ApplyGrabDamages, OnApplyGrabDamages);
+        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
 
         m_GrabTouchedEnemy = false;
         m_LastGrabTouchedFrameCount = 0;
@@ -167,10 +151,10 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
                 m_GrabPhase = EGrabPhase.Grabbed;
 
                 Utils.IgnorePushBoxLayerCollision();
+                OnSyncGrabPosition();
 
                 //Launch grabbed event
-                GrabbedInfo grabbedInfo = new GrabbedInfo(this, m_GrabHook);
-                Utils.GetEnemyEventManager<GrabbedInfo>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, grabbedInfo);
+                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Grabbed, this);
             }
         }
     }
@@ -184,5 +168,21 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
             //Launch hit event
             Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
         }
+    }
+
+    void OnSyncGrabPosition(bool syncGrab = true)
+    {
+        // If GrabHook is out of bounds
+        float grabHookDistanceOutOfBorder = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds).GetDistanceOutOfBorder(m_GrabHook.position);
+        if (grabHookDistanceOutOfBorder < 0f || grabHookDistanceOutOfBorder > 0f)
+        {
+            //We need to move back the attacker in order to sync the grab attack position
+            Vector3 ownerPosition = m_Owner.transform.root.position;
+            ownerPosition.x -= grabHookDistanceOutOfBorder;
+            m_Owner.transform.root.position = ownerPosition;
+        }
+
+        // Send event to the enemy
+        Utils.GetEnemyEventManager<Transform>(m_Owner).TriggerEvent(EPlayerEvent.SyncGrabPosition, m_GrabHook);
     }
 }

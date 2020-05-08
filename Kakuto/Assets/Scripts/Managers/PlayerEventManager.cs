@@ -51,6 +51,9 @@ public enum EPlayerEvent
     GrabTouched,
     GrabBlocked,
     Grabbed,
+
+    // For both
+    SyncGrabPosition
 }
 
 public class Player1EventManager<T> : PlayerEventManager<T>

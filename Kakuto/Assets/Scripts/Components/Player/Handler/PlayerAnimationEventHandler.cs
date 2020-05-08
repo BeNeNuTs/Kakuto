@@ -136,4 +136,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
             Debug.LogError("Animator component not found");
         }
     }
+
+    public void SyncGrabPosition()
+    {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Sync grab position");
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.SyncGrabPosition, true);
+    }
 }

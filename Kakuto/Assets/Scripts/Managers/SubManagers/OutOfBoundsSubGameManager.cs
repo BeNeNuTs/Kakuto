@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class OutOfBoundsSubGameManager : SubGameManagerBase
@@ -30,9 +28,9 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
 
         foreach (GameObject player in GameManager.Instance.GetPlayers())
         {
-            Vector3 playerScreenPos = m_MainCamera.WorldToScreenPoint(player.transform.root.position);
-            playerScreenPos.x = Mathf.Clamp(playerScreenPos.x, GetLeftBorderOffset(), GetRightBorderOffset());
-            player.transform.root.position = m_MainCamera.ScreenToWorldPoint(playerScreenPos);
+            Vector3 playerPos = player.transform.root.position;
+            playerPos.x = Mathf.Clamp(playerPos.x, GetLeftBorderOffset(), GetRightBorderOffset());
+            player.transform.root.position = playerPos;
         }
     }
 
@@ -42,24 +40,46 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
         return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
     }
 
+    public float GetDistanceOutOfBorder(Vector3 position)
+    {
+        float distanceOutOfLeftCorner = position.x - GetLeftBorderOffset();
+        if(distanceOutOfLeftCorner < 0f)
+        {
+            return distanceOutOfLeftCorner;
+        }
+
+        float distanceToRightCorner = position.x - GetRightBorderOffset();
+        if (distanceToRightCorner > 0f)
+        {
+            return distanceToRightCorner;
+        }
+
+        return 0f;
+    }
+
     public bool IsInACorner(GameObject gameObject)
     {
-        Vector3 gameObjectScreenPos = m_MainCamera.WorldToScreenPoint(gameObject.transform.root.position);
-
-        float distanceToLeftCorner = Mathf.Abs(gameObjectScreenPos.x - GetLeftBorderOffset());
-        float distanceToRightCorner = Mathf.Abs(gameObjectScreenPos.x - GetRightBorderOffset());
+        float distanceToClosestBorder = GetDistanceToClosestBorder(gameObject.transform.root.position);
 
         float maxDistanceToCorner = GameConfig.Instance.m_MaxDistanceToBeConsideredInACorner;
-        return (distanceToLeftCorner < maxDistanceToCorner || distanceToRightCorner < maxDistanceToCorner);
+        return distanceToClosestBorder < maxDistanceToCorner;
+    }
+
+    private float GetDistanceToClosestBorder(Vector3 position)
+    {
+        float distanceToLeftCorner = position.x - GetLeftBorderOffset();
+        float distanceToRightCorner = GetRightBorderOffset() - position.x;
+
+        return Mathf.Min(distanceToLeftCorner, distanceToRightCorner);
     }
 
     private float GetLeftBorderOffset()
     {
-        return GameConfig.Instance.m_BoundsOffset;
+        return m_MainCamera.ScreenToWorldPoint(Vector3.zero).x + GameConfig.Instance.m_BoundsOffset;
     }
 
     private float GetRightBorderOffset()
     {
-        return m_MainCamera.pixelWidth - GameConfig.Instance.m_BoundsOffset;
+        return m_MainCamera.ScreenToWorldPoint(new Vector3(m_MainCamera.pixelWidth, 0f)).x - GameConfig.Instance.m_BoundsOffset;
     }
 }

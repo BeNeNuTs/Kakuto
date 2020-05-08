@@ -63,7 +63,8 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<Transform>(gameObject).StartListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -77,7 +78,8 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<GrabbedInfo>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager<Transform>(gameObject).StopListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -169,18 +171,27 @@ public class PlayerHealthComponent : MonoBehaviour
         return isGrabAttacker;
     }
 
-    void OnGrabbed(GrabbedInfo grabbedInfo)
+    void OnSyncGrabPosition(Transform grabHook)
     {
         if (IsDead())
         {
             return;
         }
 
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + grabbedInfo.GetAttackLogic().GetAttack().m_Name);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On sync grab position");
+        transform.position = grabHook.position;
+    }
 
-        transform.position = grabbedInfo.GetGrabHookPosition();
-        m_StunInfoSC.StartStun(grabbedInfo.GetAttackLogic(), EAttackResult.Hit);
-        PlayHitAnimation(grabbedInfo.GetAttackLogic());
+    void OnGrabbed(PlayerBaseAttackLogic attackLogic)
+    {
+        if (IsDead())
+        {
+            return;
+        }
+
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + attackLogic.GetAttack().m_Name);
+        m_StunInfoSC.StartStun(attackLogic, EAttackResult.Hit);
+        PlayHitAnimation(attackLogic);
     }
 
     void OnHit(PlayerBaseAttackLogic attackLogic)

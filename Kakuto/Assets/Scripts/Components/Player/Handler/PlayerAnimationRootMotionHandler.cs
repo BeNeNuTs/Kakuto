@@ -77,12 +77,31 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
 
     private bool CanUpdate()
     {
+        IsSelected();
 #if UNITY_EDITOR
-        return (AnimationMode.InAnimationMode() && Selection.activeGameObject == gameObject) || Application.isPlaying;
+        return (AnimationMode.InAnimationMode() && IsSelected()) || Application.isPlaying;
 #else
         return true;
 #endif
     }
+
+#if UNITY_EDITOR
+    private bool IsSelected()
+    {
+        GameObject selectedGO = Selection.activeGameObject;
+        if(selectedGO != null)
+        {
+            if (selectedGO == gameObject)
+            {
+                return true;
+            }
+
+            return selectedGO.transform.IsChildOf(gameObject.transform);
+        }
+
+        return false;
+    }
+#endif
 
     private void UpdateRootPosition()
     {
