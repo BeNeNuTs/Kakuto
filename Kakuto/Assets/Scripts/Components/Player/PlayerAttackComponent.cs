@@ -87,6 +87,9 @@ public class PlayerAttackComponent : MonoBehaviour
             }
         }
         m_AttackLogics.Clear();
+
+        m_SuperGaugeSC.OnDestroy();
+        m_ComboCounterSC.OnDestroy();
     }
 
     void UnregisterListeners()

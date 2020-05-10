@@ -13,8 +13,9 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
         Utils.GetEnemyEventManager<bool>(owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }
 
-    ~PlayerComboCounterSubComponent()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
         Utils.GetEnemyEventManager<bool>(m_Owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }

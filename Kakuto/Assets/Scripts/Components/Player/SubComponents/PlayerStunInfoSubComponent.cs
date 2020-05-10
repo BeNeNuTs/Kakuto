@@ -80,8 +80,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
     }
 
-    ~PlayerStunInfoSubComponent()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
     }
 

@@ -72,6 +72,7 @@ public class PlayerHealthComponent : MonoBehaviour
     void OnDestroy()
     {
         UnregisterListeners();
+        m_StunInfoSC.OnDestroy();
     }
 
     void UnregisterListeners()

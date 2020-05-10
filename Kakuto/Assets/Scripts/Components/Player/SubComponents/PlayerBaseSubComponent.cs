@@ -8,4 +8,6 @@ public class PlayerBaseSubComponent
     {
         m_Owner = owner;
     }
+
+    public virtual void OnDestroy() { }
 }
