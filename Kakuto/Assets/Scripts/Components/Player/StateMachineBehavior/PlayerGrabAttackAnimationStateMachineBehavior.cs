@@ -28,7 +28,8 @@ public class PlayerGrabAttackAnimationStateMachineBehavior : StateMachineBehavio
         }
 
         //If the next clip to play is not a throw animation, then this is the end of the grab
-        if (clipInfoList[0].clip.name.ToLower().Contains("throw") == false)
+        string lowerClipName = clipInfoList[0].clip.name.ToLower();
+        if (!lowerClipName.Contains(PlayerAnimationHelper.K_GRAB_MISS_ANIM_STANDARD_NAME) && !lowerClipName.Contains(PlayerAnimationHelper.K_GRAB_CANCEL_ANIM_STANDARD_NAME))
         {
             Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, EAnimationAttackName.Grab);
         }

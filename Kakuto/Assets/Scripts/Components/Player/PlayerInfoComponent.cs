@@ -16,6 +16,10 @@ public class PlayerInfoComponent : MonoBehaviour
         InitPalette();
 
         GameManager.Instance.RegisterPlayer(gameObject);
+
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        PlayerAnimationHelper.CheckAnimationsNaming(gameObject);
+#endif
     }
 
     void OnDestroy()
