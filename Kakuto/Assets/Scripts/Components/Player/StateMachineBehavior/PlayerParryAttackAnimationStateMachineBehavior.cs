@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehaviour
 {
@@ -27,8 +25,9 @@ public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehavi
             return;
         }
 
-        //If the next clip to play is not a throw animation, then this is the end of the grab
-        if (clipInfoList[0].clip.name.ToLower().Contains("parry") == false)
+        //If the next clip to play is not a parry animation, then this is the end of the parry
+        string lowerClipName = clipInfoList[0].clip.name.ToLower();
+        if (!lowerClipName.Contains(PlayerAnimationHelper.K_PARRY_SUCCESS_ANIM_STANDARD_NAME))
         {
             Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, EAnimationAttackName.Parry);
         }

@@ -9,6 +9,9 @@ public static class PlayerAnimationHelper
     public static readonly string K_GRAB_CANCEL_ANIM_ORIGINAL_NAME = "Grab_Cancelled";
     public static readonly string K_GRAB_CANCEL_ANIM_STANDARD_NAME = "throwtechreceive";
 
+    public static readonly string K_PARRY_SUCCESS_ANIM_ORIGINAL_NAME = "ParryCounterAttack";
+    public static readonly string K_PARRY_SUCCESS_ANIM_STANDARD_NAME = "parry_success";
+
     public static void CheckAnimationsNaming(GameObject gameObject)
     {
         Animator anim = gameObject.GetComponentInChildren<Animator>();
@@ -17,7 +20,8 @@ public static class PlayerAnimationHelper
             Dictionary<string, string> listOfAnimtionsToFind = new Dictionary<string, string>
             {
                 { K_GRAB_MISS_ANIM_ORIGINAL_NAME, K_GRAB_MISS_ANIM_STANDARD_NAME },
-                { K_GRAB_CANCEL_ANIM_ORIGINAL_NAME, K_GRAB_CANCEL_ANIM_STANDARD_NAME }
+                { K_GRAB_CANCEL_ANIM_ORIGINAL_NAME, K_GRAB_CANCEL_ANIM_STANDARD_NAME },
+                { K_PARRY_SUCCESS_ANIM_ORIGINAL_NAME, K_PARRY_SUCCESS_ANIM_STANDARD_NAME }
             };
 
             AnimatorOverrideController overrideController = anim.runtimeAnimatorController as AnimatorOverrideController;
