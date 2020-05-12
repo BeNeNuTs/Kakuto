@@ -45,6 +45,7 @@ MonoBehaviour:
       m_DisplayFrameCounter: 1
       m_DisplayAnimationInfo: 1
       m_DisplayAttackTriggerInfo: 1
+      m_DisplayGamepadInfo: 1
   - m_Scene: 1v1
     m_PlayerSettings:
     - m_Name: Player1
@@ -77,3 +78,4 @@ MonoBehaviour:
       m_DisplayFrameCounter: 1
       m_DisplayAnimationInfo: 0
       m_DisplayAttackTriggerInfo: 0
+      m_DisplayGamepadInfo: 0

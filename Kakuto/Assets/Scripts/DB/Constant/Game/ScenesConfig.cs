@@ -57,6 +57,7 @@ public class DebugSettings
     public bool m_DisplayFrameCounter;
     public bool m_DisplayAnimationInfo;
     public bool m_DisplayAttackTriggerInfo;
+    public bool m_DisplayGamepadInfo;
 }
 
 [Serializable]

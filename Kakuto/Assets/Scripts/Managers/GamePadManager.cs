@@ -131,6 +131,11 @@ public static class GamePadManager
         return gamepadsConnectedState;
     }
 
+    public static int GetJoystickNum(int playerIndex)
+    {
+        return m_PlayerGamePads[playerIndex].GetJoystickNum();
+    }
+
     private static void Update(int playerIndex)
     {
         if (m_PlayerGamePads[playerIndex].NeedUpdate())
