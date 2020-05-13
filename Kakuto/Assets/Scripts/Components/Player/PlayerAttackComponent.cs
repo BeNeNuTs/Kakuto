@@ -378,7 +378,6 @@ public class PlayerAttackComponent : MonoBehaviour
 
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is blocked by : " + attackName);
 
-            ClearTriggeredInputs();
             m_IsAttackBlocked = true;
             m_UnblockAttackConfig = null;
         }
