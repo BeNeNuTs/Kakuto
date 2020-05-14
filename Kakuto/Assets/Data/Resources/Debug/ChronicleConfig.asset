@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e38477c202c5a4cbd51ffb1d494da6, type: 3}
+  m_Name: ChronicleConfig
+  m_EditorClassIdentifier: 
+  m_ChronicleCategoryToLog:
+  - m_Name: 'Internal - Log : True'
+    m_Log: 1
+  - m_Name: 'Movement - Log : True'
+    m_Log: 1
+  - m_Name: 'Attack - Log : True'
+    m_Log: 1
+  - m_Name: 'Health - Log : True'
+    m_Log: 1
+  - m_Name: 'Stun - Log : True'
+    m_Log: 1
+  - m_Name: 'Animation - Log : True'
+    m_Log: 1
+  - m_Name: 'Input - Log : False'
+    m_Log: 0

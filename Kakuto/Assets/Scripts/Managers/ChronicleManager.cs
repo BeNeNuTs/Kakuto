@@ -8,11 +8,15 @@ public enum EChronicleCategory
     Attack,
     Health,
     Stun,
-    Animation
+    Animation,
+    Input
+    // If new category, please update K_ChronicleCategory_Count and ChronicleConfig
 }
 
 public static class ChronicleManager
 {
+    public static uint K_ChronicleCategory_Count = 7;
+
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
@@ -29,7 +33,7 @@ public static class ChronicleManager
     public static void AddChronicle(GameObject owner, EChronicleCategory category, string text)
     {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        if (!HasValidTag(owner))
+        if (!HasValidTag(owner) || !HasValidCategoryToLog(category))
         {
             return;
         }
@@ -75,5 +79,10 @@ public static class ChronicleManager
                 Debug.LogError("AddChronicle on : " + gameObj + " is not allowed");
                 return false;
         }
+    }
+
+    static bool HasValidCategoryToLog(EChronicleCategory category)
+    {
+        return ChronicleConfig.Instance.m_ChronicleCategoryToLog[(int)category].m_Log;
     }
 }
