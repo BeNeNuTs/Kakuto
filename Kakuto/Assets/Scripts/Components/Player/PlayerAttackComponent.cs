@@ -24,8 +24,8 @@ public class PlayerAttackComponent : MonoBehaviour
     private bool m_IsAttackBlocked = false;
     private bool m_IsAttackBlockedByTakeOff = false;
 
-    private float m_TimeToWaitBeforeEvaluatingAttacks = 0f;
-    private float m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+    private int m_FramesToWaitBeforeEvaluatingAttacks = 0;
+    private int m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
 
     private List<Collider2D> m_HitBoxes;
 
@@ -120,58 +120,73 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             UpdateAttack();
 
-            m_TimeToWaitBeforeEvaluatingAttacks = 0f;
-            m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+            m_FramesToWaitBeforeEvaluatingAttacks = 0;
+            m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
         }
         else
         {
             if (m_TriggeredInputsList.Count > 0)
             {
-                m_TotalTimeWaitingBeforeEvaluatingAttacks += Time.deltaTime;
-                m_TimeToWaitBeforeEvaluatingAttacks -= Time.deltaTime;
+                m_TotalFramesWaitingBeforeEvaluatingAttacks++;
+                m_FramesToWaitBeforeEvaluatingAttacks--;
             }
             else
             {
-                m_TimeToWaitBeforeEvaluatingAttacks = 0f;
-                m_TotalTimeWaitingBeforeEvaluatingAttacks = 0f;
+                m_FramesToWaitBeforeEvaluatingAttacks = 0;
+                m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
             }
         }
     }
 
     void UpdateTriggerInputsList()
     {
-        float currentTime = Time.unscaledTime;
+        int currentFrame = Time.frameCount;
 
         List<GameInput> attackInputs = InputManager.GetAttackInputList(m_InfoComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
 
         // If there is new inputs
         if (attackInputs.Count > 0) 
         {
-            // We need to add persistency bonus to the previous ones
-            foreach(TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "New attack inputs : " + attackInputs.ToStringList());
+            if(m_TriggeredInputsList.Count > 0)
             {
-                triggeredInput.AddPersistency(AttackConfig.Instance.m_InputPersistencyBonus);
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Adding input frame persistency bonus (" + AttackConfig.Instance.InputFramesPersistencyBonus + ") to current attack inputs : " + m_TriggeredInputsList.ToStringList());
+            }
+
+            // We need to add persistency bonus to the previous ones
+            foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+            {
+                triggeredInput.AddPersistency(AttackConfig.Instance.InputFramesPersistencyBonus);
             }
         }
 
         // Then add those new inputs in the list with the default persistency
         foreach (GameInput input in attackInputs)
         {
-            m_TriggeredInputsList.Add(new TriggeredGameInput(input, currentTime));
+            m_TriggeredInputsList.Add(new TriggeredGameInput(input, currentFrame));
         }
 
         // Remove those which exceeds max allowed inputs
-        while (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
+        if (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Remove attack inputs (reason : exceeds max inputs allowed) : " + m_TriggeredInputsList.GetRange(0, (int)(m_TriggeredInputsList.Count - AttackConfig.Instance.m_MaxInputs)).ToStringList());
+        }
+        while (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
+        {   
             m_TriggeredInputsList.RemoveAt(0);
         }
 
         // Also remove those which have their persistency elapsed
-        m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentTime));
+        int triggeredInputsElapsedCount = m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentFrame));
 
-        if(attackInputs.Count > 0)
+        if (attackInputs.Count > 0)
         {
-            m_TimeToWaitBeforeEvaluatingAttacks = AttackConfig.Instance.TimeToWaitBeforeEvaluatingAttacks;
+            m_FramesToWaitBeforeEvaluatingAttacks = AttackConfig.Instance.FramesToWaitBeforeEvaluatingAttacks;
+        }
+
+        if(triggeredInputsElapsedCount > 0 || attackInputs.Count > 0)
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, m_TriggeredInputsList.Count == 0 ? "No more attack input" : "Current attack inputs : " + m_TriggeredInputsList.ToStringList());
         }
     }
 
@@ -191,6 +206,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void ClearTriggeredInputs()
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Clear attack inputs");
+
         m_TriggeredInputsList.Clear();
         m_TriggeredInputsString = string.Empty;
     }
@@ -198,7 +215,7 @@ public class PlayerAttackComponent : MonoBehaviour
     bool CanUpdateAttack()
     {
         // Time condition
-        if (m_TimeToWaitBeforeEvaluatingAttacks <= 0 || m_TotalTimeWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxTimeToWaitBeforeEvaluatingAttacks)
+        if (m_FramesToWaitBeforeEvaluatingAttacks <= 0 || m_TotalFramesWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxFramesToWaitBeforeEvaluatingAttacks)
         {
             // Input condition
             if (m_TriggeredInputsList.Count > 0)

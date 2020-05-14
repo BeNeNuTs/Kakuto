@@ -203,27 +203,32 @@ public class GameInput
     {
         return (int)m_InputKey;
     }
+
+    public override string ToString()
+    {
+        return m_InputString;
+    }
 }
 
 public class TriggeredGameInput : GameInput
 {
-    private readonly float m_TriggeredTime;
-    public float m_Persistency;
+    private readonly int m_TriggeredFrame;
+    public int m_Persistency;
 
-    public TriggeredGameInput(GameInput input, float time) : base(input)
+    public TriggeredGameInput(GameInput input, int currentFrame) : base(input)
     {
-        m_TriggeredTime = time;
-        m_Persistency = AttackConfig.Instance.m_DefaultInputPersistency;
+        m_TriggeredFrame = currentFrame;
+        m_Persistency = AttackConfig.Instance.DefaultInputFramesPersistency;
     }
 
-    public bool IsElapsed(float time)
+    public bool IsElapsed(int currentFrame)
     {
-        return time > (m_TriggeredTime + m_Persistency);
+        return currentFrame >= (m_TriggeredFrame + m_Persistency);
     }
 
-    public void AddPersistency(float persistencyBonus)
+    public void AddPersistency(int persistencyFramesBonus)
     {
-        m_Persistency += persistencyBonus;
-        m_Persistency = Mathf.Min(m_Persistency, AttackConfig.Instance.m_MaxInputPersistency);
+        m_Persistency += persistencyFramesBonus;
+        m_Persistency = (int)Mathf.Min(m_Persistency, AttackConfig.Instance.MaxInputFramesPersistency);
     }
 }

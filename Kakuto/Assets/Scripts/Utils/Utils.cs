@@ -27,6 +27,17 @@ public static class Utils
         return false;
     }
 
+    public static string ToStringList<T>(this IList<T> list)
+    {
+        string resultStr = "";
+        foreach(T item in list)
+        {
+            resultStr += item.ToString() + " ";
+        }
+
+        return resultStr;
+    }
+
     public static T GetCurrentBehaviour<T>(this GameObject gameObject) where T : AdvancedStateMachineBehaviour
     {
         Animator animator = gameObject.GetComponent<Animator>();

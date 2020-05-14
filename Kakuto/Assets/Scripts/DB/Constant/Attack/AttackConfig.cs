@@ -17,14 +17,44 @@ public class AttackConfig : ScriptableObject
 
     [Separator("Inputs")]
 
-    [Tooltip("How much time by default each input will be kept before being deleted")]
-    public float m_DefaultInputPersistency = 0.3f;
+    [Tooltip("How many frames by default each input will be kept before being deleted. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_DefaultInputFramesPersistency = 9;
 
-    [Tooltip("How much time we're going to add to each previous inputs when a new one is triggered")]
-    public float m_InputPersistencyBonus = 0.1f;
+    [HideInInspector]
+    public int DefaultInputFramesPersistency
+    {
+        get
+        {
+            return (int)(m_DefaultInputFramesPersistency * (GameConfig.Instance.m_GameFPS / GameConfig.K_ANIMATION_FPS));
+        }
+    }
 
-    [Tooltip("How much time max an input can be kept before being deleted")]
-    public float m_MaxInputPersistency = 0.8f;
+    [Tooltip("How many frames we're going to add to each previous inputs when a new one is triggered. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_InputFramesPersistencyBonus = 3;
+
+    [HideInInspector]
+    public int InputFramesPersistencyBonus
+    {
+        get
+        {
+            return (int)(m_InputFramesPersistencyBonus * (GameConfig.Instance.m_GameFPS / GameConfig.K_ANIMATION_FPS));
+        }
+    }
+
+    [Tooltip("How much time max an input can be kept before being deleted. /!\\ based on 30 FPS /!\\")]
+    [SerializeField]
+    private uint m_MaxInputFramesPersistency = 24;
+
+    [HideInInspector]
+    public int MaxInputFramesPersistency
+    {
+        get
+        {
+            return (int)(m_MaxInputFramesPersistency * (GameConfig.Instance.m_GameFPS / GameConfig.K_ANIMATION_FPS));
+        }
+    }
 
     [Tooltip("How many input can be stacked before being deleted")]
     public uint m_MaxInputs = 10;
@@ -36,11 +66,11 @@ public class AttackConfig : ScriptableObject
     private uint m_FramesToWaitBeforeEvaluatingAttacks = 5;
 
     [HideInInspector]
-    public float TimeToWaitBeforeEvaluatingAttacks
+    public int FramesToWaitBeforeEvaluatingAttacks
     {
         get
         {
-            return (float)m_FramesToWaitBeforeEvaluatingAttacks / (float)GameConfig.K_ANIMATION_FPS;
+            return (int)(m_FramesToWaitBeforeEvaluatingAttacks * (GameConfig.Instance.m_GameFPS / GameConfig.K_ANIMATION_FPS));
         }
     }
 
@@ -49,11 +79,11 @@ public class AttackConfig : ScriptableObject
     private uint m_MaxFramesToWaitBeforeEvaluatingAttacks = 24;
 
     [HideInInspector]
-    public float MaxTimeToWaitBeforeEvaluatingAttacks
+    public int MaxFramesToWaitBeforeEvaluatingAttacks
     {
         get
         {
-            return (float)m_MaxFramesToWaitBeforeEvaluatingAttacks / (float)GameConfig.K_ANIMATION_FPS;
+            return (int)(m_MaxFramesToWaitBeforeEvaluatingAttacks * (GameConfig.Instance.m_GameFPS / GameConfig.K_ANIMATION_FPS));
         }
     }
 
