@@ -17,6 +17,7 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
     void OnDestroy()
@@ -27,11 +28,17 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
     void OnAttackLaunched(PlayerBaseAttackLogic attackLogic)
     {
         m_CurrentAttack = attackLogic;
+    }
+
+    void OnEndOfAttack(PlayerBaseAttackLogic attackLogic)
+    {
+        m_CurrentAttack = null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,19 +53,16 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 
     private void HandleCollision(Collider2D collision)
     {
-        if(m_Collider.isActiveAndEnabled)
+        if(m_Collider.isActiveAndEnabled && m_CurrentAttack != null)
         {
             if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
             {
                 if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    if (m_CurrentAttack != null)
+                    m_CurrentAttack.OnHandleCollision(true, m_Collider);
+                    if (m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
                     {
-                        m_CurrentAttack.OnHandleCollision(true, m_Collider);
-                        if (m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
-                        {
-                            m_Collider.enabled = false;
-                        }
+                        m_Collider.enabled = false;
                     }
                 }
             }
