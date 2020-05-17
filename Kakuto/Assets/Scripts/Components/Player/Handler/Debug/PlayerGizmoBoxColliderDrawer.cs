@@ -12,7 +12,7 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (d_OverrideGizmo)
+        if (d_OverrideGizmo && ScenesConfig.GetDebugSettings().m_DisplayBoxColliders)
         {
             BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
             if (boxCollider)
