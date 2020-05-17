@@ -12,11 +12,16 @@ public class PlayerDashAttackConfig : PlayerBaseAttackConfig
     [Separator("Settings")]
     public EDashType m_DashType;
 
-    [Range(0,10)]
+    public float m_MassMultiplier = 1f;
     public float m_Impulse = 3f;
 
     public override PlayerBaseAttackLogic CreateLogic()
     {
         return new PlayerDashAttackLogic(this);
+    }
+
+    void OnValidate()
+    {
+        m_MassMultiplier = Mathf.Max(1f, m_MassMultiplier);
     }
 }

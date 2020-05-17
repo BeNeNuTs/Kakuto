@@ -118,6 +118,8 @@ public class PlayerBaseAttackLogic
     public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
     public virtual void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider) { }
+    public virtual bool NeedPushBoxCollisionCallback() { return false; }
+    public virtual void OnHandlePushBoxCollision(Collision2D collision) { }
     public bool HasTouched() { return m_HasTouched; }
 
     public GameObject GetOwner() { return m_Owner; }
