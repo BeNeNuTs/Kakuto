@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4161d6acf4e424596367c949359a4f, type: 3}
+  m_Name: PlayerNormalAttackConfig_CM1
+  m_EditorClassIdentifier: 
+  m_AttackType: 2
+  m_Damage: 15
+  m_CheapDamage: 0
+  m_MaxHitCount: 1
+  m_DelayBetweenHits: 0.1
+  m_HitKO: 0
+  m_HitHeight: 1
+  m_HitStrength: 1
+  m_HitStun: 15
+  m_BlockStun: 9
+  m_HitPushBack: 0
+  m_BlockPushBack: 0
+  m_StunGaugeHitAmount: 0
+  m_ApplyAttackerHitPushBack: 0
+  m_AttackerHitPushBack: 0
+  m_AttackerHitPushBackCondition: 1
+  m_ApplyAttackerBlockPushBack: 0
+  m_AttackerBlockPushBack: 0
+  m_AttackerBlockPushBackCondition: 1
+  m_SuperGaugeBaseBonus: 0
+  m_SuperGaugeHitBonus: 5
+  m_SuperGaugeBlockBonus: 2
