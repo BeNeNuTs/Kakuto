@@ -267,4 +267,21 @@ public class CharacterController2D : MonoBehaviour
     {
         return m_CharacterIsJumping || !m_Grounded;
     }
+
+    public EMovingDirection GetMovingDirection()
+    {
+        if(!IsJumping() && (m_Rigidbody2D.velocity.x > 0f || m_Rigidbody2D.velocity.x < 0f))
+        {
+            if(m_FacingRight)
+            {
+                return (m_MovingRight) ? EMovingDirection.Forward : EMovingDirection.Backward;
+            }
+            else
+            {
+                return (m_MovingRight) ? EMovingDirection.Backward : EMovingDirection.Forward;
+            }
+        }
+
+        return EMovingDirection.None;
+    }
 }

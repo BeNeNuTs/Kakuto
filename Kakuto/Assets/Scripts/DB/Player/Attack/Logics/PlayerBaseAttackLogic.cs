@@ -55,7 +55,12 @@ public class PlayerBaseAttackLogic
 
             if (attack.m_HasAttackRequirement)
             {
-                conditionIsValid &= (currentAttackLogic != null && currentAttackLogic.GetAttack().m_Name == attack.m_AttackRequired);
+                conditionIsValid &= (currentAttackLogic != null && currentAttackLogic.GetAttack().m_AnimationAttackName == attack.m_AttackRequired);
+            }
+
+            if (attack.m_HasMovementRequirement)
+            {
+                conditionIsValid &= attack.m_MovementRequiredList.Contains(m_MovementComponent.GetMovingDirection());
             }
         }
 

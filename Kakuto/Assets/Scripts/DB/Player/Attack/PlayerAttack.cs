@@ -36,7 +36,12 @@ public class PlayerAttack
     [ConditionalField(true, "m_HasCondition")]
     public bool m_HasAttackRequirement = false;
     [ConditionalField(true, "m_HasCondition", "m_HasAttackRequirement")]
-    public string m_AttackRequired = "";
+    public EAnimationAttackName m_AttackRequired = EAnimationAttackName.StandHP;
+
+    [ConditionalField(true, "m_HasCondition")]
+    public bool m_HasMovementRequirement = false;
+    [ConditionalField(true, "m_HasCondition", "m_HasMovementRequirement")]
+    public List<EMovingDirection> m_MovementRequiredList;
 
     // Attack input to trigger (E+Z+A)
     [Separator("Input")]

@@ -8,6 +8,13 @@ public enum EJumpPhase
     Landing
 }
 
+public enum EMovingDirection
+{
+    None,
+    Forward,
+    Backward
+}
+
 [RequireComponent(typeof(CharacterController2D))]
 public class PlayerMovementComponent : MonoBehaviour
 {
@@ -201,6 +208,11 @@ public class PlayerMovementComponent : MonoBehaviour
     public void OnDirectionChanged()
     {
         m_Animator.SetFloat("MovingDirection", m_Animator.GetFloat("MovingDirection") * -1.0f);
+    }
+
+    public EMovingDirection GetMovingDirection()
+    {
+        return m_Controller.GetMovingDirection();
     }
 
     void FixedUpdate()
