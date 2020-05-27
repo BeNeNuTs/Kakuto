@@ -42,7 +42,8 @@ public class GameManager : Singleton<GameManager>
             { ESubManager.FrameRate, new FrameRateSubGameManager() },
             { ESubManager.Round, new RoundSubGameManager() },
             { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() },
-            { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() }
+            { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() },
+            { ESubManager.PlayerSpriteSortingOrder, new PlayerSpriteSortingOrderSubGameManager() }
         };
     }
 
