@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class ProjectileComponent : MonoBehaviour
 {
-    private static float K_VISIBILITY_CHECK_DELAY = 2.0f;
-
     private PlayerProjectileAttackLogic m_Logic;
     private PlayerProjectileAttackConfig m_Config;
     private string m_PlayerTag = "Unknown";
@@ -16,8 +14,9 @@ public class ProjectileComponent : MonoBehaviour
     private Rigidbody2D m_Rigidbody;
     private SpriteRenderer m_SpriteRenderer;
     private Animator m_Animator;
-    private float m_LastVisibilityCheckTimeStamp = 0f;
     private float m_LifeTime = 0f;
+
+    private bool m_DestructionRequested = false;
 
     private OutOfBoundsSubGameManager m_OutOfBoundsSubManager;
 
@@ -57,14 +56,9 @@ public class ProjectileComponent : MonoBehaviour
 
     void Update()
     {
-        if(Time.time > m_LastVisibilityCheckTimeStamp + K_VISIBILITY_CHECK_DELAY)
+        if(!m_SpriteRenderer.isVisible)
         {
-            if(!m_OutOfBoundsSubManager.IsVisibleFromMainCamera(m_SpriteRenderer))
-            {
-                DestroyProjectile();
-            }
-
-            m_LastVisibilityCheckTimeStamp = Time.time;
+            DestroyProjectile();
         }
 
         m_LifeTime += Time.deltaTime;
@@ -99,7 +93,7 @@ public class ProjectileComponent : MonoBehaviour
                         m_Logic.OnHandleCollision(true, m_Collider);
                         if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                         {
-                            DestroyProjectile();
+                            RequestProjectileDestruction();
                         }
                     }
                 }
@@ -112,18 +106,33 @@ public class ProjectileComponent : MonoBehaviour
                     m_Logic.OnHandleCollision(false, m_Collider);
                     if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                     {
-                        DestroyProjectile();
+                        RequestProjectileDestruction();
                     }
                 }
             }
             else if (collision.CompareTag("Ground")) // Collision with Ground
             {
-                DestroyProjectile();
+                RequestProjectileDestruction();
             }
         }
     }
 
-    public void DestroyProjectile()
+    public void RequestProjectileDestruction()
+    {
+        if(!m_DestructionRequested)
+        {
+            m_Collider.enabled = false;
+            m_Animator.SetTrigger("DestructionRequested");
+            m_DestructionRequested = true;
+        }
+    }
+
+    public void OnEndOfDestructionAnim()
+    {
+        DestroyProjectile();
+    }
+
+    void DestroyProjectile()
     {
         Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, this);
         gameObject.SetActive(false);

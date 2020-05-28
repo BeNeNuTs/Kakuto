@@ -45,6 +45,8 @@ public enum EPlayerEvent
     TriggerJumpImpulse,
     ApplyDashImpulse,
 
+    TriggerTeleport,
+
     // For enemy
     Hit,
     GrabTry,

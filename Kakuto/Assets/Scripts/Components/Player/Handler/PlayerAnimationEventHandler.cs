@@ -142,4 +142,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Sync grab position");
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.SyncGrabPosition, true);
     }
+
+    public void TriggerTeleport()
+    {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger teleport");
+        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerTeleport, true);
+    }
 }

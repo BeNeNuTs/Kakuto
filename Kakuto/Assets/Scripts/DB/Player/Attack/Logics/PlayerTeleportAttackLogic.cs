@@ -5,6 +5,8 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
     private readonly PlayerTeleportAttackConfig m_Config;
 
     private ProjectileComponent m_CurrentProjectile;
+    private Vector3 m_LastProjectilePosition;
+    private bool m_TeleportRequested = false;
 
     public PlayerTeleportAttackLogic(PlayerTeleportAttackConfig config)
     {
@@ -62,8 +64,30 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
     public override void OnAttackLaunched()
     {
         base.OnAttackLaunched();
-        m_Owner.transform.position = m_CurrentProjectile.transform.position + m_Config.m_TeleportOffset;
-        m_CurrentProjectile.DestroyProjectile();
+
+        m_LastProjectilePosition = m_CurrentProjectile.transform.position;
+        m_TeleportRequested = false;
+
+        m_CurrentProjectile.RequestProjectileDestruction();
+        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
+    }
+
+    public override void OnAttackStopped()
+    {
+        base.OnAttackStopped();
+
+        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
+    }
+
+    private void OnTriggerTeleportRequested(bool dummy)
+    {
+        Vector3 projectilePosition = m_LastProjectilePosition;
+        if(m_CurrentProjectile != null)
+        {
+            projectilePosition = m_CurrentProjectile.transform.position;
+        }
+        m_Owner.transform.position = projectilePosition + m_Config.m_TeleportOffset;
+        m_TeleportRequested = true;
     }
 
     private void OnProjectileSpawned(ProjectileComponent projectile)
@@ -76,6 +100,13 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)
         {
             Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + projectile);
+        }
+
+        // If the attack's launched and teleport has not been requested yet
+        if(m_AttackLaunched && !m_TeleportRequested)
+        {
+            // Save the last know projectile position
+            m_LastProjectilePosition = m_CurrentProjectile.transform.position;
         }
         m_CurrentProjectile = null;
     }

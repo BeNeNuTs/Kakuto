@@ -20,6 +20,8 @@ public class PlayerBaseAttackLogic
     protected float m_DamageRatio = 1f;
     protected bool m_DamageRatioComputed = false;
 
+    protected bool m_AttackLaunched = false;
+
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
         m_Owner = owner;
@@ -87,6 +89,8 @@ public class PlayerBaseAttackLogic
             TimeManager.FreezeTime();
             m_Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
         }
+
+        m_AttackLaunched = true;
     }
 
     protected virtual string GetAnimationAttackName()
@@ -100,6 +104,8 @@ public class PlayerBaseAttackLogic
         {
             Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
         }
+
+        m_AttackLaunched = false;
     }
 
     public virtual bool CanBlockAttack(bool isCrouching) { return false; }

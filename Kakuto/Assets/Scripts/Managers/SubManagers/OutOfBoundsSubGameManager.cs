@@ -34,12 +34,6 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
         }
     }
 
-    public bool IsVisibleFromMainCamera(Renderer renderer)
-    {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(m_MainCamera);
-        return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
-    }
-
     public float GetDistanceOutOfBorder(Vector3 position)
     {
         float distanceOutOfLeftCorner = position.x - GetLeftBorderOffset();
