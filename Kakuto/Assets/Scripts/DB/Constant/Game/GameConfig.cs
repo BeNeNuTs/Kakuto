@@ -22,6 +22,9 @@ public class GameConfig : ScriptableObject
 
     [Separator("Round")]
 
+    [Tooltip("Time to wait in seconds while playing round entry animation")]
+    public float m_RoundEntryTime = 5f;
+
     [Tooltip("The duration of one round"), Range(0,99)]
     public float m_RoundDuration = 60f;
 

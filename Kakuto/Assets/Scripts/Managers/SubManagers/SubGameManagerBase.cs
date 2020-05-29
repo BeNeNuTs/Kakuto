@@ -24,4 +24,5 @@ public abstract class SubGameManagerBase
 
     public virtual void OnPlayerRegistered(GameObject player) { }
     public virtual void OnPlayerUnregistered(GameObject player) { }
+    public virtual void OnPlayersReady() { }
 }

@@ -16,12 +16,19 @@ public class RoundComponent : MonoBehaviour
 
     private void Start()
     {
-        m_InitTimestamp = Time.unscaledTime;
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
-
-        UpdateCounterText();
-
         RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateCounterText;
+        RoundSubGameManager.OnRoundBegin += OnRoundBegin;
+
+        m_InitTimestamp = Time.unscaledTime;
+        UpdateRemainingTimeText();
+        UpdateCounterText();
+    }
+
+    void OnRoundBegin()
+    {
+        m_InitTimestamp = Time.unscaledTime;
+        UpdateRemainingTimeText();
     }
 
     void UpdateCounterText()
@@ -32,12 +39,17 @@ public class RoundComponent : MonoBehaviour
         }
     }
 
+    void UpdateRemainingTimeText()
+    {
+        m_RemaningTime = (uint)Mathf.Max(0f, GameConfig.Instance.m_RoundDuration - (Time.unscaledTime - m_InitTimestamp));
+        m_TimerText.SetText(m_RemaningTime.ToString());
+    }
+
     void Update()
     {
-        if(ScenesConfig.GetUISettings().m_IsTimerEnabled && !m_RoundSubGameManager.IsRoundOver())
+        if(ScenesConfig.GetUISettings().m_IsTimerEnabled && m_RoundSubGameManager.IsRoundBegin() && !m_RoundSubGameManager.IsRoundOver())
         {
-            m_RemaningTime = (uint)Mathf.Max(0f, GameConfig.Instance.m_RoundDuration - (Time.unscaledTime - m_InitTimestamp));
-            m_TimerText.SetText(m_RemaningTime.ToString());
+            UpdateRemainingTimeText();
         }
     }
 
