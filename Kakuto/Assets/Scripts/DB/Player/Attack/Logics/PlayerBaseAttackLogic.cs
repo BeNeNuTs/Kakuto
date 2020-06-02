@@ -84,12 +84,6 @@ public class PlayerBaseAttackLogic
         m_DamageRatioComputed = false;
         Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
-        if(IsASuper())
-        {
-            TimeManager.FreezeTime();
-            m_Animator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        }
-
         m_AttackLaunched = true;
     }
 
