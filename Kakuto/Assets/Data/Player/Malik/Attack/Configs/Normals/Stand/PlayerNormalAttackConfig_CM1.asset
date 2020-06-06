@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_CM1
   m_EditorClassIdentifier: 
   m_AttackType: 2
-  m_Damage: 15
+  m_Damage: 12
   m_CheapDamage: 0
   m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1
@@ -22,14 +22,14 @@ MonoBehaviour:
   m_HitStrength: 1
   m_HitStun: 15
   m_BlockStun: 9
-  m_HitPushBack: 0
-  m_BlockPushBack: 0
-  m_StunGaugeHitAmount: 0
-  m_ApplyAttackerHitPushBack: 0
-  m_AttackerHitPushBack: 0
+  m_HitPushBack: 1.5
+  m_BlockPushBack: 2
+  m_StunGaugeHitAmount: 12
+  m_ApplyAttackerHitPushBack: 1
+  m_AttackerHitPushBack: 2.7
   m_AttackerHitPushBackCondition: 1
-  m_ApplyAttackerBlockPushBack: 0
-  m_AttackerBlockPushBack: 0
+  m_ApplyAttackerBlockPushBack: 1
+  m_AttackerBlockPushBack: 2.4
   m_AttackerBlockPushBackCondition: 1
   m_SuperGaugeBaseBonus: 0
   m_SuperGaugeHitBonus: 5
