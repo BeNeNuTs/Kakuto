@@ -119,7 +119,7 @@ public class ProjectileComponent : MonoBehaviour
 
     public void RequestProjectileDestruction()
     {
-        if(!m_DestructionRequested)
+        if (!m_DestructionRequested)
         {
             m_Collider.enabled = false;
             m_Animator.SetTrigger("DestructionRequested");
