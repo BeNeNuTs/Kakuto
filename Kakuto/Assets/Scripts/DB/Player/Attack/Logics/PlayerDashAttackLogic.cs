@@ -63,11 +63,19 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
     {
         base.OnHandlePushBoxCollision(collision);
 
-        // If enemy is in a corner 
-        if (GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds).IsInACorner(collision.gameObject))
+        if (m_AttackLaunched)
         {
-            // to avoid passing through, stop movement
-            Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
+            // If enemy is in a corner 
+            if (GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds).IsInACorner(collision.gameObject))
+            {
+                ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "HandlePushBoxCollision : Stop movement while dashing to avoid passing through opponent");
+                // to avoid passing through, stop movement
+                Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
+            }
+        }
+        else
+        {
+            Debug.LogError("OnHandlePushBoxCollision has been triggered whereas the attack is not launched !");
         }
     }
 }

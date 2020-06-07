@@ -15,7 +15,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     void RegisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
     void OnDestroy()
@@ -26,18 +26,19 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     void UnregisterListeners()
     {
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
+        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
     void OnAttackLaunched(PlayerBaseAttackLogic attackLogic)
     {
+        m_CurrentAttack = null;
         if(attackLogic.NeedPushBoxCollisionCallback())
         {
             m_CurrentAttack = attackLogic;
         }   
     }
 
-    void OnEndOfAttack(PlayerBaseAttackLogic attackLogic)
+    void OnEndOfAttack(EAnimationAttackName attackName)
     {
         m_CurrentAttack = null;
     }
