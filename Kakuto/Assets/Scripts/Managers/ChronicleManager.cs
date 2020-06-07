@@ -44,11 +44,6 @@ public static class ChronicleManager
     public static void AddChronicle(GameObject owner, EChronicleCategory category, string text)
     {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        if (!HasValidTag(owner) || !HasValidCategoryToLog(category))
-        {
-            return;
-        }
-
         AddChronicle(owner.tag, category, text);
 #endif
     }
@@ -70,6 +65,11 @@ public static class ChronicleManager
 
     static void AddChronicle(string playerTag, EChronicleCategory category, string text)
     {
+        if (!HasValidTag(playerTag) || !HasValidCategoryToLog(category))
+        {
+            return;
+        }
+
         TextWriter writer = GetWriter(playerTag);
         writer.Write(string.Format("{0,-6}", Time.frameCount));
         writer.Write(" - " + string.Format("{0,-12}", ("[" + category + "] ")));
@@ -103,21 +103,21 @@ public static class ChronicleManager
         }
     }
 
-    static bool HasValidTag(GameObject gameObj)
+    static bool HasValidTag(string tag)
     {
-        switch(gameObj.tag)
+        switch(tag)
         {
             case "Player1":
             case "Player2":
                 return true;
             default:
-                Debug.LogError("AddChronicle on : " + gameObj + " is not allowed");
+                Debug.LogError("AddChronicle on : " + tag + " is not allowed");
                 return false;
         }
     }
 
     static bool HasValidCategoryToLog(EChronicleCategory category)
     {
-        return ChronicleConfig.Instance.m_ChronicleCategoryToLog[(int)category].m_Log;
+        return ChronicleConfig.Instance.m_UseChronicle && ChronicleConfig.Instance.m_ChronicleCategoryToLog[(int)category].m_Log;
     }
 }

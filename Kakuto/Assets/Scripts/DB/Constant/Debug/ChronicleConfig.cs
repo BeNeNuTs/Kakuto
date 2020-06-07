@@ -23,6 +23,7 @@ public class ChronicleConfig : ScriptableObject
         public bool m_Log;
     }
 
+    public bool m_UseChronicle = true;
     public List<ChronicleCategoryToLog> m_ChronicleCategoryToLog = new List<ChronicleCategoryToLog>();
 
     void OnValidate()
