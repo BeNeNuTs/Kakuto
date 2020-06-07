@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 public class AnimationDebugDisplay : MonoBehaviour
 {
     private Animator m_Player1Animator;
@@ -67,3 +68,4 @@ public class AnimationDebugDisplay : MonoBehaviour
         }
     }
 }
+#endif

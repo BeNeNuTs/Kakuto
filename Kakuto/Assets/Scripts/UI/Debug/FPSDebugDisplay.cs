@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 public class FPSDebugDisplay : MonoBehaviour
 {
     float m_DeltaTime = 0.0f;
@@ -48,3 +49,4 @@ public class FPSDebugDisplay : MonoBehaviour
         }
     }
 }
+#endif

@@ -17,11 +17,15 @@ public static class ChronicleManager
 {
     public static uint K_ChronicleCategory_Count = 7;
 
+    private static TextWriter m_WriterP1;
+    private static TextWriter m_WriterP2;
+
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
     {
         ClearAll();
+        OpenFiles();
 
         string text = "Chronicle init | OnSceneLoading";
 
@@ -29,6 +33,13 @@ public static class ChronicleManager
         AddChronicle(Player.Player2, EChronicleCategory.Internal, text);
     }
 #endif
+
+    public static void OnShutdown()
+    {
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        CloseFiles();
+#endif
+    }
 
     public static void AddChronicle(GameObject owner, EChronicleCategory category, string text)
     {
@@ -42,18 +53,28 @@ public static class ChronicleManager
 #endif
     }
 
+    static void OpenFiles()
+    {
+        string filePath = GetFilePath(Player.Player1);
+        m_WriterP1 = File.AppendText(filePath);
+
+        filePath = GetFilePath(Player.Player2);
+        m_WriterP2 = File.AppendText(filePath);
+    }
+
+    static void CloseFiles()
+    {
+        m_WriterP1.Close();
+        m_WriterP2.Close();
+    }
+
     static void AddChronicle(string playerTag, EChronicleCategory category, string text)
     {
-        TextWriter writer;
-        string filePath = GetFilePath(playerTag);
-        writer = File.AppendText(filePath);
-
+        TextWriter writer = GetWriter(playerTag);
         writer.Write(string.Format("{0,-6}", Time.frameCount));
         writer.Write(" - " + string.Format("{0,-12}", ("[" + category + "] ")));
         writer.Write(text);
         writer.Write(writer.NewLine);
-
-        writer.Close();
     }
 
     static void ClearAll()
@@ -66,6 +87,20 @@ public static class ChronicleManager
     {
         string filePath = playerTag + "Chronicle.txt";
         return filePath;
+    }
+
+    static TextWriter GetWriter(string playerTag)
+    {
+        switch (playerTag)
+        {
+            case "Player1":
+                return m_WriterP1;
+            case "Player2":
+                return m_WriterP2;
+            default:
+                Debug.LogError("GetWriter on : " + playerTag + " is not allowed");
+                return null;
+        }
     }
 
     static bool HasValidTag(GameObject gameObj)

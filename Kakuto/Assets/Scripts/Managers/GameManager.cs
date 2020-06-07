@@ -33,6 +33,8 @@ public class GameManager : Singleton<GameManager>
         base.OnShutdown();
         ShutdownSubManagers();
         DeleteSubManagers();
+
+        ChronicleManager.OnShutdown();
     }
 
     private void CreateSubManagers()

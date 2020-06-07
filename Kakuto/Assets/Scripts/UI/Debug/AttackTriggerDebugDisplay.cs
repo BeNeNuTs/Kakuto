@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 public class AttackTriggerDebugDisplay : MonoBehaviour
 {
     void OnGUI()
@@ -37,3 +38,4 @@ public class AttackTriggerDebugDisplay : MonoBehaviour
         //////////////////////////////
     }
 }
+#endif

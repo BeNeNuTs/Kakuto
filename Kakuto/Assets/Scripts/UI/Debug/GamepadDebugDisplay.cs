@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
 public class GamepadDebugDisplay : MonoBehaviour
 {
     void DisplaGamepadInfo(string text, TextAnchor anchor)
@@ -30,3 +31,4 @@ public class GamepadDebugDisplay : MonoBehaviour
         }
     }
 }
+#endif
