@@ -77,7 +77,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
 
     private bool CanUpdate()
     {
-        IsSelected();
 #if UNITY_EDITOR
         return (AnimationMode.InAnimationMode() && IsSelected()) || Application.isPlaying;
 #else
