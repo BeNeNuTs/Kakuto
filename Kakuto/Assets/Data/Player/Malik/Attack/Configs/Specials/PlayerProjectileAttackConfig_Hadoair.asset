@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerProjectileAttackConfig_Hadoair
   m_EditorClassIdentifier: 
   m_AttackType: 1
-  m_Damage: 15
-  m_CheapDamage: 3
+  m_Damage: 9
+  m_CheapDamage: 1
   m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1
   m_HitKO: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   m_BlockStun: 9
   m_HitPushBack: 1.5
   m_BlockPushBack: 1
-  m_StunGaugeHitAmount: 15
+  m_StunGaugeHitAmount: 11
   m_ApplyAttackerHitPushBack: 0
   m_AttackerHitPushBack: 0
   m_AttackerHitPushBackCondition: 1

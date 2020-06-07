@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerGrabAttackConfig_FrontThrow
   m_EditorClassIdentifier: 
   m_GrabType: 0
-  m_Damage: 20
+  m_Damage: 13
   m_StunGaugeHitAmount: 15
   m_SuperGaugeBaseBonus: 0
   m_SuperGaugeHitBonus: 0
