@@ -106,8 +106,13 @@ public class AttackConfig : ScriptableObject
     [Tooltip("How much amount the stun gauge should decrease every seconds after the cooldown (amount per sec)")]
     public float m_StunGaugeDecreaseSpeed = 2f;
 
-    [Separator("Damage Scaling")]
+    [Separator("Hit")]
 
     [Tooltip("X = Hit Counter [0;+infinity] | Y = Damage ratio [0;1]")]
     public AnimationCurve m_DamageScaling;
+
+    [Tooltip("The speed of shake of the opponent while taking a hit when time is frozen")]
+    public float m_HitStopShakeSpeed = 75.0f;
+    [Tooltip("The amount of shake of the opponent while taking a hit when time is frozen")]
+    public float m_HitStopShakeAmount = 0.01f;
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public enum EAttackResult
@@ -38,6 +39,8 @@ public class PlayerHealthComponent : MonoBehaviour
     private Animator m_Anim;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
+
+    private IEnumerator m_CurrentHitStopCoroutine = null;
 
     [Separator("Debug")]
     [Space]
@@ -361,6 +364,10 @@ public class PlayerHealthComponent : MonoBehaviour
         if(attack.m_UseTimeScaleEffect)
         {
             TimeManager.StartTimeScale(attack.m_TimeScaleParams);
+            if(attack.m_TimeScaleParams.m_TimeScaleAmount == 0f)
+            {
+                TriggerHitStopShake(attack.m_TimeScaleParams.m_TimeScaleDuration);
+            }
         }
 
         if (attackResult != EAttackResult.Blocked)
@@ -381,6 +388,34 @@ public class PlayerHealthComponent : MonoBehaviour
                 Vector3 hitDirection = (transform.position - attackLogic.GetOwner().transform.position).normalized;
                 CameraShakeManager.GenerateImpulseAt(attack.m_CameraShakeParams, hitPoint, hitDirection);
             }
+        }
+    }
+
+    private void TriggerHitStopShake(float duration)
+    {
+        if(m_CurrentHitStopCoroutine != null)
+        {
+            StopCoroutine(m_CurrentHitStopCoroutine);
+        }
+
+        m_CurrentHitStopCoroutine = HitStopShake_Coroutine(duration);
+        StartCoroutine(m_CurrentHitStopCoroutine);
+    }
+
+    private IEnumerator HitStopShake_Coroutine(float duration)
+    {
+        float startingTime = Time.unscaledTime;
+        Vector3 startingPos = transform.root.position;
+        Vector3 offsetPos = Vector3.zero;
+
+        float shakeSpeed = AttackConfig.Instance.m_HitStopShakeSpeed;
+        float shakeAmount = AttackConfig.Instance.m_HitStopShakeAmount;
+
+        while (Time.unscaledTime < startingTime + duration)
+        {
+            offsetPos.x = Mathf.Sin(Time.unscaledTime * shakeSpeed) < 0.0f ? -shakeAmount : shakeAmount;
+            transform.root.position = startingPos + offsetPos;
+            yield return null;
         }
     }
 
