@@ -51,12 +51,13 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
 
     private bool IsAValidNonSuperProjectile()
     {
-        //If there is a projectile in the scene and this is not a super attack, then the projectile is valid
+        //If there is a projectile in the scene and this is not a super attack AND destruction has not been requested yet 
+        //then the projectile is valid
         bool isAValidProjectile = false;
         if(m_CurrentProjectile != null)
         {
             PlayerProjectileAttackLogic projectileLogic = m_CurrentProjectile.GetLogic();
-            isAValidProjectile = !projectileLogic.IsASuper();
+            isAValidProjectile = !projectileLogic.IsASuper() && !m_CurrentProjectile.HasDestructionBeenRequested();
         }
         return isAValidProjectile;
     }

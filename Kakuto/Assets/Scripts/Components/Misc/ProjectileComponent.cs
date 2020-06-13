@@ -127,6 +127,11 @@ public class ProjectileComponent : MonoBehaviour
         }
     }
 
+    public bool HasDestructionBeenRequested()
+    {
+        return m_DestructionRequested;
+    }
+
     public void OnEndOfDestructionAnim()
     {
         DestroyProjectile();
