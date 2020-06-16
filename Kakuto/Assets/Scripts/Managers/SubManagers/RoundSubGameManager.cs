@@ -27,6 +27,8 @@ public class RoundSubGameManager : SubGameManagerBase
     private bool m_RoundIsBegin = false;
     private bool m_RoundIsOver = false;
 
+    private bool[] m_PlayerEndOfRoundAnimationFinished = { false, false };
+
     public override void Init()
     {
         base.Init();
@@ -139,42 +141,95 @@ public class RoundSubGameManager : SubGameManagerBase
         m_RoundIsOver = true;
         OnRoundOver?.Invoke();
 
-        PlayWonAndLostRoundAnimation();
+        Invoker.InvokeDelayed(PlayWonAndLostRoundAnimation, GameConfig.Instance.m_TimeToWaitBeforeEndRoundAnimations);
+    }
 
-        Invoker.InvokeDelayed(RestartRound, GameConfig.Instance.m_TimeToWaitBetweenRounds);
+    private bool ArePlayersReadyToPlayEndRoundAnimations()
+    {
+        foreach (GameObject player in GameManager.Instance.GetPlayers())
+        {
+            PlayerHealthComponent playerHealth = player.GetComponent<PlayerHealthComponent>();
+            if (playerHealth && !playerHealth.IsDead())
+            {
+                Animator playerAnimator = player.GetComponentInChildren<Animator>();
+                if (playerAnimator != null && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("StandIdle"))
+                {
+                    // If player's not dead and not playing StandIdle animation, then he's not ready to play end round animations
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private void PlayWonAndLostRoundAnimation()
     {
+        if(!ArePlayersReadyToPlayEndRoundAnimations())
+        {
+            // Player's not ready yet, wait one more second
+            Invoker.InvokeDelayed(PlayWonAndLostRoundAnimation, 1f);
+            return;
+        }
+
+        bool player1PlayedAnim = false;
+        bool player2PlayedAnim = false;
         switch (m_LastRoundWinner)
         {
             case ELastRoundWinner.Player1:
-                PlayWonRoundAnimation(EPlayer.Player1);
-                PlayLostRoundAnimation(EPlayer.Player2);
+                player1PlayedAnim = PlayWonRoundAnimation(EPlayer.Player1);
+                player2PlayedAnim = PlayLostRoundAnimation(EPlayer.Player2);
                 break;
             case ELastRoundWinner.Player2:
-                PlayWonRoundAnimation(EPlayer.Player2);
-                PlayLostRoundAnimation(EPlayer.Player1);
+                player1PlayedAnim = PlayLostRoundAnimation(EPlayer.Player1);
+                player2PlayedAnim = PlayWonRoundAnimation(EPlayer.Player2);
                 break;
             case ELastRoundWinner.Both:
-                PlayLostRoundAnimation(EPlayer.Player1);
-                PlayLostRoundAnimation(EPlayer.Player2);
+                player1PlayedAnim = PlayLostRoundAnimation(EPlayer.Player1);
+                player2PlayedAnim = PlayLostRoundAnimation(EPlayer.Player2);
                 break;
             default:
                 break;
         }
+
+        m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] = !player1PlayedAnim;
+        if (player1PlayedAnim)
+        {
+            Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player1)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+        }
+
+        m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2] = !player2PlayedAnim;
+        if (player2PlayedAnim)
+        {
+            Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player2)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+        }
     }
 
-    private void PlayWonRoundAnimation(EPlayer wonPlayer)
+    private bool PlayWonRoundAnimation(EPlayer wonPlayer)
     {
         GameManager.Instance.GetPlayerComponent<Animator>(wonPlayer).Play(K_ROUND_WON_ANIM, 0, 0);
+        return true;
     }
 
-    private void PlayLostRoundAnimation(EPlayer lostPlayer)
+    private bool PlayLostRoundAnimation(EPlayer lostPlayer)
     {
         if (!GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(lostPlayer).IsDead())
         {
             GameManager.Instance.GetPlayerComponent<Animator>(lostPlayer).Play(K_ROUND_LOST_ANIM, 0, 0);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void EndOfPlayerRoundAnimation(EPlayer player)
+    {
+        m_PlayerEndOfRoundAnimationFinished[(int)player] = true;
+        Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(player)).StopListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+
+        if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
+        {
+            RestartRound();
         }
     }
 

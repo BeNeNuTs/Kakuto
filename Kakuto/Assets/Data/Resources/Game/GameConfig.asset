@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   m_GameFPS: 60
+  m_RoundEntryTime: 5
   m_RoundDuration: 60
-  m_TimeToWaitBetweenRounds: 2
+  m_TimeToWaitBeforeEndRoundAnimations: 1
   m_MaxRoundsToWin: 3
   m_BoundsOffset: 0.15
   m_MaxDistanceToBeConsideredInACorner: 0.1

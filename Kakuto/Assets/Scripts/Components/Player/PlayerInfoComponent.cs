@@ -74,6 +74,11 @@ public class PlayerInfoComponent : MonoBehaviour
         return m_PlayerIndex;
     }
 
+    public EPlayer GetPlayerEnum()
+    {
+        return (EPlayer)m_PlayerIndex;
+    }
+
     public PlayerSettings GetPlayerSettings()
     {
         return m_Settings;

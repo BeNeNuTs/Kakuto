@@ -28,8 +28,8 @@ public class GameConfig : ScriptableObject
     [Tooltip("The duration of one round"), Range(0,99)]
     public float m_RoundDuration = 60f;
 
-    [Tooltip("Time to wait in seconds before restarting round after a player death")]
-    public float m_TimeToWaitBetweenRounds = 5f;
+    [Tooltip("Time to wait in seconds before playing won and lost round animation when round over")]
+    public float m_TimeToWaitBeforeEndRoundAnimations = 5f;
 
     [Tooltip("The number of rounds a player should win to win the game"), Min(1)]
     public uint m_MaxRoundsToWin = 3;

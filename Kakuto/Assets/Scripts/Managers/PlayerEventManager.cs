@@ -47,6 +47,8 @@ public enum EPlayerEvent
 
     TriggerTeleport,
 
+    EndOfRoundAnimation,
+
     // For enemy
     Hit,
     GrabTry,

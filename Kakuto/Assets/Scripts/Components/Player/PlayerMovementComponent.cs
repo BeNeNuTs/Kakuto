@@ -362,6 +362,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         SetMovementBlocked(true, EBlockedReason.TimeOver);
         OnStopMovement(true);
+        m_Animator.SetBool("IsCrouching", false);
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
