@@ -314,8 +314,8 @@ MonoBehaviour:
     m_UseDefaultStance: 1
     m_DefaultStance: 0
     m_IsASuper: 0
-    m_HasCondition: 0
-    m_SuperGaugeAmountNeeded: 0
+    m_HasCondition: 1
+    m_SuperGaugeAmountNeeded: 25
     m_HasAttackRequirement: 0
     m_AttackRequired: 0
     m_HasMovementRequirement: 0
@@ -535,11 +535,9 @@ MonoBehaviour:
     m_InputStringList:
     - standHP
     m_ComputedInputStringList:
-    - "\u2192X"
+    - X
     m_ComputedGameInputList:
     - m_GameInputList:
-      - m_InputString: "\u2192"
-        m_InputKey: 2
       - m_InputString: X
         m_InputKey: 10
     m_BlockMovement: 1
