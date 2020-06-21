@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f4161d6acf4e424596367c949359a4f, type: 3}
-  m_Name: PlayerNormalAttackConfig_Hadoblast
+  m_Name: PlayerNormalAttackConfig_EX_Hadoblast
   m_EditorClassIdentifier: 
   m_AttackType: 1
-  m_Damage: 3
+  m_Damage: 4
   m_CheapDamage: 0
   m_MaxHitCount: 4
   m_DelayBetweenHits: 0.1
-  m_HitKO: 0
+  m_HitKO: 1
   m_HitHeight: 1
   m_HitStrength: 1
   m_HitStun: 15
@@ -28,8 +28,8 @@ MonoBehaviour:
   m_ApplyAttackerHitPushBack: 1
   m_AttackerHitPushBack: 2
   m_AttackerHitPushBackCondition: 0
-  m_ApplyAttackerBlockPushBack: 0
-  m_AttackerBlockPushBack: 0
+  m_ApplyAttackerBlockPushBack: 1
+  m_AttackerBlockPushBack: 2.5
   m_AttackerBlockPushBackCondition: 1
   m_SuperGaugeBaseBonus: 5
   m_SuperGaugeHitBonus: 2
