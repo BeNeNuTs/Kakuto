@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_EX_Hadoblast
   m_EditorClassIdentifier: 
   m_AttackType: 1
-  m_Damage: 4
+  m_Damage: 16
   m_CheapDamage: 0
-  m_MaxHitCount: 4
+  m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1
   m_HitKO: 1
   m_HitHeight: 1
   m_HitStrength: 1
   m_HitStun: 15
   m_BlockStun: 8
-  m_HitPushBack: 4.2
-  m_BlockPushBack: 1.8
+  m_HitPushBack: 2
+  m_BlockPushBack: 4.5
   m_StunGaugeHitAmount: 5
   m_ApplyAttackerHitPushBack: 1
   m_AttackerHitPushBack: 2
   m_AttackerHitPushBackCondition: 0
   m_ApplyAttackerBlockPushBack: 1
-  m_AttackerBlockPushBack: 2.5
+  m_AttackerBlockPushBack: 4
   m_AttackerBlockPushBackCondition: 1
-  m_SuperGaugeBaseBonus: 5
-  m_SuperGaugeHitBonus: 2
-  m_SuperGaugeBlockBonus: 1
+  m_SuperGaugeBaseBonus: 0
+  m_SuperGaugeHitBonus: 0
+  m_SuperGaugeBlockBonus: 0

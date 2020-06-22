@@ -194,10 +194,12 @@ MonoBehaviour:
       - m_InputString: LT
         m_InputKey: 14
     m_BlockMovement: 1
-    m_UseTimeScaleEffect: 0
-    m_TimeScaleParams: {fileID: 0}
-    m_UseCameraShakeEffect: 0
-    m_CameraShakeParams: {fileID: 0}
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleParams: {fileID: 11400000, guid: 7e6faeeeb6600da4dbb7ea8002d8411d,
+      type: 2}
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeParams: {fileID: 11400000, guid: 83fd14c0907461442ac941877ca2346d,
+      type: 2}
     m_AttackConfig: {fileID: 11400000, guid: c4ec831d1e818114ba9cad98b2b9cd65, type: 2}
   - m_Name: Hadoground
     m_Description: 
