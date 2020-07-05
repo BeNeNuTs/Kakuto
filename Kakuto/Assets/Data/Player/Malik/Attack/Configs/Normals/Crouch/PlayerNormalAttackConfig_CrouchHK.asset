@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerNormalAttackConfig_CrouchHK
   m_EditorClassIdentifier: 
   m_AttackType: 0
-  m_Damage: 10
-  m_CheapDamage: 0
+  m_Damage: 8
+  m_CheapDamage: 1
   m_MaxHitCount: 1
   m_DelayBetweenHits: 0.1
   m_HitKO: 1

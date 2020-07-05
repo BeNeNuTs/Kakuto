@@ -489,12 +489,12 @@ PrefabInstance:
     - target: {fileID: 4097496055747784082, guid: 6d3bccf9d16dd324c8762db46255df42,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.000000074505806
+      value: -0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 4097496057652378775, guid: 6d3bccf9d16dd324c8762db46255df42,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.000000074505806
+      value: -0.000000059604645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d3bccf9d16dd324c8762db46255df42, type: 3}
@@ -569,6 +569,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657808730088706198, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: d_GizmoColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657808730088706198, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: d_GizmoColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657808730088706198, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: d_GizmoColor.g
+      value: 0.09767294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5227f780c94aaa240ba932079524456d, type: 3}
