@@ -173,7 +173,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnTriggerJumpImpulse(bool dummy)
     {
-        if(!m_IsMovementBlocked)
+        if(!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
         {
             m_JumpTakeOffRequested = false;
             m_TriggerJumpImpulse = true;
@@ -217,7 +217,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_IsMovementBlocked)
+        if(m_IsMovementBlocked && m_MovementBlockedReason != EBlockedReason.TimeOver)
         {
             return;
         }
@@ -361,7 +361,6 @@ public class PlayerMovementComponent : MonoBehaviour
     void OnRoundOver()
     {
         SetMovementBlocked(true, EBlockedReason.TimeOver);
-        OnStopMovement(true);
         m_Animator.SetBool("IsCrouching", false);
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
