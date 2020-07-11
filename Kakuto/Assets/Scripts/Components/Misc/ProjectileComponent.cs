@@ -66,8 +66,11 @@ public class ProjectileComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 moveDirection = transform.right * transform.localScale.x;
-        m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime) * Time.fixedDeltaTime);
+        if(!HasDestructionBeenRequested())
+        {
+            Vector3 moveDirection = transform.right * transform.localScale.x;
+            m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime) * Time.fixedDeltaTime);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
