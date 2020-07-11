@@ -229,7 +229,7 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            RestartRound();
+            Invoker.InvokeDelayed(RestartRound, GameConfig.Instance.m_TimeToWaitAfterEndRoundAnimations);
         }
     }
 
