@@ -16,6 +16,10 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
         {
             IncreaseGaugeValue(AttackConfig.Instance.m_SuperGaugeMaxValue);
         }
+        else
+        {
+            IncreaseGaugeValue(GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round).GetPlayerSuperGaugeValue(m_InfoComponent.GetPlayerEnum()));
+        }
     }
 
     public void IncreaseGaugeValue(float value)

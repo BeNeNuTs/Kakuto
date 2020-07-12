@@ -29,6 +29,8 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private bool[] m_PlayerEndOfRoundAnimationFinished = { false, false };
 
+    private readonly float[] m_PlayersSuperGaugeValues = { 0, 0 };
+
     public override void Init()
     {
         base.Init();
@@ -239,6 +241,11 @@ public class RoundSubGameManager : SubGameManagerBase
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {
             ResetPlayersRoundVictoryCounter();
+            ResetPlayersSuperGaugeValues();
+        }
+        else
+        {
+            SetPlayersSuperGaugeValues();
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -255,6 +262,23 @@ public class RoundSubGameManager : SubGameManagerBase
     {
         m_PlayersRoundVictoryCounter[(int)EPlayer.Player1] = 0;
         m_PlayersRoundVictoryCounter[(int)EPlayer.Player2] = 0;
+    }
+
+    public float GetPlayerSuperGaugeValue(EPlayer player)
+    {
+        return m_PlayersSuperGaugeValues[(int)player];
+    }
+
+    void SetPlayersSuperGaugeValues()
+    {
+        m_PlayersSuperGaugeValues[(int)EPlayer.Player1] = GameManager.Instance.GetPlayer(EPlayer.Player1).GetComponent<PlayerAttackComponent>().GetSuperGaugeSubComponent().GetCurrentGaugeValue();
+        m_PlayersSuperGaugeValues[(int)EPlayer.Player2] = GameManager.Instance.GetPlayer(EPlayer.Player2).GetComponent<PlayerAttackComponent>().GetSuperGaugeSubComponent().GetCurrentGaugeValue();
+    }
+
+    void ResetPlayersSuperGaugeValues()
+    {
+        m_PlayersSuperGaugeValues[(int)EPlayer.Player1] = 0;
+        m_PlayersSuperGaugeValues[(int)EPlayer.Player2] = 0;
     }
 
     public bool IsRoundOver()
