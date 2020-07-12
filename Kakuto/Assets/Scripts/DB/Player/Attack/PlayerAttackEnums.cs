@@ -29,6 +29,16 @@
     Special08,
     Special09,
     Special10,
+    Special11,
+    Special12,
+    Special13,
+    Special14,
+    Special15,
+    Special16,
+    Special17,
+    Special18,
+    Special19,
+    Special20,
 
     // Add enum at the end to avoid shifting all enum data
 }
