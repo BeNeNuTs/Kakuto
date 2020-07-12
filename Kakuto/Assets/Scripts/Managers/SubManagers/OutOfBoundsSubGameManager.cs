@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class OutOfBoundsSubGameManager : SubGameManagerBase
 {
-    private Camera m_MainCamera;
+    public Camera MainCamera { get; private set; }
+    public GameObject Background { get; private set; }
 
     public override void Init()
     {
@@ -19,7 +20,8 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        m_MainCamera = Camera.main;
+        MainCamera = Camera.main;
+        Background = GameObject.FindGameObjectWithTag("Background");
     }
 
     public override void LateUpdate()
@@ -69,11 +71,11 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
 
     private float GetLeftBorderOffset()
     {
-        return m_MainCamera.ScreenToWorldPoint(Vector3.zero).x + GameConfig.Instance.m_BoundsOffset;
+        return MainCamera.ScreenToWorldPoint(Vector3.zero).x + GameConfig.Instance.m_BoundsOffset;
     }
 
     private float GetRightBorderOffset()
     {
-        return m_MainCamera.ScreenToWorldPoint(new Vector3(m_MainCamera.pixelWidth, 0f)).x - GameConfig.Instance.m_BoundsOffset;
+        return MainCamera.ScreenToWorldPoint(new Vector3(MainCamera.pixelWidth, 0f)).x - GameConfig.Instance.m_BoundsOffset;
     }
 }

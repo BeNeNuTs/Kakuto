@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
+    private Color m_SavedBackgroundColor;
+
     public void BlockAttack()
     {
         PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
@@ -134,6 +136,32 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         else
         {
             Debug.LogError("Animator component not found");
+        }
+    }
+
+    public void ChangeBackgroundColor(BackgroundColorAnimEventConfig backgroundColorConfig)
+    {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Change background color");
+
+        OutOfBoundsSubGameManager OOBSubGameManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
+        if(OOBSubGameManager != null)
+        {
+            OOBSubGameManager.Background.SetActive(false);
+            m_SavedBackgroundColor = OOBSubGameManager.MainCamera.backgroundColor;
+
+            OOBSubGameManager.MainCamera.backgroundColor = backgroundColorConfig.m_BackgroundColor;
+        }
+    }
+
+    public void RestoreBackground()
+    {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Restore background");
+
+        OutOfBoundsSubGameManager OOBSubGameManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
+        if (OOBSubGameManager != null)
+        {
+            OOBSubGameManager.Background.SetActive(true);
+            OOBSubGameManager.MainCamera.backgroundColor = m_SavedBackgroundColor;
         }
     }
 

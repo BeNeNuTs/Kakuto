@@ -4190,8 +4190,23 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0
+    functionName: ChangeBackgroundColor
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 565b30e002f733d42b7d9a37504bea2d,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.1666666
     functionName: UnfreezeTime
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.1666666
+    functionName: RestoreBackground
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -723,6 +723,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGTest2
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
+      propertyPath: m_TagString
+      value: Background
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.59

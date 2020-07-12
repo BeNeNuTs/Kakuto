@@ -3,32 +3,29 @@ using Cinemachine;
 
 public class CameraMultiTargetsSubGameManager : SubGameManagerBase
 {
+    private CinemachineMultipleTargets m_CinemachineMultipleTargets;
+
     public override void OnPlayerRegistered(GameObject player)
     {
-        CinemachineMultipleTargets multiTargetsComp = GetCinemachineMultiTargetsComponent();
-        if(multiTargetsComp != null)
-        {
-            multiTargetsComp.AddTarget(player.transform);
-        }
+        GetCinemachineMultiTargetsComponent()?.AddTarget(player.transform);
     }
 
     public override void OnPlayerUnregistered(GameObject player)
     {
-        CinemachineMultipleTargets multiTargetsComp = GetCinemachineMultiTargetsComponent();
-        if (multiTargetsComp != null)
-        {
-            multiTargetsComp.RemoveTarget(player.transform);
-        }
+        GetCinemachineMultiTargetsComponent()?.RemoveTarget(player.transform);
     }
 
     CinemachineMultipleTargets GetCinemachineMultiTargetsComponent()
     {
-        GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
-        if (virtualCam != null)
+        if(m_CinemachineMultipleTargets == null)
         {
-            return virtualCam.GetComponent<CinemachineMultipleTargets>();
+            GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
+            if (virtualCam != null)
+            {
+                m_CinemachineMultipleTargets = virtualCam.GetComponent<CinemachineMultipleTargets>();
+            }
         }
 
-        return null;
+        return m_CinemachineMultipleTargets;
     }
 }
