@@ -40,6 +40,8 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         base.OnShutdown();
         Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
         Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+
+        SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
