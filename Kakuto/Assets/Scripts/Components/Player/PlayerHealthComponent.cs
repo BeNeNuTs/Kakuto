@@ -235,7 +235,10 @@ public class PlayerHealthComponent : MonoBehaviour
         if(m_AttackComponent)
         {
             // Check if we are playing parry attack
-            return m_AttackComponent.GetCurrentAttackLogic() is PlayerParryAttackLogic parryAttackLogic && parryAttackLogic.CanParryAttack(attackLogic);
+            if(m_AttackComponent.GetCurrentAttackLogic() is PlayerParryAttackLogic parryAttackLogic && parryAttackLogic.CanParryAttack(attackLogic))
+            {
+                return attackLogic.CanAttackBeParried();
+            }
         }
 
         return false;
@@ -267,7 +270,7 @@ public class PlayerHealthComponent : MonoBehaviour
             
             //Check if the player is in the right stance 
             bool isCrouching = m_MovementComponent.IsCrouching();
-            canBlockAttack &= attackLogic.CanBlockAttack(isCrouching);
+            canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
         }
 
         return canBlockAttack;

@@ -68,7 +68,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
     public override float GetStunGaugeHitAmount() { return m_Config.m_StunGaugeHitAmount; }
 
-    public override bool CanBlockAttack(bool isCrouching)
+    public override bool CanAttackBeBlocked(bool isCrouching)
     {
         return !isCrouching;
     }

@@ -102,7 +102,8 @@ public class PlayerBaseAttackLogic
         m_AttackLaunched = false;
     }
 
-    public virtual bool CanBlockAttack(bool isCrouching) { return false; }
+    public virtual bool CanAttackBeBlocked(bool isCrouching) { return true; }
+    public virtual bool CanAttackBeParried() { return true; }
     public virtual uint GetHitDamage(EAttackResult attackResult) { return 0; }
 
     public virtual uint GetCurrentHitCount() { return 0; }

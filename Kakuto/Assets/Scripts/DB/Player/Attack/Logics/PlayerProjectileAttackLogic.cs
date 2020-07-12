@@ -13,6 +13,8 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     private List<ProjectileComponent> m_CurrentProjectiles;
     private ProjectileComponent m_MyProjectile;
 
+    private bool m_IsGuardCrush = false;
+
     public PlayerProjectileAttackLogic(PlayerProjectileAttackConfig config) : base(config)
     {
         m_Config = config;
@@ -57,16 +59,28 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     {
         base.OnAttackLaunched();
         Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
+
+        m_IsGuardCrush = !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
     }
 
-    public override bool CanBlockAttack(bool isCrouching)
+    public override bool CanAttackBeBlocked(bool isCrouching)
     {
-        bool canBlockAttack = base.CanBlockAttack(isCrouching);
-        if (canBlockAttack)
+        bool canAttackBeBlocked = base.CanAttackBeBlocked(isCrouching);
+        if (canAttackBeBlocked)
         {
-            canBlockAttack &= IsASuper() || !IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
+            canAttackBeBlocked &= !IsGuardCrush();
         }
-        return canBlockAttack;
+        return canAttackBeBlocked;
+    }
+
+    public override bool CanAttackBeParried()
+    {
+        bool canAttackBeParried = base.CanAttackBeParried();
+        if (canAttackBeParried)
+        {
+            canAttackBeParried &= !IsGuardCrush();
+        }
+        return canAttackBeParried;
     }
 
     protected override bool CanStopListeningEnemyTakesDamage()
@@ -98,10 +112,6 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
             Debug.LogError("Trying to destroy a projectile which is not in the list");
         }
 
-        if(!IsASuper())
-        {
-            SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
-        }
         m_CurrentProjectiles.Remove(projectile);
     }
 
@@ -122,11 +132,16 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
             Debug.LogError("ProjectileComponent could not be found on " + projectile);
             GameObject.Destroy(projectile);
         }
+
+        if (m_IsGuardCrush)
+        {
+            SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
+        }
     }
 
     public bool IsGuardCrush()
     {
-        return !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
+        return m_IsGuardCrush;
     }
 
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)

@@ -71,7 +71,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         m_LastHitCountTimeStamp = 0f;
     }
 
-    public override bool CanBlockAttack(bool isCrouching)
+    public override bool CanAttackBeBlocked(bool isCrouching)
     {
         switch (m_Config.m_AttackType)
         {
@@ -82,7 +82,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
             case EAttackType.Overhead:
                 return !isCrouching;
             default:
-                return false;
+                return base.CanAttackBeBlocked(isCrouching);
         }
     }
     public override uint GetHitDamage(EAttackResult attackResult)
