@@ -59,10 +59,22 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
     public override void OnAttackLaunched()
     {
+        m_IsGuardCrush = !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex()); // Need to be before base.OnAttackLaunched for GetAnimationAttackName()
+
         base.OnAttackLaunched();
         Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
+    }
 
-        m_IsGuardCrush = !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex());
+    public override string GetAnimationAttackName()
+    {
+        if(m_Config.m_UseSpecificGuardCrushAnim && m_IsGuardCrush)
+        {
+            return m_Config.m_AnimationGuardCrushAttackName.ToString();
+        }
+        else
+        {
+           return base.GetAnimationAttackName();
+        }
     }
 
     public override bool CanAttackBeBlocked(bool isCrouching)

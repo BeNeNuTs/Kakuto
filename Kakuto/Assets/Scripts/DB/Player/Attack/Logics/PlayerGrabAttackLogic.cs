@@ -59,7 +59,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
     }
 
-    protected override string GetAnimationAttackName()
+    public override string GetAnimationAttackName()
     {
         return m_Attack.m_AnimationAttackName.ToString() + m_Config.m_GrabType.ToString();
     }

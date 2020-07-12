@@ -320,9 +320,16 @@ public class PlayerMovementComponent : MonoBehaviour
     void EndOfAttack(EAnimationAttackName attackName)
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On end of attack : " + attackName);
-        if (m_IsMovementBlocked && (m_AttackComponent.GetCurrentAttack() == null || m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName))
+        if (m_IsMovementBlocked)
         {
-            SetMovementBlocked(false, EBlockedReason.EndAttack);
+            // We need to check m_AttackComponent.GetCurrentAttack().m_AnimationAttackName AND m_AttackComponent.GetCurrentAttackLogic().GetAnimationAttackName() because for ProjectileAttack, 
+            // it can happen that a different animation is triggered due to guard crush property, so the animation attack name is changed at runtime
+            if (m_AttackComponent.GetCurrentAttack() == null || 
+                m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName ||
+                m_AttackComponent.GetCurrentAttackLogic().GetAnimationAttackName() == attackName.ToString())
+            {
+                SetMovementBlocked(false, EBlockedReason.EndAttack);
+            }
         }
     }
 

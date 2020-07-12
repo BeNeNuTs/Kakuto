@@ -20,7 +20,7 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
         m_OriginalMass = m_Rigidbody.mass;
     }
 
-    protected override string GetAnimationAttackName()
+    public override string GetAnimationAttackName()
     {
         return m_Attack.m_AnimationAttackName.ToString() + m_Config.m_DashType.ToString();
     }

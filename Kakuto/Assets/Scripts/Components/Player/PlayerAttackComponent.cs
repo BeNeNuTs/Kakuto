@@ -335,7 +335,7 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    bool CheckIsCurrentAttack(EAnimationAttackName attackName, string methodName)
+    bool CheckIsCurrentAttack(EAnimationAttackName attackName)
     {
         if (m_CurrentAttackLogic == null)
         {
@@ -344,9 +344,12 @@ public class PlayerAttackComponent : MonoBehaviour
         }
 
         PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
-        if (currentAttack.m_AnimationAttackName != attackName)
+
+        // We need to check currentAttack.m_AnimationAttackName AND m_CurrentAttackLogic.GetAnimationAttackName() because for ProjectileAttack, it can happen that
+        // a different animation is triggered due to guard crush property, so the animation attack name is changed at runtime
+        if (currentAttack.m_AnimationAttackName != attackName && m_CurrentAttackLogic.GetAnimationAttackName() != attackName.ToString())
         {
-            // This can happen when attackName has been cancelled by currentAttack (In that case, EndOfAttack has been called in TriggerAttack
+            // This can happen when attackName has been cancelled by currentAttack (In that case, EndOfAttack has been called in TriggerAttack)
             return false;
         }
         return true;
@@ -354,7 +357,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void EndOfAttack(EAnimationAttackName attackName)
     {
-        if(CheckIsCurrentAttack(attackName, "EndOfAttack"))
+        if(CheckIsCurrentAttack(attackName))
         {
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
 
@@ -385,7 +388,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void BlockAttack(EAnimationAttackName attackName)
     {
-        if (CheckIsCurrentAttack(attackName, "BlockAttack"))
+        if (CheckIsCurrentAttack(attackName))
         {
             if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
             {
@@ -402,7 +405,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UnblockAttack(UnblockAttackAnimEvent unblockEvent)
     {
-        if (CheckIsCurrentAttack(unblockEvent.m_AttackToUnblock, "UnblockAttack"))
+        if (CheckIsCurrentAttack(unblockEvent.m_AttackToUnblock))
         {
             if(m_IsAttackBlocked == false)
             {

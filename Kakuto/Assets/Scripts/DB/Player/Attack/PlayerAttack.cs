@@ -45,7 +45,7 @@ public class PlayerAttack
 
     // Attack input to trigger (E+Z+A)
     [Separator("Input")]
-    [SerializeField,  Tooltip("Allowed inputs are : A B X Y RB LB ← → ↑ ↓ ↖ ↗ ↙ ↘ and AttackName to refer to another attack inputs. (eg : Grab = standLP + standLK)")]
+    [SerializeField,  Tooltip("Allowed inputs are : A B X Y RB LB RT LT ← → ↑ ↓ ↖ ↗ ↙ ↘ and AttackName to refer to another attack inputs. (eg : Grab = standLP + standLK)")]
 #pragma warning disable 0649
     private List<string> m_InputStringList;
 #pragma warning restore 0649

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerProjectileAttackConfig", menuName = "Data/Player/Attacks/Configs/PlayerProjectileAttackConfig", order = 2)]
 public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
@@ -12,6 +10,11 @@ public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
     public float m_ProjectileAngle = 0.0f;
     [Tooltip("The speed of the projectile over time")]
     public AnimationCurve m_ProjectileSpeedOverTime;
+
+    [Separator("Guard crush")]
+    public bool m_UseSpecificGuardCrushAnim = false;
+    [ConditionalField(true, "m_UseSpecificGuardCrushAnim"), SearchableEnum, Tooltip("Animation to play if this projectile is guard crush.")]
+    public EAnimationAttackName m_AnimationGuardCrushAttackName;
 
     public override PlayerBaseAttackLogic CreateLogic()
     {

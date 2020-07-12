@@ -87,7 +87,7 @@ public class PlayerBaseAttackLogic
         m_AttackLaunched = true;
     }
 
-    protected virtual string GetAnimationAttackName()
+    public virtual string GetAnimationAttackName()
     {
         return m_Attack.m_AnimationAttackName.ToString();
     }
