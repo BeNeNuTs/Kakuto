@@ -73,6 +73,11 @@ public class PlayerBaseAttackLogic
     {
         m_Animator.Play(GetAnimationAttackName(), 0, 0);
 
+        if(m_Attack.m_IsEXAttack)
+        {
+            m_InfoComponent.SetCurrentPalette(EPalette.EX);
+        }
+
         PlayerSuperGaugeSubComponent superGaugeSC = m_AttackComponent.GetSuperGaugeSubComponent();
         if (superGaugeSC != null)
         {
@@ -94,7 +99,12 @@ public class PlayerBaseAttackLogic
 
     public virtual void OnAttackStopped()
     {
-        if(CanStopListeningEnemyTakesDamage())
+        if (m_Attack.m_IsEXAttack)
+        {
+            m_InfoComponent.ResetCurrentPalette();
+        }
+
+        if (CanStopListeningEnemyTakesDamage())
         {
             Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
         }

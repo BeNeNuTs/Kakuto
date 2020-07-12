@@ -24,6 +24,7 @@ public class PlayerAttack
     [Tooltip("Which is the attack default stance at the beggining of the animation ?"), ConditionalField(true, "m_UseDefaultStance")]
     public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
+    public bool m_IsEXAttack = false;
 
     // Condition (SuperGauge, AttackRequirement)
     [Separator("Condition")]

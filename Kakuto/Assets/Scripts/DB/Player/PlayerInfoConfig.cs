@@ -1,30 +1,64 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 public enum EPalette
 {
     Default,
+    EX,
     Palette1,
     Palette2,
-    Palette3,
+    Palette3
 
-    Count
+    // Please update K_MAX_PALETTE if new palettes need to be added
+}
+
+[Serializable]
+public class Palette
+{
+    [SerializeField, ReadOnly]
+    private string m_PaletteName;
+    [ReadOnly]
+    public EPalette m_PaletteType;
+    public Sprite m_PaletteSprite;
+
+    public void OnValidate()
+    {
+        m_PaletteName = m_PaletteType.ToString();
+    }
 }
 
 [CreateAssetMenu(fileName = "PlayerInfoConfig", menuName = "Data/Player/PlayerInfoConfig", order = 0)]
 public class PlayerInfoConfig : ScriptableObject
 {
+    private static readonly int K_MAX_PALETTE = 5;
+
     public string m_PlayerName = "Player";
     public Sprite m_PlayerIcon;
 
-    public List<Sprite> m_Palettes;
+    public List<Palette> m_Palettes;
 
     void OnValidate()
     {
-        if(m_Palettes.Count > (int)EPalette.Count)
+        if(m_Palettes == null)
         {
-            Debug.LogError("Max palettes allowed is " + (int)EPalette.Count);
-            m_Palettes.RemoveRange((int)EPalette.Count, m_Palettes.Count - (int)EPalette.Count);
+            m_Palettes = new List<Palette>();
+        }
+
+        if(m_Palettes.Count > K_MAX_PALETTE)
+        {
+            m_Palettes.RemoveRange(K_MAX_PALETTE, m_Palettes.Count - K_MAX_PALETTE);
+        }
+
+        while(m_Palettes.Count < K_MAX_PALETTE)
+        {
+            m_Palettes.Add(new Palette());
+        }
+
+        for(int i = 0; i < K_MAX_PALETTE; i++)
+        {
+            m_Palettes[i].m_PaletteType = (EPalette)i;
+            m_Palettes[i].OnValidate();
         }
     }
 }

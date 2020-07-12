@@ -3,8 +3,10 @@
 public class PlayerInfoComponent : MonoBehaviour
 {
     public PlayerInfoConfig m_InfoConfig;
-    public EPalette m_CurrentPalette = EPalette.Default;
+    public EPalette m_DefaultPalette = EPalette.Default;
 
+    private SpriteRenderer m_SpriteRenderer;
+    private EPalette m_CurrentPalette = EPalette.Default;
     private int m_PlayerIndex = -1;
     private PlayerSettings m_Settings = null;
 
@@ -13,6 +15,8 @@ public class PlayerInfoComponent : MonoBehaviour
         InitPlayerTags();
         InitPlayerIndex();
         InitPlayerSettings();
+
+        m_CurrentPalette = m_DefaultPalette;
         InitPalette();
 
         GameManager.Instance.RegisterPlayer(gameObject);
@@ -54,10 +58,14 @@ public class PlayerInfoComponent : MonoBehaviour
 
     void InitPalette()
     {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if(spriteRenderer != null)
+        if(m_SpriteRenderer == null)
         {
-            InitWithCurrentPalette(spriteRenderer.material);
+            m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        
+        if(m_SpriteRenderer != null)
+        {
+            InitWithCurrentPalette(m_SpriteRenderer.material);
         }
     }
 
@@ -86,6 +94,18 @@ public class PlayerInfoComponent : MonoBehaviour
 
     public Texture GetCurrentPalette()
     {
-        return m_InfoConfig.m_Palettes[(int)m_CurrentPalette].texture;
+        return m_InfoConfig.m_Palettes[(int)m_CurrentPalette].m_PaletteSprite.texture;
+    }
+
+    public void SetCurrentPalette(EPalette palette)
+    {
+        m_CurrentPalette = palette;
+        InitPalette();
+    }
+
+    public void ResetCurrentPalette()
+    {
+        m_CurrentPalette = m_DefaultPalette;
+        InitPalette();
     }
 }
