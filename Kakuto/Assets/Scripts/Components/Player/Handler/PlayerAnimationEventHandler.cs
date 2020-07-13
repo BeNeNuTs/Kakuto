@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
     private Color m_SavedBackgroundColor;
+    private Rigidbody2D m_Rigidbody;
+
+    private void Start()
+    {
+        m_Rigidbody = GetComponentInParent<Rigidbody2D>();
+    }
 
     public void BlockAttack()
     {
@@ -175,5 +181,15 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger teleport");
         Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerTeleport, true);
+    }
+
+    public void SetXVelocity(float xVelocity)
+    {
+        m_Rigidbody.velocity = new Vector2(xVelocity, m_Rigidbody.velocity.y);
+    }
+
+    public void SetYVelocity(float yVelocity)
+    {
+        m_Rigidbody.velocity = new Vector2(m_Rigidbody.velocity.x, yVelocity);
     }
 }

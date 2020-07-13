@@ -21,8 +21,12 @@ public class MovementConfig : ScriptableObject
     [Tooltip("Radius of the overlap circle to determine if the character is jumping or not")]
     public float m_OverlapCircleRadius = 0.05f;
 
+    [Separator("Debug")]
 #if UNITY_EDITOR
     [Tooltip("Debug : Display the overlap circle in the scene")]
     public bool m_DEBUG_DisplayOverlapCircle = false;
+
+    [Tooltip("Debug : Display the rigidbody velocity")]
+    public bool m_DEBUG_DisplayVelocity = false;
 #endif
 }

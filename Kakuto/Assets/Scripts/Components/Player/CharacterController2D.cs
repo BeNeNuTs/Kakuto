@@ -88,16 +88,24 @@ public class CharacterController2D : MonoBehaviour
             OnJumpEvent.Invoke(true);
         }
     }
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-#if UNITY_EDITOR
         if (MovementConfig.Instance.m_DEBUG_DisplayOverlapCircle)
         {
             Gizmos.DrawWireSphere(transform.position, MovementConfig.Instance.m_OverlapCircleRadius);
         }
-#endif
     }
+
+    private void OnGUI()
+    {
+        if (MovementConfig.Instance.m_DEBUG_DisplayVelocity && m_Rigidbody2D != null)
+        {
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+            GUI.Label(new Rect(screenPosition.x - 50f, Screen.height - screenPosition.y - (Screen.height / 2f) - 50f, 200f, 30f), "Velocity : " + m_Rigidbody2D.velocity);
+        }
+    }
+#endif
 
     public void Move(float move, bool crouch, bool jump, EJumpPhase jumpPhase)
     {
