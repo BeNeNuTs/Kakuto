@@ -30,6 +30,8 @@ public struct DamageTakenInfo
 public class PlayerHealthComponent : MonoBehaviour
 {
     public PlayerHealthConfig m_HealthConfig;
+    public GameObject m_DamageTakenUIPrefab;
+    public Transform m_DamageTakenParent;
 
     private uint m_HP;
 
@@ -42,11 +44,13 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
     [Separator("Debug")]
     [Space]
 
-    public GameObject m_DamageTakenUIPrefab;
-    public Transform m_DamageTakenParent;
+    public bool m_DEBUG_BreakOnHit = false;
+    public bool m_DEBUG_BreakOnGrabbed = false;
+#endif
 
     private void Awake()
     {
@@ -193,6 +197,13 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if (m_DEBUG_BreakOnGrabbed)
+        {
+            Debug.Break();
+        }
+#endif
+
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + attackLogic.GetAttack().m_Name);
         m_StunInfoSC.StartStun(attackLogic, EAttackResult.Hit);
         PlayHitAnimation(attackLogic);
@@ -204,6 +215,13 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             return;
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        if(m_DEBUG_BreakOnHit)
+        {
+            Debug.Break();
+        }
+#endif
 
         GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult);
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + attackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult);

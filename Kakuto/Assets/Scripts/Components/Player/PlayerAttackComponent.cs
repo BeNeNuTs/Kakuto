@@ -29,12 +29,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private List<Collider2D> m_HitBoxes;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
     /// DEBUG
     [Separator("Debug")]
     [Space]
 
     public bool m_DEBUG_BreakOnTriggerAttack = false;
     /// DEBUG
+#endif
 
     void Awake()
     {
@@ -306,12 +308,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         // DEBUG ///////////////////////////////////
         if (m_DEBUG_BreakOnTriggerAttack)
         {
             Debug.Break();
         }
         ////////////////////////////////////////////
+#endif
     }
 
     void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
