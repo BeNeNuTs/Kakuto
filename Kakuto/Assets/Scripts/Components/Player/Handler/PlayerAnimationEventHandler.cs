@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
+    private static readonly string K_FX_HOOK = "FXHook";
+
     private Color m_SavedBackgroundColor;
     private Rigidbody2D m_Rigidbody;
+    private Transform m_FXHook;
 
     private void Start()
     {
         m_Rigidbody = GetComponentInParent<Rigidbody2D>();
+        m_FXHook = gameObject.transform.Find(K_FX_HOOK);
+#if UNITY_EDITOR
+        if (m_FXHook == null)
+        {
+            Debug.LogError(K_FX_HOOK + " can't be found on " + gameObject);
+        }
+#endif
     }
 
     public void BlockAttack()
@@ -191,5 +201,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     public void SetYVelocity(float yVelocity)
     {
         m_Rigidbody.velocity = new Vector2(m_Rigidbody.velocity.x, yVelocity);
+    }
+
+    public void SpawnFX(GameObject fx)
+    {
+        Instantiate(fx, m_FXHook.transform.position, Quaternion.identity);
     }
 }

@@ -54,9 +54,15 @@ TagManager:
   - name: UI
     uniqueID: 4103083841
     locked: 0
+  - name: FX_Background
+    uniqueID: 3798703685
+    locked: 0
   - name: Character
     uniqueID: 2292350877
     locked: 0
   - name: Projectile
     uniqueID: 581490161
+    locked: 0
+  - name: FX_Foreground
+    uniqueID: 1193967587
     locked: 0
