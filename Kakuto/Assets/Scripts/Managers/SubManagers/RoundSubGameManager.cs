@@ -45,16 +45,16 @@ public class RoundSubGameManager : SubGameManagerBase
         Utils.GetPlayerEventManager<string>(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
-    public override void OnPlayersReady()
+    public override void OnPlayersRegistered()
     {
-        base.OnPlayersReady();
+        base.OnPlayersRegistered();
         foreach(GameObject player in GameManager.Instance.GetPlayers())
         {
             EnablePlayer(player, false);
             player.GetComponentInChildren<Animator>().Play(K_ROUND_ENTRY_ANIM, 0, 0);
         }
 
-        Invoker.InvokeDelayed(OnRoundBegin_Internal, GameConfig.Instance.m_RoundEntryTime);
+        GameManager.Instance.StartCoroutine(OnRoundBegin_Internal());
     }
 
     private void EnablePlayer(GameObject player, bool enable)
@@ -63,8 +63,16 @@ public class RoundSubGameManager : SubGameManagerBase
         player.GetComponent<PlayerMovementComponent>().enabled = enable;
     }
 
-    private void OnRoundBegin_Internal()
+    private IEnumerator OnRoundBegin_Internal()
     {
+        yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime);
+
+        while (!ArePlayersReady())
+        {
+            // Player's not ready yet, wait one more second
+            yield return new WaitForSeconds(1f);
+        }
+
         foreach (GameObject player in GameManager.Instance.GetPlayers())
         {
             EnablePlayer(player, true);
@@ -143,10 +151,10 @@ public class RoundSubGameManager : SubGameManagerBase
         m_RoundIsOver = true;
         OnRoundOver?.Invoke();
 
-        Invoker.InvokeDelayed(PlayWonAndLostRoundAnimation, GameConfig.Instance.m_TimeToWaitBeforeEndRoundAnimations);
+        GameManager.Instance.StartCoroutine(PlayWonAndLostRoundAnimation());
     }
 
-    private bool ArePlayersReadyToPlayEndRoundAnimations()
+    private bool ArePlayersReady()
     {
         foreach (GameObject player in GameManager.Instance.GetPlayers())
         {
@@ -165,13 +173,14 @@ public class RoundSubGameManager : SubGameManagerBase
         return true;
     }
 
-    private void PlayWonAndLostRoundAnimation()
+    private IEnumerator PlayWonAndLostRoundAnimation()
     {
-        if(!ArePlayersReadyToPlayEndRoundAnimations())
+        yield return new WaitForSeconds(GameConfig.Instance.m_TimeToWaitBeforeEndRoundAnimations);
+
+        while(!ArePlayersReady())
         {
             // Player's not ready yet, wait one more second
-            Invoker.InvokeDelayed(PlayWonAndLostRoundAnimation, 1f);
-            return;
+            yield return new WaitForSeconds(1f);
         }
 
         bool player1PlayedAnim = false;
@@ -231,12 +240,14 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            Invoker.InvokeDelayed(RestartRound, GameConfig.Instance.m_TimeToWaitAfterEndRoundAnimations);
+            GameManager.Instance.StartCoroutine(RestartRound());
         }
     }
 
-    private void RestartRound()
+    private IEnumerator RestartRound()
     {
+        yield return new WaitForSeconds(GameConfig.Instance.m_TimeToWaitAfterEndRoundAnimations);
+
         uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {

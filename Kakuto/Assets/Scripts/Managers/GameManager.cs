@@ -90,16 +90,16 @@ public class GameManager : Singleton<GameManager>
         }
         GetOnPlayerRegisteredCallback(player.tag)?.Invoke(player);
 
-        if(ArePlayersReady())
+        if(ArePlayersRegistered())
         {
             foreach (SubGameManagerBase subManager in m_SubManagers.Values)
             {
-                subManager.OnPlayersReady();
+                subManager.OnPlayersRegistered();
             }
         }
     }
 
-    public bool ArePlayersReady()
+    public bool ArePlayersRegistered()
     {
         return m_Players.Count == 2;
     }
