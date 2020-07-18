@@ -133,7 +133,7 @@ public class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
-    public virtual void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider) { }
+    public virtual void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider, Collider2D hurtCollider) { }
     public virtual bool NeedPushBoxCollisionCallback() { return false; }
     public virtual void OnHandlePushBoxCollision(Collision2D collision) { }
     public bool HasTouched() { return m_HasTouched; }
@@ -186,8 +186,28 @@ public class PlayerBaseAttackLogic
         return m_DamageRatio;
     }
 
-    public virtual Collider2D GetLastHitCollider()
+    public virtual bool GetLastHitPoint(out Vector3 hitPoint)
     {
+        hitPoint = Vector3.zero;
+        return false;
+    }
+
+    public virtual GameObject GetHitFX(EAttackResult attackResult)
+    {
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                if(m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
+                {
+                    return AttackConfig.Instance.m_HitFX[(int)EHitFXType.SpecialHit].m_FX;
+                }
+                break;
+            case EAttackResult.Blocked:
+                return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Block].m_FX;
+            case EAttackResult.Parried:
+                return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Parry].m_FX;
+        }
+
         return null;
     }
 }

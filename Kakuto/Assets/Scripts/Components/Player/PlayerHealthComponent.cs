@@ -391,23 +391,32 @@ public class PlayerHealthComponent : MonoBehaviour
             }
         }
 
+        if (!attackLogic.GetLastHitPoint(out Vector3 hitPoint))
+        {
+            hitPoint = attackLogic.GetOwner().transform.position;
+        }
+
         if (attackResult != EAttackResult.Blocked)
         {
             if (attack.m_UseCameraShakeEffect)
             {
-                Vector3 hitPoint = Vector2.zero;
-                Collider2D hitCollider = attackLogic.GetLastHitCollider();
-                if(hitCollider != null)
-                {
-                    hitPoint = hitCollider.bounds.center;
-                }
-                else
-                {
-                    hitPoint = attackLogic.GetOwner().transform.position;
-                }
-
                 Vector3 hitDirection = (transform.position - attackLogic.GetOwner().transform.position).normalized;
                 CameraShakeManager.GenerateImpulseAt(attack.m_CameraShakeParams, hitPoint, hitDirection);
+            }
+        }
+
+        TriggerHitFX(attackLogic, hitPoint, attackResult);
+    }
+
+    private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult)
+    {
+        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult);
+        if(hitFXPrefab != null)
+        {
+            GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
+            if (hitFXInstance != null)
+            {
+                hitFXInstance.transform.localScale = attackLogic.GetOwner().transform.lossyScale;
             }
         }
     }

@@ -9,6 +9,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
     private uint m_CurrentHitCount = 0;
     private float m_LastHitCountTimeStamp = 0f;
     private Collider2D m_LastHitCollider;
+    private Collider2D m_LastHurtCollider;
 
     public PlayerNormalAttackLogic(PlayerNormalAttackConfig config)
     {
@@ -24,11 +25,12 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         m_CurrentHitCount = 0;
         m_LastHitCountTimeStamp = 0f;
         m_LastHitCollider = null;
+        m_LastHurtCollider = null;
     }
 
-    public override void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider)
+    public override void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider, Collider2D hurtCollider)
     {
-        base.OnHandleCollision(triggerHitEvent, hitCollider);
+        base.OnHandleCollision(triggerHitEvent, hitCollider, hurtCollider);
         if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
         {
             if (m_CurrentHitCount < GetMaxHitCount())
@@ -36,6 +38,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 m_CurrentHitCount++;
                 m_LastHitCountTimeStamp = Time.time;
                 m_LastHitCollider = hitCollider;
+                m_LastHurtCollider = hurtCollider;
 
                 ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "On handle collision | Hit count : " + GetCurrentHitCount() + ", Max hit count : " + GetMaxHitCount());
 
@@ -236,8 +239,36 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return hitAnimName;
     }
 
-    public override Collider2D GetLastHitCollider()
+    public override bool GetLastHitPoint(out Vector3 hitPoint)
     {
-        return m_LastHitCollider;
+        if(m_LastHitCollider != null && m_LastHurtCollider != null)
+        {
+            hitPoint = (m_LastHitCollider.bounds.center + m_LastHurtCollider.bounds.center) / 2.0f;
+            return true;
+        }
+
+        return base.GetLastHitPoint(out hitPoint);
+    }
+
+    public override GameObject GetHitFX(EAttackResult attackResult)
+    {
+        GameObject hitFX = base.GetHitFX(attackResult);
+        if(hitFX == null)
+        {
+            switch (attackResult)
+            {
+                case EAttackResult.Hit:
+                    switch (m_Config.m_HitStrength)
+                    {
+                        case EHitStrength.Weak:
+                            return AttackConfig.Instance.m_HitFX[(int)EHitFXType.LightHit].m_FX;
+                        case EHitStrength.Strong:
+                            return AttackConfig.Instance.m_HitFX[(int)EHitFXType.HeavyHit].m_FX;
+                    }
+                    break;
+            }
+        }
+        
+        return hitFX;
     }
 }

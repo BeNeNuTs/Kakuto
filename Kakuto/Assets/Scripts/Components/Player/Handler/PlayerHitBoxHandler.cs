@@ -53,13 +53,13 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 
     private void HandleCollision(Collider2D collision)
     {
-        if(m_Collider.isActiveAndEnabled && m_CurrentAttack != null)
+        if (m_Collider.isActiveAndEnabled && m_CurrentAttack != null)
         {
             if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
             {
                 if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    m_CurrentAttack.OnHandleCollision(true, m_Collider);
+                    m_CurrentAttack.OnHandleCollision(true, m_Collider, collision);
                     if (m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
                     {
                         m_Collider.enabled = false;

@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AttackConfig : ScriptableObject
 {
@@ -115,4 +114,24 @@ public class AttackConfig : ScriptableObject
     public float m_HitStopShakeSpeed = 75.0f;
     [Tooltip("The amount of shake of the opponent while taking a hit when time is frozen")]
     public float m_HitStopShakeAmount = 0.01f;
+
+    public List<HitFX> m_HitFX;
+
+    void OnValidate()
+    {
+        if(m_HitFX == null)
+        {
+            m_HitFX = new List<HitFX>();
+        }
+
+        while(m_HitFX.Count > HitFX.COUNT)
+        {
+            m_HitFX.RemoveAt(m_HitFX.Count - 1);
+        }
+
+        while (m_HitFX.Count < HitFX.COUNT)
+        {
+            m_HitFX.Add(new HitFX((EHitFXType)m_HitFX.Count));
+        }
+    }
 }

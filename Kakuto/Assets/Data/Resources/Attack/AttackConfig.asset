@@ -49,3 +49,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_HitStopShakeSpeed: 75
   m_HitStopShakeAmount: 0.01
+  m_HitFX:
+  - m_Name: Block
+    m_FX: {fileID: 1313311603478089952, guid: 0a996d4b8c9ccf142b087088ff046e17, type: 3}
+  - m_Name: Parry
+    m_FX: {fileID: 1313311603478089952, guid: 5d88f555805a17c46993c91fe7ea095e, type: 3}
+  - m_Name: Counter
+    m_FX: {fileID: 1313311603478089952, guid: 1ef6e9b0391ba8a458b2a9563b176ec9, type: 3}
+  - m_Name: GuardCrush
+    m_FX: {fileID: 1313311603478089952, guid: 12cd2d9993d5ece4c8dd76b708355d7f, type: 3}
+  - m_Name: HeavyHit
+    m_FX: {fileID: 1313311603478089952, guid: 6ce23acb0969bbb42bf25904f6961be4, type: 3}
+  - m_Name: LightHit
+    m_FX: {fileID: 1313311603478089952, guid: 7d65dd97ed5a8bc43a615ad2e1f976c9, type: 3}
+  - m_Name: SpecialHit
+    m_FX: {fileID: 1313311603478089952, guid: 6d20520d9b8482345be837b91705284d, type: 3}
