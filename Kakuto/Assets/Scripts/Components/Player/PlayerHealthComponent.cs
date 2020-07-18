@@ -325,23 +325,21 @@ public class PlayerHealthComponent : MonoBehaviour
         DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
-        if (IsDead())
+        if (!IsDead() && attackLogic.CanPlayDamageTakenAnim())
         {
-            OnDeath();
+            PlayDamageTakenAnim(attackLogic, attackResult);
         }
-        else
-        {
-            if (attackLogic.CanPlayDamageTakenAnim())
-            {
-                PlayDamageTakenAnim(attackLogic, attackResult);
-            }
             
-            TriggerEffects(attackLogic, damage, attackResult);
-        }
+        TriggerEffects(attackLogic, damage, attackResult);
 
         if (damage > 0 && m_InfoComponent.GetPlayerSettings().m_DisplayDamageTaken)
         {
             DisplayDamageTakenUI(damage);
+        }
+
+        if (IsDead())
+        {
+            OnDeath();
         }
     }
 
@@ -350,7 +348,7 @@ public class PlayerHealthComponent : MonoBehaviour
         PlayerAttack attack = attackLogic.GetAttack();
 
         // No stun neither pushback when an attack is parried
-        if (attackResult != EAttackResult.Parried)
+        if (!IsDead() && attackResult != EAttackResult.Parried)
         {
             if (attackLogic.CanStunOnDamage())
             {
@@ -391,12 +389,22 @@ public class PlayerHealthComponent : MonoBehaviour
             m_StunInfoSC.IncreaseGaugeValue(attackLogic.GetStunGaugeHitAmount());
         }
 
-        if(attack.m_UseTimeScaleEffect)
+        TimeScaleParams timeScaleParams = null;
+        if (IsDead())
         {
-            TimeManager.StartTimeScale(attack.m_TimeScaleParams);
-            if(attack.m_TimeScaleParams.m_TimeScaleAmount == 0f)
+            timeScaleParams = AttackConfig.Instance.m_OnDeathTimeScaleParams;
+        }
+        else if(attack.m_UseTimeScaleEffect)
+        {
+            timeScaleParams = attack.m_TimeScaleParams;
+        }
+
+        if(timeScaleParams != null)
+        {
+            TimeManager.StartTimeScale(timeScaleParams);
+            if (timeScaleParams.m_TimeScaleAmount == 0f)
             {
-                TriggerHitStopShake(attack.m_TimeScaleParams.m_TimeScaleDuration);
+                TriggerHitStopShake(timeScaleParams.m_TimeScaleDuration);
             }
         }
 

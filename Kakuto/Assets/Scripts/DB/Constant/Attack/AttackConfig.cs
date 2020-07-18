@@ -117,6 +117,8 @@ public class AttackConfig : ScriptableObject
 
     public List<HitFX> m_HitFX;
 
+    public TimeScaleParams m_OnDeathTimeScaleParams;
+
     void OnValidate()
     {
         if(m_HitFX == null)
