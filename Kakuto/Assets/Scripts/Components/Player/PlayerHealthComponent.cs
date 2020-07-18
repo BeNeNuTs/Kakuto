@@ -264,6 +264,19 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
     {
+        bool canBlockAttack = IsInBlockingStance();
+        if(canBlockAttack && m_MovementComponent)
+        {
+            //Check if the player is in the right stance for this attack
+            bool isCrouching = m_MovementComponent.IsCrouching();
+            canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
+        }
+
+        return canBlockAttack;
+    }
+
+    private bool IsInBlockingStance()
+    {
         if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks)
         {
             return true;
@@ -281,14 +294,10 @@ public class PlayerHealthComponent : MonoBehaviour
             canBlockAttack &= (m_AttackComponent.GetCurrentAttack() == null);
         }
 
-        if(m_MovementComponent)
+        if (m_MovementComponent)
         {
             // If he's moving back and not jumping
             canBlockAttack &= (m_MovementComponent.IsMovingBack() && m_MovementComponent.IsJumping() == false);
-            
-            //Check if the player is in the right stance 
-            bool isCrouching = m_MovementComponent.IsCrouching();
-            canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
         }
 
         return canBlockAttack;
@@ -410,7 +419,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult)
     {
-        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult);
+        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching());
         if(hitFXPrefab != null)
         {
             GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);

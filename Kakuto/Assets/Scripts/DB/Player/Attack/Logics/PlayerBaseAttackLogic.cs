@@ -192,7 +192,7 @@ public class PlayerBaseAttackLogic
         return false;
     }
 
-    public virtual GameObject GetHitFX(EAttackResult attackResult)
+    public virtual GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching)
     {
         switch (attackResult)
         {

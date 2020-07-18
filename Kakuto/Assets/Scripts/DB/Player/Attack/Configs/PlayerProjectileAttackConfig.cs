@@ -13,7 +13,7 @@ public class PlayerProjectileAttackConfig : PlayerNormalAttackConfig
 
     [Separator("Guard crush")]
     public bool m_UseSpecificGuardCrushAnim = false;
-    [SearchableEnum, ConditionalField(true, "m_UseSpecificGuardCrushAnim"), Tooltip("Animation to play if this projectile is guard crush.")]
+    [ConditionalField(true, "m_UseSpecificGuardCrushAnim"), Tooltip("Animation to play if this projectile is guard crush.")]
     public EAnimationAttackName m_AnimationGuardCrushAttackName;
 
     public override PlayerBaseAttackLogic CreateLogic()

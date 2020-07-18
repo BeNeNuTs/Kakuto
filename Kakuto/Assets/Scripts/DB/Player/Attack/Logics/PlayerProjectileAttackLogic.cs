@@ -158,6 +158,21 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         return m_IsGuardCrush;
     }
 
+    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching)
+    {
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                if (isInBlockingStance && base.CanAttackBeBlocked(isCrouching) && IsGuardCrush())
+                {
+                    return AttackConfig.Instance.m_HitFX[(int)EHitFXType.GuardCrush].m_FX;
+                }
+                break;
+        }
+
+        return base.GetHitFX(attackResult, isInBlockingStance, isCrouching);
+    }
+
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)
     {
         m_NextNonSuperProjectileIsGuardCrush[playerIndex] = active;
