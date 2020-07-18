@@ -618,40 +618,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4097496055747784082, guid: 6d3bccf9d16dd324c8762db46255df42,
+    - target: {fileID: 8203533068069190081, guid: 6d3bccf9d16dd324c8762db46255df42,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.000000074505806
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4097496057652378775, guid: 6d3bccf9d16dd324c8762db46255df42,
+    - target: {fileID: 955138844974433504, guid: 6d3bccf9d16dd324c8762db46255df42,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.000000074505806
-      objectReference: {fileID: 0}
-    - target: {fileID: 4097496057652378775, guid: 6d3bccf9d16dd324c8762db46255df42,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2369345503891375562, guid: 6d3bccf9d16dd324c8762db46255df42,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2369345503891375562, guid: 6d3bccf9d16dd324c8762db46255df42,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2369345503891375562, guid: 6d3bccf9d16dd324c8762db46255df42,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2369345503891375562, guid: 6d3bccf9d16dd324c8762db46255df42,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
-      value: 7
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d3bccf9d16dd324c8762db46255df42, type: 3}
@@ -726,6 +701,14 @@ PrefabInstance:
     - target: {fileID: 100000, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
       propertyPath: m_TagString
       value: Background
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ff66b129ca287604d80a8858ea0cadd5, type: 3}
       propertyPath: m_LocalPosition.x

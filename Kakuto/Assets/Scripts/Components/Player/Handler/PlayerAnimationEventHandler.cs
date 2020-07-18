@@ -165,7 +165,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
             OOBSubGameManager.Background.SetActive(false);
             m_SavedBackgroundColor = OOBSubGameManager.MainCamera.backgroundColor;
 
-            OOBSubGameManager.MainCamera.backgroundColor = backgroundColorConfig.m_BackgroundColor;
+            OOBSubGameManager.BackgroundCamera.backgroundColor = backgroundColorConfig.m_BackgroundColor;
         }
     }
 
@@ -177,7 +177,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if (OOBSubGameManager != null)
         {
             OOBSubGameManager.Background.SetActive(true);
-            OOBSubGameManager.MainCamera.backgroundColor = m_SavedBackgroundColor;
+            OOBSubGameManager.BackgroundCamera.backgroundColor = m_SavedBackgroundColor;
         }
     }
 
