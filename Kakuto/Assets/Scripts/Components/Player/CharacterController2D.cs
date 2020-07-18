@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,8 +29,8 @@ public class CharacterController2D : MonoBehaviour
     [Separator("Events")]
     [Space]
 
-    public BoolEvent OnJumpEvent;
-    public UnityEvent OnDirectionChangedEvent;
+    public Action<bool> OnJumpEvent;
+    public Action OnDirectionChangedEvent;
     private bool m_wasCrouching = false;
 
     private void Awake()
@@ -38,12 +39,6 @@ public class CharacterController2D : MonoBehaviour
 
         m_FacingRight = gameObject.CompareTag(Player.Player1);
         m_MovingRight = m_FacingRight;
-
-        if (OnJumpEvent == null)
-            OnJumpEvent = new BoolEvent();
-
-        if (OnDirectionChangedEvent == null)
-            OnDirectionChangedEvent = new UnityEvent();
     }
 
     private void FixedUpdate()
@@ -74,7 +69,7 @@ public class CharacterController2D : MonoBehaviour
                     if (!wasGrounded)
                     {
                         m_LastJumpLandingTimeStamp = Time.time;
-                        OnJumpEvent.Invoke(false);
+                        OnJumpEvent?.Invoke(false);
                         m_CharacterIsJumping = false;
                     }
                     m_Grounded = true;
@@ -85,7 +80,7 @@ public class CharacterController2D : MonoBehaviour
 
         if (wasGrounded && !m_Grounded)
         {
-            OnJumpEvent.Invoke(true);
+            OnJumpEvent?.Invoke(true);
         }
     }
 #if UNITY_EDITOR
@@ -225,7 +220,7 @@ public class CharacterController2D : MonoBehaviour
         // Switch the way the player is labelled as moving.
         m_MovingRight = !m_MovingRight;
 
-        OnDirectionChangedEvent.Invoke();
+        OnDirectionChangedEvent?.Invoke();
     }
 
     public void Flip()

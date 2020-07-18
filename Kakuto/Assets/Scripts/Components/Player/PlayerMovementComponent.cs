@@ -74,6 +74,9 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void RegisterListeners()
     {
+        m_Controller.OnJumpEvent += OnJumping;
+        m_Controller.OnDirectionChangedEvent += OnDirectionChanged;
+
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
@@ -82,6 +85,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.EndTurnAround, OnEndTurnAround);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -93,6 +98,9 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
+        m_Controller.OnJumpEvent -= OnJumping;
+        m_Controller.OnDirectionChangedEvent -= OnDirectionChanged;
+
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockMovement, BlockMovement);
         Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
@@ -101,6 +109,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+
+        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.EndTurnAround, OnEndTurnAround);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -166,9 +176,16 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnSideChanged()
     {
+        m_Animator.SetBool("TurnAroundRequested", true);
+    }
+
+    void OnEndTurnAround(bool dummy)
+    {
         m_IsLeftSide = !m_IsLeftSide;
         m_Controller.Flip();
         OnDirectionChanged();
+
+        m_Animator.SetBool("TurnAroundRequested", false);
     }
 
     void OnTriggerJumpImpulse(bool dummy)
@@ -187,7 +204,7 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
-    public void OnJumping(bool isJumping)
+    private void OnJumping(bool isJumping)
     {
         m_Animator.SetBool("IsJumping", isJumping);
         if(isJumping)
@@ -205,7 +222,7 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
-    public void OnDirectionChanged()
+    private void OnDirectionChanged()
     {
         m_Animator.SetFloat("MovingDirection", m_Animator.GetFloat("MovingDirection") * -1.0f);
     }
