@@ -26,7 +26,9 @@ public class HitFX
 
     public HitFX(EHitFXType type)
     {
+#if UNITY_EDITOR
         m_Name = type.ToString();
+#endif
     }
 }
 
