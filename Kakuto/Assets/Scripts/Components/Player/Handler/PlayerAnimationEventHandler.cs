@@ -205,6 +205,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void SpawnFX(GameObject fx)
     {
-        Instantiate(fx, m_FXHook.transform.position, Quaternion.identity);
+        GameObject fxInstance = Instantiate(fx, m_FXHook.transform.position, Quaternion.identity);
+        fxInstance.transform.localScale = m_FXHook.lossyScale;
     }
 }

@@ -1342,3 +1342,11 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.1
+    functionName: SpawnFX
+    data: 
+    objectReferenceParameter: {fileID: 1313311603478089952, guid: de976ce535e93e042b06d09fcfc6989d,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
