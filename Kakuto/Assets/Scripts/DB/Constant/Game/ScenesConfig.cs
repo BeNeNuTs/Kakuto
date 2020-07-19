@@ -22,6 +22,7 @@ public class PlayerSettings
     [Separator("Attack")]
     public bool m_AttackEnabled;
     public bool m_SuperGaugeAlwaysFilled;
+    public bool m_TriggerPointAlwaysActive;
 
     [Separator("Movement")]
     public bool m_IsStatic;

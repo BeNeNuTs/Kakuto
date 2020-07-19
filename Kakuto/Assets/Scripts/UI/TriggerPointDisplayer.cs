@@ -6,14 +6,12 @@ public class TriggerPointDisplayer : MonoBehaviour
     public EPlayer m_Target;
     public Image m_TriggerImage;
 
-    private void Awake()
-    {
-        m_TriggerImage.enabled = false;
-    }
-
     private void Start()
     {
         PlayerGuardCrushTriggerAttackLogic.OnTriggerPointStatusChanged[(int)m_Target] += OnTriggerPointStatusChanged;
+
+        bool isTriggerActiveAtStart = PlayerGuardCrushTriggerAttackLogic.IsTriggerPointActive((int)m_Target);
+        OnTriggerPointStatusChanged(isTriggerActiveAtStart);
     }
 
     private void OnDestroy()

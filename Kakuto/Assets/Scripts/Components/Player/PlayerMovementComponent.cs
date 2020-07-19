@@ -234,7 +234,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_IsMovementBlocked && m_MovementBlockedReason != EBlockedReason.TimeOver)
+        if(m_IsMovementBlocked && (m_MovementBlockedReason != EBlockedReason.TimeOver || !m_TriggerJumpImpulse))
         {
             return;
         }

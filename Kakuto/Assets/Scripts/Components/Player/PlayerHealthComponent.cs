@@ -348,7 +348,7 @@ public class PlayerHealthComponent : MonoBehaviour
         PlayerAttack attack = attackLogic.GetAttack();
 
         // No stun neither pushback when an attack is parried
-        if (!IsDead() && attackResult != EAttackResult.Parried)
+        if (attackResult != EAttackResult.Parried)
         {
             if (attackLogic.CanStunOnDamage())
             {
@@ -372,6 +372,10 @@ public class PlayerHealthComponent : MonoBehaviour
                     float pushBackForce = attackLogic.GetPushBackForce(attackResult);
                     if (pushBackForce > 0.0f && m_MovementComponent)
                     {
+                        if (IsDead())
+                        {
+                            pushBackForce *= AttackConfig.Instance.m_OnDeathPushbackMultiplier;
+                        }
                         m_MovementComponent.PushBack(pushBackForce);
                     }
                 }
@@ -431,9 +435,19 @@ public class PlayerHealthComponent : MonoBehaviour
         if(hitFXPrefab != null)
         {
             GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
-            if (hitFXInstance != null)
+            Collider2D lastHitCollider = attackLogic.GetLastHitCollider();
+            if(lastHitCollider != null)
             {
-                hitFXInstance.transform.localScale = attackLogic.GetOwner().transform.lossyScale;
+                Transform hitOwner = lastHitCollider.transform.root;
+                if(hitOwner.position.x < transform.position.x)
+                {
+                    hitFXInstance.transform.localScale = new Vector3(hitFXInstance.transform.localScale.x * -1f, hitFXInstance.transform.localScale.y, hitFXInstance.transform.localScale.z);
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerHealthComponent::TriggerHitFX - Last hit collider has not been found");
+                hitFXInstance.transform.localScale = transform.lossyScale;
             }
         }
     }

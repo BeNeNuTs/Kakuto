@@ -186,6 +186,16 @@ public class PlayerBaseAttackLogic
         return m_DamageRatio;
     }
 
+    public virtual Collider2D GetLastHitCollider()
+    {
+        return null;
+    }
+
+    public virtual Collider2D GetLastHurtCollider()
+    {
+        return null;
+    }
+
     public virtual bool GetLastHitPoint(out Vector3 hitPoint)
     {
         hitPoint = Vector3.zero;
