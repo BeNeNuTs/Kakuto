@@ -22,14 +22,14 @@ MonoBehaviour:
   m_HitStrength: 1
   m_HitStun: 15
   m_BlockStun: 9
-  m_HitPushBack: 1.5
-  m_BlockPushBack: 2
+  m_HitPushBack: 2.4
+  m_BlockPushBack: 2.8
   m_StunGaugeHitAmount: 10
   m_ApplyAttackerHitPushBack: 1
-  m_AttackerHitPushBack: 2.7
+  m_AttackerHitPushBack: 2.4
   m_AttackerHitPushBackCondition: 1
   m_ApplyAttackerBlockPushBack: 1
-  m_AttackerBlockPushBack: 2.4
+  m_AttackerBlockPushBack: 2.8
   m_AttackerBlockPushBackCondition: 1
   m_SuperGaugeBaseBonus: 0
   m_SuperGaugeHitBonus: 5
