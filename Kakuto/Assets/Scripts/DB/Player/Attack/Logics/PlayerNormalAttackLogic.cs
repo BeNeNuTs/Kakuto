@@ -239,6 +239,16 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return hitAnimName;
     }
 
+    public override Collider2D GetLastHitCollider()
+    {
+        return m_LastHitCollider;
+    }
+
+    public override Collider2D GetLastHurtCollider()
+    {
+        return m_LastHurtCollider;
+    }
+
     public override bool GetLastHitPoint(out Vector3 hitPoint)
     {
         if(m_LastHitCollider != null && m_LastHurtCollider != null)

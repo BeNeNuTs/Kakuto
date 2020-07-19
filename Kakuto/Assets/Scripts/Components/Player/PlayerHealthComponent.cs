@@ -431,9 +431,19 @@ public class PlayerHealthComponent : MonoBehaviour
         if(hitFXPrefab != null)
         {
             GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
-            if (hitFXInstance != null)
+            Collider2D lastHitCollider = attackLogic.GetLastHitCollider();
+            if(lastHitCollider != null)
             {
-                hitFXInstance.transform.localScale = attackLogic.GetOwner().transform.lossyScale;
+                Transform hitOwner = lastHitCollider.transform.root;
+                if(hitOwner.position.x < transform.position.x)
+                {
+                    hitFXInstance.transform.localScale = new Vector3(hitFXInstance.transform.localScale.x * -1f, hitFXInstance.transform.localScale.y, hitFXInstance.transform.localScale.z);
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerHealthComponent::TriggerHitFX - Last hit collider has not been found");
+                hitFXInstance.transform.localScale = transform.lossyScale;
             }
         }
     }
