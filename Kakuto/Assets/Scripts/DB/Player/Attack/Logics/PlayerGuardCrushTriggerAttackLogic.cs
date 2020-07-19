@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 {
@@ -10,6 +11,16 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
     public PlayerGuardCrushTriggerAttackLogic(PlayerGuardCrushTriggerAttackConfig config)
     {
         m_Config = config;
+    }
+
+    public override void OnInit(GameObject owner, PlayerAttack attack)
+    {
+        base.OnInit(owner, attack);
+
+        if (m_InfoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
+        {
+            SetTriggerPointActive(m_InfoComponent, true);
+        }
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
@@ -52,20 +63,25 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
                 break;
         }
 
-        SetTriggerPointActive(m_InfoComponent.GetPlayerIndex(), false); // Reset trigger point as it has been used
+        SetTriggerPointActive(m_InfoComponent, false); // Reset trigger point as it has been used
     }
 
     public override void OnShutdown()
     {
         base.OnShutdown();
 
-        SetTriggerPointActive(m_InfoComponent.GetPlayerIndex(), false); // Reset trigger point at the end of each round
+        SetTriggerPointActive(m_InfoComponent, false); // Reset trigger point at the end of each round
     }
 
-    public static void SetTriggerPointActive(int playerIndex, bool active)
+    public static void SetTriggerPointActive(PlayerInfoComponent infoComponent, bool active)
     {
-        m_TriggerPointActive[playerIndex] = active;
-        OnTriggerPointStatusChanged[playerIndex]?.Invoke(active);
+        if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
+        {
+            active = true;
+        }
+
+        m_TriggerPointActive[infoComponent.GetPlayerIndex()] = active;
+        OnTriggerPointStatusChanged[infoComponent.GetPlayerIndex()]?.Invoke(active);
     }
 
     public static bool IsTriggerPointActive(int playerIndex)
