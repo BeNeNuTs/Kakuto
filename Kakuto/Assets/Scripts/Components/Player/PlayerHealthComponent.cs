@@ -348,7 +348,7 @@ public class PlayerHealthComponent : MonoBehaviour
         PlayerAttack attack = attackLogic.GetAttack();
 
         // No stun neither pushback when an attack is parried
-        if (!IsDead() && attackResult != EAttackResult.Parried)
+        if (attackResult != EAttackResult.Parried)
         {
             if (attackLogic.CanStunOnDamage())
             {
@@ -372,6 +372,10 @@ public class PlayerHealthComponent : MonoBehaviour
                     float pushBackForce = attackLogic.GetPushBackForce(attackResult);
                     if (pushBackForce > 0.0f && m_MovementComponent)
                     {
+                        if (IsDead())
+                        {
+                            pushBackForce *= AttackConfig.Instance.m_OnDeathPushbackMultiplier;
+                        }
                         m_MovementComponent.PushBack(pushBackForce);
                     }
                 }
