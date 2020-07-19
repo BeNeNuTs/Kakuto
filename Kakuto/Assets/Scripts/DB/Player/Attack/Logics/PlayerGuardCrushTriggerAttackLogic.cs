@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 {
+    private static readonly bool[] m_TriggerPointActive = { false, false };
+    public static Action<bool>[] OnTriggerPointStatusChanged = { null, null };
+
     private readonly PlayerGuardCrushTriggerAttackConfig m_Config;
 
     public PlayerGuardCrushTriggerAttackLogic(PlayerGuardCrushTriggerAttackConfig config)
@@ -17,7 +18,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 
         if(conditionIsValid)
         {
-            conditionIsValid &= CheckConditionsInternal();
+            conditionIsValid &= IsTriggerPointActive(m_InfoComponent.GetPlayerIndex()) && CheckConditionsInternal();
         }
 
         return conditionIsValid;
@@ -50,5 +51,25 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
             default:
                 break;
         }
+
+        SetTriggerPointActive(m_InfoComponent.GetPlayerIndex(), false); // Reset trigger point as it has been used
+    }
+
+    public override void OnShutdown()
+    {
+        base.OnShutdown();
+
+        SetTriggerPointActive(m_InfoComponent.GetPlayerIndex(), false); // Reset trigger point at the end of each round
+    }
+
+    public static void SetTriggerPointActive(int playerIndex, bool active)
+    {
+        m_TriggerPointActive[playerIndex] = active;
+        OnTriggerPointStatusChanged[playerIndex]?.Invoke(active);
+    }
+
+    public static bool IsTriggerPointActive(int playerIndex)
+    {
+        return m_TriggerPointActive[playerIndex];
     }
 }

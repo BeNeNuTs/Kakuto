@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 {
     private static readonly string K_PROJECTILE_HOOK = "ProjectileHook";
-    private static bool[] m_NextNonSuperProjectileIsGuardCrush = { false, false };
+    private static readonly bool[] m_NextNonSuperProjectileIsGuardCrush = { false, false };
 
     private readonly PlayerProjectileAttackConfig m_Config;
 
