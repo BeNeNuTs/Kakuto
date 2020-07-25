@@ -50,8 +50,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.06540891
     - serializedVersion: 3
-      time: 0.20077705
-      value: 0.49064326
+      time: 0.12494087
+      value: 0.49058223
       inSlope: -0.37061414
       outSlope: -0.37061414
       tangentMode: 0
@@ -61,3 +61,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_UseSpecificGuardCrushAnim: 0
+  m_AnimationGuardCrushAttackName: 0
