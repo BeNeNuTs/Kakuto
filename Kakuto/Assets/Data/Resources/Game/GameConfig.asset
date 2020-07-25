@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameFPS: 60
   m_RoundEntryTime: 5
-  m_RoundDuration: 60
+  m_RoundDuration: 90
   m_TimeToWaitBeforeEndRoundAnimations: 1
   m_TimeToWaitAfterEndRoundAnimations: 2
   m_MaxRoundsToWin: 3
