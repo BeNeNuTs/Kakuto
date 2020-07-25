@@ -8,4 +8,6 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: ParryFX
   m_Controller: {fileID: 9100000, guid: d96a64722adb3a141801027a11945e9a, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: b6770d2a60602734b87a7909255fdafa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 450d0b2ff7400294e9ba63ba97a5995e, type: 2}
