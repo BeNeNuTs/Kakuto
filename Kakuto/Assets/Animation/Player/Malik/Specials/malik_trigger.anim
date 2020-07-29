@@ -127,6 +127,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: ChangeBackgroundColor
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 990a98c59e028a34a95af5d2f473bd84,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
     functionName: FreezeTime
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -135,6 +143,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.7
     functionName: UnfreezeTime
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.7
+    functionName: RestoreBackground
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
