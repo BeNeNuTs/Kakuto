@@ -61,5 +61,5 @@ MonoBehaviour:
     m_PreInfinity: 1
     m_PostInfinity: 1
     m_RotationOrder: 4
-  m_UseSpecificGuardCrushAnim: 0
-  m_AnimationGuardCrushAttackName: 0
+  m_UseSpecificGuardCrushAnim: 1
+  m_AnimationGuardCrushAttackName: 26
