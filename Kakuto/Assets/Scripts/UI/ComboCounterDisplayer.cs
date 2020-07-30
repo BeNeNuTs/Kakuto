@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using TMPro;
 
 public class ComboCounterDisplayer : MonoBehaviour
 {
     public EPlayer m_Target;
-    public Text m_ComboText;
+    public TextMeshProUGUI m_ComboText;
+    public TextMeshProUGUI m_HitText;
 
     private PlayerComboCounterSubComponent m_PlayerComboCounterSC;
 
@@ -43,7 +42,8 @@ public class ComboCounterDisplayer : MonoBehaviour
             if (!m_FreezeHitCounterDisplay)
             {
                 m_ComboText.enabled = m_PlayerComboCounterSC.GetComboCounter() >= 2;
-                m_ComboText.text = m_PlayerComboCounterSC.GetComboCounter() + " HIT";
+                m_HitText.enabled = m_ComboText.enabled;
+                m_ComboText.text = m_PlayerComboCounterSC.GetComboCounter().ToString();
             }
             else
             {
