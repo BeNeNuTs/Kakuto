@@ -17,7 +17,7 @@ MonoBehaviour:
   m_RoundDuration: 90
   m_TimeToWaitBeforeEndRoundAnimations: 1
   m_TimeToWaitAfterEndRoundAnimations: 2
-  m_MaxRoundsToWin: 3
+  m_MaxRoundsToWin: 2
   m_BoundsOffset: 0.15
   m_MaxDistanceToBeConsideredInACorner: 0.1
   m_DefaultGamepadType: 1

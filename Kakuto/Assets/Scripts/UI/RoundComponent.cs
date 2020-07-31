@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class RoundComponent : MonoBehaviour
 {
     public TextMeshProUGUI m_TimerText;
-    public TextMeshProUGUI m_CounterText;
+    public Image[] m_Player1VictoryRounds;
+    public Image[] m_Player2VictoryRounds;
 
     private float m_InitTimestamp = 0.0f;
     private uint m_RemaningTime = uint.MaxValue;
@@ -17,12 +17,18 @@ public class RoundComponent : MonoBehaviour
     private void Start()
     {
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
-        RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateCounterText;
+        RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
         RoundSubGameManager.OnRoundBegin += OnRoundBegin;
 
         m_InitTimestamp = Time.unscaledTime;
         UpdateRemainingTimeText();
-        UpdateCounterText();
+        UpdateVictoryCounters();
+    }
+
+    private void OnDestroy()
+    {
+        RoundSubGameManager.OnRoundVictoryCounterChanged -= UpdateVictoryCounters;
+        RoundSubGameManager.OnRoundBegin -= OnRoundBegin;
     }
 
     void OnRoundBegin()
@@ -31,11 +37,21 @@ public class RoundComponent : MonoBehaviour
         UpdateRemainingTimeText();
     }
 
-    void UpdateCounterText()
+    void UpdateVictoryCounters()
     {
         if(ScenesConfig.GetUISettings().m_IsCounterEnabled)
         {
-            m_CounterText.SetText(m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player1) + " - " + m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player2));
+            uint player1VictoryCounter = m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player1);
+            for (int i = 0; i < m_Player1VictoryRounds.Length; i++)
+            {
+                m_Player1VictoryRounds[i].enabled = (player1VictoryCounter > i);
+            }
+
+            uint player2VictoryCounter = m_RoundSubGameManager.GetPlayerRoundVictoryCounter(EPlayer.Player2);
+            for (int i = 0; i < m_Player2VictoryRounds.Length; i++)
+            {
+                m_Player2VictoryRounds[i].enabled = (player2VictoryCounter > i);
+            }
         }
     }
 
