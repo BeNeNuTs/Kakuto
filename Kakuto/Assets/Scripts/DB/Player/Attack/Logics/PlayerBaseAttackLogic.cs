@@ -133,7 +133,7 @@ public class PlayerBaseAttackLogic
     public virtual string GetBlockAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
     public virtual string GetHitAnimName(EPlayerStance playerStance, EStunAnimState state) { return ""; }
 
-    public virtual void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider, Collider2D hurtCollider) { }
+    public virtual void OnHandleCollision(bool triggerHitEvent, bool checkHitDelay, Collider2D hitCollider, Collider2D hurtCollider) { }
     public virtual bool NeedPushBoxCollisionCallback() { return false; }
     public virtual void OnHandlePushBoxCollision(Collision2D collision) { }
     public bool HasTouched() { return m_HasTouched; }

@@ -28,10 +28,10 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         m_LastHurtCollider = null;
     }
 
-    public override void OnHandleCollision(bool triggerHitEvent, Collider2D hitCollider, Collider2D hurtCollider)
+    public override void OnHandleCollision(bool triggerHitEvent, bool checkHitDelay, Collider2D hitCollider, Collider2D hurtCollider)
     {
-        base.OnHandleCollision(triggerHitEvent, hitCollider, hurtCollider);
-        if (m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
+        base.OnHandleCollision(triggerHitEvent, checkHitDelay, hitCollider, hurtCollider);
+        if (!checkHitDelay || m_LastHitCountTimeStamp == 0f || Time.time > m_LastHitCountTimeStamp + GetDelayBetweenHits())
         {
             if (m_CurrentHitCount < GetMaxHitCount())
             {
@@ -65,13 +65,6 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 IncreaseSuperGauge(m_Config.m_SuperGaugeBlockBonus);
             }
         }
-    }
-
-    public override void OnAttackStopped()
-    {
-        base.OnAttackStopped();
-        m_CurrentHitCount = 0;
-        m_LastHitCountTimeStamp = 0f;
     }
 
     public override bool CanAttackBeBlocked(bool isCrouching)
