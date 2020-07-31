@@ -105,7 +105,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                 break;
         }
 
-        return (uint)(damage * GetDamageRatio());
+        return (uint)Mathf.Max(damage * GetDamageRatio(), 1f);
     }
 
     public override uint GetCurrentHitCount() { return m_CurrentHitCount; }
