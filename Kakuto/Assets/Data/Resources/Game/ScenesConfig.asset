@@ -53,8 +53,8 @@ MonoBehaviour:
     m_PlayerSettings:
     - m_Name: Player1
       m_AttackEnabled: 1
-      m_SuperGaugeAlwaysFilled: 1
-      m_TriggerPointAlwaysActive: 1
+      m_SuperGaugeAlwaysFilled: 0
+      m_TriggerPointAlwaysActive: 0
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
       m_IsBlockingAllAttacks: 0
@@ -64,11 +64,11 @@ MonoBehaviour:
       m_IsImmuneToStunGauge: 0
     - m_Name: Player2
       m_AttackEnabled: 1
-      m_SuperGaugeAlwaysFilled: 1
-      m_TriggerPointAlwaysActive: 1
+      m_SuperGaugeAlwaysFilled: 0
+      m_TriggerPointAlwaysActive: 0
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
-      m_IsBlockingAllAttacks: 1
+      m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
       m_IsInvincible: 0
