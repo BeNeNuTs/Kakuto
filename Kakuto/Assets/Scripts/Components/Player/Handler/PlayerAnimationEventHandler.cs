@@ -6,9 +6,12 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 {
     private static readonly string K_FX_HOOK = "FXHook";
 
-    private Color m_SavedBackgroundColor;
     private Rigidbody2D m_Rigidbody;
     private Transform m_FXHook;
+
+    private SpriteRenderer m_UIBackground;
+    private SpriteRenderer m_UIMaskedBackground;
+    private SpriteMask m_UIBackgroundMask;
 
     private void Start()
     {
@@ -18,6 +21,15 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if (m_FXHook == null)
         {
             Debug.LogError(K_FX_HOOK + " can't be found on " + gameObject);
+        }
+#endif
+        m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
+        m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
+        m_UIBackgroundMask = GameObject.FindGameObjectWithTag("UIBackgroundMask")?.GetComponent<SpriteMask>();
+#if UNITY_EDITOR
+        if (m_UIBackground == null || m_UIMaskedBackground == null || m_UIBackgroundMask == null)
+        {
+            Debug.LogError("UIBackground elements can't be found");
         }
 #endif
     }
@@ -155,17 +167,21 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         }
     }
 
-    public void ChangeBackgroundColor(BackgroundColorAnimEventConfig backgroundColorConfig)
+    public void TriggerBackgroundEffect(BackgroundEffectAnimEventConfig backgroundEffectConfig)
     {
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Change background color");
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger background effect");
 
-        OutOfBoundsSubGameManager OOBSubGameManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
-        if(OOBSubGameManager != null)
+        m_UIBackground.enabled = true;
+        m_UIBackground.color = backgroundEffectConfig.m_BackgroundColor;
+
+        if(backgroundEffectConfig.m_UseMask)
         {
-            OOBSubGameManager.Background.SetActive(false);
-            m_SavedBackgroundColor = OOBSubGameManager.MainCamera.backgroundColor;
+            m_UIMaskedBackground.enabled = true;
+            m_UIMaskedBackground.color = backgroundEffectConfig.m_MaskedBackgroundColor;
 
-            OOBSubGameManager.BackgroundCamera.backgroundColor = backgroundColorConfig.m_BackgroundColor;
+            m_UIBackgroundMask.enabled = true;
+            m_UIBackgroundMask.sprite = backgroundEffectConfig.m_Mask;
+            m_UIBackgroundMask.transform.position = m_FXHook.position;
         }
     }
 
@@ -173,12 +189,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Restore background");
 
-        OutOfBoundsSubGameManager OOBSubGameManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
-        if (OOBSubGameManager != null)
-        {
-            OOBSubGameManager.Background.SetActive(true);
-            OOBSubGameManager.BackgroundCamera.backgroundColor = m_SavedBackgroundColor;
-        }
+        m_UIBackground.enabled = false;
+        m_UIMaskedBackground.enabled = false;
+        m_UIBackgroundMask.enabled = false;
     }
 
     public void SyncGrabPosition()

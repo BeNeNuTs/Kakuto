@@ -893,16 +893,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 56179328176064449, guid: 5bb15debd5d15ed428043bedcfaea1ce,
-        type: 3}
-      propertyPath: m_Layer
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 56179328176064449, guid: 5bb15debd5d15ed428043bedcfaea1ce,
-        type: 3}
-      propertyPath: m_TagString
-      value: Background
-      objectReference: {fileID: 0}
     - target: {fileID: 56179328176064451, guid: 5bb15debd5d15ed428043bedcfaea1ce,
         type: 3}
       propertyPath: m_Layer

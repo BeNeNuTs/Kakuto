@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 public class OutOfBoundsSubGameManager : SubGameManagerBase
 {
     public Camera MainCamera { get; private set; }
-    public Camera BackgroundCamera { get; private set; }
-    public GameObject Background { get; private set; }
 
     public override void Init()
     {
@@ -22,8 +20,6 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         MainCamera = Camera.main;
-        BackgroundCamera = GameObject.FindGameObjectWithTag("BackgroundCamera").GetComponent<Camera>();
-        Background = GameObject.FindGameObjectWithTag("Background");
     }
 
     public override void LateUpdate()

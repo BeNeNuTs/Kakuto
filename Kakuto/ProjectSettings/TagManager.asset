@@ -12,6 +12,9 @@ TagManager:
   - VirtualCamera
   - Background
   - BackgroundCamera
+  - UIBackground
+  - UIMaskedBackground
+  - UIBackgroundMask
   layers:
   - Default
   - TransparentFX

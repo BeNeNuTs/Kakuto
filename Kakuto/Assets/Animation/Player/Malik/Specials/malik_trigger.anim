@@ -127,7 +127,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: ChangeBackgroundColor
+    functionName: TriggerBackgroundEffect
     data: 
     objectReferenceParameter: {fileID: 11400000, guid: 990a98c59e028a34a95af5d2f473bd84,
       type: 2}
