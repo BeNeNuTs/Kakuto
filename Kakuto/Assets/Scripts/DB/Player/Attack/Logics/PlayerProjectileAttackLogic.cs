@@ -150,6 +150,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         if (m_IsGuardCrush)
         {
             SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
+            PlayerGuardCrushTriggerAttackLogic.SetTriggerPointStatus(m_InfoComponent, PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Inactive);
         }
     }
 

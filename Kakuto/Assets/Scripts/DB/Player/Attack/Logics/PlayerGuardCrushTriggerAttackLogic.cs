@@ -3,8 +3,15 @@ using UnityEngine;
 
 public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 {
-    private static readonly bool[] m_TriggerPointActive = { false, false };
-    public static Action<bool>[] OnTriggerPointStatusChanged = { null, null };
+    public enum ETriggerPointStatus
+    {
+        Inactive,
+        Active,
+        Triggered
+    }
+
+    private static readonly ETriggerPointStatus[] m_TriggerPointStatus = { ETriggerPointStatus.Inactive, ETriggerPointStatus.Inactive };
+    public static Action<ETriggerPointStatus>[] OnTriggerPointStatusChanged = { null, null };
 
     private readonly PlayerGuardCrushTriggerAttackConfig m_Config;
 
@@ -19,7 +26,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 
         if (m_InfoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
         {
-            SetTriggerPointActive(m_InfoComponent, true);
+            SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Active);
         }
     }
 
@@ -29,7 +36,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 
         if(conditionIsValid)
         {
-            conditionIsValid &= IsTriggerPointActive(m_InfoComponent.GetPlayerIndex()) && CheckConditionsInternal();
+            conditionIsValid &= GetTriggerPointStatus(m_InfoComponent.GetPlayerIndex()) == ETriggerPointStatus.Active && CheckConditionsInternal();
         }
 
         return conditionIsValid;
@@ -63,29 +70,29 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
                 break;
         }
 
-        SetTriggerPointActive(m_InfoComponent, false); // Reset trigger point as it has been used
+        SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Triggered); // Set trigger point in triggered status as it has been used
     }
 
     public override void OnShutdown()
     {
         base.OnShutdown();
 
-        SetTriggerPointActive(m_InfoComponent, false); // Reset trigger point at the end of each round
+        SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Inactive); // Reset trigger point at the end of each round
     }
 
-    public static void SetTriggerPointActive(PlayerInfoComponent infoComponent, bool active)
+    public static void SetTriggerPointStatus(PlayerInfoComponent infoComponent, ETriggerPointStatus status)
     {
-        if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
+        if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive && status == ETriggerPointStatus.Inactive)
         {
-            active = true;
+            status = ETriggerPointStatus.Active;
         }
 
-        m_TriggerPointActive[infoComponent.GetPlayerIndex()] = active;
-        OnTriggerPointStatusChanged[infoComponent.GetPlayerIndex()]?.Invoke(active);
+        m_TriggerPointStatus[infoComponent.GetPlayerIndex()] = status;
+        OnTriggerPointStatusChanged[infoComponent.GetPlayerIndex()]?.Invoke(status);
     }
 
-    public static bool IsTriggerPointActive(int playerIndex)
+    public static ETriggerPointStatus GetTriggerPointStatus(int playerIndex)
     {
-        return m_TriggerPointActive[playerIndex];
+        return m_TriggerPointStatus[playerIndex];
     }
 }

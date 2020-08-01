@@ -4,14 +4,15 @@ using UnityEngine.UI;
 public class TriggerPointDisplayer : MonoBehaviour
 {
     public EPlayer m_Target;
-    public Image m_TriggerImage;
+    public Image m_TriggerActiveImage;
+    public Image m_TriggeredImage;
 
     private void Start()
     {
         PlayerGuardCrushTriggerAttackLogic.OnTriggerPointStatusChanged[(int)m_Target] += OnTriggerPointStatusChanged;
 
-        bool isTriggerActiveAtStart = PlayerGuardCrushTriggerAttackLogic.IsTriggerPointActive((int)m_Target);
-        OnTriggerPointStatusChanged(isTriggerActiveAtStart);
+        PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus triggerPointStatusAtStart = PlayerGuardCrushTriggerAttackLogic.GetTriggerPointStatus((int)m_Target);
+        OnTriggerPointStatusChanged(triggerPointStatusAtStart);
     }
 
     private void OnDestroy()
@@ -19,8 +20,9 @@ public class TriggerPointDisplayer : MonoBehaviour
         PlayerGuardCrushTriggerAttackLogic.OnTriggerPointStatusChanged[(int)m_Target] -= OnTriggerPointStatusChanged;
     }
 
-    private void OnTriggerPointStatusChanged(bool isActive)
+    private void OnTriggerPointStatusChanged(PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus status)
     {
-        m_TriggerImage.enabled = isActive;
+        m_TriggerActiveImage.enabled = status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active;
+        m_TriggeredImage.enabled = status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Triggered;
     }
 }
