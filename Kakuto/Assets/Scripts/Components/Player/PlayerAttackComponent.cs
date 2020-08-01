@@ -110,7 +110,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
-        if(!m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
+        if(!m_InfoComponent.GetPlayerSettings().m_AttackEnabled || Time.timeScale == 0f)
         {
             return;
         }
