@@ -431,7 +431,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult)
     {
-        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching());
+        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching(), m_AttackComponent);
         if(hitFXPrefab != null)
         {
             GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);

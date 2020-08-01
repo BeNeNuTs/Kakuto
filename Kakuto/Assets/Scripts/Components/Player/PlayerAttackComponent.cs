@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+public enum EAttackState
+{
+    Startup,
+    Active,
+    Recovery
+}
 
 public class PlayerAttackComponent : MonoBehaviour
 {
@@ -19,6 +24,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private string m_TriggeredInputsString;
 
     private PlayerBaseAttackLogic m_CurrentAttackLogic;
+    private EAttackState m_CurrentAttackState = EAttackState.Startup;
 
     private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
@@ -118,6 +124,8 @@ public class PlayerAttackComponent : MonoBehaviour
         UpdateTriggerInputsList();
         UpdateTriggerInputsString();
 
+        UpdateAttackState();
+
         if (CanUpdateAttack())
         {
             UpdateAttack();
@@ -214,6 +222,41 @@ public class PlayerAttackComponent : MonoBehaviour
         m_TriggeredInputsString = string.Empty;
     }
 
+    void UpdateAttackState()
+    {
+        if(GetCurrentAttackLogic() != null)
+        {
+            if(m_CurrentAttackState == EAttackState.Startup)
+            {
+                foreach (Collider2D hitBox in m_HitBoxes)
+                {
+                    if (hitBox != null && hitBox.enabled)
+                    {
+                        m_CurrentAttackState = EAttackState.Active;
+                        break;
+                    }
+                }
+            }
+            else if(m_CurrentAttackState == EAttackState.Active)
+            {
+                bool allHitboxDisabled = true;
+                foreach (Collider2D hitBox in m_HitBoxes)
+                {
+                    if (hitBox != null && hitBox.enabled)
+                    {
+                        allHitboxDisabled = false;
+                        break;
+                    }
+                }
+
+                if(allHitboxDisabled)
+                {
+                    m_CurrentAttackState = EAttackState.Recovery;
+                }
+            }
+        }
+    }
+
     bool CanUpdateAttack()
     {
         // Time condition
@@ -298,6 +341,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_UnblockAttackConfig = null;
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
+        m_CurrentAttackState = EAttackState.Startup;
 
         if(attackLogic.GetAttack().m_UseDefaultStance)
         {
@@ -519,6 +563,11 @@ public class PlayerAttackComponent : MonoBehaviour
     public PlayerBaseAttackLogic GetCurrentAttackLogic()
     {
         return m_CurrentAttackLogic;
+    }
+
+    public EAttackState GetCurrentAttackState()
+    {
+        return m_CurrentAttackState;
     }
 
     public PlayerAttack GetCurrentAttack()

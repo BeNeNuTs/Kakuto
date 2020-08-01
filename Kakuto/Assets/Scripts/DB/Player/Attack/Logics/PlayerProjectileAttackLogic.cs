@@ -159,7 +159,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         return m_IsGuardCrush;
     }
 
-    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching)
+    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
     {
         switch (attackResult)
         {
@@ -171,7 +171,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
                 break;
         }
 
-        return base.GetHitFX(attackResult, isInBlockingStance, isCrouching);
+        return base.GetHitFX(attackResult, isInBlockingStance, isCrouching, victimAttackComponent);
     }
 
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)

@@ -202,11 +202,20 @@ public class PlayerBaseAttackLogic
         return false;
     }
 
-    public virtual GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching)
+    public virtual GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
+                if(victimAttackComponent.GetCurrentAttackLogic() != null)
+                {
+                    EAttackState victimAttackState = victimAttackComponent.GetCurrentAttackState();
+                    if(victimAttackState == EAttackState.Startup || victimAttackState == EAttackState.Active)
+                    {
+                        return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX;
+                    }
+                }
+
                 if(m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
                 {
                     return AttackConfig.Instance.m_HitFX[(int)EHitFXType.SpecialHit].m_FX;

@@ -253,9 +253,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return base.GetLastHitPoint(out hitPoint);
     }
 
-    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching)
+    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
     {
-        GameObject hitFX = base.GetHitFX(attackResult, isInBlockingStance, isCrouching);
+        GameObject hitFX = base.GetHitFX(attackResult, isInBlockingStance, isCrouching, victimAttackComponent);
         if(hitFX == null)
         {
             switch (attackResult)
