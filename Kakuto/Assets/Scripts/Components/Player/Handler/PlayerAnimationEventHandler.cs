@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
-    private static readonly string K_FX_HOOK = "FXHook";
-
-    private Rigidbody2D m_Rigidbody;
-    private Transform m_FXHook;
+    public PlayerShadowComponent m_PlayerShadowComponent;
+    public Rigidbody2D m_Rigidbody;
+    public Transform m_FXHook;
 
     private SpriteRenderer m_UIBackground;
     private SpriteRenderer m_UIMaskedBackground;
@@ -15,14 +12,6 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     private void Start()
     {
-        m_Rigidbody = GetComponentInParent<Rigidbody2D>();
-        m_FXHook = gameObject.transform.Find(K_FX_HOOK);
-#if UNITY_EDITOR
-        if (m_FXHook == null)
-        {
-            Debug.LogError(K_FX_HOOK + " can't be found on " + gameObject);
-        }
-#endif
         m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
         m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
         m_UIBackgroundMask = GameObject.FindGameObjectWithTag("UIBackgroundMask")?.GetComponent<SpriteMask>();
@@ -220,5 +209,15 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         GameObject fxInstance = Instantiate(fx, m_FXHook.transform.position, m_FXHook.transform.localRotation);
         fxInstance.transform.localScale = m_FXHook.lossyScale;
+    }
+
+    public void DisplayShadow()
+    {
+        m_PlayerShadowComponent.enabled = true;
+    }
+
+    public void HideShadow()
+    {
+        m_PlayerShadowComponent.enabled = false;
     }
 }

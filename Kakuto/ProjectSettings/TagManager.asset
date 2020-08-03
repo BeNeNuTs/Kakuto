@@ -58,6 +58,9 @@ TagManager:
   - name: UI
     uniqueID: 4103083841
     locked: 0
+  - name: Shadow
+    uniqueID: 45349547
+    locked: 0
   - name: FX_Background
     uniqueID: 3798703685
     locked: 0

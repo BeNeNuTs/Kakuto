@@ -846,6 +846,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4547430405605642813, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996166306001778018, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050473, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_Name
@@ -893,12 +903,12 @@ PrefabInstance:
     - target: {fileID: 6641475778014050450, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5336922
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050450, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.2117147
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050450, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
@@ -944,11 +954,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: OnJumpEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050451, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
