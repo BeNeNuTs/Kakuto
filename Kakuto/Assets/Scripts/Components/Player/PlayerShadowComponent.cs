@@ -12,6 +12,9 @@ public class PlayerShadowComponent : MonoBehaviour
     private float m_InitialRootYPosition;
     private float m_InitialPlayerSpriteYPosition;
 
+    public bool m_UpdatePosition = true;
+    public bool m_UpdateSize = true;
+
     void Awake()
     {
         m_InitialShadowAlphaValue = m_ShadowSpriteRenderer.color.a;
@@ -22,6 +25,7 @@ public class PlayerShadowComponent : MonoBehaviour
 
     void OnEnable()
     {
+        Update();
         m_ShadowSpriteRenderer.enabled = true;
     }
 
@@ -34,8 +38,14 @@ public class PlayerShadowComponent : MonoBehaviour
     {
         Rect croppedPlayerSprite = GetCroppedPlayerSprite();
         UpdateTransparency(croppedPlayerSprite);
-        UpdatePosition(croppedPlayerSprite);
-        UpdateSize(croppedPlayerSprite);
+        if(m_UpdatePosition)
+        {
+            UpdatePosition(croppedPlayerSprite);
+        }
+        if(m_UpdateSize)
+        {
+            UpdateSize(croppedPlayerSprite);
+        }
     }
 
     void UpdateTransparency(Rect croppedPlayerSprite)
