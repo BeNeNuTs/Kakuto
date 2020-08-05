@@ -159,19 +159,38 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         return m_IsGuardCrush;
     }
 
-    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
+    private bool IsHitTakenInGuardCrush(bool isInBlockingStance, bool isCrouching)
+    {
+        return isInBlockingStance && base.CanAttackBeBlocked(isCrouching) && IsGuardCrush();
+    }
+
+    public override EHitNotificationType GetHitNotificationType(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, bool isFacingRight, PlayerAttackComponent victimAttackComponent)
+    {
+        EHitNotificationType hitType = base.GetHitNotificationType(attackResult, isInBlockingStance, isCrouching, isFacingRight, victimAttackComponent);
+        if (hitType == EHitNotificationType.None)
+        {
+            if(IsHitTakenInGuardCrush(isInBlockingStance, isCrouching))
+            {
+                hitType = EHitNotificationType.GuardCrush;
+            }
+        }
+
+        return hitType;
+    }
+
+    public override GameObject GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
-                if (isInBlockingStance && base.CanAttackBeBlocked(isCrouching) && IsGuardCrush())
+                if (hitNotifType == EHitNotificationType.GuardCrush)
                 {
                     return AttackConfig.Instance.m_HitFX[(int)EHitFXType.GuardCrush].m_FX;
                 }
                 break;
         }
 
-        return base.GetHitFX(attackResult, isInBlockingStance, isCrouching, victimAttackComponent);
+        return base.GetHitFX(attackResult, hitNotifType);
     }
 
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)

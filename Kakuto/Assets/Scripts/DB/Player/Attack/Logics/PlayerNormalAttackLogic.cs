@@ -253,9 +253,33 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return base.GetLastHitPoint(out hitPoint);
     }
 
-    public override GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
+    public override EHitNotificationType GetHitNotificationType(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, bool isFacingRight, PlayerAttackComponent victimAttackComponent)
     {
-        GameObject hitFX = base.GetHitFX(attackResult, isInBlockingStance, isCrouching, victimAttackComponent);
+        EHitNotificationType hitType = base.GetHitNotificationType(attackResult, isInBlockingStance, isCrouching, isFacingRight, victimAttackComponent);
+        if(hitType == EHitNotificationType.None)
+        {
+            EAttackType attackType = m_Config.m_AttackType;
+            switch (attackType)
+            {
+                case EAttackType.Low:
+                    hitType = EHitNotificationType.Low;
+                    break;
+
+                case EAttackType.Overhead:
+                    if (!GetAttack().m_NeededStanceList.Contains(EPlayerStance.Jump))
+                    {
+                        hitType = EHitNotificationType.Overhead;
+                    }
+                    break;
+            }
+        }
+
+        return hitType;
+    }
+
+    public override GameObject GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType)
+    {
+        GameObject hitFX = base.GetHitFX(attackResult, hitNotifType);
         if(hitFX == null)
         {
             switch (attackResult)

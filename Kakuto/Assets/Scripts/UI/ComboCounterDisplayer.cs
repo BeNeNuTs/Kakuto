@@ -66,7 +66,7 @@ public class ComboCounterDisplayer : MonoBehaviour
                 if (m_ComboText.enabled)
                 {
                     m_FreezeHitCounterDisplay = true;
-                    m_FreezeHitCounterDisplayCooldown = ComboCounterConfig.Instance.m_TimeToDisappearAfterComboBreak;
+                    m_FreezeHitCounterDisplayCooldown = UIConfig.Instance.m_TimeToDisappearAfterComboBreak;
                 }
             }
         }

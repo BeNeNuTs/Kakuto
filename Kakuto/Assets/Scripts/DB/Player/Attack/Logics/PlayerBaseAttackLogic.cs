@@ -202,18 +202,46 @@ public class PlayerBaseAttackLogic
         return false;
     }
 
-    public virtual GameObject GetHitFX(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, PlayerAttackComponent victimAttackComponent)
+    public virtual EHitNotificationType GetHitNotificationType(EAttackResult attackResult, bool isInBlockingStance, bool isCrouching, bool isFacingRight, PlayerAttackComponent victimAttackComponent)
+    {
+        if (victimAttackComponent.GetCurrentAttackLogic() != null)
+        {
+            EAttackState victimAttackState = victimAttackComponent.GetCurrentAttackState();
+            if (victimAttackState == EAttackState.Startup || victimAttackState == EAttackState.Active)
+            {
+                return EHitNotificationType.Counter;
+            }
+        }
+
+        if (m_Attack.m_NeededStanceList.Contains(EPlayerStance.Jump) && m_MovementComponent.IsJumping())
+        {
+            if(isFacingRight)
+            {
+                if(m_Owner.transform.position.x < victimAttackComponent.gameObject.transform.position.x)
+                {
+                    return EHitNotificationType.Crossup;
+                }
+            }
+            else
+            {
+                if (m_Owner.transform.position.x > victimAttackComponent.gameObject.transform.position.x)
+                {
+                    return EHitNotificationType.Crossup;
+                }
+            }
+        }
+
+        return EHitNotificationType.None;
+    }
+
+    public virtual GameObject GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
-                if(victimAttackComponent.GetCurrentAttackLogic() != null)
+                if(hitNotifType == EHitNotificationType.Counter)
                 {
-                    EAttackState victimAttackState = victimAttackComponent.GetCurrentAttackState();
-                    if(victimAttackState == EAttackState.Startup || victimAttackState == EAttackState.Active)
-                    {
-                        return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX;
-                    }
+                    return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX;
                 }
 
                 if(m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)

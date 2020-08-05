@@ -44,7 +44,7 @@ public class HealthBarComponent : MonoBehaviour
         StopAllCoroutines();
 
         StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, 0.0f));
-        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, HealthBarConfig.Instance.m_TimeBetweenHealthBar));
+        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, UIConfig.Instance.m_TimeBetweenHealthBar));
     }
 
     IEnumerator UpdateHealthFill(Image imageToUpdate, float healthRatio, float timeToWait)
@@ -58,7 +58,7 @@ public class HealthBarComponent : MonoBehaviour
         while (imageToUpdate.fillAmount != healthRatio)
         {
             imageToUpdate.fillAmount = Mathf.Lerp(initialFillAmount, healthRatio, currentTime);
-            currentTime += Time.deltaTime / HealthBarConfig.Instance.m_TimeToFill;
+            currentTime += Time.deltaTime / UIConfig.Instance.m_TimeToFillHealthBar;
             yield return null;
         }
     }

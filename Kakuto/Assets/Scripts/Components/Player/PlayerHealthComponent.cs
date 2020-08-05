@@ -9,6 +9,16 @@ public enum EAttackResult
     Parried
 }
 
+public enum EHitNotificationType
+{
+    None,
+    Low,
+    Overhead,
+    GuardCrush,
+    Crossup,
+    Counter
+}
+
 public struct DamageTakenInfo
 {
     public GameObject m_Victim;
@@ -16,14 +26,16 @@ public struct DamageTakenInfo
     public EAttackResult m_AttackResult;
     public float m_HealthRatio;
     public bool m_IsAlreadyHitStunned;
+    public EHitNotificationType m_HitNotificationType;
 
-    public DamageTakenInfo(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio)
+    public DamageTakenInfo(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio, EHitNotificationType hitNotif)
     {
         m_Victim = victim;
         m_AttackLogic = attackLogic;
         m_AttackResult = attackResult;
         m_HealthRatio = healthRatio;
         m_IsAlreadyHitStunned = isAlreadyHitStunned;
+        m_HitNotificationType = hitNotif;
     }
 }
 
@@ -223,15 +235,17 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 #endif
 
-        GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult);
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + attackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult);
+        GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + attackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
 
-        ApplyDamage(attackLogic, hitDamage, attackResult);
+        ApplyDamage(attackLogic, hitDamage, attackResult, hitNotificationType);
     }
 
-    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult)
+    private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType)
     {
-        if(CanParryAttack(attackLogic))
+        hitNotificationType = EHitNotificationType.None;
+
+        if (CanParryAttack(attackLogic))
         {
             attackResult = EAttackResult.Parried;
             hitDamage = 0;
@@ -245,6 +259,7 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             attackResult = EAttackResult.Hit;
             hitDamage = attackLogic.GetHitDamage(attackResult);
+            hitNotificationType = attackLogic.GetHitNotificationType(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching(), m_MovementComponent.IsFacingRight(), m_AttackComponent);
         }
     }
 
@@ -303,7 +318,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
+    private void ApplyDamage(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         if (damage >= m_HP)
         {
@@ -314,15 +329,15 @@ public class PlayerHealthComponent : MonoBehaviour
             m_HP -= damage;
         }
 
-        OnDamageTaken(attackLogic, damage, attackResult);
+        OnDamageTaken(attackLogic, damage, attackResult, hitNotificationType);
     }
 
-    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
+    private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP);
+        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
         Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (!IsDead() && attackLogic.CanPlayDamageTakenAnim())
@@ -330,7 +345,7 @@ public class PlayerHealthComponent : MonoBehaviour
             PlayDamageTakenAnim(attackLogic, attackResult);
         }
             
-        TriggerEffects(attackLogic, damage, attackResult);
+        TriggerEffects(attackLogic, damage, attackResult, hitNotificationType);
 
         if (damage > 0 && m_InfoComponent.GetPlayerSettings().m_DisplayDamageTaken)
         {
@@ -343,7 +358,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
     }
 
-    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult)
+    private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         PlayerAttack attack = attackLogic.GetAttack();
 
@@ -426,12 +441,12 @@ public class PlayerHealthComponent : MonoBehaviour
             }
         }
 
-        TriggerHitFX(attackLogic, hitPoint, attackResult);
+        TriggerHitFX(attackLogic, hitPoint, attackResult, hitNotificationType);
     }
 
-    private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult)
+    private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
-        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching(), m_AttackComponent);
+        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, hitNotificationType);
         if(hitFXPrefab != null)
         {
             GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);

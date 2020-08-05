@@ -1137,7 +1137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3526,8 +3526,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 843005951
-  m_fontColor: {r: 1, g: 0.25, b: 0.25, a: 0.19607843}
+    rgba: 4282335231
+  m_fontColor: {r: 1, g: 0.25, b: 0.25, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3903,8 +3903,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2684485721499700354}
+  - component: {fileID: 7450959443909930233}
   m_Layer: 5
-  m_Name: Player1Notif
+  m_Name: Player1HitNotif
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3931,6 +3932,21 @@ RectTransform:
   m_AnchoredPosition: {x: 20, y: 100}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &7450959443909930233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5863579885737507378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18641f0dbe644af4698b528971705ba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: 0
+  m_NotificationBackground: {fileID: 2602295286475546561}
+  m_NotificationText: {fileID: 7310949596118062854}
 --- !u!1 &6496388534053756576
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,8 +4951,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5193315117236027885}
+  - component: {fileID: 7992252982241520908}
   m_Layer: 5
-  m_Name: Player2Notif
+  m_Name: Player2HitNotif
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4963,6 +4980,21 @@ RectTransform:
   m_AnchoredPosition: {x: -20, y: 100}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &7992252982241520908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7439254552963935525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18641f0dbe644af4698b528971705ba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: 1
+  m_NotificationBackground: {fileID: 8856086802024699962}
+  m_NotificationText: {fileID: 5249331111776582449}
 --- !u!1 &7647333458833828431
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,8 +5303,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 843005951
-  m_fontColor: {r: 1, g: 0.25, b: 0.25, a: 0.19607843}
+    rgba: 4282335231
+  m_fontColor: {r: 1, g: 0.25, b: 0.25, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6218,7 +6250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

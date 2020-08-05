@@ -306,6 +306,11 @@ public class PlayerMovementComponent : MonoBehaviour
         return m_IsLeftSide;
     }
 
+    public bool IsFacingRight()
+    {
+        return m_Controller.IsFacingRight();
+    }
+
     public void PushForward(float pushForce)
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On push forward");

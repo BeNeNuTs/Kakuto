@@ -287,4 +287,9 @@ public class CharacterController2D : MonoBehaviour
 
         return EMovingDirection.None;
     }
+
+    public bool IsFacingRight()
+    {
+        return m_FacingRight;
+    }
 }
