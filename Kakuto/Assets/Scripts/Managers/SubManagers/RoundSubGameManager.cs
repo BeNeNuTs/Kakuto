@@ -21,6 +21,8 @@ public class RoundSubGameManager : SubGameManagerBase
     public static event UnityAction OnRoundBegin;
     public static event UnityAction OnRoundOver;
 
+    private IEnumerator m_OnPlayerDeathCoroutine = null;
+
     private readonly uint[] m_PlayersRoundVictoryCounter = { 0, 0 };
     private ELastRoundWinner m_LastRoundWinner = ELastRoundWinner.Both;
 
@@ -84,19 +86,20 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private void OnPlayerDeath(string deadPlayerTag)
     {
-        if(!m_RoundIsOver)
+        if (m_OnPlayerDeathCoroutine != null)
         {
-            if (deadPlayerTag == Player.Player1)
-            {
-                UpdateRoundVictoryCounter(ELastRoundWinner.Player2);
-            }
-            else
-            {
-                UpdateRoundVictoryCounter(ELastRoundWinner.Player1);
-            }
-
-            OnRoundOver_Internal();
+            GameManager.Instance.StopCoroutine(m_OnPlayerDeathCoroutine);
+            m_OnPlayerDeathCoroutine = null;
         }
+
+        m_OnPlayerDeathCoroutine = OnPlayerDeathCoroutine();
+        GameManager.Instance.StartCoroutine(m_OnPlayerDeathCoroutine);
+    }
+
+    private IEnumerator OnPlayerDeathCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        OnTimerOver();
     }
 
     public void OnTimerOver()
@@ -204,15 +207,23 @@ public class RoundSubGameManager : SubGameManagerBase
         }
 
         m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] = !player1PlayedAnim;
-        if (player1PlayedAnim)
-        {
-            Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player1)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
-        }
-
         m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2] = !player2PlayedAnim;
-        if (player2PlayedAnim)
+
+        if(m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player2)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+            GameManager.Instance.StartCoroutine(RestartRound());
+        }
+        else
+        {
+            if (player1PlayedAnim)
+            {
+                Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player1)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+            }
+
+            if (player2PlayedAnim)
+            {
+                Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player2)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+            }
         }
     }
 
