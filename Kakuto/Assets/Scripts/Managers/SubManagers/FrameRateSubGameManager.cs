@@ -10,11 +10,16 @@ public class FrameRateSubGameManager : SubGameManagerBase
     {
         base.Init();
 
+#if UNITY_EDITOR
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 9999;
         m_CurrentFrameTime = Time.realtimeSinceStartup;
 
         GameManager.Instance.StartCoroutine(WaitForNextFrame());
+#else
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = GameConfig.Instance.m_GameFPS;
+#endif
     }
 
     IEnumerator WaitForNextFrame()
