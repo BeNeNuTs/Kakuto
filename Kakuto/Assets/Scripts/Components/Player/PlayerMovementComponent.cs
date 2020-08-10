@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum EJumpPhase
 {
@@ -49,6 +50,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private EPlayerStance m_PlayerStance = EPlayerStance.Stand;
     private EJumpPhase m_JumpPhase = EJumpPhase.None;
+    public Action OnLanding;
 
     private bool m_IsMovementBlocked = false;
 #pragma warning disable 414
@@ -219,6 +221,8 @@ public class PlayerMovementComponent : MonoBehaviour
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Landing");
 
             ChangePlayerStance(EPlayerStance.Stand, EJumpPhase.Landing);
+
+            OnLanding?.Invoke();
         }
     }
 

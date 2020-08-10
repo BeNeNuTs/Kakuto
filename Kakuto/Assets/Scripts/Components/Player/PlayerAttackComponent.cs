@@ -29,6 +29,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
     private bool m_IsAttackBlockedByTakeOff = false;
+    private bool m_IsAttackTriggeredInAir = false;
 
     private int m_FramesToWaitBeforeEvaluatingAttacks = 0;
     private int m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
@@ -338,6 +339,11 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent.UpdatePlayerSide();
 
         m_IsAttackBlocked = true;
+        m_IsAttackTriggeredInAir = m_MovementComponent.IsJumping();
+        if(m_IsAttackTriggeredInAir)
+        {
+            m_MovementComponent.OnLanding += OnLandingAfterAttackInAir;
+        }
         m_UnblockAttackConfig = null;
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
@@ -413,6 +419,7 @@ public class PlayerAttackComponent : MonoBehaviour
             if(CanUnblockAttack())
             {
                 m_IsAttackBlocked = false;
+                m_IsAttackTriggeredInAir = false;
             }
 
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + attackName + " | attack was blocked : " + attackWasBlocked + ", attack is blocked : " + m_IsAttackBlocked);
@@ -488,6 +495,7 @@ public class PlayerAttackComponent : MonoBehaviour
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun end | Attack is unblocked");
 
         m_IsAttackBlocked = false;
+        m_IsAttackTriggeredInAir = false;
         m_UnblockAttackConfig = null;
     }
 
@@ -506,6 +514,7 @@ public class PlayerAttackComponent : MonoBehaviour
             if(CanUnblockAttack())
             {
                 m_IsAttackBlocked = false;
+                m_IsAttackTriggeredInAir = false;
                 m_UnblockAttackConfig = null;
 
                 ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack unblocked by take off");
@@ -517,7 +526,27 @@ public class PlayerAttackComponent : MonoBehaviour
     bool CanUnblockAttack()
     {
         // Attack can be unblocked only if we're not stunned
-        return !m_HealthComponent.GetStunInfoSubComponent().IsStunned();
+        if(!m_HealthComponent.GetStunInfoSubComponent().IsStunned())
+        {
+            // And if attack has been triggered in the air, we're not in the air anymore (in order to not trigger multiple attacks in one jump)
+            if(!m_IsAttackTriggeredInAir || (m_IsAttackTriggeredInAir && !m_MovementComponent.IsJumping()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void OnLandingAfterAttackInAir()
+    {
+        if(CanUnblockAttack())
+        {
+            m_IsAttackBlocked = false;
+            m_IsAttackTriggeredInAir = false;
+        }
+
+        m_MovementComponent.OnLanding -= OnLandingAfterAttackInAir;
     }
 
     void OnRoundOver()
