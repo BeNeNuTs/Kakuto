@@ -46,6 +46,7 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool m_CrouchInput = false;
 
     private bool m_JumpTakeOffRequested = false;
+    private float m_JumpTakeOffDirection = 0f;
     private bool m_TriggerJumpImpulse = false;
 
     private EPlayerStance m_PlayerStance = EPlayerStance.Stand;
@@ -140,6 +141,7 @@ public class PlayerMovementComponent : MonoBehaviour
                     m_Animator.SetTrigger("TakeOff");
                     m_AttackComponent.SetAttackBlockedByTakeOff(true);
                     m_JumpTakeOffRequested = true;
+                    m_JumpTakeOffDirection = m_HorizontalMoveInput;
                 }
             }
 
@@ -244,7 +246,7 @@ public class PlayerMovementComponent : MonoBehaviour
         }
 
         // Move our character
-        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_TriggerJumpImpulse, m_JumpPhase);
+        m_Controller.Move(m_HorizontalMoveInput * Time.fixedDeltaTime, m_CrouchInput, m_TriggerJumpImpulse, m_JumpTakeOffDirection, m_JumpPhase);
         m_TriggerJumpImpulse = false;
     }
 
@@ -411,6 +413,7 @@ public class PlayerMovementComponent : MonoBehaviour
             {
                 m_Animator.ResetTrigger("TakeOff");
                 m_JumpTakeOffRequested = false;
+                m_JumpTakeOffDirection = 0f;
                 m_TriggerJumpImpulse = false;
                 m_AttackComponent.SetAttackBlockedByTakeOff(false);
                 

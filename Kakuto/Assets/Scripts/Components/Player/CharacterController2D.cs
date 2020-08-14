@@ -102,7 +102,7 @@ public class CharacterController2D : MonoBehaviour
     }
 #endif
 
-    public void Move(float move, bool crouch, bool jump, EJumpPhase jumpPhase)
+    public void Move(float move, bool crouch, bool jump, float jumpTakeOffDirection, EJumpPhase jumpPhase)
     {
         // If the player should jump...
         if (jump && CanJump())
@@ -112,7 +112,7 @@ public class CharacterController2D : MonoBehaviour
 
             StopMovement();
 
-            GetJumpAngleAndForce(move, out float jumpAngleInDegree, out float jumpForce);
+            GetJumpAngleAndForce(move, jumpTakeOffDirection, out float jumpAngleInDegree, out float jumpForce);
             Vector2 jumpForceDirection = GetJumpForceDirection(jumpAngleInDegree, jumpForce);
             m_Rigidbody2D.AddForce(jumpForceDirection, ForceMode2D.Impulse);
 
@@ -179,17 +179,25 @@ public class CharacterController2D : MonoBehaviour
         return 0f;
     }
 
-    private void GetJumpAngleAndForce(float move, out float jumpAngleInDegree, out float jumpForce)
+    private void GetJumpAngleAndForce(float move, float jumpTakeOffDirection, out float jumpAngleInDegree, out float jumpForce)
     {
+        float jumpDirection = jumpTakeOffDirection;
+
+        // if move direction is at the opposite of jumpTakeOffDirection, then choose the more recent value
+        if ((move > 0f && jumpTakeOffDirection < 0f) || (move < 0f && jumpTakeOffDirection > 0f) || (jumpTakeOffDirection == 0f && move != 0f))
+        {
+            jumpDirection = move;
+        }
+
         // If the input is moving the player right
-        if (move > 0)
+        if (jumpDirection > 0f)
         {
             //and the player is facing right...
             jumpAngleInDegree = (m_FacingRight) ? m_ControllerConfig.m_JumpForwardAngle : m_ControllerConfig.m_JumpBackwardAngle;
             jumpForce = (m_FacingRight) ? m_ControllerConfig.m_JumpForwardForce : m_ControllerConfig.m_JumpBackwardForce;
         }
         // Otherwise if the input is moving the player left
-        else if (move < 0)
+        else if (jumpDirection < 0f)
         {
             //and the player is facing right...
             jumpAngleInDegree = (m_FacingRight) ? m_ControllerConfig.m_JumpBackwardAngle : m_ControllerConfig.m_JumpForwardAngle;
