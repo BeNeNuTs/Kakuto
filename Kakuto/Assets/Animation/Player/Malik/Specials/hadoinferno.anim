@@ -4184,16 +4184,24 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: TriggerBackgroundEffect
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 565b30e002f733d42b7d9a37504bea2d,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
     functionName: FreezeTime
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
+  - time: 0.06666667
     functionName: TriggerBackgroundEffect
     data: 
-    objectReferenceParameter: {fileID: 11400000, guid: 565b30e002f733d42b7d9a37504bea2d,
+    objectReferenceParameter: {fileID: 11400000, guid: aee7c5d90f6ced444a30fa791e2c00b2,
       type: 2}
     floatParameter: 0
     intParameter: 0
