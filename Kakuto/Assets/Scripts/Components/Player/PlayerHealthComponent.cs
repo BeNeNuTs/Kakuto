@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -446,23 +447,30 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
-        GameObject hitFXPrefab = attackLogic.GetHitFX(attackResult, hitNotificationType);
-        if(hitFXPrefab != null)
+        List<GameObject> hitFXPrefabList = new List<GameObject>();
+        attackLogic.GetHitFX(attackResult, hitNotificationType, ref hitFXPrefabList);
+        if(hitFXPrefabList.Count > 0)
         {
-            GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
+            bool flipHitFX = false;
+
             Collider2D lastHitCollider = attackLogic.GetLastHitCollider();
-            if(lastHitCollider != null)
+            if (lastHitCollider != null)
             {
                 Transform hitOwner = lastHitCollider.transform.root;
-                if(hitOwner.position.x < transform.position.x)
-                {
-                    hitFXInstance.transform.localScale = new Vector3(hitFXInstance.transform.localScale.x * -1f, hitFXInstance.transform.localScale.y, hitFXInstance.transform.localScale.z);
-                }
+                flipHitFX = hitOwner.position.x < transform.position.x;
             }
             else
             {
                 Debug.LogError("PlayerHealthComponent::TriggerHitFX - Last hit collider has not been found");
-                hitFXInstance.transform.localScale = transform.lossyScale;
+            }
+
+            foreach (GameObject hitFXPrefab in hitFXPrefabList)
+            {
+                GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
+                if (flipHitFX)
+                {
+                    hitFXInstance.transform.localScale = new Vector3(hitFXInstance.transform.localScale.x * -1f, hitFXInstance.transform.localScale.y, hitFXInstance.transform.localScale.z);
+                }
             }
         }
     }

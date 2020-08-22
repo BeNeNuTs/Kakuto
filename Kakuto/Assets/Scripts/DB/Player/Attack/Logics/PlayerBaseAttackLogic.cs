@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum EStunAnimState
 {
@@ -234,27 +235,30 @@ public class PlayerBaseAttackLogic
         return EHitNotificationType.None;
     }
 
-    public virtual GameObject GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType)
+    public virtual void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
                 if(hitNotifType == EHitNotificationType.Counter)
                 {
-                    return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX;
+                    hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX);
+                    return;
                 }
 
                 if(m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
                 {
-                    return AttackConfig.Instance.m_HitFX[(int)EHitFXType.SpecialHit].m_FX;
+                    hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.SpecialHit].m_FX);
+                    return;
                 }
                 break;
             case EAttackResult.Blocked:
-                return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Block].m_FX;
-            case EAttackResult.Parried:
-                return AttackConfig.Instance.m_HitFX[(int)EHitFXType.Parry].m_FX;
-        }
+                hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Block].m_FX);
+                return;
 
-        return null;
+            case EAttackResult.Parried:
+                hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Parry].m_FX);
+                return;
+        }
     }
 }
