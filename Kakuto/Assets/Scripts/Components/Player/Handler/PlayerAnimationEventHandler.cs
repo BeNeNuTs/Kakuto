@@ -2,6 +2,7 @@
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
+    public PlayerMovementComponent m_PlayerMovementComponent;
     public PlayerShadowComponent m_PlayerShadowComponent;
     public Rigidbody2D m_Rigidbody;
     public Transform m_FXHook;
@@ -197,6 +198,11 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void SetXVelocity(float xVelocity)
     {
+        if (!m_PlayerMovementComponent.IsFacingRight())
+        {
+            xVelocity *= -1f;       
+        }
+
         m_Rigidbody.velocity = new Vector2(xVelocity, m_Rigidbody.velocity.y);
     }
 
