@@ -73,6 +73,16 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Triggered); // Set trigger point in triggered status as it has been used
     }
 
+    public override void OnAttackStopped()
+    {
+        base.OnAttackStopped();
+
+        if (m_TriggerPointStatus[m_InfoComponent.GetPlayerIndex()] == ETriggerPointStatus.Triggered)
+        {
+            m_InfoComponent.SetDefaultAndCurrentPalette(EPalette.Trigger);
+        }
+    }
+
     public override void OnShutdown()
     {
         base.OnShutdown();
@@ -85,6 +95,11 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive && status == ETriggerPointStatus.Inactive)
         {
             status = ETriggerPointStatus.Active;
+        }
+
+        if(m_TriggerPointStatus[infoComponent.GetPlayerIndex()] == ETriggerPointStatus.Triggered && status != ETriggerPointStatus.Triggered)
+        {
+            infoComponent.ResetDefaultAndCurrentPalette();
         }
 
         m_TriggerPointStatus[infoComponent.GetPlayerIndex()] = status;

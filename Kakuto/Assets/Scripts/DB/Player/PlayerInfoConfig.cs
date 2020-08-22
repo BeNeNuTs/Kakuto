@@ -6,6 +6,7 @@ public enum EPalette
 {
     Default,
     EX,
+    Trigger,
     Palette1,
     Palette2,
     Palette3
@@ -31,7 +32,7 @@ public class Palette
 [CreateAssetMenu(fileName = "PlayerInfoConfig", menuName = "Data/Player/PlayerInfoConfig", order = 0)]
 public class PlayerInfoConfig : ScriptableObject
 {
-    private static readonly int K_MAX_PALETTE = 5;
+    private static readonly int K_MAX_PALETTE = 6;
 
     public string m_PlayerName = "Player";
     public Sprite m_PlayerIcon;

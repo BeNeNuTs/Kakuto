@@ -3,9 +3,10 @@
 public class PlayerInfoComponent : MonoBehaviour
 {
     public PlayerInfoConfig m_InfoConfig;
-    public EPalette m_DefaultPalette = EPalette.Default;
+    public EPalette m_InitialPalette = EPalette.Default;
 
     private SpriteRenderer m_SpriteRenderer;
+    private EPalette m_DefaultPalette = EPalette.Default;
     private EPalette m_CurrentPalette = EPalette.Default;
     private int m_PlayerIndex = -1;
     private PlayerSettings m_Settings = null;
@@ -16,6 +17,7 @@ public class PlayerInfoComponent : MonoBehaviour
         InitPlayerIndex();
         InitPlayerSettings();
 
+        m_DefaultPalette = m_InitialPalette;
         m_CurrentPalette = m_DefaultPalette;
         InitPalette();
 
@@ -90,6 +92,18 @@ public class PlayerInfoComponent : MonoBehaviour
     public PlayerSettings GetPlayerSettings()
     {
         return m_Settings;
+    }
+
+    public void SetDefaultAndCurrentPalette(EPalette palette)
+    {
+        m_DefaultPalette = palette;
+        SetCurrentPalette(palette);
+    }
+
+    public void ResetDefaultAndCurrentPalette()
+    {
+        m_DefaultPalette = m_InitialPalette;
+        ResetCurrentPalette();
     }
 
     public Texture GetCurrentPalette()
