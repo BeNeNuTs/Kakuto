@@ -10,12 +10,14 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     private SpriteRenderer m_UIBackground;
     private SpriteRenderer m_UIMaskedBackground;
     private SpriteMask m_UIBackgroundMask;
+    private SpriteRenderer m_UIBackgroundMaskDetail;
 
     private void Start()
     {
         m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
         m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
         m_UIBackgroundMask = GameObject.FindGameObjectWithTag("UIBackgroundMask")?.GetComponent<SpriteMask>();
+        m_UIBackgroundMaskDetail = GameObject.FindGameObjectWithTag("UIBackgroundMaskDetail")?.GetComponent<SpriteRenderer>();
 #if UNITY_EDITOR
         if (m_UIBackground == null || m_UIMaskedBackground == null || m_UIBackgroundMask == null)
         {
@@ -166,12 +168,22 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
         if(backgroundEffectConfig.m_UseMask)
         {
-            m_UIMaskedBackground.enabled = true;
-            m_UIMaskedBackground.color = backgroundEffectConfig.m_MaskedBackgroundColor;
-
             m_UIBackgroundMask.enabled = true;
             m_UIBackgroundMask.sprite = backgroundEffectConfig.m_Mask;
             m_UIBackgroundMask.transform.position = m_FXHook.position;
+
+            if(backgroundEffectConfig.m_MaskDetail != null)
+            {
+                m_UIBackgroundMaskDetail.enabled = true;
+                m_UIBackgroundMaskDetail.sprite = backgroundEffectConfig.m_MaskDetail;
+                m_UIBackgroundMaskDetail.color = backgroundEffectConfig.m_MaskedBackgroundColor;
+                m_UIBackgroundMaskDetail.transform.position = m_UIBackgroundMask.transform.position;
+            }
+            else
+            {
+                m_UIMaskedBackground.enabled = true;
+                m_UIMaskedBackground.color = backgroundEffectConfig.m_MaskedBackgroundColor;
+            }
         }
     }
 
@@ -182,6 +194,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         m_UIBackground.enabled = false;
         m_UIMaskedBackground.enabled = false;
         m_UIBackgroundMask.enabled = false;
+        m_UIBackgroundMaskDetail.enabled = false;
     }
 
     public void SyncGrabPosition()

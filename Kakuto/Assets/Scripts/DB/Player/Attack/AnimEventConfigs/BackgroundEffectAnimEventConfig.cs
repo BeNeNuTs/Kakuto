@@ -10,4 +10,6 @@ public class BackgroundEffectAnimEventConfig : ScriptableObject
     public Color m_MaskedBackgroundColor;
     [ConditionalField(true, "m_UseMask")]
     public Sprite m_Mask;
+    [ConditionalField(true, "m_UseMask")]
+    public Sprite m_MaskDetail;
 }

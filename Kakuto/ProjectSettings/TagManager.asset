@@ -15,6 +15,7 @@ TagManager:
   - UIBackground
   - UIMaskedBackground
   - UIBackgroundMask
+  - UIBackgroundMaskDetail
   layers:
   - Default
   - TransparentFX

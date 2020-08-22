@@ -16,3 +16,4 @@ MonoBehaviour:
   m_UseMask: 1
   m_MaskedBackgroundColor: {r: 1, g: 1, b: 0.8666667, a: 0.7254902}
   m_Mask: {fileID: 21300000, guid: 79375b05db9413c4f8817295d75d2ea6, type: 3}
+  m_MaskDetail: {fileID: 21300000, guid: 79375b05db9413c4f8817295d75d2ea6, type: 3}
