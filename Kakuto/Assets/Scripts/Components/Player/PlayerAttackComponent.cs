@@ -273,11 +273,7 @@ public class PlayerAttackComponent : MonoBehaviour
                 }
                 else if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                 {
-                    if (m_CurrentAttackLogic.HasTouched())
-                    {
-                        // Can update attacks and cancel the current one if it has hit the enemy
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -293,7 +289,16 @@ public class PlayerAttackComponent : MonoBehaviour
                 bool canTriggerAttack = true;
                 if (m_IsAttackBlocked && m_UnblockAttackConfig != null)
                 {
-                    canTriggerAttack = m_UnblockAttackConfig.m_AllowedAttacks.Contains(attackLogic.GetAttack().m_AnimationAttackName);
+                    canTriggerAttack = false;
+                    foreach (UnblockAllowedAttack allowedAttack in m_UnblockAttackConfig.m_UnblockAllowedAttacks)
+                    {
+                        if(attackLogic.GetAttack().m_AnimationAttackName == allowedAttack.m_Attack)
+                        {
+                            // Can update attacks and cancel the current one if it has hit the enemy
+                            canTriggerAttack = !allowedAttack.m_OnlyOnHit || m_CurrentAttackLogic.HasTouched();
+                            break;
+                        }
+                    }
                 }
 
                 if(canTriggerAttack)

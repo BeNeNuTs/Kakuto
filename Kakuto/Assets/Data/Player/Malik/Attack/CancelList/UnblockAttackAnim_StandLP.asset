@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ce277182e2ef24fb1bf42588a007c9, type: 3}
   m_Name: UnblockAttackAnim_StandLP
   m_EditorClassIdentifier: 
-  m_AllowedAttacks: 0f00000013000000
+  m_UnblockAllowedAttacks:
+  - m_Attack: 15
+    m_OnlyOnHit: 1
+  - m_Attack: 19
+    m_OnlyOnHit: 1

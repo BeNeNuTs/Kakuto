@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class UnblockAttackAnimEvent
 {
@@ -13,9 +14,17 @@ public class UnblockAttackAnimEvent
     public UnblockAttackAnimEventConfig m_Config;
 }
 
+[Serializable]
+public class UnblockAllowedAttack
+{
+    [SearchableEnum]
+    public EAnimationAttackName m_Attack;
+    public bool m_OnlyOnHit;
+}
+
 [CreateAssetMenu(fileName = "UnblockAttackAnimEventConfig", menuName = "Data/Player/Attacks/AnimEventParameters/UnblockAttackAnimEventConfig", order = 0)]
 public class UnblockAttackAnimEventConfig : ScriptableObject
 {
-    [SearchableEnum, Tooltip("Allowed attacks to cancel the current attack")]
-    public List<EAnimationAttackName> m_AllowedAttacks;
+    [Tooltip("Allowed attacks to cancel the current attack")]
+    public List<UnblockAllowedAttack> m_UnblockAllowedAttacks;
 }
