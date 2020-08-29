@@ -22,7 +22,7 @@ public class TriggerPointDisplayer : MonoBehaviour
 
     private void OnTriggerPointStatusChanged(PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus status)
     {
-        m_TriggerActiveImage.enabled = status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active;
-        m_TriggeredImage.enabled = status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Triggered;
+        m_TriggerActiveImage.gameObject.SetActive(status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active);
+        m_TriggeredImage.gameObject.SetActive(status == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Triggered);
     }
 }
