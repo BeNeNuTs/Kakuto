@@ -216,16 +216,17 @@ public class PlayerBaseAttackLogic
 
         if (m_Attack.m_NeededStanceList.Contains(EPlayerStance.Jump) && m_MovementComponent.IsJumping())
         {
-            if(isFacingRight)
+            m_MovementComponent.GetOnJumpingXPositions(out float myXPosition, out float enemyXPosition);
+            if (myXPosition < enemyXPosition)
             {
-                if(m_Owner.transform.position.x < victimAttackComponent.gameObject.transform.position.x)
+                if(m_Owner.transform.position.x > victimAttackComponent.transform.position.x)
                 {
                     return EHitNotificationType.Crossup;
                 }
             }
             else
             {
-                if (m_Owner.transform.position.x > victimAttackComponent.gameObject.transform.position.x)
+                if (m_Owner.transform.position.x < victimAttackComponent.transform.position.x)
                 {
                     return EHitNotificationType.Crossup;
                 }

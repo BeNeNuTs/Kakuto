@@ -53,6 +53,9 @@ public class PlayerMovementComponent : MonoBehaviour
     private EJumpPhase m_JumpPhase = EJumpPhase.None;
     public Action OnLanding;
 
+    private float m_OnJumpingXPosition = 0f;
+    private float m_OnJumpingXEnemyPosition = 0f;
+
     private bool m_IsMovementBlocked = false;
 #pragma warning disable 414
     private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
@@ -216,6 +219,8 @@ public class PlayerMovementComponent : MonoBehaviour
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Jumping");
 
             ChangePlayerStance(EPlayerStance.Jump, EJumpPhase.Air);
+            m_OnJumpingXPosition = transform.position.x;
+            m_OnJumpingXEnemyPosition = m_Enemy.position.x;
             m_AttackComponent.SetAttackBlockedByTakeOff(false);
         }
         else
@@ -315,6 +320,12 @@ public class PlayerMovementComponent : MonoBehaviour
     public bool IsFacingRight()
     {
         return m_Controller.IsFacingRight();
+    }
+
+    public void GetOnJumpingXPositions(out float myXPosition, out float enemyXPosition)
+    {
+        myXPosition = m_OnJumpingXPosition;
+        enemyXPosition = m_OnJumpingXEnemyPosition;
     }
 
     public void PushForward(float pushForce)
