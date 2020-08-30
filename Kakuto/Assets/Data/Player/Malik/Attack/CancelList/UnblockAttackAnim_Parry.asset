@@ -15,3 +15,25 @@ MonoBehaviour:
   m_UnblockAllowedAttacks:
   - m_Attack: 19
     m_OnlyOnHit: 0
+  - m_Attack: 0
+    m_OnlyOnHit: 0
+  - m_Attack: 2
+    m_OnlyOnHit: 0
+  - m_Attack: 4
+    m_OnlyOnHit: 0
+  - m_Attack: 6
+    m_OnlyOnHit: 0
+  - m_Attack: 5
+    m_OnlyOnHit: 0
+  - m_Attack: 22
+    m_OnlyOnHit: 0
+  - m_Attack: 15
+    m_OnlyOnHit: 0
+  - m_Attack: 16
+    m_OnlyOnHit: 0
+  - m_Attack: 23
+    m_OnlyOnHit: 0
+  - m_Attack: 13
+    m_OnlyOnHit: 0
+  - m_Attack: 21
+    m_OnlyOnHit: 0
