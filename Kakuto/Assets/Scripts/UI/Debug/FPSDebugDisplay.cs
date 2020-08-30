@@ -3,6 +3,8 @@
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
 public class FPSDebugDisplay : MonoBehaviour
 {
+    public float m_FpsXOffset;
+
     float m_DeltaTime = 0.0f;
 
     void Update()
@@ -27,7 +29,7 @@ public class FPSDebugDisplay : MonoBehaviour
                 float msec = m_DeltaTime * 1000.0f;
                 float fps = 1.0f / m_DeltaTime;
                 string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-                GUI.Label(new Rect(0, 0, w, style.fontSize), text, style);
+                GUI.Label(new Rect(m_FpsXOffset, 0, w, style.fontSize), text, style);
             }
             //////////////////////////////
         }

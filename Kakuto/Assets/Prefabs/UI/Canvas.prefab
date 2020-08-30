@@ -3995,6 +3995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: 0
+  m_Animator: {fileID: 442248447896415790}
   m_NotificationBackground: {fileID: 2602295286475546561}
   m_NotificationText: {fileID: 7310949596118062854}
 --- !u!95 &442248447896415790
@@ -4005,7 +4006,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5863579885737507378}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 12b14a42ee968c24d90a28f1391004e7, type: 2}
   m_CullingMode: 0
@@ -4909,6 +4910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d160332d0769c354da048cee24189bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_FpsXOffset: -410
 --- !u!114 &7948278166680471517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5145,6 +5147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: 1
+  m_Animator: {fileID: 6129375446150232748}
   m_NotificationBackground: {fileID: 8856086802024699962}
   m_NotificationText: {fileID: 5249331111776582449}
 --- !u!95 &6129375446150232748
@@ -5155,9 +5158,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7439254552963935525}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 97a4c49d01ed62f4baef5b7e0552d006, type: 2}
+  m_Controller: {fileID: 22100000, guid: ef0dd2f68b5d2c841ac9ec4d39116d30, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
