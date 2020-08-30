@@ -4,16 +4,17 @@ using UnityEngine.UI;
 
 public class SuperGaugeDisplayer : MonoBehaviour
 {
+    private static float K_CHUNK_VALUE = 25f;
+
     public EPlayer m_Target;
     public Image m_GaugeImage;
-    public TextMeshProUGUI m_GaugeTextAmount;
+    public Image[] m_GaugeChunks;
 
     private PlayerSuperGaugeSubComponent m_PlayerSuperGaugeSC;
 
     private void Awake()
     {
         m_GaugeImage.fillAmount = 0f;
-        m_GaugeTextAmount.text = "0";
     }
 
     private void Update()
@@ -34,9 +35,14 @@ public class SuperGaugeDisplayer : MonoBehaviour
     {
         if(m_PlayerSuperGaugeSC != null)
         {
-            float gaugeRatio = m_PlayerSuperGaugeSC.GetCurrentGaugeValue() / AttackConfig.Instance.m_SuperGaugeMaxValue;
+            float gaugeValue = m_PlayerSuperGaugeSC.GetCurrentGaugeValue();
+            float gaugeRatio = gaugeValue / AttackConfig.Instance.m_SuperGaugeMaxValue;
             m_GaugeImage.fillAmount = gaugeRatio;
-            m_GaugeTextAmount.text = ((uint)(m_PlayerSuperGaugeSC.GetCurrentGaugeValue())).ToString();
+            int gaugeChunksToDisplay = Mathf.FloorToInt(gaugeValue / K_CHUNK_VALUE);
+            for(int i = 0; i < m_GaugeChunks.Length; i++)
+            {
+                m_GaugeChunks[i].enabled = gaugeChunksToDisplay > i;
+            }
         }
     }
 

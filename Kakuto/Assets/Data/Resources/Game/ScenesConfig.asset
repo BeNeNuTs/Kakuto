@@ -79,7 +79,7 @@ MonoBehaviour:
     m_DebugSettings:
       m_DisplayInputsInfo: 0
       m_DisplayAttacksInfo: 0
-      m_DisplayFPS: 0
+      m_DisplayFPS: 1
       m_DisplayFrameCounter: 1
       m_DisplayAnimationInfo: 0
       m_DisplayAttackTriggerInfo: 0

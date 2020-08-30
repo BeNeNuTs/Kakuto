@@ -5,6 +5,7 @@ using System.Collections;
 public class HitNotificationDisplayer : MonoBehaviour
 {
     public EPlayer m_Target;
+    public Animator m_Animator;
     public GameObject m_NotificationBackground;
     public TextMeshProUGUI m_NotificationText;
 
@@ -12,7 +13,10 @@ public class HitNotificationDisplayer : MonoBehaviour
 
     private void Awake()
     {
-        SetNotificationActive(false);
+        m_Animator.enabled = false;
+        m_NotificationBackground.SetActive(false);
+        m_NotificationText.gameObject.SetActive(false);
+
         Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
@@ -36,8 +40,8 @@ public class HitNotificationDisplayer : MonoBehaviour
 
     private void SetNotificationActive(bool active)
     {
-        m_NotificationBackground.SetActive(active);
-        m_NotificationText.enabled = active;
+        m_Animator.enabled = true;
+        m_Animator.SetBool("IsActive", active);
     }
 
     private IEnumerator DisplayNotification(EHitNotificationType hitNotifType)
