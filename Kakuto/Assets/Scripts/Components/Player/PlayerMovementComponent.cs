@@ -126,14 +126,15 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         UpdatePlayerSide();
 
+        int playerIndex = m_InfoComponent.GetPlayerIndex();
+
         m_HorizontalMoveInput = 0f;
         m_JumpInput = false;
+        m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
         if (!m_IsMovementBlocked && !m_InfoComponent.GetPlayerSettings().m_IsStatic)
         {
-            int playerIndex = m_InfoComponent.GetPlayerIndex();
             m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
-            m_JumpInput = InputManager.GetJumpInput(playerIndex);
-            m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
+            m_JumpInput = InputManager.GetJumpInput(playerIndex);   
 
             if(IsStanding())
             {
@@ -146,11 +147,10 @@ public class PlayerMovementComponent : MonoBehaviour
                     m_JumpTakeOffRequested = true;
                     m_JumpTakeOffDirection = m_HorizontalMoveInput;
                 }
-            }
-
-            m_Animator.SetBool("IsCrouching", m_CrouchInput);
+            }   
         }
 
+        m_Animator.SetBool("IsCrouching", m_CrouchInput);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
     }
 
