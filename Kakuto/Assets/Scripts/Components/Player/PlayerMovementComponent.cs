@@ -56,6 +56,8 @@ public class PlayerMovementComponent : MonoBehaviour
     private float m_OnJumpingXPosition = 0f;
     private float m_OnJumpingXEnemyPosition = 0f;
 
+    private bool m_NeedFlip = false;
+
     private bool m_IsMovementBlocked = false;
 #pragma warning disable 414
     private EBlockedReason m_MovementBlockedReason = EBlockedReason.None;
@@ -92,8 +94,6 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.EndTurnAround, OnEndTurnAround);
-
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
@@ -116,8 +116,6 @@ public class PlayerMovementComponent : MonoBehaviour
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
         Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.EndTurnAround, OnEndTurnAround);
-
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
 
@@ -134,7 +132,7 @@ public class PlayerMovementComponent : MonoBehaviour
         if (!m_IsMovementBlocked && !m_InfoComponent.GetPlayerSettings().m_IsStatic)
         {
             m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
-            m_JumpInput = InputManager.GetJumpInput(playerIndex);   
+            m_JumpInput = InputManager.GetJumpInput(playerIndex);
 
             if(IsStanding())
             {
@@ -147,7 +145,7 @@ public class PlayerMovementComponent : MonoBehaviour
                     m_JumpTakeOffRequested = true;
                     m_JumpTakeOffDirection = m_HorizontalMoveInput;
                 }
-            }   
+            }
         }
 
         m_Animator.SetBool("IsCrouching", m_CrouchInput);
@@ -156,43 +154,50 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void UpdatePlayerSide()
     {
-        // If we're not stunned AND not jumping AND not attacking
-        if(!m_HealthComponent.GetStunInfoSubComponent().IsStunned() && !IsJumping() && m_AttackComponent.GetCurrentAttack() == null)
+        if (m_IsLeftSide)
         {
-            // If movement is not blocked OR blocked by time over => Then we can update player side
-            if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
+            if (m_Enemy.position.x < transform.position.x)
             {
-                if (m_IsLeftSide)
+                OnSideChanged();
+            }
+        }
+        else
+        {
+            if (m_Enemy.position.x > transform.position.x)
+            {
+                OnSideChanged();
+            }
+        }
+
+        if (m_NeedFlip)
+        {
+            // If we're not stunned AND not jumping AND not attacking
+            if (!m_HealthComponent.GetStunInfoSubComponent().IsStunned() && !IsJumping() && m_JumpPhase == EJumpPhase.None && m_AttackComponent.GetCurrentAttack() == null)
+            {
+                // If movement is not blocked OR blocked by time over => Then we can flip
+                if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
                 {
-                    if (m_Enemy.position.x < transform.position.x)
-                    {
-                        OnSideChanged();
-                    }
-                }
-                else
-                {
-                    if (m_Enemy.position.x > transform.position.x)
-                    {
-                        OnSideChanged();
-                    }
+                    Flip();
+                    m_Animator.SetTrigger("TurnAroundRequested");
                 }
             }
-            
-        }   
+        }
+
     }
 
     void OnSideChanged()
     {
-        m_Animator.SetBool("TurnAroundRequested", true);
-    }
-
-    void OnEndTurnAround(bool dummy)
-    {
         m_IsLeftSide = !m_IsLeftSide;
-        m_Controller.Flip();
+        m_NeedFlip = !m_NeedFlip;
         OnDirectionChanged();
 
-        m_Animator.SetBool("TurnAroundRequested", false);
+        // TODO : Flip attack inputs if contains direction
+    }
+
+    void Flip()
+    {
+        m_Controller.Flip();
+        m_NeedFlip = false;
     }
 
     void OnTriggerJumpImpulse(bool dummy)
@@ -261,6 +266,7 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On player stance changed | " + string.Format("{0,-20} {1,-20}", ("Old stance : " + m_PlayerStance), "New stance : " + newStance));
             m_PlayerStance = newStance;
+            m_Animator.ResetTrigger("TurnAroundRequested");
         }
 
         if(m_JumpPhase != newJumpPhase)
@@ -418,11 +424,12 @@ public class PlayerMovementComponent : MonoBehaviour
             m_IsMovementBlocked = isMovementBlocked;
             m_MovementBlockedReason = reason;
 
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Movement has been "+ (isMovementBlocked ? "blocked" : "unblocked") + ", reason : " + reason);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Movement has been " + (isMovementBlocked ? "blocked" : "unblocked") + ", reason : " + reason);
 
             if (m_IsMovementBlocked)
             {
                 m_Animator.ResetTrigger("TakeOff");
+                m_Animator.ResetTrigger("TurnAroundRequested");
                 m_JumpTakeOffRequested = false;
                 m_JumpTakeOffDirection = 0f;
                 m_TriggerJumpImpulse = false;
@@ -431,6 +438,18 @@ public class PlayerMovementComponent : MonoBehaviour
                 if(m_Controller.IsJumping() && reason == EBlockedReason.Stun)
                 {
                     OnStopMovement();
+                }
+
+                if (m_NeedFlip)
+                {
+                    if (reason == EBlockedReason.Stun)
+                    {
+                        Flip();
+                    }
+                    else if ((reason == EBlockedReason.PlayAttack || reason == EBlockedReason.RequestByAttack) && !m_Controller.IsJumping())
+                    {
+                        Flip();
+                    }
                 }
             }
         }

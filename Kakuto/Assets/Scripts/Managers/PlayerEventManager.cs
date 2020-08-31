@@ -48,7 +48,6 @@ public enum EPlayerEvent
     TriggerTeleport,
 
     EndOfRoundAnimation,
-    EndTurnAround,
 
     // For enemy
     Hit,
