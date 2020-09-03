@@ -5,13 +5,24 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     100002: default
+    100004: Bridge_3:Mesh
     400000: //RootNode
     400002: default
+    400004: Bridge_3:Mesh
     2100000: palette
+    2100002: Bridge_3_palette
     2300000: default
+    2300002: Bridge_3:Mesh
     3300000: default
+    3300002: Bridge_3:Mesh
     4300000: default
+    4300002: Bridge_3:Mesh
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bridge_3_palette
+    second: {fileID: 2100000, guid: 63516b13a61c9fd4093409463161fa4e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
