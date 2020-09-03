@@ -16,7 +16,7 @@ public class PlayerEndRoundAnimationStateMachineBehavior : StateMachineBehaviour
         if (stateInfo.normalizedTime >= 1.0f && !m_EndOfRoundAnim)
         {
             PlayerInfoComponent infoComponent = animator.transform.root.GetComponent<PlayerInfoComponent>();
-            Utils.GetPlayerEventManager<EPlayer>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfRoundAnimation, infoComponent.GetPlayerEnum());
+            Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfRoundAnimation, new EndOfRoundAnimationEventParameters(infoComponent.GetPlayerEnum()));
             m_EndOfRoundAnim = true;
         }
     }

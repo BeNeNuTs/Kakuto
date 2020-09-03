@@ -38,7 +38,7 @@ public class ProjectileComponent : MonoBehaviour
 
         InitPalette();
 
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, this);
+        Utils.GetPlayerEventManager(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, new ProjectileSpawnedEventParameters(this));
     }
 
     void InitPalette()
@@ -142,7 +142,7 @@ public class ProjectileComponent : MonoBehaviour
 
     void DestroyProjectile()
     {
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, this);
+        Utils.GetPlayerEventManager(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, new ProjectileDestroyedEventParameters(this));
         gameObject.SetActive(false);
         m_Collider.enabled = false;
         Destroy(gameObject);

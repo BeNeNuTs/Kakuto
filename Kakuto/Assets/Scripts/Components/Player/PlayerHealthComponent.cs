@@ -20,26 +20,6 @@ public enum EHitNotificationType
     Counter
 }
 
-public struct DamageTakenInfo
-{
-    public GameObject m_Victim;
-    public PlayerBaseAttackLogic m_AttackLogic;
-    public EAttackResult m_AttackResult;
-    public float m_HealthRatio;
-    public bool m_IsAlreadyHitStunned;
-    public EHitNotificationType m_HitNotificationType;
-
-    public DamageTakenInfo(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio, EHitNotificationType hitNotif)
-    {
-        m_Victim = victim;
-        m_AttackLogic = attackLogic;
-        m_AttackResult = attackResult;
-        m_HealthRatio = healthRatio;
-        m_IsAlreadyHitStunned = isAlreadyHitStunned;
-        m_HitNotificationType = hitNotif;
-    }
-}
-
 public class PlayerHealthComponent : MonoBehaviour
 {
     public PlayerHealthConfig m_HealthConfig;
@@ -81,10 +61,10 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<Transform>(gameObject).StartListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.GrabTry, OnGrabTry);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.SyncGrabbedPosition, OnSyncGrabbedPosition);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -97,10 +77,10 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
-        Utils.GetPlayerEventManager<Transform>(gameObject).StopListening(EPlayerEvent.SyncGrabPosition, OnSyncGrabPosition);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.Hit, OnHit);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.SyncGrabbedPosition, OnSyncGrabbedPosition);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -120,35 +100,38 @@ public class PlayerHealthComponent : MonoBehaviour
         return m_HP == 0;
     }
 
-    void OnGrabTry(PlayerBaseAttackLogic attackLogic)
+    void OnGrabTry(BaseEventParameters baseParams)
     {
         if (IsDead())
         {
             return;
         }
 
+        GrabTryEventParameters grabTryParams = (GrabTryEventParameters)baseParams;
+        PlayerBaseAttackLogic grabAttackLogic = grabTryParams.m_AttackLogic;
+
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab try");
 
-        if (CanBlockGrabAttack(attackLogic))
+        if (CanBlockGrabAttack(grabAttackLogic))
         {
             // Here, both players are currently playing grab attack
             // But one is the attacker, and the second the defender
             // Only the defender can trigger GrabBlocked event and start a block animation
             // If the player who's trying to grab is the first one to have triggered the grab attack, he's the attacker, so we can block it
-            if (IsGrabAttacker(attackLogic))
+            if (IsGrabAttacker(grabAttackLogic))
             {
                 ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab blocked");
 
-                Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, attackLogic);
-                m_StunInfoSC.StartStun(attackLogic, EAttackResult.Blocked);
-                PlayBlockAnimation(attackLogic);
+                Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.GrabBlocked, new GrabBlockedEventParameters(grabAttackLogic));
+                m_StunInfoSC.StartStun(grabAttackLogic, EAttackResult.Blocked);
+                PlayBlockAnimation(grabAttackLogic);
             }
         }
         else if(!m_StunInfoSC.IsHitStunned() && !m_StunInfoSC.IsBlockStunned() && !m_MovementComponent.IsJumping()) // A grab can't touch if player is stunned or is jumping
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grab touched");
 
-            Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, attackLogic);
+            Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.GrabTouched, new GrabTouchedEventParameters(grabAttackLogic));
         }
     }
 
@@ -192,18 +175,20 @@ public class PlayerHealthComponent : MonoBehaviour
         return isGrabAttacker;
     }
 
-    void OnSyncGrabPosition(Transform grabHook)
+    void OnSyncGrabbedPosition(BaseEventParameters baseParams)
     {
         if (IsDead())
         {
             return;
         }
 
+        SyncGrabbedPositionEventParameters syncGrabbedParams = (SyncGrabbedPositionEventParameters)baseParams;
+
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On sync grab position");
-        transform.position = grabHook.position;
+        transform.position = syncGrabbedParams.m_GrabHook.position;
     }
 
-    void OnGrabbed(PlayerBaseAttackLogic attackLogic)
+    void OnGrabbed(BaseEventParameters baseParams)
     {
         if (IsDead())
         {
@@ -216,13 +201,15 @@ public class PlayerHealthComponent : MonoBehaviour
             Debug.Break();
         }
 #endif
+        GrabbedEventParameters grabbedParams = (GrabbedEventParameters)baseParams;
+        PlayerBaseAttackLogic grabAttackLogic = grabbedParams.m_AttackLogic;
 
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + attackLogic.GetAttack().m_Name);
-        m_StunInfoSC.StartStun(attackLogic, EAttackResult.Hit);
-        PlayHitAnimation(attackLogic);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + grabAttackLogic.GetAttack().m_Name);
+        m_StunInfoSC.StartStun(grabAttackLogic, EAttackResult.Hit);
+        PlayHitAnimation(grabAttackLogic);
     }
 
-    void OnHit(PlayerBaseAttackLogic attackLogic)
+    void OnHit(BaseEventParameters baseParams)
     {
         if (IsDead())
         {
@@ -235,11 +222,13 @@ public class PlayerHealthComponent : MonoBehaviour
             Debug.Break();
         }
 #endif
+        HitEventParameters hitParams = (HitEventParameters)baseParams;
+        PlayerBaseAttackLogic hitAttackLogic = hitParams.m_AttackLogic;
 
-        GetHitInfo(attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType);
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + attackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
+        GetHitInfo(hitAttackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + hitAttackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
 
-        ApplyDamage(attackLogic, hitDamage, attackResult, hitNotificationType);
+        ApplyDamage(hitAttackLogic, hitDamage, attackResult, hitNotificationType);
     }
 
     private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType)
@@ -338,8 +327,8 @@ public class PlayerHealthComponent : MonoBehaviour
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 
-        DamageTakenInfo damageTakenInfo = new DamageTakenInfo(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
-        Utils.GetPlayerEventManager<DamageTakenInfo>(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
+        DamageTakenEventParameters damageTakenInfo = new DamageTakenEventParameters(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (!IsDead() && attackLogic.CanPlayDamageTakenAnim())
         {
@@ -537,13 +526,13 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void PlayParriedAnimation(PlayerBaseAttackLogic attackLogic)
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.ParrySuccess, EAnimationAttackName.Parry);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.ParrySuccess);
     }
 
     private void OnDeath()
     {
         m_Anim.SetTrigger("OnDeath");
-        Utils.GetPlayerEventManager<string>(gameObject).TriggerEvent(EPlayerEvent.OnDeath, gameObject.tag);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.OnDeath, new DeathEventParameters(gameObject.tag));
     }
 
     private void OnRoundOver()

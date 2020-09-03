@@ -21,16 +21,16 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
 
     void RegisterListeners(EPlayer player)
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(player).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(player).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
-        Utils.GetPlayerEventManager<DamageTakenInfo>(player).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(player).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager(player).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager(player).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     void UnregisterListeners(EPlayer player)
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(player).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(player).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
-        Utils.GetPlayerEventManager<DamageTakenInfo>(player).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(player).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager(player).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+        Utils.GetPlayerEventManager(player).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     public override void OnPlayerRegistered(GameObject player)
@@ -70,24 +70,30 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         }
     }
 
-    void OnAttackLaunched(PlayerBaseAttackLogic attackLogic)
+    void OnAttackLaunched(BaseEventParameters baseParams)
     {
-        GameObject attacker = attackLogic.GetOwner();
+        AttackLaunchedEventParameters attackLaunchedParams = (AttackLaunchedEventParameters)baseParams;
+
+        GameObject attacker = attackLaunchedParams.m_AttackLogic.GetOwner();
         GameObject defender = GetEnemyOf(attacker);
         UpdateSortingOrder(attacker, ESortingOrder.Front);
         UpdateSortingOrder(defender, ESortingOrder.Back);
     }
 
-    void OnGrabbed(PlayerBaseAttackLogic attackLogic)
+    void OnGrabbed(BaseEventParameters baseParams)
     {
-        GameObject grabber = attackLogic.GetOwner();
+        GrabbedEventParameters grabbedParams = (GrabbedEventParameters)baseParams;
+
+        GameObject grabber = grabbedParams.m_AttackLogic.GetOwner();
         GameObject grabbed = GetEnemyOf(grabber);
         UpdateSortingOrder(grabber, ESortingOrder.Front);
         UpdateSortingOrder(grabbed, ESortingOrder.Back);
     }
 
-    void OnDamageTaken(DamageTakenInfo damageTakenInfo)
+    void OnDamageTaken(BaseEventParameters baseParams)
     {
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+
         GameObject instigator = damageTakenInfo.m_AttackLogic.GetOwner();
         GameObject victim = damageTakenInfo.m_Victim;
         UpdateSortingOrder(instigator, ESortingOrder.Front);

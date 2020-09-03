@@ -32,7 +32,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if (behaviour)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack");
-            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, behaviour.m_AnimationAttackName);
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, new BlockAttackEventParameters(behaviour.m_AnimationAttackName));
         }
         else
         {
@@ -47,8 +47,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if(behaviour)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack");
-            UnblockAttackAnimEvent unblockAnimEvent = new UnblockAttackAnimEvent(behaviour.m_AnimationAttackName, param);
-            Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, unblockAnimEvent);
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, new UnblockAttackEventParameters(behaviour.m_AnimationAttackName, param));
         }
         else
         {
@@ -63,7 +62,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if (behaviour)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement");
-            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, behaviour.m_AnimationAttackName);
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, new BlockMovementEventParameters(behaviour.m_AnimationAttackName));
         }
         else
         {
@@ -78,7 +77,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         if (behaviour)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement");
-            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, behaviour.m_AnimationAttackName);
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, new UnblockMovementEventParameters(behaviour.m_AnimationAttackName));
         }
         else
         {
@@ -90,43 +89,43 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     public void EndOfParry()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "End of parry");
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfParry, EAnimationAttackName.Parry);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.EndOfParry);
     }
 
     public void EndOfGrab()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "End of grab");
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfGrab, EAnimationAttackName.Grab);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.EndOfGrab);
     }
 
     public void ApplyGrabDamages()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Apply grab damages");
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.ApplyGrabDamages, EAnimationAttackName.Grab);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.ApplyGrabDamages);
     }
 
     public void TriggerProjectile()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger projectile");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerProjectile, true);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.TriggerProjectile);
     }
 
     public void StopMovement()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Stop movement");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.StopMovement, true);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.StopMovement);
     }
 
     public void TriggerJumpImpulse()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger jump impulse");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerJumpImpulse, true);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.TriggerJumpImpulse);
     }
 
     public void ApplyDashImpulse()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Apply dash impulse");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.ApplyDashImpulse, true);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.ApplyDashImpulse);
     }
 
     public void FreezeTime()
@@ -199,14 +198,14 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void SyncGrabPosition()
     {
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Sync grab position");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.SyncGrabPosition, true);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Sync grab attacker position");
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.SyncGrabAttackerPosition);
     }
 
     public void TriggerTeleport()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Trigger teleport");
-        Utils.GetPlayerEventManager<bool>(gameObject).TriggerEvent(EPlayerEvent.TriggerTeleport, true);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.TriggerTeleport);
     }
 
     public void SetXVelocity(float xVelocity)

@@ -88,7 +88,7 @@ public class PlayerBaseAttackLogic
         m_HasTouched = false;
         m_DamageRatio = 1f;
         m_DamageRatioComputed = false;
-        Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+        Utils.GetEnemyEventManager(m_Owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         m_AttackLaunched = true;
     }
@@ -107,7 +107,7 @@ public class PlayerBaseAttackLogic
 
         if (CanStopListeningEnemyTakesDamage())
         {
-            Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+            Utils.GetEnemyEventManager(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
         }
 
         m_AttackLaunched = false;
@@ -146,9 +146,10 @@ public class PlayerBaseAttackLogic
     public bool IsASuper() { return m_Attack.m_IsASuper; }
 
     protected virtual bool CanStopListeningEnemyTakesDamage() { return true; }
-    protected virtual void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
+    protected virtual void OnEnemyTakesDamage(BaseEventParameters baseParams)
     {
-        if(this == damageTakenInfo.m_AttackLogic)
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+        if (this == damageTakenInfo.m_AttackLogic)
         {
             m_HasTouched = true;
         }

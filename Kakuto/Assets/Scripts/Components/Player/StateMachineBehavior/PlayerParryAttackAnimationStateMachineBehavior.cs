@@ -29,7 +29,7 @@ public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehavi
         string lowerClipName = clipInfoList[0].clip.name.ToLower();
         if (!lowerClipName.Contains(PlayerAnimationHelper.K_PARRY_SUCCESS_ANIM_STANDARD_NAME))
         {
-            Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, EAnimationAttackName.Parry);
+            Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, new EndOfAttackEventParameters(EAnimationAttackName.Parry));
         }
     }
 

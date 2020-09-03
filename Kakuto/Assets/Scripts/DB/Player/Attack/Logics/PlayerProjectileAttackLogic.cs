@@ -31,15 +31,15 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
             Debug.LogError(K_PROJECTILE_HOOK + " can't be found on " + m_Owner);
         }
 #endif
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
 
     public override void OnShutdown()
     {
         base.OnShutdown();
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
 
         SetNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex(), false);
     }
@@ -62,7 +62,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         m_IsGuardCrush = !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex()); // Need to be before base.OnAttackLaunched for GetAnimationAttackName()
 
         base.OnAttackLaunched();
-        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
     }
 
     public override string GetAnimationAttackName()
@@ -105,31 +105,35 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
-        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
     }
 
-    private void OnProjectileSpawned(ProjectileComponent projectile)
+    private void OnProjectileSpawned(BaseEventParameters baseParams)
     {
-        m_CurrentProjectiles.Add(projectile);
+        ProjectileSpawnedEventParameters projectileSpawnedParams = (ProjectileSpawnedEventParameters)baseParams;
+        m_CurrentProjectiles.Add(projectileSpawnedParams.m_Projectile);
     }
 
-    private void OnProjectileDestroyed(ProjectileComponent projectile)
+    private void OnProjectileDestroyed(BaseEventParameters baseParams)
     {
-        if(m_MyProjectile == projectile)
+        ProjectileDestroyedEventParameters projectileDestroyedParams = (ProjectileDestroyedEventParameters)baseParams;
+        ProjectileComponent destroyedProjectile = projectileDestroyedParams.m_Projectile;
+
+        if (m_MyProjectile == destroyedProjectile)
         {
-            Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+            Utils.GetEnemyEventManager(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
             m_MyProjectile = null;
         }
 
-        if (!m_CurrentProjectiles.Contains(projectile))
+        if (!m_CurrentProjectiles.Contains(destroyedProjectile))
         {
             Debug.LogError("Trying to destroy a projectile which is not in the list");
         }
 
-        m_CurrentProjectiles.Remove(projectile);
+        m_CurrentProjectiles.Remove(destroyedProjectile);
     }
 
-    private void OnTriggerProjectile(bool dummyBool)
+    private void OnTriggerProjectile(BaseEventParameters baseParams)
     {
         float ownerLocalScaleX = m_Owner.transform.localScale.x; 
         GameObject projectile = GameObject.Instantiate(m_Config.m_ProjectilePrefab, m_ProjectileHook.position, Quaternion.AngleAxis(m_Config.m_ProjectileAngle, Vector3.forward * ownerLocalScaleX));

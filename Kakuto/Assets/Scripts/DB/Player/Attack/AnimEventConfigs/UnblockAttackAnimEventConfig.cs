@@ -2,18 +2,6 @@
 using System.Collections.Generic;
 using System;
 
-public class UnblockAttackAnimEvent
-{
-    public UnblockAttackAnimEvent(EAnimationAttackName attackToUnblock, UnblockAttackAnimEventConfig config)
-    {
-        m_AttackToUnblock = attackToUnblock;
-        m_Config = config;
-    }
-
-    public EAnimationAttackName m_AttackToUnblock;
-    public UnblockAttackAnimEventConfig m_Config;
-}
-
 [Serializable]
 public class UnblockAllowedAttack
 {

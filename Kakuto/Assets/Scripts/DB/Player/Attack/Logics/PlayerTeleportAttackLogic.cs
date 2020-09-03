@@ -16,15 +16,15 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
     public override void OnInit(GameObject owner, PlayerAttack attack)
     {
         base.OnInit(owner, attack);
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
 
     public override void OnShutdown()
     {
         base.OnShutdown();
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
-        Utils.GetPlayerEventManager<ProjectileComponent>(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
@@ -70,17 +70,17 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         m_TeleportRequested = false;
 
         m_CurrentProjectile.RequestProjectileDestruction();
-        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
     }
 
     public override void OnAttackStopped()
     {
         base.OnAttackStopped();
 
-        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.TriggerTeleport, OnTriggerTeleportRequested);
     }
 
-    private void OnTriggerTeleportRequested(bool dummy)
+    private void OnTriggerTeleportRequested(BaseEventParameters baseParams)
     {
         Vector3 projectilePosition = m_LastProjectilePosition;
         if(m_CurrentProjectile != null)
@@ -91,16 +91,20 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         m_TeleportRequested = true;
     }
 
-    private void OnProjectileSpawned(ProjectileComponent projectile)
+    private void OnProjectileSpawned(BaseEventParameters baseParams)
     {
-        m_CurrentProjectile = projectile;
+        ProjectileSpawnedEventParameters projectileSpawnedParams = (ProjectileSpawnedEventParameters)baseParams;
+        m_CurrentProjectile = projectileSpawnedParams.m_Projectile;
     }
 
-    private void OnProjectileDestroyed(ProjectileComponent projectile)
+    private void OnProjectileDestroyed(BaseEventParameters baseParams)
     {
-        if (m_CurrentProjectile != null && m_CurrentProjectile != projectile)
+        ProjectileDestroyedEventParameters projectileDestroyedParams = (ProjectileDestroyedEventParameters)baseParams;
+        ProjectileComponent destroyedProjectile = projectileDestroyedParams.m_Projectile;
+
+        if (m_CurrentProjectile != null && m_CurrentProjectile != destroyedProjectile)
         {
-            Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + projectile);
+            Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + destroyedProjectile);
         }
 
         // If the attack's launched and teleport has not been requested yet

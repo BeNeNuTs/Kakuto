@@ -67,14 +67,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockAttack, BlockAttack);
-        Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.BlockAttack, BlockAttack);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+        Utils.GetEnemyEventManager(gameObject).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -103,14 +103,14 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockAttack, BlockAttack);
-        Utils.GetPlayerEventManager<UnblockAttackAnimEvent>(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.BlockAttack, BlockAttack);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.UnblockAttack, UnblockAttack);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
-        Utils.GetEnemyEventManager<DamageTakenInfo>(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+        Utils.GetEnemyEventManager(gameObject).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -336,7 +336,7 @@ public class PlayerAttackComponent : MonoBehaviour
         // As the EndOfAttack triggered by the animation will happen only 1 frame later and the current attack logic will already be replaced
         if (m_CurrentAttackLogic != null)
         {
-            Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, m_CurrentAttackLogic.GetAttack().m_AnimationAttackName);
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, new EndOfAttackEventParameters(m_CurrentAttackLogic.GetAttack().m_AnimationAttackName));
         }
 
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Trigger attack : " + attackLogic.GetAttack().m_Name);
@@ -361,7 +361,7 @@ public class PlayerAttackComponent : MonoBehaviour
         }
         m_MovementComponent.SetMovementBlockedByAttack(attackLogic.GetAttack().m_BlockMovement);
 
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, m_CurrentAttackLogic);
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, new AttackLaunchedEventParameters(m_CurrentAttackLogic));
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         // DEBUG ///////////////////////////////////
@@ -373,10 +373,11 @@ public class PlayerAttackComponent : MonoBehaviour
 #endif
     }
 
-    void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
+    void OnEnemyTakesDamage(BaseEventParameters baseParams)
     {
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
         // If enemy takes damage from the current attack logic
-        if(damageTakenInfo.m_AttackLogic == m_CurrentAttackLogic)
+        if (damageTakenInfo.m_AttackLogic == m_CurrentAttackLogic)
         {
             if(damageTakenInfo.m_AttackResult != EAttackResult.Parried)
             {
@@ -414,9 +415,10 @@ public class PlayerAttackComponent : MonoBehaviour
         return true;
     }
 
-    void EndOfAttack(EAnimationAttackName attackName)
+    void EndOfAttack(BaseEventParameters baseParams)
     {
-        if(CheckIsCurrentAttack(attackName))
+        EndOfAttackEventParameters endOfAttackParams = (EndOfAttackEventParameters)baseParams;
+        if(CheckIsCurrentAttack(endOfAttackParams.m_Attack))
         {
             PlayerAttack currentAttack = m_CurrentAttackLogic.GetAttack();
 
@@ -427,7 +429,7 @@ public class PlayerAttackComponent : MonoBehaviour
                 m_IsAttackTriggeredInAir = false;
             }
 
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + attackName + " | attack was blocked : " + attackWasBlocked + ", attack is blocked : " + m_IsAttackBlocked);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "End of attack : " + endOfAttackParams.m_Attack + " | attack was blocked : " + attackWasBlocked + ", attack is blocked : " + m_IsAttackBlocked);
 
             // If attack was blocked and there is still unblock attack parameters
             // This means no allowed attack have been triggered
@@ -446,42 +448,44 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    void BlockAttack(EAnimationAttackName attackName)
+    void BlockAttack(BaseEventParameters baseParams)
     {
-        if (CheckIsCurrentAttack(attackName))
+        BlockAttackEventParameters blockAttackEventParams = (BlockAttackEventParameters)baseParams;
+        if (CheckIsCurrentAttack(blockAttackEventParams.m_CurrentAttack))
         {
             if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
             {
-                Debug.LogError("Attack was already blocked by " + attackName);
+                Debug.LogError("Attack was already blocked by " + blockAttackEventParams.m_CurrentAttack);
                 return;
             }
 
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is blocked by : " + attackName);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is blocked by : " + blockAttackEventParams.m_CurrentAttack);
 
             m_IsAttackBlocked = true;
             m_UnblockAttackConfig = null;
         }
     }
 
-    void UnblockAttack(UnblockAttackAnimEvent unblockEvent)
+    void UnblockAttack(BaseEventParameters baseParams)
     {
-        if (CheckIsCurrentAttack(unblockEvent.m_AttackToUnblock))
+        UnblockAttackEventParameters unblockAttackEventParams = (UnblockAttackEventParameters)baseParams;
+        if (CheckIsCurrentAttack(unblockAttackEventParams.m_AttackToUnblock))
         {
             if(m_IsAttackBlocked == false)
             {
-                Debug.LogError("Attack was not blocked by " + unblockEvent.m_AttackToUnblock);
+                Debug.LogError("Attack was not blocked by " + unblockAttackEventParams.m_AttackToUnblock);
                 return;
             }
 
             if(CanUnblockAttack())
             {
-                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is unblocked by : " + unblockEvent.m_AttackToUnblock);
-                m_UnblockAttackConfig = unblockEvent.m_Config;
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "Attack is unblocked by : " + unblockAttackEventParams.m_AttackToUnblock);
+                m_UnblockAttackConfig = unblockAttackEventParams.m_Config;
             }
         }
     }
 
-    void OnStunBegin(bool isStunned = true)
+    void OnStunBegin(BaseEventParameters baseParams)
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun begin | Attack is blocked");
 
@@ -489,7 +493,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_IsAttackBlocked = true;
     }
 
-    void OnStunEnd(bool isStunned = false)
+    void OnStunEnd(BaseEventParameters baseParams)
     {
         if(m_IsAttackBlocked == false)
         {

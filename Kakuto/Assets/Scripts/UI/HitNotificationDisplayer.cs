@@ -17,17 +17,18 @@ public class HitNotificationDisplayer : MonoBehaviour
         m_NotificationBackground.SetActive(false);
         m_NotificationText.gameObject.SetActive(false);
 
-        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     private void OnDestroy()
     {
-        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
-    private void OnDamageTaken(DamageTakenInfo damageTakenInfo)
+    private void OnDamageTaken(BaseEventParameters baseParams)
     {
-        if(damageTakenInfo.m_HitNotificationType != EHitNotificationType.None)
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+        if (damageTakenInfo.m_HitNotificationType != EHitNotificationType.None)
         {
             if(m_CurrentDisplayNotifCoroutine != null)
             {

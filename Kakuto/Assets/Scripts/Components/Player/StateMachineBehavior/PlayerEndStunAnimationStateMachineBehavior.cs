@@ -20,7 +20,7 @@ public class PlayerEndStunAnimationStateMachineBehavior : StateMachineBehaviour
         //If this animation is well finished, we need to stop stun on state exit
         if (stateInfo.normalizedTime >= 1.0f)
         {
-            Utils.GetPlayerEventManager<bool>(animator.gameObject).TriggerEvent(EPlayerEvent.OnStunAnimEnd, true);
+            Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.OnStunAnimEnd);
         }
     }
 

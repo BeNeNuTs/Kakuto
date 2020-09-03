@@ -36,15 +36,15 @@ public class RoundSubGameManager : SubGameManagerBase
     public override void Init()
     {
         base.Init();
-        Utils.GetPlayerEventManager<string>(Player.Player1).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<string>(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager(Player.Player1).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
     public override void Shutdown()
     {
         base.Shutdown();
-        Utils.GetPlayerEventManager<string>(Player.Player1).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
-        Utils.GetPlayerEventManager<string>(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager(Player.Player1).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+        Utils.GetPlayerEventManager(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
     public override void OnPlayersRegistered()
@@ -84,7 +84,7 @@ public class RoundSubGameManager : SubGameManagerBase
         OnRoundBegin?.Invoke();
     }
 
-    private void OnPlayerDeath(string deadPlayerTag)
+    private void OnPlayerDeath(BaseEventParameters baseParams)
     {
         if (m_OnPlayerDeathCoroutine != null)
         {
@@ -217,12 +217,12 @@ public class RoundSubGameManager : SubGameManagerBase
         {
             if (player1PlayedAnim)
             {
-                Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player1)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+                Utils.GetPlayerEventManager(GameManager.Instance.GetPlayer(EPlayer.Player1)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
             }
 
             if (player2PlayedAnim)
             {
-                Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(EPlayer.Player2)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+                Utils.GetPlayerEventManager(GameManager.Instance.GetPlayer(EPlayer.Player2)).StartListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
             }
         }
     }
@@ -244,10 +244,13 @@ public class RoundSubGameManager : SubGameManagerBase
         return false;
     }
 
-    private void EndOfPlayerRoundAnimation(EPlayer player)
+    private void EndOfPlayerRoundAnimation(BaseEventParameters baseParams)
     {
+        EndOfRoundAnimationEventParameters endOfRoundAnimParams = (EndOfRoundAnimationEventParameters)baseParams;
+        EPlayer player = endOfRoundAnimParams.m_Player;
+
         m_PlayerEndOfRoundAnimationFinished[(int)player] = true;
-        Utils.GetPlayerEventManager<EPlayer>(GameManager.Instance.GetPlayer(player)).StopListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
+        Utils.GetPlayerEventManager(GameManager.Instance.GetPlayer(player)).StopListening(EPlayerEvent.EndOfRoundAnimation, EndOfPlayerRoundAnimation);
 
         if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {

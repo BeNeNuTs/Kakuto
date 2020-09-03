@@ -44,14 +44,16 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
                 if (triggerHitEvent)
                 {
-                    Utils.GetEnemyEventManager<PlayerBaseAttackLogic>(m_Owner).TriggerEvent(EPlayerEvent.Hit, this);
+                    Utils.GetEnemyEventManager(m_Owner).TriggerEvent(EPlayerEvent.Hit, new HitEventParameters(this));
                 }
             }
         }
     }
 
-    protected override void OnEnemyTakesDamage(DamageTakenInfo damageTakenInfo)
+    protected override void OnEnemyTakesDamage(BaseEventParameters baseParams)
     {
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+
         if (this == damageTakenInfo.m_AttackLogic)
         {
             base.OnEnemyTakesDamage(damageTakenInfo);

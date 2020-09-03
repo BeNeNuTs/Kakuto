@@ -103,39 +103,39 @@ public static class Utils
         return null;
     }
 
-    public static PlayerEventManager<T> GetPlayerEventManager<T>(GameObject gameObject)
+    public static PlayerEventManager GetPlayerEventManager(GameObject gameObject)
     {
-        return GetPlayerEventManager<T>(gameObject.tag);
+        return GetPlayerEventManager(gameObject.tag);
     }
 
-    public static PlayerEventManager<T> GetPlayerEventManager<T>(EPlayer player)
+    public static PlayerEventManager GetPlayerEventManager(EPlayer player)
     {
-        return GetPlayerEventManager<T>(player.ToString());
+        return GetPlayerEventManager(player.ToString());
     }
 
-    public static PlayerEventManager<T> GetPlayerEventManager<T>(string tag)
+    public static PlayerEventManager GetPlayerEventManager(string tag)
     {
         switch (tag)
         {
             case "Player1":
-                return Player1EventManager<T>.Instance;
+                return Player1EventManager.Instance;
             case "Player2":
-                return Player2EventManager<T>.Instance;
+                return Player2EventManager.Instance;
             default:
                 Debug.LogError("Can't find PlayerEventManager from tag : " + tag);
                 return null;
         }
     }
 
-    public static PlayerEventManager<T> GetEnemyEventManager<T>(GameObject gameObject)
+    public static PlayerEventManager GetEnemyEventManager(GameObject gameObject)
     {
-        return GetEnemyEventManager<T>(gameObject.tag);
+        return GetEnemyEventManager(gameObject.tag);
     }
 
-    public static PlayerEventManager<T> GetEnemyEventManager<T>(string tag)
+    public static PlayerEventManager GetEnemyEventManager(string tag)
     {
         string enemyTag = GetEnemyTag(tag);
-        return GetPlayerEventManager<T>(enemyTag);
+        return GetPlayerEventManager(enemyTag);
     }
 
     public static string GetEnemyTag(GameObject gameObject)

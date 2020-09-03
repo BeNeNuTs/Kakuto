@@ -28,8 +28,8 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
 
         m_ParryState = EParryState.Startup;
 
-        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.ParrySuccess, OnParrySuccess);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StartListening(EPlayerEvent.EndOfParry, OnEndOfParry);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ParrySuccess, OnParrySuccess);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.EndOfParry, OnEndOfParry);
     }
 
     public override void OnAttackStopped()
@@ -38,8 +38,8 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
 
         m_ParryState = EParryState.None;
 
-        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.ParrySuccess, OnParrySuccess);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(m_Owner).StopListening(EPlayerEvent.EndOfParry, OnEndOfParry);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ParrySuccess, OnParrySuccess);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.EndOfParry, OnEndOfParry);
     }
 
     public bool CanParryAttack(PlayerBaseAttackLogic attackLogic)
@@ -47,24 +47,18 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         return m_ParryState == EParryState.Startup;
     }
 
-    void OnParrySuccess(EAnimationAttackName attackName)
+    void OnParrySuccess(BaseEventParameters baseParams)
     {
-        if (m_Attack.m_AnimationAttackName == attackName)
-        {
-            IncreaseSuperGauge(m_Config.m_SuperGaugeParrySuccessBonus);
-            m_ParryState = EParryState.Counter;
-            m_HasTouched = true; // Set it to true in order to allow unblock attack and cancelling this one by another one if needed (parry success is considered as a regular attack hit)
-            PlayerGuardCrushTriggerAttackLogic.SetTriggerPointStatus(m_InfoComponent, PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active); // Successfully parrying a hit activate the trigger
+        IncreaseSuperGauge(m_Config.m_SuperGaugeParrySuccessBonus);
+        m_ParryState = EParryState.Counter;
+        m_HasTouched = true; // Set it to true in order to allow unblock attack and cancelling this one by another one if needed (parry success is considered as a regular attack hit)
+        PlayerGuardCrushTriggerAttackLogic.SetTriggerPointStatus(m_InfoComponent, PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active); // Successfully parrying a hit activate the trigger
 
-            m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
-        }
+        m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
     }
 
-    void OnEndOfParry(EAnimationAttackName attackName)
+    void OnEndOfParry(BaseEventParameters baseParams)
     {
-        if (m_Attack.m_AnimationAttackName == attackName)
-        {
-            m_ParryState = EParryState.Whiff;
-        }
+        m_ParryState = EParryState.Whiff;
     }
 }

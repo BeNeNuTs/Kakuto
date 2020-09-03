@@ -22,7 +22,7 @@ public class PlayerAttackAnimationStateMachineBehavior : AdvancedStateMachineBeh
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Utils.GetPlayerEventManager<EAnimationAttackName>(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, m_AnimationAttackName);
+        Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, new EndOfAttackEventParameters(m_AnimationAttackName));
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

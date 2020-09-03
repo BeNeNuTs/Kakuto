@@ -85,14 +85,14 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Controller.OnJumpEvent += OnJumping;
         m_Controller.OnDirectionChangedEvent += OnDirectionChanged;
 
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.BlockMovement, BlockMovement);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StopMovement, OnStopMovement);
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.BlockMovement, BlockMovement);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StopMovement, OnStopMovement);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<bool>(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
@@ -107,14 +107,14 @@ public class PlayerMovementComponent : MonoBehaviour
         m_Controller.OnJumpEvent -= OnJumping;
         m_Controller.OnDirectionChangedEvent -= OnDirectionChanged;
 
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.BlockMovement, BlockMovement);
-        Utils.GetPlayerEventManager<EAnimationAttackName>(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StopMovement, OnStopMovement);
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.EndOfAttack, EndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.BlockMovement, BlockMovement);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.UnblockMovement, UnblockMovement);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StopMovement, OnStopMovement);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.TriggerJumpImpulse, OnTriggerJumpImpulse);
 
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
-        Utils.GetPlayerEventManager<bool>(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -200,7 +200,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_NeedFlip = false;
     }
 
-    void OnTriggerJumpImpulse(bool dummy)
+    void OnTriggerJumpImpulse(BaseEventParameters baseParams)
     {
         if(!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
         {
@@ -356,56 +356,58 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
-    private void OnStopMovement(bool dummyBool = true)
+    private void OnStopMovement(BaseEventParameters baseParams = null)
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On movement stopped");
         m_Controller.StopMovement();
     }
 
-    void EndOfAttack(EAnimationAttackName attackName)
+    void EndOfAttack(BaseEventParameters baseParams)
     {
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On end of attack : " + attackName);
+        EndOfAttackEventParameters endOfAttackParams = (EndOfAttackEventParameters)baseParams;
+
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On end of attack : " + endOfAttackParams.m_Attack);
         if (m_IsMovementBlocked)
         {
             // We need to check m_AttackComponent.GetCurrentAttack().m_AnimationAttackName AND m_AttackComponent.GetCurrentAttackLogic().GetAnimationAttackName() because for ProjectileAttack, 
             // it can happen that a different animation is triggered due to guard crush property, so the animation attack name is changed at runtime
             if (m_AttackComponent.GetCurrentAttack() == null || 
-                m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == attackName ||
-                m_AttackComponent.GetCurrentAttackLogic().GetAnimationAttackName() == attackName.ToString())
+                m_AttackComponent.GetCurrentAttack().m_AnimationAttackName == endOfAttackParams.m_Attack ||
+                m_AttackComponent.GetCurrentAttackLogic().GetAnimationAttackName() == endOfAttackParams.m_Attack.ToString())
             {
                 SetMovementBlocked(false, EBlockedReason.EndAttack);
             }
         }
     }
 
-    void BlockMovement(EAnimationAttackName attackName)
+    void BlockMovement(BaseEventParameters baseParams)
     {
         if (m_IsMovementBlocked)
         {
             Debug.LogError("Movement was already blocked");
             return;
         }
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Block movement requested by : " + attackName);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Block movement requested by : " + ((BlockMovementEventParameters)baseParams).m_CurrentAttack);
         SetMovementBlocked(true, EBlockedReason.PlayAttack);
     }
 
-    void UnblockMovement(EAnimationAttackName attackName)
+    void UnblockMovement(BaseEventParameters baseParams)
     {
         if (m_IsMovementBlocked == false)
         {
             Debug.LogError("Movement was not blocked");
             return;
         }
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Unblock movement requested by : " + attackName);
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Unblock movement requested by : " + ((UnblockMovementEventParameters)baseParams).m_CurrentAttack);
         SetMovementBlocked(false, EBlockedReason.RequestByAttack);
     }
 
-    void OnStunBegin(bool isStunned = true)
+    void OnStunBegin(BaseEventParameters baseParams)
     {
         SetMovementBlocked(true, EBlockedReason.Stun);
     }
 
-    void OnStunEnd(bool isStunned = false)
+    void OnStunEnd(BaseEventParameters baseParams)
     {
         SetMovementBlocked(false, EBlockedReason.StunEnd);
     }

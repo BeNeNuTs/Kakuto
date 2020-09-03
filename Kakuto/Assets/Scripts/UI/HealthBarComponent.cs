@@ -16,12 +16,12 @@ public class HealthBarComponent : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance?.AddOnPlayerRegisteredCallback(OnPlayerRegistered, m_Target);
-        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
 
     private void OnDestroy()
     {
-        Utils.GetPlayerEventManager<DamageTakenInfo>(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, m_Target);
     }
 
@@ -39,8 +39,10 @@ public class HealthBarComponent : MonoBehaviour
         }
     }
 
-    private void OnDamageTaken(DamageTakenInfo damageTakenInfo)
+    private void OnDamageTaken(BaseEventParameters baseParams)
     {
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+
         StopAllCoroutines();
 
         StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, 0.0f));

@@ -53,7 +53,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         InitAnimationsLengthDictionary();
 
-        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
     }
 
     void InitAnimationsLengthDictionary()
@@ -83,7 +83,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     public override void OnDestroy()
     {
         base.OnDestroy();
-        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.OnStunAnimEnd, OnStunAnimEnd);
     }
 
     public void Update()
@@ -126,7 +126,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Start stun | Type : " + stunType.ToString() + ", Duration anim driven : " + m_StunInfo.m_IsDurationAnimDriven);
 
-        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, true);
+        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunBegin);
 
         if (m_StunInfo.m_IsDurationAnimDriven)
         {
@@ -202,7 +202,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         Debug.Log(Time.time + " | TriggerOnStunEndAnim");
     }
 
-    private void OnStunAnimEnd(bool stunAnimEnd = true)
+    private void OnStunAnimEnd(BaseEventParameters baseParams)
     {
         if (IsStunned())
         {
@@ -230,7 +230,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         bool wasStunByGrabAttack = m_StunInfo.m_StunByGrabAttack;
         m_StunInfo.Reset();
 
-        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, false);
+        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunEnd);
         Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
 
         if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
@@ -326,7 +326,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private void TriggerGaugeStun(bool playKOAnimation)
     {
         StartStun_Internal(true, false, EStunType.Gauge);
-        Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
+        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StopMovement);
         PlayGaugeStunAnim(playKOAnimation);
 
         m_CanIncreaseGaugeValue = false;

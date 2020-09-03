@@ -29,7 +29,7 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackLaunched();
 
-        Utils.GetPlayerEventManager<bool>(m_Owner).StartListening(EPlayerEvent.ApplyDashImpulse, ApplyDashImpulse);
+        Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ApplyDashImpulse, ApplyDashImpulse);
     }
 
     public override void OnAttackStopped()
@@ -37,10 +37,10 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
         base.OnAttackStopped();
 
         m_Rigidbody.mass = m_OriginalMass;
-        Utils.GetPlayerEventManager<bool>(m_Owner).StopListening(EPlayerEvent.ApplyDashImpulse, ApplyDashImpulse);
+        Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ApplyDashImpulse, ApplyDashImpulse);
     }
 
-    private void ApplyDashImpulse(bool dummy)
+    private void ApplyDashImpulse(BaseEventParameters baseParams)
     {
         m_Rigidbody.mass *= m_Config.m_MassMultiplier;
 
@@ -70,7 +70,7 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
             {
                 ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "HandlePushBoxCollision : Stop movement while dashing to avoid passing through opponent");
                 // to avoid passing through, stop movement
-                Utils.GetPlayerEventManager<bool>(m_Owner).TriggerEvent(EPlayerEvent.StopMovement, true);
+                Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StopMovement);
             }
         }
         else

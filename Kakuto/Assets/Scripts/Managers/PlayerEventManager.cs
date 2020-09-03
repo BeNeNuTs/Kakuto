@@ -2,6 +2,8 @@
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using UnityEngine.Assertions;
 
 public enum EPlayer
 {
@@ -45,6 +47,8 @@ public enum EPlayerEvent
     TriggerJumpImpulse,
     ApplyDashImpulse,
 
+    SyncGrabAttackerPosition,
+
     TriggerTeleport,
 
     EndOfRoundAnimation,
@@ -55,22 +59,20 @@ public enum EPlayerEvent
     GrabTouched,
     GrabBlocked,
     Grabbed,
-
-    // For both
-    SyncGrabPosition
+    SyncGrabbedPosition
 }
 
-public class Player1EventManager<T> : PlayerEventManager<T>
+public class Player1EventManager : PlayerEventManager
 {
-    private static Player1EventManager<T> s_Instance;
+    private static Player1EventManager s_Instance;
 
-    public static Player1EventManager<T> Instance
+    public static Player1EventManager Instance
     {
         get
         {
             if (s_Instance == null)
             {
-                s_Instance = new Player1EventManager<T>();
+                s_Instance = new Player1EventManager();
             }
 
             return s_Instance;
@@ -78,17 +80,17 @@ public class Player1EventManager<T> : PlayerEventManager<T>
     }
 }
 
-public class Player2EventManager<T> : PlayerEventManager<T>
+public class Player2EventManager : PlayerEventManager
 {
-    private static Player2EventManager<T> s_Instance;
+    private static Player2EventManager s_Instance;
 
-    public static Player2EventManager<T> Instance
+    public static Player2EventManager Instance
     {
         get
         {
             if (s_Instance == null)
             {
-                s_Instance = new Player2EventManager<T>();
+                s_Instance = new Player2EventManager();
             }
 
             return s_Instance;
@@ -96,51 +98,46 @@ public class Player2EventManager<T> : PlayerEventManager<T>
     }
 }
 
-public abstract class PlayerEventManager<T>
+public abstract class PlayerEventManager
 {
-    protected class Event : UnityEvent<T>
-    {}
+    private readonly Dictionary<EPlayerEvent, Action<BaseEventParameters>> m_EventDictionary = new Dictionary<EPlayerEvent, Action<BaseEventParameters>>();
 
-    private Dictionary<EPlayerEvent, Event> m_EventDictionary;
-
-    protected PlayerEventManager()
+    public void StartListening(EPlayerEvent eventType, Action<BaseEventParameters> listener)
     {
-        if (m_EventDictionary == null)
+        if (m_EventDictionary.TryGetValue(eventType, out Action<BaseEventParameters> thisEvent))
         {
-            m_EventDictionary = new Dictionary<EPlayerEvent, Event>();
-        }
-    }
-
-    public void StartListening(EPlayerEvent eventType, UnityAction<T> listener)
-    {
-        Event thisEvent = null;
-        if (m_EventDictionary.TryGetValue(eventType, out thisEvent))
-        {
-            thisEvent.AddListener(listener);
+            thisEvent += listener;
+            m_EventDictionary[eventType] = thisEvent;
         }
         else
         {
-            thisEvent = new Event();
-            thisEvent.AddListener(listener);
+            thisEvent += listener;
             m_EventDictionary.Add(eventType, thisEvent);
         }
     }
 
-    public void StopListening(EPlayerEvent eventType, UnityAction<T> listener)
+    public void StopListening(EPlayerEvent eventType, Action<BaseEventParameters> listener)
     {
-        Event thisEvent = null;
-        if (m_EventDictionary.TryGetValue(eventType, out thisEvent))
+        if (m_EventDictionary.TryGetValue(eventType, out Action<BaseEventParameters> thisEvent))
         {
-            thisEvent.RemoveListener(listener);
+            thisEvent -= listener;
+            if (thisEvent == null)
+            {
+                m_EventDictionary.Remove(eventType);
+            }
+            else
+            {
+                m_EventDictionary[eventType] = thisEvent;
+            }
         }
     }
 
-    public void TriggerEvent(EPlayerEvent eventType, T param)
+    public void TriggerEvent(EPlayerEvent eventType, BaseEventParameters eventParams = null)
     {
-        Event thisEvent = null;
-        if (m_EventDictionary.TryGetValue(eventType, out thisEvent))
+        Assert.IsTrue(eventParams == null || eventType == eventParams.GetEventType(), "Parameter's type " + eventParams?.GetType() + " is not matching with the EventType " + eventType);
+        if (m_EventDictionary.TryGetValue(eventType, out Action<BaseEventParameters> thisEvent))
         {
-            thisEvent.Invoke(param);
+            thisEvent.Invoke(eventParams);
         }
     }
 }

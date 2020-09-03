@@ -9,20 +9,21 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 
     public PlayerComboCounterSubComponent(GameObject owner) : base(owner)
     {
-        Utils.GetEnemyEventManager<DamageTakenInfo>(owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
-        Utils.GetEnemyEventManager<bool>(owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
+        Utils.GetEnemyEventManager(owner).StartListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
+        Utils.GetEnemyEventManager(owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
-        Utils.GetEnemyEventManager<DamageTakenInfo>(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
-        Utils.GetEnemyEventManager<bool>(m_Owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
+        Utils.GetEnemyEventManager(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakeDamage);
+        Utils.GetEnemyEventManager(m_Owner).StartListening(EPlayerEvent.StunEnd, OnEnemyStunEnd);
     }
 
-    private void OnEnemyTakeDamage(DamageTakenInfo damageTakenInfo)
+    private void OnEnemyTakeDamage(BaseEventParameters baseParams)
     {
-        if(damageTakenInfo.m_AttackResult == EAttackResult.Hit)
+        DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
+        if (damageTakenInfo.m_AttackResult == EAttackResult.Hit)
         {
             if (damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
             {
@@ -32,7 +33,7 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
         }
     }
 
-    private void OnEnemyStunEnd(bool isStunned = false)
+    private void OnEnemyStunEnd(BaseEventParameters baseParams)
     {
         m_ComboCounter = 0;
         OnHitCounterChanged?.Invoke();

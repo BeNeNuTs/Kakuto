@@ -16,8 +16,8 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void RegisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StartListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
     void OnDestroy()
@@ -27,16 +27,17 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void UnregisterListeners()
     {
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
-        Utils.GetPlayerEventManager<PlayerBaseAttackLogic>(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.AttackLaunched, OnAttackLaunched);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
-    void OnAttackLaunched(PlayerBaseAttackLogic attackLogic)
+    void OnAttackLaunched(BaseEventParameters baseParams)
     {
-        m_CurrentAttack = attackLogic;
+        AttackLaunchedEventParameters attackLaunchedParams = (AttackLaunchedEventParameters)baseParams;
+        m_CurrentAttack = attackLaunchedParams.m_AttackLogic;
     }
 
-    void OnEndOfAttack(PlayerBaseAttackLogic attackLogic)
+    void OnEndOfAttack(BaseEventParameters baseParams)
     {
         m_CurrentAttack = null;
     }
