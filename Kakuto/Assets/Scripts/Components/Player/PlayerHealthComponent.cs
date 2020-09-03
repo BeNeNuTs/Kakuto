@@ -351,6 +351,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         PlayerAttack attack = attackLogic.GetAttack();
+        bool isDead = IsDead();
 
         // No stun neither pushback when an attack is parried
         if (attackResult != EAttackResult.Parried)
@@ -377,7 +378,7 @@ public class PlayerHealthComponent : MonoBehaviour
                     float pushBackForce = attackLogic.GetPushBackForce(attackResult);
                     if (pushBackForce > 0.0f && m_MovementComponent)
                     {
-                        if (IsDead())
+                        if (isDead)
                         {
                             pushBackForce *= AttackConfig.Instance.m_OnDeathPushbackMultiplier;
                         }
@@ -399,7 +400,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         TimeScaleParams timeScaleParams = null;
-        if (IsDead())
+        if (isDead)
         {
             timeScaleParams = AttackConfig.Instance.m_OnDeathTimeScaleParams;
         }
@@ -424,10 +425,11 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if (attackResult != EAttackResult.Blocked)
         {
-            if (attack.m_UseCameraShakeEffect)
+            if (attack.m_UseCameraShakeEffect || isDead)
             {
                 Vector3 hitDirection = (transform.position - attackLogic.GetOwner().transform.position).normalized;
-                CameraShakeManager.GenerateImpulseAt(attack.m_CameraShakeParams, hitPoint, hitDirection);
+                CameraShakeParams camShakeParamsToUse = isDead ? AttackConfig.Instance.m_OnDeathCamShakeParams : attack.m_CameraShakeParams;
+                CameraShakeManager.GenerateImpulseAt(camShakeParamsToUse, hitPoint, hitDirection);
             }
         }
 

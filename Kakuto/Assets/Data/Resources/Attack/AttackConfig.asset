@@ -66,4 +66,6 @@ MonoBehaviour:
     m_FX: {fileID: 1313311603478089952, guid: 6d20520d9b8482345be837b91705284d, type: 3}
   m_OnDeathTimeScaleParams: {fileID: 11400000, guid: 676e15e67f8981f4daf38e3546fa2b58,
     type: 2}
+  m_OnDeathCamShakeParams: {fileID: 11400000, guid: 4d128c1d48c006a40a51556b3ce6bd1c,
+    type: 2}
   m_OnDeathPushbackMultiplier: 3

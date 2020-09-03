@@ -118,6 +118,7 @@ public class AttackConfig : ScriptableObject
     public List<HitFX> m_HitFX;
 
     public TimeScaleParams m_OnDeathTimeScaleParams;
+    public CameraShakeParams m_OnDeathCamShakeParams;
     public float m_OnDeathPushbackMultiplier = 1.5f;
 
     void OnValidate()
