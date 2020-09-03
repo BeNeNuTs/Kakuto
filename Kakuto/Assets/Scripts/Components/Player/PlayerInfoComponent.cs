@@ -23,7 +23,7 @@ public class PlayerInfoComponent : MonoBehaviour
 
         GameManager.Instance.RegisterPlayer(gameObject);
 
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG_DISPLAY || UNITY_EDITOR
         PlayerAnimationHelper.CheckAnimationsNaming(gameObject);
 #endif
     }

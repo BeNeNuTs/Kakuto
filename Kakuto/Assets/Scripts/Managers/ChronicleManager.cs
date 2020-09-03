@@ -20,7 +20,7 @@ public static class ChronicleManager
     private static TextWriter m_WriterP1;
     private static TextWriter m_WriterP2;
 
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG_DISPLAY || UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
     {
@@ -36,14 +36,14 @@ public static class ChronicleManager
 
     public static void OnShutdown()
     {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG_DISPLAY || UNITY_EDITOR
         CloseFiles();
 #endif
     }
 
     public static void AddChronicle(GameObject owner, EChronicleCategory category, string text)
     {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG_DISPLAY || UNITY_EDITOR
         AddChronicle(owner.tag, category, text);
 #endif
     }

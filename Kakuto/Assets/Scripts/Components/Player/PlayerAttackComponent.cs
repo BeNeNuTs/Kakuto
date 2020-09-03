@@ -36,7 +36,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private List<Collider2D> m_HitBoxes;
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG_DISPLAY
     /// DEBUG
     [Separator("Debug")]
     [Space]
@@ -363,7 +363,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.AttackLaunched, new AttackLaunchedEventParameters(m_CurrentAttackLogic));
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG_DISPLAY
         // DEBUG ///////////////////////////////////
         if (m_DEBUG_BreakOnTriggerAttack)
         {

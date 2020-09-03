@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEBUG_DISPLAY || UNITY_EDITOR
 public class AttackTriggerDebugDisplay : MonoBehaviour
 {
     void OnGUI()

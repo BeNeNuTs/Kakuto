@@ -37,7 +37,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG_DISPLAY
     [Separator("Debug")]
     [Space]
 
@@ -195,7 +195,7 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG_DISPLAY
         if (m_DEBUG_BreakOnGrabbed)
         {
             Debug.Break();
@@ -216,7 +216,7 @@ public class PlayerHealthComponent : MonoBehaviour
             return;
         }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG_DISPLAY
         if(m_DEBUG_BreakOnHit)
         {
             Debug.Break();
