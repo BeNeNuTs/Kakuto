@@ -6,33 +6,22 @@ ModelImporter:
     100000: default
     100002: //RootNode
     100004: SideBuildings3_3:Mesh
-    100006: SideBuildings3_4:Mesh
     400000: default
     400002: //RootNode
     400004: SideBuildings3_3:Mesh
-    400006: SideBuildings3_4:Mesh
     2100000: palette
     2100002: SideBuildings3_3_palette
-    2100004: SideBuildings3_4_palette
     2300000: default
     2300002: SideBuildings3_3:Mesh
-    2300004: SideBuildings3_4:Mesh
     3300000: default
     3300002: SideBuildings3_3:Mesh
-    3300004: SideBuildings3_4:Mesh
     4300000: default
     4300002: SideBuildings3_3:Mesh
-    4300004: SideBuildings3_4:Mesh
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: SideBuildings3_3_palette
-    second: {fileID: 2100000, guid: 63516b13a61c9fd4093409463161fa4e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: SideBuildings3_4_palette
     second: {fileID: 2100000, guid: 63516b13a61c9fd4093409463161fa4e, type: 2}
   - first:
       type: UnityEngine:Material
