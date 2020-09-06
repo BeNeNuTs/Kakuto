@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017923b101bacce40ae8010b30e40fce, type: 3}
   m_Name: CameraShakeParamsPreset_OnDeath
   m_EditorClassIdentifier: 
-  m_AmplitudeGain: 1
-  m_FrequencyGain: 1
-  m_AttackTime: 1
+  m_AmplitudeGain: 0.35
+  m_FrequencyGain: 2.5
+  m_AttackTime: 0.3
   m_SustainTime: 0.2
-  m_DecayTime: 0.5
+  m_DecayTime: 0.3
