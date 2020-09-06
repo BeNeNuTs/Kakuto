@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4ce277182e2ef24fb1bf42588a007c9, type: 3}
-  m_Name: UnblockAttackAnim_HadoGround
+  m_Name: UnblockAttackAnim_Overhead
   m_EditorClassIdentifier: 
   m_UnblockAllowedAttacks:
-  - m_Attack: 21
+  - m_Attack: 15
     m_OnlyOnHit: 1
-  - m_Attack: 19
-    m_OnlyOnHit: 0
-  - m_Attack: 20
+  - m_Attack: 16
+    m_OnlyOnHit: 1
+  - m_Attack: 23
     m_OnlyOnHit: 1
