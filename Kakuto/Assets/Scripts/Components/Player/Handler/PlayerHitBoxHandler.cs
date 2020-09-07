@@ -1,14 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 {
+    public PlayerAttackComponent m_AttackComponent;
+
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        if (m_AttackComponent == null)
+        {
+            Debug.LogError("Missing AttackComponent in " + this);
+        }
+#endif
+
         m_CurrentAttack = null;
         m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
@@ -39,7 +46,11 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void OnEndOfAttack(BaseEventParameters baseParams)
     {
-        m_CurrentAttack = null;
+        EndOfAttackEventParameters endOfAttackEvent = (EndOfAttackEventParameters)baseParams;
+        if (m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
+        {
+            m_CurrentAttack = null;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

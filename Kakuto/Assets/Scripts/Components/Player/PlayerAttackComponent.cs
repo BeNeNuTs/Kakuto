@@ -395,7 +395,7 @@ public class PlayerAttackComponent : MonoBehaviour
         }
     }
 
-    bool CheckIsCurrentAttack(EAnimationAttackName attackName)
+    public bool CheckIsCurrentAttack(EAnimationAttackName attackName)
     {
         if (m_CurrentAttackLogic == null)
         {

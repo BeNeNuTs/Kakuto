@@ -2,11 +2,20 @@
 
 public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 {
+    public PlayerAttackComponent m_AttackComponent;
+
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        if(m_AttackComponent == null)
+        {
+            Debug.LogError("Missing AttackComponent in " + this);
+        }
+#endif
+
         m_CurrentAttack = null;
         m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
@@ -42,7 +51,11 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void OnEndOfAttack(BaseEventParameters baseParams)
     {
-        m_CurrentAttack = null;
+        EndOfAttackEventParameters endOfAttackEvent = (EndOfAttackEventParameters)baseParams;
+        if(m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
+        {
+            m_CurrentAttack = null;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
