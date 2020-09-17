@@ -215,6 +215,15 @@ public class PlayerAttackComponent : MonoBehaviour
         return m_TriggeredInputsString;
     }
 
+    // Flip directional inputs on side changed
+    public void OnSideChanged()
+    {
+        for (int i = 0; i < m_TriggeredInputsList.Count; i++)
+        {
+            m_TriggeredInputsList[i].OnSideChanged();
+        }
+    }
+
     void ClearTriggeredInputs()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Clear attack inputs");

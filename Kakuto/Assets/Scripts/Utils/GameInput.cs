@@ -52,9 +52,9 @@ public class GameInputList
 public class GameInput
 {
     [SerializeField]
-    private string m_InputString = "";
+    protected string m_InputString = "";
     [SerializeField]
-    private EInputKey m_InputKey = EInputKey.Invalid;
+    protected EInputKey m_InputKey = EInputKey.Invalid;
 
     public GameInput(GameInput input)
     {
@@ -230,5 +230,32 @@ public class TriggeredGameInput : GameInput
     {
         m_Persistency += persistencyFramesBonus;
         m_Persistency = (int)Mathf.Min(m_Persistency, AttackConfig.Instance.MaxInputFramesPersistency);
+    }
+
+    public void OnSideChanged()
+    {
+        switch (m_InputKey)
+        {
+            case EInputKey.DownRight:
+                m_InputKey = EInputKey.DownLeft;
+                break;
+            case EInputKey.Right:
+                m_InputKey = EInputKey.Left;
+                break;
+            case EInputKey.UpRight:
+                m_InputKey = EInputKey.UpLeft;
+                break;
+            case EInputKey.UpLeft:
+                m_InputKey = EInputKey.UpRight;
+                break;
+            case EInputKey.Left:
+                m_InputKey = EInputKey.Right;
+                break;
+            case EInputKey.DownLeft:
+                m_InputKey = EInputKey.DownRight;
+                break;
+        }
+
+        m_InputString = ConvertInputKeyToString(m_InputKey);
     }
 }
