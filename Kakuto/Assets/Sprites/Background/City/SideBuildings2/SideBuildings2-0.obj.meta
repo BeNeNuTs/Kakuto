@@ -11,6 +11,7 @@ ModelImporter:
     400004: SideBuildings2_0:Mesh
     2100000: palette
     2100002: SideBuildings2_0_palette
+    2100004: defaultMat
     2300000: default
     2300002: SideBuildings2_0:Mesh
     3300000: default

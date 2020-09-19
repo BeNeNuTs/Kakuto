@@ -191,7 +191,7 @@ public class PlayerMovementComponent : MonoBehaviour
         m_NeedFlip = !m_NeedFlip;
         OnDirectionChanged();
 
-        // TODO : Flip attack inputs if contains direction
+        m_AttackComponent.OnSideChanged();
     }
 
     void Flip()
