@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: 83dc1ed572ba37844b273f3579cb8923
+guid: 434f50db907b6944a9d026cf7c698ff7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
     2100000: CityPalette
-    2100002: Light
+    2100002: VioletLight_Mat
+    2100004: BlueLight_Mat
     2300000: //RootNode
     3300000: //RootNode
-    4300000: SideBuildings22
+    4300000: SideBuildings3_001
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlueLight_Mat
+    second: {fileID: 2100000, guid: 02161879c6eba6e428c53bdbdb496f6b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -19,8 +25,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Light
-    second: {fileID: 2100000, guid: 0fb76f29b84e03442b5af846a3c08810, type: 2}
+      name: VioletLight_Mat
+    second: {fileID: 2100000, guid: 47b70189ab954bf4caa18d10ee70deee, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

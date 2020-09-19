@@ -1,15 +1,18 @@
 fileFormatVersion: 2
-guid: 83dc1ed572ba37844b273f3579cb8923
+guid: 80b895b244931bc4b94971c374fe9d9a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
     2100000: CityPalette
-    2100002: Light
+    2100002: OrangeLight
+    2100004: Light
+    2100006: VioletLight
+    2100008: GreenLight
     2300000: //RootNode
     3300000: //RootNode
-    4300000: SideBuildings22
+    4300000: Street45
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -19,8 +22,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: GreenLight
+    second: {fileID: 2100000, guid: c9f3d92712f0bd041b27abdd5cd8f111, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Light
+    second: {fileID: 2100000, guid: 38c02cd538bcdba4c971301a4df174fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OrangeLight
     second: {fileID: 2100000, guid: 0fb76f29b84e03442b5af846a3c08810, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: VioletLight
+    second: {fileID: 2100000, guid: 47b70189ab954bf4caa18d10ee70deee, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -82,7 +100,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
