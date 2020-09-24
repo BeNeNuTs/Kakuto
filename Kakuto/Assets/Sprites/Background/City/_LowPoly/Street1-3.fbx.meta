@@ -9,6 +9,7 @@ ModelImporter:
     2100002: YellowLight_Mat
     2100004: BlueLight_Mat
     2100006: VioletLight_Mat
+    2100008: WhiteLight_Mat
     2300000: //RootNode
     3300000: //RootNode
     4300000: Street1_3_001
@@ -28,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: VioletLight_Mat
     second: {fileID: 2100000, guid: 47b70189ab954bf4caa18d10ee70deee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteLight_Mat
+    second: {fileID: 2100000, guid: ce9b3a2c64a9429418e6f3ef6e8656e8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
