@@ -8,11 +8,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2020
 		Month: 9
-		Day: 24
-		Hour: 18
-		Minute: 38
-		Second: 4
-		Millisecond: 355
+		Day: 25
+		Hour: 17
+		Minute: 30
+		Second: 55
+		Millisecond: 243
 	}
 	Creator: "FBX SDK/FBX Plugins version 2018.1.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -28,21 +28,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "E:\03. WORK\PERSO\Kakuto\TrainingRoom_Mesh_001.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "E:\03. WORK\PERSO\Kakuto\TrainingRoom_Mesh_001.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "E:\03. WORK\Dossier d'RV jamais deux sans trois cette fois c'est la bonne\Kakuto\Assets\Sprites\Background\Training room\TrainingRoom_Mesh_001.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "E:\03. WORK\Dossier d'RV jamais deux sans trois cette fois c'est la bonne\Kakuto\Assets\Sprites\Background\Training room\TrainingRoom_Mesh_001.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "201800"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "24/09/2020 16:38:04.354"
-			P: "Original|FileName", "KString", "", "", "E:\03. WORK\PERSO\Kakuto\TrainingRoom_Mesh_001.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "25/09/2020 15:30:55.241"
+			P: "Original|FileName", "KString", "", "", "E:\03. WORK\Dossier d'RV jamais deux sans trois cette fois c'est la bonne\Kakuto\Assets\Sprites\Background\Training room\TrainingRoom_Mesh_001.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "201800"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "24/09/2020 16:38:04.354"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "E:\03. WORK\PERSO\Kakuto"
-			P: "Original|ApplicationNativeFile", "KString", "", "", "E:\03. WORK\PERSO\Kakuto\Strret5-4.ma"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "25/09/2020 15:30:55.241"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "E:\03. WORK\Dossier d'RV jamais deux sans trois cette fois c'est la bonne\Kakuto\Assets\Sprites\Background\Training room"
 		}
 	}
 }
@@ -77,7 +76,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2116566688480, "", "Scene" {
+	Document: 2530100322016, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -222,7 +221,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 2116559234672, "Geometry::", "Mesh" {
+	Geometry: 2530112012912, "Geometry::", "Mesh" {
 		Vertices: *24 {
 			a: -696.003051757813,1.62720680236816e-05,696.003051757813,696.003051757813,1.62720680236816e-05,696.003051757813,-696.003051757813,1392.00610351563,696.003051757813,696.003051757813,1392.00610351563,696.003051757813,-696.003051757813,1392.00610351563,-696.003051757813,696.003051757813,1392.00610351563,-696.003051757813,-696.003051757813,1.62720680236816e-05,-696.003051757813,696.003051757813,1.62720680236816e-05,-696.003051757813
 		} 
@@ -230,7 +229,7 @@ Objects:  {
 			a: 0,2,3,-2,4,6,7,-6,6,0,1,-8,1,3,5,-8
 		} 
 		Edges: *11 {
-			a: 3,1,7,5,0,2,13,4,6,8,10
+			a: 0,1,2,3,4,5,6,7,8,10,13
 		} 
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
@@ -247,11 +246,11 @@ Objects:  {
 			Name: "map1"
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
-			UV: *24 {
-				a: 0.375,0,0.625,0,0.375,0.25,0.625,0.25,0.375,0.5,0.625,0.5,0.375,0.75,0.625,0.75,0.375,1,0.625,1,0.875,0,0.875,0.25
+			UV: *32 {
+				a: 1,0,1,1,0,0.999999940395355,0,0,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1,1
 			} 
 			UVIndex: *16 {
-				a: 0,2,3,1,4,6,7,5,6,8,9,7,1,3,11,10
+				a: 8,9,10,11,12,13,14,15,4,5,6,7,0,1,2,3
 			} 
 		}
 		LayerElementMaterial: 0 {
@@ -279,7 +278,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2115380962336, "Model::TrainingRoom_001", "Mesh" {
+	Model: 2529993037776, "Model::TrainingRoom_001", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationPivot", "Vector3D", "Vector", "",0,5.04870979341448e-29,0
@@ -293,7 +292,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2116559844928, "Material::lambert1", "" {
+	Material: 2530057479824, "Material::lambert2", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -316,11 +315,11 @@ Objects:  {
 Connections:  {
 	
 	;Model::TrainingRoom_001, Model::RootNode
-	C: "OO",2115380962336,0
+	C: "OO",2529993037776,0
 	
 	;Geometry::, Model::TrainingRoom_001
-	C: "OO",2116559234672,2115380962336
+	C: "OO",2530112012912,2529993037776
 	
-	;Material::lambert1, Model::TrainingRoom_001
-	C: "OO",2116559844928,2115380962336
+	;Material::lambert2, Model::TrainingRoom_001
+	C: "OO",2530057479824,2529993037776
 }
