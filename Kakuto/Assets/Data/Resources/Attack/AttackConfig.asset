@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4b7d3321e34bb4fba39407a6636a48, type: 3}
   m_Name: AttackConfig
   m_EditorClassIdentifier: 
-  m_DefaultInputFramesPersistency: 9
+  m_DefaultInputFramesPersistency: 7
   m_InputFramesPersistencyBonus: 5
-  m_MaxInputFramesPersistency: 12
+  m_MaxInputFramesPersistency: 20
   m_MaxInputs: 10
   m_FramesToWaitBeforeEvaluatingAttacks: 1
   m_MaxFramesToWaitBeforeEvaluatingAttacks: 5
