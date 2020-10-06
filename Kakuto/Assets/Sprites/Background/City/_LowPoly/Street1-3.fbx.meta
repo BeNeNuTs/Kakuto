@@ -13,6 +13,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Street1_3_001
+    4300002: Street_1_3_001
   externalObjects:
   - first:
       type: UnityEngine:Material
