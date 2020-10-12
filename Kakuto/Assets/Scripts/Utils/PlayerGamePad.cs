@@ -309,6 +309,36 @@ public class PlayerGamePad
         return inputKeysDown;
     }
 
+    public bool GetStartInput()
+    {
+        int joystickNum = GetJoystickNum();
+        switch (m_GamePadType)
+        {
+            case EGamePadType.Xbox:
+                return Input.GetKey("joystick " + joystickNum + " button 0") || Input.GetKey("joystick " + joystickNum + " button 7");
+            case EGamePadType.PS4:
+                return Input.GetKey("joystick " + joystickNum + " button 1") || Input.GetKey("joystick " + joystickNum + " button 9");
+            case EGamePadType.Invalid:
+            default:
+                return false;
+        }
+    }
+
+    public bool GetBackInput()
+    {
+        int joystickNum = GetJoystickNum();
+        switch (m_GamePadType)
+        {
+            case EGamePadType.Xbox:
+                return Input.GetKey("joystick " + joystickNum + " button 1");
+            case EGamePadType.PS4:
+                return Input.GetKey("joystick " + joystickNum + " button 2");
+            case EGamePadType.Invalid:
+            default:
+                return false;
+        }
+    }
+
     public EInputKey ConvertGamePadButtonAsKey(int buttonIndex)
     {
         switch (m_GamePadType)
