@@ -15,14 +15,18 @@ public class MenuComponent : MonoBehaviour
     [Serializable]
     struct MenuData
     {
+#pragma warning disable 0649
         public UnityEngine.Object[] m_ObjectsToDisable;
         public UnityEngine.Object[] m_ObjectsToEnable;
 
         public Button m_DefaultHighlightedButton;
+#pragma warning restore 0649
     }
 
+#pragma warning disable 0649
     [SerializeField] private MenuData m_GoToMainMenuData;
     [SerializeField] private MenuData m_GoToOptionsData;
+#pragma warning restore 0649
 
     private EMenuState m_MenuState = EMenuState.TitleScreen;
 
