@@ -53,17 +53,26 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
 
     public bool IsInACorner(GameObject gameObject)
     {
-        float distanceToClosestBorder = GetDistanceToClosestBorder(gameObject.transform.root.position);
+        return IsInACorner(gameObject.transform.root.position, out float leftOffset, out float rightOffset, out bool leftBorder);
+    }
+
+    public bool IsInACorner(Vector3 position, out float leftOffset, out float rightOffset, out bool leftBorder)
+    {
+        float distanceToClosestBorder = GetDistanceToClosestBorder(position, out leftOffset, out rightOffset, out leftBorder);
 
         float maxDistanceToCorner = GameConfig.Instance.m_MaxDistanceToBeConsideredInACorner;
         return distanceToClosestBorder < maxDistanceToCorner;
     }
 
-    private float GetDistanceToClosestBorder(Vector3 position)
+    private float GetDistanceToClosestBorder(Vector3 position, out float leftOffset, out float rightOffset, out bool leftBorder)
     {
-        float distanceToLeftCorner = position.x - GetLeftBorderOffset();
-        float distanceToRightCorner = GetRightBorderOffset() - position.x;
+        leftOffset = GetLeftBorderOffset();
+        rightOffset = GetRightBorderOffset();
 
+        float distanceToLeftCorner = position.x - leftOffset;
+        float distanceToRightCorner = rightOffset - position.x;
+
+        leftBorder = distanceToLeftCorner < distanceToRightCorner;
         return Mathf.Min(distanceToLeftCorner, distanceToRightCorner);
     }
 
