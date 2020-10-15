@@ -167,7 +167,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     void OnEndOfAttack(BaseEventParameters baseParams)
     {
         EndOfAttackEventParameters endOfAttackEvent = (EndOfAttackEventParameters)baseParams;
-        if(m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
+        if (m_AttackComponent.GetCurrentAttackLogic() == null || m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
         {
             m_CurrentAttack = null;
         }
