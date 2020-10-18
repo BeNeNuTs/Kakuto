@@ -411,6 +411,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if(timeScaleParams != null)
         {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "StartTimeScale - Amount: " + timeScaleParams.m_TimeScaleAmount + " Duration: " + timeScaleParams.m_TimeScaleDuration);
             TimeManager.StartTimeScale(timeScaleParams);
             if (timeScaleParams.m_TimeScaleAmount == 0f)
             {
