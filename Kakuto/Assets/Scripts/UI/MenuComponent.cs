@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -19,6 +21,7 @@ public class MenuComponent : MonoBehaviour
         public UnityEngine.Object[] m_ObjectsToDisable;
         public UnityEngine.Object[] m_ObjectsToEnable;
 
+        public List<Button> m_ButtonList;
         public Button m_DefaultHighlightedButton;
 #pragma warning restore 0649
     }
@@ -29,28 +32,70 @@ public class MenuComponent : MonoBehaviour
 #pragma warning restore 0649
 
     private EMenuState m_MenuState = EMenuState.TitleScreen;
+    private Button m_CurrentHighlightedButton;
 
     private void Update()
     {
-        switch(m_MenuState)
+        UpdateCursorVisiblity();
+
+        switch (m_MenuState)
         {
             case EMenuState.TitleScreen:
                 if(InputManager.GetStartInput())
                 {
-                    GoToMenu(m_GoToMainMenuData);
-                    m_MenuState = EMenuState.MainMenu;
+                    GoToMainMenu();
                 }
                 break;
 
             case EMenuState.MainMenu:
+                UpdateHighlightedButton(m_GoToMainMenuData);
                 break;
             case EMenuState.Options:
+                UpdateHighlightedButton(m_GoToOptionsData);
                 if (InputManager.GetBackInput())
                 {
-                    GoToMenu(m_GoToMainMenuData);
-                    m_MenuState = EMenuState.MainMenu;
+                    GoToMainMenu();
                 }
                 break;
+        }
+    }
+
+    private void UpdateCursorVisiblity()
+    {
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    private void UpdateHighlightedButton(MenuData menuData)
+    {
+        GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
+        if(selectedGO != null)
+        {
+            Button selectedButton = selectedGO.GetComponent<Button>();
+            if(selectedButton != null && selectedButton != m_CurrentHighlightedButton)
+            {
+                m_CurrentHighlightedButton = selectedButton;
+            }
+        }
+        else
+        {
+            if (menuData.m_ButtonList.Contains(m_CurrentHighlightedButton))
+            {
+                m_CurrentHighlightedButton.Select();
+            }
+            else
+            {
+                menuData.m_DefaultHighlightedButton.Select();
+                m_CurrentHighlightedButton = menuData.m_DefaultHighlightedButton;
+            }
         }
     }
 
@@ -67,6 +112,12 @@ public class MenuComponent : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void GoToMainMenu()
+    {
+        GoToMenu(m_GoToMainMenuData);
+        m_MenuState = EMenuState.MainMenu;
+    }
+
     public void GoToOptionsMenu()
     {
         GoToMenu(m_GoToOptionsData);
@@ -76,7 +127,7 @@ public class MenuComponent : MonoBehaviour
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        Debug.Break();
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
