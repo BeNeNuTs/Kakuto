@@ -214,6 +214,7 @@ public class TriggeredGameInput : GameInput
 {
     private readonly int m_TriggeredFrame;
     public int m_Persistency;
+    public int m_TimeFreezeFrameCount = 0;
 
     public TriggeredGameInput(GameInput input, int currentFrame) : base(input)
     {
@@ -223,7 +224,12 @@ public class TriggeredGameInput : GameInput
 
     public bool IsElapsed(int currentFrame)
     {
-        return currentFrame >= (m_TriggeredFrame + m_Persistency);
+        return currentFrame >= (m_TriggeredFrame + m_Persistency + m_TimeFreezeFrameCount);
+    }
+
+    public void OnTimeFreeze()
+    {
+        m_TimeFreezeFrameCount++;
     }
 
     public void AddPersistency(int persistencyFramesBonus)

@@ -20,6 +20,7 @@ public class TimeManager : MonoBehaviour
 
     private static float K_DEFAULT_FIXED_DELTA_TIME = Time.fixedDeltaTime;
 
+    bool m_TimeIsFrozen = false;
     bool m_TimeScaleInProgress = false;
     float m_TimeScaleTimeStamp = 0f;
     float m_TimeScaleDuration = 2f;
@@ -53,23 +54,30 @@ public class TimeManager : MonoBehaviour
 
     public static void StartTimeScale(TimeScaleParams timeScaleParams)
     {
-        Time.timeScale = timeScaleParams.m_TimeScaleAmount;
-        Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
-        Instance.m_TimeScaleDuration = timeScaleParams.m_TimeScaleDuration;
-        Instance.m_TimeScaleBackToNormal = timeScaleParams.m_TimeScaleBackToNormal;
-        Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
-        Instance.m_TimeScaleInProgress = true;
+        if(!Instance.m_TimeIsFrozen)
+        {
+            Time.timeScale = timeScaleParams.m_TimeScaleAmount;
+            Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
+            Instance.m_TimeScaleDuration = timeScaleParams.m_TimeScaleDuration;
+            Instance.m_TimeScaleBackToNormal = timeScaleParams.m_TimeScaleBackToNormal;
+            Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
+            Instance.m_TimeScaleInProgress = true;
+        }
     }
 
     public static void FreezeTime()
     {
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
+        Instance.m_TimeIsFrozen = true;
+
+        Instance.m_TimeScaleInProgress = false; // stop time scale in progress
     }
 
     public static void UnfreezeTime()
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = K_DEFAULT_FIXED_DELTA_TIME;
+        Instance.m_TimeIsFrozen = false;
     }
 }

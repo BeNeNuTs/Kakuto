@@ -2,23 +2,47 @@
 
 public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 {
+    public PlayerHealthComponent m_HealthComponent;
+    public CharacterController2D m_Controller;
     public PlayerAttackComponent m_AttackComponent;
 
+    public Rigidbody2D m_Rigidbody;
+
+    OutOfBoundsSubGameManager m_OOBSubManager;
+    PlayerStunInfoSubComponent m_StunInfoSC;
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
     private void Awake()
     {
 #if UNITY_EDITOR
-        if(m_AttackComponent == null)
+        if (m_HealthComponent == null)
+        {
+            Debug.LogError("Missing HealthComponent in " + this);
+        }
+        if (m_Controller == null)
+        {
+            Debug.LogError("Missing CharacterController2D in " + this);
+        }
+        if (m_AttackComponent == null)
         {
             Debug.LogError("Missing AttackComponent in " + this);
+        }
+        if (m_Rigidbody == null)
+        {
+            Debug.LogError("Missing Rigidbody in " + this);
         }
 #endif
 
         m_CurrentAttack = null;
         m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
+    }
+
+    private void Start()
+    {
+        m_StunInfoSC = m_HealthComponent.GetStunInfoSubComponent();
+        m_OOBSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
     }
 
     void RegisterListeners()
@@ -38,6 +62,97 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
         Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.EndOfAttack, OnEndOfAttack);
     }
 
+    private void FixedUpdate()
+    {
+        if(m_Collider.enabled)
+        {
+            if (m_Controller.IsJumping() && !m_StunInfoSC.IsStunned())
+            {
+                if (m_Controller.IsJumpApexReached())
+                {
+                    UpdateFallingTrajectory();
+                }
+            }
+        }
+    }
+
+    void UpdateFallingTrajectory()
+    {
+        float circleRadius = m_Collider.bounds.extents.x;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(m_Collider.bounds.center + ((m_Collider.bounds.extents.y + circleRadius) * Vector3.down), circleRadius, 1 << gameObject.layer);
+        for(int i = 0; i < hits.Length; i++)
+        {
+            if(hits[i].attachedRigidbody != m_Collider.attachedRigidbody)
+            {
+                Vector3 trajectoryDir = (m_Collider.bounds.center.x < hits[i].bounds.center.x) ? Vector3.left : Vector3.right;
+                m_Rigidbody.velocity = new Vector2(0f, m_Rigidbody.velocity.y);
+                Vector2 targetPosition = AdjustPosition(hits[i].bounds.center.x, trajectoryDir, hits[i]);
+
+                PlayerPushBoxHandler pushBoxhandler = hits[i].GetComponent<PlayerPushBoxHandler>();
+                if(pushBoxhandler != null)
+                {
+                    pushBoxhandler.OnEnemyFallingOnMe(m_Collider, targetPosition);
+                }
+                break;
+            }
+        }
+    }
+
+    public void OnEnemyFallingOnMe(Collider2D other, Vector3 otherTargetPosition)
+    {
+        if (!m_Controller.IsJumping() && !m_StunInfoSC.IsStunned())
+        {
+            if(m_OOBSubManager.IsInACorner(otherTargetPosition, out float leftOffset, out float rightOffset, out bool leftBorder))
+            {
+                // If enemy's trying to go behind me
+                if (leftBorder)
+                {
+                    if (otherTargetPosition.x < m_Controller.transform.position.x)
+                    {
+                        AdjustPosition(leftOffset, Vector3.right, other);
+                    }
+                }
+                else
+                {
+                    if (otherTargetPosition.x > m_Controller.transform.position.x)
+                    {
+                        AdjustPosition(rightOffset, Vector3.left, other);
+                    }
+                }
+            }
+        }
+    }
+
+    private Vector2 AdjustPosition(float initialXPosition, Vector3 trajectoryDir, Collider2D other)
+    {
+        float newXPos = initialXPosition + (other.bounds.extents.x * trajectoryDir.x) + (m_Collider.bounds.extents.x * trajectoryDir.x);
+        Vector2 targetPosition = new Vector2(newXPos, m_Rigidbody.position.y);
+
+        Vector2 dummyVelocity = Vector2.zero;
+        m_Rigidbody.position = Vector2.SmoothDamp(m_Rigidbody.position, targetPosition, ref dummyVelocity, MovementConfig.Instance.m_FallingTrajectorySmoothing);
+
+        return targetPosition;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if(MovementConfig.Instance.m_DEBUG_DisplayFallingRaycast)
+        {
+            if (m_Collider != null && m_Collider.enabled)
+            {
+                if (m_Controller.IsJumping() && !m_StunInfoSC.IsStunned())
+                {
+                    if (m_Controller.IsJumpApexReached())
+                    {
+                        Gizmos.DrawWireSphere(m_Collider.bounds.center + ((m_Collider.bounds.extents.y + m_Collider.bounds.extents.x) * Vector3.down), m_Collider.bounds.extents.x);
+                    }
+                }
+            }
+        }
+    }
+#endif
+
     void OnAttackLaunched(BaseEventParameters baseParams)
     {
         AttackLaunchedEventParameters attackLaunchedParams = (AttackLaunchedEventParameters)baseParams;
@@ -52,7 +167,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     void OnEndOfAttack(BaseEventParameters baseParams)
     {
         EndOfAttackEventParameters endOfAttackEvent = (EndOfAttackEventParameters)baseParams;
-        if(m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
+        if (m_AttackComponent.GetCurrentAttackLogic() == null || m_AttackComponent.CheckIsCurrentAttack(endOfAttackEvent.m_Attack))
         {
             m_CurrentAttack = null;
         }

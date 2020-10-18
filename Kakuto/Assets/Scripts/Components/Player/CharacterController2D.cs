@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
@@ -17,17 +16,16 @@ public class CharacterController2D : MonoBehaviour
     private float m_LastJumpTakeOffTimeStamp = 0f;              // Last time character jumps take off
     private float m_LastJumpLandingTimeStamp = 0f;              // Last time character jumps landing
     private bool m_CharacterIsJumping = false;                  // True when the AddForce of the jump is added, until jumpLanding event
+    private bool m_ShouldUpdateFalling = true;
+    private bool m_JumpApexReached = false;
+    private float m_MinFallingVelocity = 0f;
 
     private Rigidbody2D m_Rigidbody2D;
     private Vector2 m_Velocity = Vector2.zero;
     private bool m_FacingRight;                                 // For determining which side the player is currently facing.
     private bool m_MovingRight;
 
-    [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
-
-    [Separator("Events")]
-    [Space]
+    private PlayerStunInfoSubComponent m_StunInfoSC;
 
     public Action<bool> OnJumpEvent;
     public Action OnDirectionChangedEvent;
@@ -41,7 +39,18 @@ public class CharacterController2D : MonoBehaviour
         m_MovingRight = m_FacingRight;
     }
 
+    private void Start()
+    {
+        m_StunInfoSC = GetComponent<PlayerHealthComponent>().GetStunInfoSubComponent();
+    }
+
     private void FixedUpdate()
+    {
+        GroundCheck();
+        UpdateFalling();
+    }
+
+    private void GroundCheck()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -50,7 +59,7 @@ public class CharacterController2D : MonoBehaviour
 
         Collider2D[] groundCheckContacts = new Collider2D[5];
         bool hasContacts = (m_GroundCheck.GetContacts(groundCheckContacts) > 0);
-        if(!hasContacts)
+        if (!hasContacts)
         {
             Collider2D overlapCollider = Physics2D.OverlapCircle(transform.position, MovementConfig.Instance.m_OverlapCircleRadius, MovementConfig.Instance.m_GroundLayerMask);
             groundCheckColliders.Add(overlapCollider);
@@ -62,7 +71,7 @@ public class CharacterController2D : MonoBehaviour
 
         foreach (Collider2D collider in groundCheckColliders)
         {
-            if(collider != null)
+            if (collider != null)
             {
                 if (Utils.IsInLayerMask(collider.gameObject.layer, MovementConfig.Instance.m_GroundLayerMask))
                 {
@@ -71,6 +80,7 @@ public class CharacterController2D : MonoBehaviour
                         m_LastJumpLandingTimeStamp = Time.time;
                         OnJumpEvent?.Invoke(false);
                         m_CharacterIsJumping = false;
+                        m_JumpApexReached = false;
                     }
                     m_Grounded = true;
                     break;
@@ -81,8 +91,45 @@ public class CharacterController2D : MonoBehaviour
         if (wasGrounded && !m_Grounded)
         {
             OnJumpEvent?.Invoke(true);
+            m_ShouldUpdateFalling = true;
+            m_JumpApexReached = false;
         }
     }
+
+    private void UpdateFalling()
+    {
+        if(m_ShouldUpdateFalling)
+        {
+            if(!m_CharacterIsJumping || m_StunInfoSC.IsStunned())
+            {
+                m_ShouldUpdateFalling = false;
+                return;
+            }
+
+            if(m_JumpApexReached)
+            {
+                UpdateFallingVelocity();
+            }
+            else if (m_Rigidbody2D.velocity.y < 0f)
+            {
+                m_JumpApexReached = true;
+                m_MinFallingVelocity = m_Rigidbody2D.velocity.y;
+            }
+        }
+    }
+
+    void UpdateFallingVelocity()
+    {
+        if (m_Rigidbody2D.velocity.y < m_MinFallingVelocity)
+        {
+            m_MinFallingVelocity = m_Rigidbody2D.velocity.y;
+        }
+        else
+        {
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_MinFallingVelocity);
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -257,6 +304,7 @@ public class CharacterController2D : MonoBehaviour
     {
         m_Velocity = Vector2.zero;
         m_Rigidbody2D.velocity = m_Velocity;
+        m_ShouldUpdateFalling = false;
     }
 
     public bool CanJump()
@@ -277,6 +325,11 @@ public class CharacterController2D : MonoBehaviour
     public bool IsJumping()
     {
         return m_CharacterIsJumping || !m_Grounded;
+    }
+
+    public bool IsJumpApexReached()
+    {
+        return m_JumpApexReached;
     }
 
     public EMovingDirection GetMovingDirection()

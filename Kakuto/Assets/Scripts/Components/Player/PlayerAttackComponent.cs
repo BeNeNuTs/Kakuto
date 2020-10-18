@@ -117,7 +117,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Update()
     {
-        if(!m_InfoComponent.GetPlayerSettings().m_AttackEnabled || Time.timeScale == 0f)
+        if(!m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
         {
             return;
         }
@@ -125,26 +125,29 @@ public class PlayerAttackComponent : MonoBehaviour
         UpdateTriggerInputsList();
         UpdateTriggerInputsString();
 
-        UpdateAttackState();
-
-        if (CanUpdateAttack())
+        if(Time.timeScale > 0f)
         {
-            UpdateAttack();
+            UpdateAttackState();
 
-            m_FramesToWaitBeforeEvaluatingAttacks = 0;
-            m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
-        }
-        else
-        {
-            if (m_TriggeredInputsList.Count > 0)
+            if (CanUpdateAttack())
             {
-                m_TotalFramesWaitingBeforeEvaluatingAttacks++;
-                m_FramesToWaitBeforeEvaluatingAttacks--;
+                UpdateAttack();
+
+                m_FramesToWaitBeforeEvaluatingAttacks = 0;
+                m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
             }
             else
             {
-                m_FramesToWaitBeforeEvaluatingAttacks = 0;
-                m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
+                if (m_TriggeredInputsList.Count > 0)
+                {
+                    m_TotalFramesWaitingBeforeEvaluatingAttacks++;
+                    m_FramesToWaitBeforeEvaluatingAttacks--;
+                }
+                else
+                {
+                    m_FramesToWaitBeforeEvaluatingAttacks = 0;
+                    m_TotalFramesWaitingBeforeEvaluatingAttacks = 0;
+                }
             }
         }
     }
@@ -171,6 +174,15 @@ public class PlayerAttackComponent : MonoBehaviour
             }
         }
 
+        if(Time.timeScale == 0f)
+        {
+            // If time is frozen, notify previous inputs
+            foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+            {
+                triggeredInput.OnTimeFreeze();
+            }
+        }
+        
         // Then add those new inputs in the list with the default persistency
         foreach (GameInput input in attackInputs)
         {

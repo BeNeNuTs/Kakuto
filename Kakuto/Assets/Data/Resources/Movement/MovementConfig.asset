@@ -16,5 +16,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_OverlapCircleRadius: 0.05
-  d_DisplayOverlapCircle: 0
-  m_FramesToWaitBeforeJumping: 2
+  m_FallingTrajectorySmoothing: 0.02
+  m_DEBUG_DisplayOverlapCircle: 0
+  m_DEBUG_DisplayVelocity: 0
+  m_DEBUG_DisplayFallingRaycast: 1

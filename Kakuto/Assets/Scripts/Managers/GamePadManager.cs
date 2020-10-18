@@ -98,6 +98,34 @@ public static class GamePadManager
         return gameInputList;
     }
 
+    public static bool GetAnyPlayerStartInput()
+    {
+        for(int i = 0; i < m_PlayerGamePads.Length; i++)
+        {
+            Update(i);
+            if (m_PlayerGamePads[i].GetStartInput())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool GetAnyPlayerBackInput()
+    {
+        for (int i = 0; i < m_PlayerGamePads.Length; i++)
+        {
+            Update(i);
+            if (m_PlayerGamePads[i].GetBackInput())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static EGamePadsConnectedState UpdateGamePadsState()
     {
         if (Time.unscaledTime < m_LastGamePadsConnectedCheck + K_GAMEPAD_CONNECTION_CHECK)

@@ -117,4 +117,32 @@ public static class InputManager
 
         return gameInputList;
     }
+
+    public static bool GetStartInput()
+    {
+        bool startInput = false;
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
+        {
+            startInput = GamePadManager.GetAnyPlayerStartInput();
+        }
+        else
+        {
+            startInput = Input.GetKey(KeyCode.Return);
+        }
+        return startInput;
+    }
+
+    public static bool GetBackInput()
+    {
+        bool backInput = false;
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
+        {
+            backInput = GamePadManager.GetAnyPlayerBackInput();
+        }
+        else
+        {
+            backInput = Input.GetKey(KeyCode.Backspace);
+        }
+        return backInput;
+    }
 }

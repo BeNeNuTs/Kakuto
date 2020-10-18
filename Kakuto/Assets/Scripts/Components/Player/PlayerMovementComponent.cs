@@ -128,26 +128,30 @@ public class PlayerMovementComponent : MonoBehaviour
 
         m_HorizontalMoveInput = 0f;
         m_JumpInput = false;
-        m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
-        if (!m_IsMovementBlocked && !m_InfoComponent.GetPlayerSettings().m_IsStatic)
+        m_CrouchInput = false;
+        if(!m_InfoComponent.GetPlayerSettings().m_IsStatic)
         {
-            m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
-            m_JumpInput = InputManager.GetJumpInput(playerIndex);
-
-            if(IsStanding())
+            m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
+            if (!m_IsMovementBlocked)
             {
-                if(m_JumpInput && !m_JumpTakeOffRequested && !m_TriggerJumpImpulse && m_Controller.CanJump())
-                {
-                    ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
+                m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
+                m_JumpInput = InputManager.GetJumpInput(playerIndex);
 
-                    m_Animator.SetTrigger("TakeOff");
-                    m_AttackComponent.SetAttackBlockedByTakeOff(true);
-                    m_JumpTakeOffRequested = true;
-                    m_JumpTakeOffDirection = m_HorizontalMoveInput;
+                if (IsStanding())
+                {
+                    if (m_JumpInput && !m_JumpTakeOffRequested && !m_TriggerJumpImpulse && m_Controller.CanJump())
+                    {
+                        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
+
+                        m_Animator.SetTrigger("TakeOff");
+                        m_AttackComponent.SetAttackBlockedByTakeOff(true);
+                        m_JumpTakeOffRequested = true;
+                        m_JumpTakeOffDirection = m_HorizontalMoveInput;
+                    }
                 }
             }
         }
-
+        
         m_Animator.SetBool("IsCrouching", m_CrouchInput);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
     }

@@ -655,6 +655,11 @@ PrefabInstance:
       propertyPath: far clip plane
       value: 140
       objectReference: {fileID: 0}
+    - target: {fileID: 955138844974433504, guid: 6d3bccf9d16dd324c8762db46255df42,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 393216
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d3bccf9d16dd324c8762db46255df42, type: 3}
 --- !u!1 &1091000327
@@ -780,7 +785,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 1465180029}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 262144
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
   antialiasingMode: 2
