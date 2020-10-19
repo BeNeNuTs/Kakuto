@@ -1935,7 +1935,7 @@ GameObject:
   - component: {fileID: 3699350364858280929}
   - component: {fileID: 3699350364858280958}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: CanvasBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2584,7 +2584,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 171.59998, y: -0.39001465}
+  m_AnchoredPosition: {x: 171.6001, y: -0.38989258}
   m_SizeDelta: {x: 737, y: 133}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3699350366082530043
@@ -3008,7 +3008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -171.59998, y: -0.39001465}
+  m_AnchoredPosition: {x: -171.6001, y: -0.38989258}
   m_SizeDelta: {x: 737, y: 133}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &3699350366601196806
@@ -4910,7 +4910,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d160332d0769c354da048cee24189bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FpsXOffset: -410
 --- !u!114 &7948278166680471517
 MonoBehaviour:
   m_ObjectHideFlags: 0
