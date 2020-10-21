@@ -285,6 +285,12 @@ PrefabInstance:
       propertyPath: m_InitialPalette
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7000031312678433798, guid: 5227f780c94aaa240ba932079524456d,
+        type: 3}
+      propertyPath: m_InfoConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 28e417bf01a00cb41833ab671efcabed,
+        type: 2}
     - target: {fileID: 3609406012619202689, guid: 5227f780c94aaa240ba932079524456d,
         type: 3}
       propertyPath: m_Material
