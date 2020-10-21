@@ -92,14 +92,17 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
 
     public static void SetTriggerPointStatus(PlayerInfoComponent infoComponent, ETriggerPointStatus status)
     {
-        if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive && status == ETriggerPointStatus.Inactive)
+        if(status == ETriggerPointStatus.Inactive)
         {
-            status = ETriggerPointStatus.Active;
-        }
+            if (m_TriggerPointStatus[infoComponent.GetPlayerIndex()] == ETriggerPointStatus.Triggered)
+            {
+                infoComponent.ResetDefaultAndCurrentPalette();
+            }
 
-        if(m_TriggerPointStatus[infoComponent.GetPlayerIndex()] == ETriggerPointStatus.Triggered && status != ETriggerPointStatus.Triggered)
-        {
-            infoComponent.ResetDefaultAndCurrentPalette();
+            if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
+            {
+                status = ETriggerPointStatus.Active;
+            }
         }
 
         m_TriggerPointStatus[infoComponent.GetPlayerIndex()] = status;

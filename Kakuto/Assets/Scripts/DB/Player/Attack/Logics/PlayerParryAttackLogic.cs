@@ -52,7 +52,10 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         IncreaseSuperGauge(m_Config.m_SuperGaugeParrySuccessBonus);
         m_ParryState = EParryState.Counter;
         m_HasTouched = true; // Set it to true in order to allow unblock attack and cancelling this one by another one if needed (parry success is considered as a regular attack hit)
-        PlayerGuardCrushTriggerAttackLogic.SetTriggerPointStatus(m_InfoComponent, PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active); // Successfully parrying a hit activate the trigger
+        if(PlayerGuardCrushTriggerAttackLogic.GetTriggerPointStatus(m_InfoComponent.GetPlayerIndex()) == PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Inactive)
+        {
+            PlayerGuardCrushTriggerAttackLogic.SetTriggerPointStatus(m_InfoComponent, PlayerGuardCrushTriggerAttackLogic.ETriggerPointStatus.Active); // Successfully parrying a hit activate the trigger
+        }
 
         m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
     }
