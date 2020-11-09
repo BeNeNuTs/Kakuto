@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09c040809a965304cb7e80a2c5ed4c49
+guid: 4022fe154c28da746a4f5bf97c04108f
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: CityPalette
     2300000: //RootNode
     3300000: //RootNode
-    4300000: ElectricalBox_001
+    4300000: FireHydrant_001
   externalObjects:
   - first:
       type: UnityEngine:Material

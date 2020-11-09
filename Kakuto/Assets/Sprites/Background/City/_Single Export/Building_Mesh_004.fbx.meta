@@ -4,11 +4,15 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Building_004
     400000: //RootNode
+    400002: Building_004
     2100000: CityPalette
     2100002: GreenLight_Mat
     2300000: //RootNode
+    2300002: Building_004
     3300000: //RootNode
+    3300002: Building_004
     4300000: Building_004
   externalObjects:
   - first:
