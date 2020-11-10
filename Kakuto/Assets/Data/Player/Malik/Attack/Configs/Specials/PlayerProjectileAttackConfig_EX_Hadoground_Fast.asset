@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerProjectileAttackConfig_EX_Hadoground_Fast
   m_EditorClassIdentifier: 
   m_AttackType: 1
-  m_Damage: 10
-  m_CheapDamage: 1
+  m_Damage: 7
+  m_CheapDamage: 2
   m_MaxHitCount: 2
-  m_DelayBetweenHits: 0.2
+  m_DelayBetweenHits: 0.1
   m_HitKO: 0
   m_HitHeight: 1
   m_HitStrength: 1
