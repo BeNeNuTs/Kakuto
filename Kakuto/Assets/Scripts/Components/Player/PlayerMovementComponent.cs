@@ -131,10 +131,10 @@ public class PlayerMovementComponent : MonoBehaviour
         m_CrouchInput = false;
         if(!m_InfoComponent.GetPlayerSettings().m_IsStatic)
         {
-            m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
             if (!m_IsMovementBlocked)
             {
                 m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
+                m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
                 m_JumpInput = InputManager.GetJumpInput(playerIndex);
 
                 if (IsStanding())
