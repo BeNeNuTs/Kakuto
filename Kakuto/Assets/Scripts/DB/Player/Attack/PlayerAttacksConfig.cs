@@ -243,7 +243,16 @@ public class PlayerAttacksConfig : BakeableScriptableObject
     {
         if (attack1.GetInputStringList().Count > 0 && attack2.GetInputStringList().Count > 0)
         {
-            return attack2.GetInputStringList()[0].Length.CompareTo(attack1.GetInputStringList()[0].Length);
+            int compareOrder = attack2.GetInputStringList()[0].Length.CompareTo(attack1.GetInputStringList()[0].Length);
+            if(compareOrder == 0)
+            {
+                compareOrder = attack2.m_Name.CompareTo(attack1.m_Name);
+                if(compareOrder == 0)
+                {
+                    Debug.LogError("2 attacks have the same name, this is not allowed. Attack sorting failed.");
+                }
+            }
+            return compareOrder;
         }
         Debug.LogError("Attack list contains attack without input");
         return 0;
