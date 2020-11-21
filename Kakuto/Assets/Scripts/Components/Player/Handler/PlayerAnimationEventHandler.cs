@@ -7,6 +7,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     public Rigidbody2D m_Rigidbody;
     public Transform m_FXHook;
 
+    private Animator m_Animator;
     private SpriteRenderer m_UIBackground;
     private SpriteRenderer m_UIMaskedBackground;
     private SpriteMask m_UIBackgroundMask;
@@ -14,6 +15,8 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     private void Start()
     {
+        m_Animator = GetComponent<Animator>();
+
         m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
         m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
         m_UIBackgroundMask = GameObject.FindGameObjectWithTag("UIBackgroundMask")?.GetComponent<SpriteMask>();
@@ -28,61 +31,61 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void BlockAttack()
     {
-        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
-        if (behaviour)
+        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
+        if (baseAttackBehavior)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, new BlockAttackEventParameters(behaviour.m_AnimationAttackName));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, new BlockAttackEventParameters(baseAttackBehavior.GetAnimationAttackName()));
         }
         else
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack : Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
-            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            Debug.LogError("Block attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
     public void UnblockAttack(UnblockAttackAnimEventConfig param)
     {
-        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
-        if(behaviour)
+        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
+        if (baseAttackBehavior)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, new UnblockAttackEventParameters(behaviour.m_AnimationAttackName, param));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, new UnblockAttackEventParameters(baseAttackBehavior.GetAnimationAttackName(), param));
         }
         else
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack : Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
-            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            Debug.LogError("Unblock attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
     public void BlockMovement()
     {
-        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
-        if (behaviour)
+        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
+        if (baseAttackBehavior)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, new BlockMovementEventParameters(behaviour.m_AnimationAttackName));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, new BlockMovementEventParameters(baseAttackBehavior.GetAnimationAttackName()));
         }
         else
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement : Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
-            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            Debug.LogError("Block movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
     public void UnblockMovement()
     {
-        PlayerAttackAnimationStateMachineBehavior behaviour = Utils.GetCurrentBehaviour<PlayerAttackAnimationStateMachineBehavior>(gameObject);
-        if (behaviour)
+        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
+        if (baseAttackBehavior)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, new UnblockMovementEventParameters(behaviour.m_AnimationAttackName));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, new UnblockMovementEventParameters(baseAttackBehavior.GetAnimationAttackName()));
         }
         else
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement : Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
-            Debug.LogError("Unable to find PlayerAttackAnimationStateMachineBehavior from current animation state info.");
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            Debug.LogError("Unblock movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
@@ -131,31 +134,13 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     public void FreezeTime()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Freeze time");
-        TimeManager.FreezeTime();
-        Animator animator = GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        }
-        else
-        {
-            Debug.LogError("Animator component not found");
-        }
+        TimeManager.FreezeTime(m_Animator);
     }
 
     public void UnfreezeTime()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unfreeze time");
-        TimeManager.UnfreezeTime();
-        Animator animator = GetComponent<Animator>();
-        if(animator != null)
-        {
-            animator.updateMode = AnimatorUpdateMode.Normal;
-        }
-        else
-        {
-            Debug.LogError("Animator component not found");
-        }
+        TimeManager.UnfreezeTime(m_Animator);
     }
 
     public void TriggerBackgroundEffect(BackgroundEffectAnimEventConfig backgroundEffectConfig)

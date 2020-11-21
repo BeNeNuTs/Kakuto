@@ -9,9 +9,9 @@ public enum EParryState
 
 public class PlayerParryAttackLogic : PlayerBaseAttackLogic
 {
-    private readonly PlayerParryAttackConfig m_Config;
-
     private static readonly string K_PARRY_COUNTER_ANIM = "ParryCounterAttack";
+
+    private readonly PlayerParryAttackConfig m_Config;
 
     private EParryState m_ParryState = EParryState.None;
 
@@ -36,6 +36,11 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
     {
         base.OnAttackStopped();
 
+        if (m_ParryState == EParryState.Counter)
+        {
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "ParrySuccess: Unreeze time");
+            TimeManager.UnfreezeTime(m_Animator);
+        }
         m_ParryState = EParryState.None;
 
         Utils.GetPlayerEventManager(m_Owner).StopListening(EPlayerEvent.ParrySuccess, OnParrySuccess);
@@ -58,6 +63,10 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         }
 
         m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
+
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "ParrySuccess: Freeze time");
+        TimeManager.FreezeTime(m_Animator);
+
     }
 
     void OnEndOfParry(BaseEventParameters baseParams)

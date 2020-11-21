@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehaviour
+public class PlayerParryAttackAnimationStateMachineBehavior : BaseAttackStateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,6 +17,7 @@ public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehavi
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        base.OnStateExit(animator, stateInfo, layerIndex);
         AnimatorClipInfo[] clipInfoList = animator.GetNextAnimatorClipInfo(0);
         if(clipInfoList.Length != 1)
         {
@@ -25,9 +26,10 @@ public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehavi
             return;
         }
 
-        //If the next clip to play is not a parry animation, then this is the end of the parry
+        //If the next clip to play is not a parry animation, then this is the end of the parry 
+        //Update: added parry anim because parry success can be now cancelled by parry
         string lowerClipName = clipInfoList[0].clip.name.ToLower();
-        if (!lowerClipName.Contains(PlayerAnimationHelper.K_PARRY_SUCCESS_ANIM_STANDARD_NAME))
+        if (!lowerClipName.Contains(PlayerAnimationHelper.K_PARRY_SUCCESS_ANIM_STANDARD_NAME) && !lowerClipName.Contains(PlayerAnimationHelper.K_PARRY_ANIM_STANDARD_NAME))
         {
             Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, new EndOfAttackEventParameters(EAnimationAttackName.Parry));
         }
@@ -44,4 +46,9 @@ public class PlayerParryAttackAnimationStateMachineBehavior : StateMachineBehavi
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+
+    public override EAnimationAttackName GetAnimationAttackName()
+    {
+        return EAnimationAttackName.Parry;
+    }
 }

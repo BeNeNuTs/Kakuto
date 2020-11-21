@@ -16,6 +16,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private PlayerMovementComponent m_MovementComponent;
     private PlayerHealthComponent m_HealthComponent;
     private PlayerInfoComponent m_InfoComponent;
+    private Animator m_Animator;
 
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
@@ -50,6 +51,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_HealthComponent = GetComponent<PlayerHealthComponent>();
         m_InfoComponent = GetComponent<PlayerInfoComponent>();
+        m_Animator = GetComponentInChildren<Animator>();
 
         m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(m_InfoComponent);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);
@@ -125,7 +127,7 @@ public class PlayerAttackComponent : MonoBehaviour
         UpdateTriggerInputsList();
         UpdateTriggerInputsString();
 
-        if(Time.timeScale > 0f)
+        if(!IsPlayerTimeFrozen())
         {
             UpdateAttackState();
 
@@ -174,7 +176,7 @@ public class PlayerAttackComponent : MonoBehaviour
             }
         }
 
-        if(Time.timeScale == 0f)
+        if(IsPlayerTimeFrozen())
         {
             // If time is frozen, notify previous inputs
             foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
@@ -225,6 +227,11 @@ public class PlayerAttackComponent : MonoBehaviour
     public string GetTriggeredInputsString()
     {
         return m_TriggeredInputsString;
+    }
+
+    bool IsPlayerTimeFrozen()
+    {
+        return Time.timeScale == 0f && m_Animator.updateMode == AnimatorUpdateMode.Normal;
     }
 
     // Flip directional inputs on side changed
