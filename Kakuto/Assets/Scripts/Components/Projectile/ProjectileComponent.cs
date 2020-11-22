@@ -16,6 +16,7 @@ public class ProjectileComponent : MonoBehaviour
     private Animator m_Animator;
     private float m_LifeTime = 0f;
 
+    private int m_KeepConstantSpeedUntilFrame = 0;
     private bool m_DestructionRequested = false;
 
     private OutOfBoundsSubGameManager m_OutOfBoundsSubManager;
@@ -61,15 +62,24 @@ public class ProjectileComponent : MonoBehaviour
             DestroyProjectile();
         }
 
-        m_LifeTime += Time.deltaTime;
+        if (m_KeepConstantSpeedUntilFrame <= Time.frameCount)
+        {
+            m_LifeTime += Time.deltaTime;
+        }
     }
 
     void FixedUpdate()
     {
         if(!HasDestructionBeenRequested())
         {
+            float speed = m_Config.m_ProjectileConstantSpeedAfterHit;
+            if (m_KeepConstantSpeedUntilFrame <= Time.frameCount)
+            {
+                speed = m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime);
+            }
+
             Vector3 moveDirection = transform.right * transform.localScale.x;
-            m_Rigidbody.MovePosition(transform.position + moveDirection * m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime) * Time.fixedDeltaTime);
+            m_Rigidbody.MovePosition(transform.position + moveDirection * speed * Time.fixedDeltaTime);
         }
     }
 
@@ -94,6 +104,11 @@ public class ProjectileComponent : MonoBehaviour
                     if (m_Logic != null)
                     {
                         m_Logic.OnHandleCollision(true, true, m_Collider, collision);
+                        if(m_Config.m_ApplyConstantSpeedOnPlayerHit)
+                        {
+                            m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
+                        }
+                        
                         if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                         {
                             RequestProjectileDestruction();
@@ -107,6 +122,11 @@ public class ProjectileComponent : MonoBehaviour
                 if(collisionProjectile != null && collisionProjectile.GetLogic().GetOwner().CompareTag(Utils.GetEnemyTag(m_PlayerTag))) // Collision with an enemy projectile
                 {
                     m_Logic.OnHandleCollision(false, false, m_Collider, collision);
+                    if (m_Config.m_ApplyConstantSpeedOnProjectileHit)
+                    {
+                        m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
+                    }
+
                     if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
                     {
                         RequestProjectileDestruction();
