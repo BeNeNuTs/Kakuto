@@ -418,6 +418,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnRoundOver()
     {
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Round Over");
         SetMovementBlocked(true, EBlockedReason.TimeOver);
         m_Animator.SetBool("IsCrouching", false);
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
@@ -437,9 +438,15 @@ public class PlayerMovementComponent : MonoBehaviour
                 m_Animator.ResetTrigger("TakeOff");
                 m_Animator.ResetTrigger("TurnAroundRequested");
                 m_JumpTakeOffRequested = false;
-                m_JumpTakeOffDirection = 0f;
-                m_TriggerJumpImpulse = false;
-                m_AttackComponent.SetAttackBlockedByTakeOff(false);
+                
+                // If movement is blocked by timeOver, let the jump be triggered before end of round anim
+                // Otherwise, player will be blocked in takeOff animation for ever
+                if(reason != EBlockedReason.TimeOver)
+                {
+                    m_JumpTakeOffDirection = 0f;
+                    m_TriggerJumpImpulse = false;
+                    m_AttackComponent.SetAttackBlockedByTakeOff(false);
+                }
                 
                 if(m_Controller.IsJumping() && reason == EBlockedReason.Stun)
                 {
