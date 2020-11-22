@@ -52,6 +52,7 @@ public enum EPlayerEvent
     TriggerTeleport,
 
     EndOfRoundAnimation,
+    HitNotification,
 
     // For enemy
     Hit,
