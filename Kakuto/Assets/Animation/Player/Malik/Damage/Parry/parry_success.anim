@@ -23,11 +23,11 @@ AnimationClip:
       value: {fileID: 21300000, guid: 8755fae927defa5429387fad1df4c95c, type: 3}
     - time: 0.033333335
       value: {fileID: 21300000, guid: 018f313ccc0226744acc205321283ddc, type: 3}
-    - time: 0.06666667
-      value: {fileID: 21300000, guid: 9ba39be706e6a704f90cdd7b46452f05, type: 3}
     - time: 0.1
+      value: {fileID: 21300000, guid: 9ba39be706e6a704f90cdd7b46452f05, type: 3}
+    - time: 0.16666667
       value: {fileID: 21300000, guid: 179501ea4d409a046843c54963b508f6, type: 3}
-    - time: 0.13333334
+    - time: 0.23333333
       value: {fileID: 21300000, guid: 71049eef4aaf3fd4ca91b779cae85515, type: 3}
     attribute: m_Sprite
     path: 
@@ -58,7 +58,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.16666667
+    m_StopTime: 0.26666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -86,7 +86,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.16666667
+  - time: 0.23333333
     functionName: BlockAttack
     data: 
     objectReferenceParameter: {fileID: 0}
