@@ -65,19 +65,29 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public static void FreezeTime()
+    public static void FreezeTime(Animator unscaledTimeAnimator = null)
     {
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
         Instance.m_TimeIsFrozen = true;
 
         Instance.m_TimeScaleInProgress = false; // stop time scale in progress
+
+        if(unscaledTimeAnimator != null)
+        {
+            unscaledTimeAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        }
     }
 
-    public static void UnfreezeTime()
+    public static void UnfreezeTime(Animator unscaledTimeAnimator = null)
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = K_DEFAULT_FIXED_DELTA_TIME;
         Instance.m_TimeIsFrozen = false;
+
+        if (unscaledTimeAnimator != null)
+        {
+            unscaledTimeAnimator.updateMode = AnimatorUpdateMode.Normal;
+        }
     }
 }

@@ -89,6 +89,18 @@ public class ProjectileDestroyedEventParameters : ProjectileSpawnedEventParamete
 
     public override EPlayerEvent GetEventType() { return EPlayerEvent.ProjectileDestroyed; }
 }
+
+public class HitNotificationEventParameters : BaseEventParameters
+{
+    public EHitNotificationType m_HitNotificationType;
+
+    public HitNotificationEventParameters(EHitNotificationType hitNotif)
+    {
+        m_HitNotificationType = hitNotif;
+    }
+
+    public override EPlayerEvent GetEventType() { return EPlayerEvent.HitNotification; }
+}
 #endregion
 
 #region HEALTH

@@ -38,21 +38,6 @@ public static class Utils
         return resultStr;
     }
 
-    public static T GetCurrentBehaviour<T>(this GameObject gameObject) where T : AdvancedStateMachineBehaviour
-    {
-        Animator animator = gameObject.GetComponent<Animator>();
-        if(animator)
-        {
-            T[] behaviours = animator.GetBehaviours<T>();
-            if (behaviours != null && behaviours.Length > 0)
-            {
-                return behaviours.ToList().FirstOrDefault(behaviour => behaviour != null && behaviour.StateInfo.fullPathHash == animator.GetCurrentAnimatorStateInfo(0).fullPathHash);
-            }
-        }
-
-        return null;
-    }
-
     public static float GetCurrentAnimFrame(Animator anim)
     {
         GetCurrentAnimInfo(anim, out string clipName, out float currentFrame, out float frameCount);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EStunAnimState
@@ -23,6 +24,8 @@ public class PlayerBaseAttackLogic
 
     protected bool m_AttackLaunched = false;
 
+    private IEnumerator m_CurrentCrossupCoroutine = null;
+
     public virtual void OnInit(GameObject owner, PlayerAttack attack)
     {
         m_Owner = owner;
@@ -33,7 +36,13 @@ public class PlayerBaseAttackLogic
         m_InfoComponent = m_Owner.GetComponent<PlayerInfoComponent>();
     }
 
-    public virtual void OnShutdown() {}
+    public virtual void OnShutdown()
+    {
+        if (m_CurrentCrossupCoroutine != null)
+        {
+            m_AttackComponent.StopCoroutine(m_CurrentCrossupCoroutine);
+        }
+    }
 
     public virtual bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
     {
@@ -217,24 +226,44 @@ public class PlayerBaseAttackLogic
 
         if (m_Attack.m_NeededStanceList.Contains(EPlayerStance.Jump) && m_MovementComponent.IsJumping())
         {
-            m_MovementComponent.GetOnJumpingXPositions(out float myXPosition, out float enemyXPosition);
-            if (myXPosition < enemyXPosition)
+            if (m_CurrentCrossupCoroutine != null)
             {
-                if(m_Owner.transform.position.x > victimAttackComponent.transform.position.x)
-                {
-                    return EHitNotificationType.Crossup;
-                }
+                m_AttackComponent.StopCoroutine(m_CurrentCrossupCoroutine);
             }
-            else
-            {
-                if (m_Owner.transform.position.x < victimAttackComponent.transform.position.x)
-                {
-                    return EHitNotificationType.Crossup;
-                }
-            }
+
+            m_CurrentCrossupCoroutine = ValidateCrossup_Coroutine(victimAttackComponent.transform);
+            m_AttackComponent.StartCoroutine(m_CurrentCrossupCoroutine);
         }
 
         return EHitNotificationType.None;
+    }
+
+    private IEnumerator ValidateCrossup_Coroutine(Transform victimAttackTransform)
+    {
+        // Wait for landing
+        while(m_MovementComponent.IsJumping())
+        {
+            yield return null;
+        }
+
+        m_MovementComponent.GetOnJumpingXPositions(out float myXPosition, out float enemyXPosition);
+        if (myXPosition < enemyXPosition)
+        {
+            if (m_Owner.transform.position.x > victimAttackTransform.position.x)
+            {
+                HitNotificationEventParameters hitNotifParams = new HitNotificationEventParameters(EHitNotificationType.Crossup);
+                Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.HitNotification, hitNotifParams);
+            }
+        }
+        else
+        {
+            if (m_Owner.transform.position.x < victimAttackTransform.position.x)
+            {
+                HitNotificationEventParameters hitNotifParams = new HitNotificationEventParameters(EHitNotificationType.Crossup);
+                Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.HitNotification, hitNotifParams);
+            }
+        }
+
     }
 
     public virtual void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)

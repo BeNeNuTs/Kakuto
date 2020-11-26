@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackAnimationStateMachineBehavior : AdvancedStateMachineBehaviour
+public class PlayerAttackAnimationStateMachineBehavior : BaseAttackStateMachineBehaviour
 {
     [SearchableEnum]
     public EAnimationAttackName m_AnimationAttackName;
@@ -22,6 +22,7 @@ public class PlayerAttackAnimationStateMachineBehavior : AdvancedStateMachineBeh
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        base.OnStateExit(animator, stateInfo, layerIndex);
         Utils.GetPlayerEventManager(animator.gameObject).TriggerEvent(EPlayerEvent.EndOfAttack, new EndOfAttackEventParameters(m_AnimationAttackName));
     }
 
@@ -36,4 +37,9 @@ public class PlayerAttackAnimationStateMachineBehavior : AdvancedStateMachineBeh
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+
+    public override EAnimationAttackName GetAnimationAttackName()
+    {
+        return m_AnimationAttackName;
+    }
 }

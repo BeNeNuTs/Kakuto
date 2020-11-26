@@ -18,11 +18,13 @@ public class HitNotificationDisplayer : MonoBehaviour
         m_NotificationText.gameObject.SetActive(false);
 
         Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.HitNotification, OnHitNotification);
     }
 
     private void OnDestroy()
     {
         Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.HitNotification, OnHitNotification);
     }
 
     private void OnDamageTaken(BaseEventParameters baseParams)
@@ -30,12 +32,16 @@ public class HitNotificationDisplayer : MonoBehaviour
         DamageTakenEventParameters damageTakenInfo = (DamageTakenEventParameters)baseParams;
         if (damageTakenInfo.m_HitNotificationType != EHitNotificationType.None)
         {
-            if(m_CurrentDisplayNotifCoroutine != null)
-            {
-                StopCoroutine(m_CurrentDisplayNotifCoroutine);
-            }
-            m_CurrentDisplayNotifCoroutine = DisplayNotification(damageTakenInfo.m_HitNotificationType);
-            StartCoroutine(m_CurrentDisplayNotifCoroutine);
+            TriggerNotification_Internal(damageTakenInfo.m_HitNotificationType);
+        }
+    }
+
+    private void OnHitNotification(BaseEventParameters baseParams)
+    {
+        HitNotificationEventParameters hitNotifParams = (HitNotificationEventParameters)baseParams;
+        if (hitNotifParams.m_HitNotificationType != EHitNotificationType.None)
+        {
+            TriggerNotification_Internal(hitNotifParams.m_HitNotificationType);
         }
     }
 
@@ -43,6 +49,16 @@ public class HitNotificationDisplayer : MonoBehaviour
     {
         m_Animator.enabled = true;
         m_Animator.SetBool("IsActive", active);
+    }
+
+    private void TriggerNotification_Internal(EHitNotificationType hitNotifType)
+    {
+        if (m_CurrentDisplayNotifCoroutine != null)
+        {
+            StopCoroutine(m_CurrentDisplayNotifCoroutine);
+        }
+        m_CurrentDisplayNotifCoroutine = DisplayNotification(hitNotifType);
+        StartCoroutine(m_CurrentDisplayNotifCoroutine);
     }
 
     private IEnumerator DisplayNotification(EHitNotificationType hitNotifType)
