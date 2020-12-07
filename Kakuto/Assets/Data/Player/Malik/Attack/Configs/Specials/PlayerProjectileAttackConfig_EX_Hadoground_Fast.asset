@@ -61,5 +61,9 @@ MonoBehaviour:
     m_PreInfinity: 1
     m_PostInfinity: 1
     m_RotationOrder: 4
+  m_ProjectileConstantSpeedAfterHit: 0
+  m_ApplyConstantSpeedOnPlayerHit: 1
+  m_ApplyConstantSpeedOnProjectileHit: 1
+  m_FramesToKeepProjectileAtConstantSpeed: 5
   m_UseSpecificGuardCrushAnim: 1
   m_AnimationGuardCrushAttackName: 25
