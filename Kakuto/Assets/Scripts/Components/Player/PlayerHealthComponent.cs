@@ -344,7 +344,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if (IsDead())
         {
-            OnDeath();
+            OnDeath(attackLogic);
         }
     }
 
@@ -532,9 +532,17 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.ParrySuccess);
     }
 
-    private void OnDeath()
+    private void OnDeath(PlayerBaseAttackLogic attackLogic)
     {
-        m_Anim.SetTrigger("OnDeath");
+        m_Anim.SetBool("IsDead", true);
+
+        // Only play death animation if we're not killed by grab animation
+        // For grab attacks, let the anim end correctly
+        if(!(attackLogic is PlayerGrabAttackLogic))
+        {
+            m_Anim.Play("Death", 0, 0);
+        }
+
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.OnDeath, new DeathEventParameters(gameObject.tag));
     }
 
