@@ -185,6 +185,38 @@ public class DeathEventParameters : BaseEventParameters
 
     public override EPlayerEvent GetEventType() { return EPlayerEvent.OnDeath; }
 }
+
+public abstract class StunEventParameters : BaseEventParameters
+{
+    public EStunType m_StunType;
+    public bool m_StunByGrabAttack;
+
+    public StunEventParameters(EStunType stunType, bool stunByGrabAttack)
+    {
+        m_StunType = stunType;
+        m_StunByGrabAttack = stunByGrabAttack;
+    }
+}
+
+public class StunBeginEventParameters : StunEventParameters
+{
+
+    public StunBeginEventParameters(EStunType stunType, bool stunByGrabAttack) : base(stunType, stunByGrabAttack)
+    {
+    }
+
+    public override EPlayerEvent GetEventType() { return EPlayerEvent.StunBegin; }
+}
+
+public class StunEndEventParameters : StunEventParameters
+{
+
+    public StunEndEventParameters(EStunType stunType, bool stunByGrabAttack) : base(stunType, stunByGrabAttack)
+    {
+    }
+
+    public override EPlayerEvent GetEventType() { return EPlayerEvent.StunEnd; }
+}
 #endregion
 
 #region MOVEMENT

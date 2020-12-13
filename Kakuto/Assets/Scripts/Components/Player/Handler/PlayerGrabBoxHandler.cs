@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
 {
     PlayerAttackComponent m_PlayerAttackComponent;
+    Collider2D m_Collider;
 
     private void Awake()
     {
         m_PlayerAttackComponent = GetComponentInParent<PlayerAttackComponent>();
+        m_Collider = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,11 +25,14 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
 
     private void HandleCollision(Collider2D collision)
     {
-        if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
+        if (m_Collider.isActiveAndEnabled)
         {
-            if (collision.gameObject.GetComponent<PlayerGrabHurtBoxHandler>())
+            if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
             {
-                Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.GrabTry, new GrabTryEventParameters(m_PlayerAttackComponent.GetCurrentAttackLogic()));
+                if (collision.gameObject.GetComponent<PlayerGrabHurtBoxHandler>())
+                {
+                    Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.GrabTry, new GrabTryEventParameters(m_PlayerAttackComponent.GetCurrentAttackLogic()));
+                }
             }
         }
     }

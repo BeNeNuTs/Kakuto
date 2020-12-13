@@ -126,7 +126,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Start stun | Type : " + stunType.ToString() + ", Duration anim driven : " + m_StunInfo.m_IsDurationAnimDriven);
 
-        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunBegin);
+        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, new StunBeginEventParameters(stunType, isGrabAttack));
 
         if (m_StunInfo.m_IsDurationAnimDriven)
         {
@@ -230,7 +230,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         bool wasStunByGrabAttack = m_StunInfo.m_StunByGrabAttack;
         m_StunInfo.Reset();
 
-        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunEnd);
+        Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, new StunEndEventParameters(stunType, wasStunByGrabAttack));
         Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
 
         if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())

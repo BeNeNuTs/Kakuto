@@ -427,7 +427,6 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if (m_CurrentAttackLogic == null)
         {
-            Debug.LogError("There is no current attack");
             return false;
         }
 
@@ -517,6 +516,12 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Attack, "On stun begin | Attack is blocked");
 
+        StunBeginEventParameters stunBeginEventParameters = (StunBeginEventParameters)baseParams;
+        if(m_CurrentAttackLogic != null && (m_CurrentAttackLogic is PlayerGrabAttackLogic || stunBeginEventParameters.m_StunByGrabAttack))
+        {
+            EndOfAttack(new EndOfAttackEventParameters(m_CurrentAttackLogic.GetAttack().m_AnimationAttackName));
+        }
+        
         ClearTriggeredInputs();
         m_IsAttackBlocked = true;
     }
