@@ -19,8 +19,6 @@ public class ProjectileComponent : MonoBehaviour
     private int m_KeepConstantSpeedUntilFrame = 0;
     private bool m_DestructionRequested = false;
 
-    private OutOfBoundsSubGameManager m_OutOfBoundsSubManager;
-
     public void OnInit(PlayerProjectileAttackLogic logic, PlayerProjectileAttackConfig config)
     {
         m_Logic = logic;
@@ -34,8 +32,6 @@ public class ProjectileComponent : MonoBehaviour
         m_Animator.SetInteger("Angle", Mathf.FloorToInt(m_Config.m_ProjectileAngle));
         m_Animator.SetBool("IsSuper", m_Logic.IsASuper());
         m_Animator.SetBool("IsGuardCrush", m_Logic.IsGuardCrush());
-
-        m_OutOfBoundsSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);
 
         InitPalette();
 
