@@ -13,6 +13,8 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     private SpriteMask m_UIBackgroundMask;
     private SpriteRenderer m_UIBackgroundMaskDetail;
 
+    private BaseAttackStateMachineBehaviour m_CurrentAttack;
+
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -29,13 +31,17 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 #endif
     }
 
+    public void UpdateCurrentAttack(BaseAttackStateMachineBehaviour currentAttack)
+    {
+        m_CurrentAttack = currentAttack;
+    }
+
     public void BlockAttack()
     {
-        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
-        if (baseAttackBehavior)
+        if (m_CurrentAttack)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, new BlockAttackEventParameters(baseAttackBehavior.GetAnimationAttackName()));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockAttack, new BlockAttackEventParameters(m_CurrentAttack.GetAnimationAttackName()));
         }
         else
         {
@@ -46,11 +52,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void UnblockAttack(UnblockAttackAnimEventConfig param)
     {
-        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
-        if (baseAttackBehavior)
+        if (m_CurrentAttack)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, new UnblockAttackEventParameters(baseAttackBehavior.GetAnimationAttackName(), param));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockAttack, new UnblockAttackEventParameters(m_CurrentAttack.GetAnimationAttackName(), param));
         }
         else
         {
@@ -61,11 +66,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void BlockMovement()
     {
-        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
-        if (baseAttackBehavior)
+        if (m_CurrentAttack)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, new BlockMovementEventParameters(baseAttackBehavior.GetAnimationAttackName()));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.BlockMovement, new BlockMovementEventParameters(m_CurrentAttack.GetAnimationAttackName()));
         }
         else
         {
@@ -76,11 +80,10 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void UnblockMovement()
     {
-        BaseAttackStateMachineBehaviour baseAttackBehavior = BaseAttackStateMachineBehaviour.m_CurrentAttack;
-        if (baseAttackBehavior)
+        if (m_CurrentAttack)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement");
-            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, new UnblockMovementEventParameters(baseAttackBehavior.GetAnimationAttackName()));
+            Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.UnblockMovement, new UnblockMovementEventParameters(m_CurrentAttack.GetAnimationAttackName()));
         }
         else
         {
