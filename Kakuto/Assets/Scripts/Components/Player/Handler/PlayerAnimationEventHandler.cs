@@ -226,4 +226,9 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     {
         m_PlayerShadowComponent.enabled = false;
     }
+
+    public void InstantFlip()
+    {
+        m_PlayerMovementComponent.OnInstantFlip();
+    }
 }

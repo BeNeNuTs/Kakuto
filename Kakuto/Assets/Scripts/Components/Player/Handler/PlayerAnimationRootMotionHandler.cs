@@ -7,7 +7,6 @@ using UnityEditor;
 public class PlayerAnimationRootMotionHandler : MonoBehaviour
 {
     private CharacterController2D m_CharacterController2D;
-    private PlayerMovementComponent m_PlayerMovementComponent;
     private Rigidbody2D m_Rigidbody;
 
     private float m_GravityScale = 2.25f;
@@ -49,7 +48,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
     private void Awake()
     {
         m_CharacterController2D = GetComponentInParent<CharacterController2D>();
-        m_PlayerMovementComponent = GetComponentInParent<PlayerMovementComponent>();
         m_Rigidbody = GetComponentInParent<Rigidbody2D>();
     }
 
@@ -114,7 +112,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 if (Application.isPlaying)
                 {
                     m_CharacterController2D.enabled = false;
-                    m_PlayerMovementComponent.enabled = false;
                     m_GravityScale = m_Rigidbody.gravityScale;
                     m_Rigidbody.gravityScale = 0f;
                 }
@@ -130,7 +127,6 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
                 if(Application.isPlaying)
                 {
                     m_CharacterController2D.enabled = true;
-                    m_PlayerMovementComponent.enabled = true;
 
                     if (m_GravityScale == 0f)
                     {

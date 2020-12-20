@@ -202,6 +202,12 @@ public class PlayerMovementComponent : MonoBehaviour
         m_AttackComponent.OnSideChanged();
     }
 
+    public void OnInstantFlip()
+    {
+        if(m_NeedFlip)
+            Flip();
+    }
+
     void Flip()
     {
         m_Controller.Flip();
