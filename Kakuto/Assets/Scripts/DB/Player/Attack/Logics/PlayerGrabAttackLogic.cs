@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum EGrabPhase
 {
@@ -17,12 +18,14 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     private static readonly string K_GRAB_BLOCK_ANIM = "BlockGrab";
     private static readonly string K_GRAB_HIT_ANIM = "HitGrab";
     private static readonly string K_GRAB_HOOK = "GrabHook";
+    private static readonly string K_FX_HOOK = "FXHook";
 
     private static readonly int K_MAX_LAST_FRAME_TO_GRAB = 2;
 
     private bool m_GrabTouchedEnemy = false;
     private int m_LastGrabTouchedFrameCount = 0;
     private Transform m_GrabHook;
+    private Transform m_FXHook;
 
     private EGrabPhase m_GrabPhase = EGrabPhase.Startup;
 
@@ -35,10 +38,15 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
     {
         base.OnInit(owner, attack);
         m_GrabHook = m_Owner.transform.Find("Model/" + K_GRAB_HOOK);
+        m_FXHook = m_Owner.transform.Find("Model/" + K_FX_HOOK);
 #if UNITY_EDITOR
         if (m_GrabHook == null)
         {
             Debug.LogError(K_GRAB_HOOK + " can't be found on " + m_Owner);
+        }
+        if (m_FXHook == null)
+        {
+            Debug.LogError(K_FX_HOOK + " can't be found on " + m_Owner);
         }
 #endif
     }
@@ -186,5 +194,20 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 
         // Send event to the enemy
         Utils.GetEnemyEventManager(m_Owner).TriggerEvent(EPlayerEvent.SyncGrabbedPosition, new SyncGrabbedPositionEventParameters(m_GrabHook));
+    }
+
+    public override bool GetLastHitPoint(out Vector3 hitPoint)
+    {
+        hitPoint = m_FXHook.position;
+        return true;
+    }
+
+    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
+    {
+        base.GetHitFX(attackResult, hitNotifType, ref hitFXList);
+        if(hitFXList.Count == 0)
+        {
+            hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.HeavyHit].m_FX);
+        }
     }
 }

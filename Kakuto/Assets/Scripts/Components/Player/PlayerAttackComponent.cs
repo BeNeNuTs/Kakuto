@@ -10,6 +10,9 @@ public enum EAttackState
 
 public class PlayerAttackComponent : MonoBehaviour
 {
+    private int K_HITBOXLAYER = 0;
+    private int K_GRABOXLAYER = 0;
+
     public PlayerAttacksConfig m_AttacksConfig;
     private List<PlayerBaseAttackLogic> m_AttackLogics;
 
@@ -48,6 +51,9 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void Awake()
     {
+        K_HITBOXLAYER = LayerMask.NameToLayer("HitBox");
+        K_GRABOXLAYER = LayerMask.NameToLayer("GrabBox");
+
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_HealthComponent = GetComponent<PlayerHealthComponent>();
         m_InfoComponent = GetComponent<PlayerInfoComponent>();
@@ -599,16 +605,13 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void InitHitBoxes()
     {
-        int hitBoxLayer = LayerMask.NameToLayer("HitBox");
-        int grabBoxLayer = LayerMask.NameToLayer("GrabBox");
-
         int colliderLayer = 0;
         Collider2D[] allColliders = GetComponentsInChildren<Collider2D>();
         m_HitBoxes = new List<Collider2D>(allColliders.Length);
         foreach (Collider2D collider in allColliders)
         {
             colliderLayer = collider.gameObject.layer;
-            if (colliderLayer == hitBoxLayer || colliderLayer == grabBoxLayer)
+            if (colliderLayer == K_HITBOXLAYER || colliderLayer == K_GRABOXLAYER)
             {
                 m_HitBoxes.Add(collider);
             }

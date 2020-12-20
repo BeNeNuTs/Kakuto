@@ -443,8 +443,7 @@ public class PlayerHealthComponent : MonoBehaviour
         attackLogic.GetHitFX(attackResult, hitNotificationType, ref hitFXPrefabList);
         if(hitFXPrefabList.Count > 0)
         {
-            bool flipHitFX = false;
-
+            bool flipHitFX;
             Collider2D lastHitCollider = attackLogic.GetLastHitCollider();
             if (lastHitCollider != null)
             {
@@ -453,7 +452,7 @@ public class PlayerHealthComponent : MonoBehaviour
             }
             else
             {
-                Debug.LogError("PlayerHealthComponent::TriggerHitFX - Last hit collider has not been found");
+                flipHitFX = attackLogic.GetOwner().transform.position.x < transform.position.x;
             }
 
             foreach (GameObject hitFXPrefab in hitFXPrefabList)
