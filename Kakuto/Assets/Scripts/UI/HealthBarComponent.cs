@@ -13,8 +13,11 @@ public class HealthBarComponent : MonoBehaviour
     public TextMeshProUGUI m_PlayerName;
     public Image m_PlayerIcon;
 
+    private UIConfig m_UIConfig;
+
     private void Awake()
     {
+        m_UIConfig = UIConfig.Instance;
         GameManager.Instance?.AddOnPlayerRegisteredCallback(OnPlayerRegistered, m_Target);
         Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
     }
@@ -46,7 +49,7 @@ public class HealthBarComponent : MonoBehaviour
         StopAllCoroutines();
 
         StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, 0.0f));
-        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, UIConfig.Instance.m_TimeBetweenHealthBar));
+        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, m_UIConfig.m_TimeBetweenHealthBar));
     }
 
     IEnumerator UpdateHealthFill(Image imageToUpdate, float healthRatio, float timeToWait)

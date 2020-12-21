@@ -16,7 +16,9 @@ public class PlayerEndStunAnimationStateMachineBehavior : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log(Time.time + " | StunAnimationEnd: " + animator.transform.root.name + " normalizedTime: " + stateInfo.normalizedTime);
+#endif
         //If this animation is well finished, we need to stop stun on state exit
         if (stateInfo.normalizedTime >= 1.0f)
         {

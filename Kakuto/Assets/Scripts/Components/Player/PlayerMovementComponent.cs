@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public enum EJumpPhase
 {
@@ -162,6 +163,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public void UpdatePlayerSide()
     {
+        Profiler.BeginSample("PlayerMovementComponent.UpdatePlayerSide");
         if (m_IsLeftSide)
         {
             if (m_Enemy.position.x < transform.position.x)
@@ -190,6 +192,8 @@ public class PlayerMovementComponent : MonoBehaviour
                 }
             }
         }
+
+        Profiler.EndSample();
 
     }
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 public enum EGamePadsConnectedState
 {
@@ -46,6 +47,8 @@ public static class GamePadManager
 
     public static List<GameInput> GetAttackInputList(int playerIndex, bool isLeftSide)
     {
+        Profiler.BeginSample("GamePadManager.GetAttackInputList");
+
         Update(playerIndex);
 
         List<GameInput> gameInputList = new List<GameInput>();
@@ -94,6 +97,8 @@ public static class GamePadManager
                 gameInputList.Add(new GameInput(inputKey));
             }
         }
+
+        Profiler.EndSample();
 
         return gameInputList;
     }
@@ -166,9 +171,11 @@ public static class GamePadManager
 
     private static void Update(int playerIndex)
     {
+        Profiler.BeginSample("GamePadManager.GetAttackInputList");
         if (m_PlayerGamePads[playerIndex].NeedUpdate())
         {
             m_PlayerGamePads[playerIndex].Update();
         }
+        Profiler.EndSample();
     }
 }

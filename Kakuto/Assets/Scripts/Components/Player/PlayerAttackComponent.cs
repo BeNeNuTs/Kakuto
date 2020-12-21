@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public enum EAttackState
 {
@@ -40,6 +41,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private List<Collider2D> m_HitBoxes;
 
+    private AttackConfig m_AttackConfig;
+
 #if UNITY_EDITOR || DEBUG_DISPLAY
     /// DEBUG
     [Separator("Debug")]
@@ -53,6 +56,8 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         K_HITBOXLAYER = LayerMask.NameToLayer("HitBox");
         K_GRABOXLAYER = LayerMask.NameToLayer("GrabBox");
+
+        m_AttackConfig = AttackConfig.Instance;
 
         m_MovementComponent = GetComponent<PlayerMovementComponent>();
         m_HealthComponent = GetComponent<PlayerHealthComponent>();
@@ -162,6 +167,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UpdateTriggerInputsList()
     {
+        Profiler.BeginSample("PlayerAttackComponent.UpdateTriggerInputsList");
         int currentFrame = Time.frameCount;
 
         List<GameInput> attackInputs = InputManager.GetAttackInputList(m_InfoComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
@@ -172,13 +178,13 @@ public class PlayerAttackComponent : MonoBehaviour
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "New attack inputs : " + attackInputs.ToStringList());
             if(m_TriggeredInputsList.Count > 0)
             {
-                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Adding input frame persistency bonus (" + AttackConfig.Instance.InputFramesPersistencyBonus + ") to current attack inputs : " + m_TriggeredInputsList.ToStringList());
+                ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Adding input frame persistency bonus (" + m_AttackConfig.InputFramesPersistencyBonus + ") to current attack inputs : " + m_TriggeredInputsList.ToStringList());
             }
 
             // We need to add persistency bonus to the previous ones
             foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
             {
-                triggeredInput.AddPersistency(AttackConfig.Instance.InputFramesPersistencyBonus);
+                triggeredInput.AddPersistency(m_AttackConfig.InputFramesPersistencyBonus);
             }
         }
 
@@ -198,11 +204,11 @@ public class PlayerAttackComponent : MonoBehaviour
         }
 
         // Remove those which exceeds max allowed inputs
-        if (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
+        if (m_TriggeredInputsList.Count > m_AttackConfig.m_MaxInputs)
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Remove attack inputs (reason : exceeds max inputs allowed) : " + m_TriggeredInputsList.GetRange(0, (int)(m_TriggeredInputsList.Count - AttackConfig.Instance.m_MaxInputs)).ToStringList());
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Remove attack inputs (reason : exceeds max inputs allowed) : " + m_TriggeredInputsList.GetRange(0, (int)(m_TriggeredInputsList.Count - m_AttackConfig.m_MaxInputs)).ToStringList());
         }
-        while (m_TriggeredInputsList.Count > AttackConfig.Instance.m_MaxInputs)
+        while (m_TriggeredInputsList.Count > m_AttackConfig.m_MaxInputs)
         {   
             m_TriggeredInputsList.RemoveAt(0);
         }
@@ -212,13 +218,15 @@ public class PlayerAttackComponent : MonoBehaviour
 
         if (attackInputs.Count > 0)
         {
-            m_FramesToWaitBeforeEvaluatingAttacks = AttackConfig.Instance.FramesToWaitBeforeEvaluatingAttacks;
+            m_FramesToWaitBeforeEvaluatingAttacks = m_AttackConfig.FramesToWaitBeforeEvaluatingAttacks;
         }
 
         if(triggeredInputsElapsedCount > 0 || attackInputs.Count > 0)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, m_TriggeredInputsList.Count == 0 ? "No more attack input" : "Current attack inputs : " + m_TriggeredInputsList.ToStringList());
         }
+
+        Profiler.EndSample();
     }
 
     void UpdateTriggerInputsString()
@@ -259,7 +267,8 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UpdateAttackState()
     {
-        if(GetCurrentAttackLogic() != null)
+        Profiler.BeginSample("PlayerAttackComponent.UpdateAttackState");
+        if (GetCurrentAttackLogic() != null)
         {
             if(m_CurrentAttackState == EAttackState.Startup)
             {
@@ -290,12 +299,13 @@ public class PlayerAttackComponent : MonoBehaviour
                 }
             }
         }
+        Profiler.EndSample();
     }
 
     bool CanUpdateAttack()
     {
         // Time condition
-        if (m_FramesToWaitBeforeEvaluatingAttacks <= 0 || m_TotalFramesWaitingBeforeEvaluatingAttacks > AttackConfig.Instance.MaxFramesToWaitBeforeEvaluatingAttacks)
+        if (m_FramesToWaitBeforeEvaluatingAttacks <= 0 || m_TotalFramesWaitingBeforeEvaluatingAttacks > m_AttackConfig.MaxFramesToWaitBeforeEvaluatingAttacks)
         {
             // Input condition
             if (m_TriggeredInputsList.Count > 0)
@@ -316,6 +326,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void UpdateAttack()
     {
+        Profiler.BeginSample("PlayerAttackComponent.UpdateAttack");
         foreach (PlayerBaseAttackLogic attackLogic in m_AttackLogics)
         {
             if (EvaluateAttackConditions(attackLogic) && CheckAttackInputs(attackLogic))
@@ -342,27 +353,35 @@ public class PlayerAttackComponent : MonoBehaviour
                 }
             }
         }
+        Profiler.EndSample();
     }
 
     bool EvaluateAttackConditions(PlayerBaseAttackLogic attackLogic)
     {
-        return attackLogic.EvaluateConditions(m_CurrentAttackLogic);
+        Profiler.BeginSample("PlayerAttackComponent.EvaluateAttackConditions");
+        bool evaluateConditions = attackLogic.EvaluateConditions(m_CurrentAttackLogic);
+        Profiler.EndSample();
+        return evaluateConditions;
     }
 
     bool CheckAttackInputs(PlayerBaseAttackLogic attackLogic)
     {
-        foreach(GameInputList inputList in attackLogic.GetAttack().GetInputList())
+        Profiler.BeginSample("PlayerAttackComponent.CheckAttackInputs");
+        foreach (GameInputList inputList in attackLogic.GetAttack().GetInputList())
         {
             if(m_TriggeredInputsList.FindSubList(inputList))
             {
+                Profiler.EndSample();
                 return true;
             }
         }
+        Profiler.EndSample();
         return false;
     }
 
     void TriggerAttack(PlayerBaseAttackLogic attackLogic)
     {
+        Profiler.BeginSample("PlayerAttackComponent.TriggerAttack");
         ClearTriggeredInputs();
 
         // If current attack logic is != null, this means we're canceling this attack by another one
@@ -405,6 +424,8 @@ public class PlayerAttackComponent : MonoBehaviour
         }
         ////////////////////////////////////////////
 #endif
+
+        Profiler.EndSample();
     }
 
     void OnEnemyTakesDamage(BaseEventParameters baseParams)

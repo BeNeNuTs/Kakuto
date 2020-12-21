@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController2D : MonoBehaviour
@@ -31,8 +32,11 @@ public class CharacterController2D : MonoBehaviour
     public Action OnDirectionChangedEvent;
     private bool m_wasCrouching = false;
 
+    private MovementConfig m_MovementConfig;
+
     private void Awake()
     {
+        m_MovementConfig = MovementConfig.Instance;
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         m_FacingRight = gameObject.CompareTag(Player.Player1);
@@ -52,6 +56,8 @@ public class CharacterController2D : MonoBehaviour
 
     private void GroundCheck()
     {
+        Profiler.BeginSample("CharacterController2D.GroundCheck");
+
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
@@ -61,7 +67,7 @@ public class CharacterController2D : MonoBehaviour
         bool hasContacts = (m_GroundCheck.GetContacts(groundCheckContacts) > 0);
         if (!hasContacts)
         {
-            Collider2D overlapCollider = Physics2D.OverlapCircle(transform.position, MovementConfig.Instance.m_OverlapCircleRadius, MovementConfig.Instance.m_GroundLayerMask);
+            Collider2D overlapCollider = Physics2D.OverlapCircle(transform.position, m_MovementConfig.m_OverlapCircleRadius, m_MovementConfig.m_GroundLayerMask);
             groundCheckColliders.Add(overlapCollider);
         }
         else
@@ -73,7 +79,7 @@ public class CharacterController2D : MonoBehaviour
         {
             if (collider != null)
             {
-                if (Utils.IsInLayerMask(collider.gameObject.layer, MovementConfig.Instance.m_GroundLayerMask))
+                if (Utils.IsInLayerMask(collider.gameObject.layer, m_MovementConfig.m_GroundLayerMask))
                 {
                     if (!wasGrounded)
                     {
@@ -94,6 +100,8 @@ public class CharacterController2D : MonoBehaviour
             m_ShouldUpdateFalling = true;
             m_JumpApexReached = false;
         }
+
+        Profiler.EndSample();
     }
 
     private void UpdateFalling()
@@ -133,15 +141,15 @@ public class CharacterController2D : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (MovementConfig.Instance.m_DEBUG_DisplayOverlapCircle)
+        if (m_MovementConfig.m_DEBUG_DisplayOverlapCircle)
         {
-            Gizmos.DrawWireSphere(transform.position, MovementConfig.Instance.m_OverlapCircleRadius);
+            Gizmos.DrawWireSphere(transform.position, m_MovementConfig.m_OverlapCircleRadius);
         }
     }
 
     private void OnGUI()
     {
-        if (MovementConfig.Instance.m_DEBUG_DisplayVelocity && m_Rigidbody2D != null)
+        if (m_MovementConfig.m_DEBUG_DisplayVelocity && m_Rigidbody2D != null)
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
             GUI.Label(new Rect(screenPosition.x - 50f, Screen.height - screenPosition.y - (Screen.height / 2f) - 50f, 200f, 30f), "Velocity : " + m_Rigidbody2D.velocity);

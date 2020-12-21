@@ -128,10 +128,12 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunBegin, new StunBeginEventParameters(stunType, isGrabAttack));
 
+#if DEBUG_DISPLAY || UNITY_EDITOR
         if (m_StunInfo.m_IsDurationAnimDriven)
         {
             Debug.Log(Time.time + " | Player : " + m_Owner.name + " is anim stunned");
         }
+#endif
 
         m_Anim.ResetTrigger("OnStunEnd");
     }
@@ -190,7 +192,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         float finalDuration = stunDuration - outStunAnimDuration;
         m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
 
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
+#endif
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Set stun duration : " + stunDuration);
     }
 
@@ -199,7 +203,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_Anim.SetTrigger("OnStunEnd");
         m_StunInfo.m_EndOfStunAnimRequested = true;
 
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log(Time.time + " | TriggerOnStunEndAnim");
+#endif
     }
 
     private void OnStunAnimEnd(BaseEventParameters baseParams)
@@ -231,7 +237,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.Reset();
 
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, new StunEndEventParameters(stunType, wasStunByGrabAttack));
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
+#endif
 
         if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
         {
@@ -290,7 +298,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         SetStunDuration_Internal("StartAutoBlockingAttacks", "BlockStand_Out", blockingAttackDuration);
         m_Anim.Play("BlockStand_In", 0, 0);
 
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
+#endif
     }
 
     public void IncreaseGaugeValue(float value)

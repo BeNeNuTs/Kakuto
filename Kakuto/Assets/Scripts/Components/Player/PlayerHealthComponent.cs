@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 
 public enum EAttackResult
@@ -211,6 +212,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
     void OnHit(BaseEventParameters baseParams)
     {
+        Profiler.BeginSample("PlayerHealthComponent.OnHit");
         if (IsDead())
         {
             return;
@@ -229,10 +231,12 @@ public class PlayerHealthComponent : MonoBehaviour
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + hitAttackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
 
         ApplyDamage(hitAttackLogic, hitDamage, attackResult, hitNotificationType);
+        Profiler.EndSample();
     }
 
     private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType)
     {
+        Profiler.BeginSample("PlayerHealthComponent.GetHitInfo");
         hitNotificationType = EHitNotificationType.None;
 
         if (CanParryAttack(attackLogic))
@@ -251,6 +255,7 @@ public class PlayerHealthComponent : MonoBehaviour
             hitDamage = attackLogic.GetHitDamage(attackResult);
             hitNotificationType = attackLogic.GetHitNotificationType(attackResult, IsInBlockingStance(), m_MovementComponent.IsCrouching(), m_MovementComponent.IsFacingRight(), m_AttackComponent);
         }
+        Profiler.EndSample();
     }
 
     private bool CanParryAttack(PlayerBaseAttackLogic attackLogic)
@@ -324,7 +329,11 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private void OnDamageTaken(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
+        Profiler.BeginSample("PlayerHealthComponent.OnDamageTaken");
+
+#if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
+#endif
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 
         DamageTakenEventParameters damageTakenInfo = new DamageTakenEventParameters(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
@@ -346,10 +355,12 @@ public class PlayerHealthComponent : MonoBehaviour
         {
             OnDeath(attackLogic);
         }
+        Profiler.EndSample();
     }
 
     private void TriggerEffects(PlayerBaseAttackLogic attackLogic, uint damage, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
+        Profiler.BeginSample("PlayerHealthComponent.TriggerEffects");
         PlayerAttack attack = attackLogic.GetAttack();
         bool isDead = IsDead();
 
@@ -435,10 +446,13 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         TriggerHitFX(attackLogic, hitPoint, attackResult, hitNotificationType);
+
+        Profiler.EndSample();
     }
 
     private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
+        Profiler.BeginSample("PlayerHealthComponent.TriggerHitFX");
         List<GameObject> hitFXPrefabList = new List<GameObject>();
         attackLogic.GetHitFX(attackResult, hitNotificationType, ref hitFXPrefabList);
         if(hitFXPrefabList.Count > 0)
@@ -464,6 +478,8 @@ public class PlayerHealthComponent : MonoBehaviour
                 }
             }
         }
+
+        Profiler.EndSample();
     }
 
     private void TriggerHitStopShake(float duration)
