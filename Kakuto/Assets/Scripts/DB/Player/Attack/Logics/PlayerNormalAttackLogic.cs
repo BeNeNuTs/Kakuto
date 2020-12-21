@@ -279,7 +279,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
         return hitType;
     }
 
-    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
+    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<EHitFXType> hitFXList)
     {
         base.GetHitFX(attackResult, hitNotifType, ref hitFXList);
         if(hitFXList.Count == 0)
@@ -290,10 +290,10 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                     switch (m_Config.m_HitStrength)
                     {
                         case EHitStrength.Weak:
-                            hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.LightHit].m_FX);
+                            hitFXList.Add(EHitFXType.LightHit);
                             return;
                         case EHitStrength.Strong:
-                            hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.HeavyHit].m_FX);
+                            hitFXList.Add(EHitFXType.HeavyHit);
                             return;
                     }
                     break;

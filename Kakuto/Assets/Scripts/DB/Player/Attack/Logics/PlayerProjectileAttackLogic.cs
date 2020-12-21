@@ -182,14 +182,14 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         return hitType;
     }
 
-    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
+    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<EHitFXType> hitFXList)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
                 if (hitNotifType == EHitNotificationType.GuardCrush)
                 {
-                    hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.GuardCrush].m_FX);
+                    hitFXList.Add(EHitFXType.GuardCrush);
                 }
                 break;
         }

@@ -143,15 +143,15 @@ public class CharacterController2D : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (m_MovementConfig.m_DEBUG_DisplayOverlapCircle)
+        if (MovementConfig.Instance.m_DEBUG_DisplayOverlapCircle)
         {
-            Gizmos.DrawWireSphere(transform.position, m_MovementConfig.m_OverlapCircleRadius);
+            Gizmos.DrawWireSphere(transform.position, MovementConfig.Instance.m_OverlapCircleRadius);
         }
     }
 
     private void OnGUI()
     {
-        if (m_MovementConfig.m_DEBUG_DisplayVelocity && m_Rigidbody2D != null)
+        if (MovementConfig.Instance.m_DEBUG_DisplayVelocity && m_Rigidbody2D != null)
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
             GUI.Label(new Rect(screenPosition.x - 50f, Screen.height - screenPosition.y - (Screen.height / 2f) - 50f, 200f, 30f), "Velocity : " + m_Rigidbody2D.velocity);

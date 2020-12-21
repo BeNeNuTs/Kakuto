@@ -38,6 +38,8 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
 
+    private List<EHitFXType> m_HitFXTypeList = new List<EHitFXType>();
+
 #if UNITY_EDITOR || DEBUG_DISPLAY
     [Separator("Debug")]
     [Space]
@@ -453,9 +455,10 @@ public class PlayerHealthComponent : MonoBehaviour
     private void TriggerHitFX(PlayerBaseAttackLogic attackLogic, Vector3 hitPoint, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         Profiler.BeginSample("PlayerHealthComponent.TriggerHitFX");
-        List<GameObject> hitFXPrefabList = new List<GameObject>();
-        attackLogic.GetHitFX(attackResult, hitNotificationType, ref hitFXPrefabList);
-        if(hitFXPrefabList.Count > 0)
+
+        m_HitFXTypeList.Clear();
+        attackLogic.GetHitFX(attackResult, hitNotificationType, ref m_HitFXTypeList);
+        if (m_HitFXTypeList.Count > 0)
         {
             bool flipHitFX;
             Collider2D lastHitCollider = attackLogic.GetLastHitCollider();
@@ -469,13 +472,11 @@ public class PlayerHealthComponent : MonoBehaviour
                 flipHitFX = attackLogic.GetOwner().transform.position.x < transform.position.x;
             }
 
-            foreach (GameObject hitFXPrefab in hitFXPrefabList)
+            FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
+            int playerIndex = m_InfoComponent.GetPlayerIndex();
+            for (int i = 0; i < m_HitFXTypeList.Count; i++)
             {
-                GameObject hitFXInstance = Instantiate(hitFXPrefab, hitPoint, Quaternion.identity);
-                if (flipHitFX)
-                {
-                    hitFXInstance.transform.localScale = new Vector3(hitFXInstance.transform.localScale.x * -1f, hitFXInstance.transform.localScale.y, hitFXInstance.transform.localScale.z);
-                }
+                fxSubGameManager.SpawnHitFX(playerIndex, m_HitFXTypeList[i], hitPoint, Quaternion.identity, flipHitFX);
             }
         }
 

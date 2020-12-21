@@ -1510,10 +1510,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: SpawnFX
+    functionName: SpawnOtherFX
     data: 
-    objectReferenceParameter: {fileID: 1313311603478089952, guid: 2f4f31f56d9577840b9f00ccccc7bda2,
-      type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
+    intParameter: 3
     messageOptions: 0

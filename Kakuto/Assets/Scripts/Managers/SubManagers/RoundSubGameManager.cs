@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class RoundSubGameManager : SubGameManagerBase
@@ -17,9 +17,9 @@ public class RoundSubGameManager : SubGameManagerBase
     private static readonly string K_ROUND_WON_ANIM = "RoundWon";
     private static readonly string K_ROUND_LOST_ANIM = "RoundLost";
 
-    public static event UnityAction OnRoundVictoryCounterChanged;
-    public static event UnityAction OnRoundBegin;
-    public static event UnityAction OnRoundOver;
+    public static Action OnRoundVictoryCounterChanged;
+    public static Action OnRoundBegin;
+    public static Action OnRoundOver;
 
     private IEnumerator m_OnPlayerDeathCoroutine = null;
 

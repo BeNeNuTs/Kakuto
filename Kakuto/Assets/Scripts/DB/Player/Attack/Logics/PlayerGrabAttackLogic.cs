@@ -202,12 +202,12 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         return true;
     }
 
-    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
+    public override void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<EHitFXType> hitFXList)
     {
         base.GetHitFX(attackResult, hitNotifType, ref hitFXList);
         if(hitFXList.Count == 0)
         {
-            hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.HeavyHit].m_FX);
+            hitFXList.Add(EHitFXType.HeavyHit);
         }
     }
 }

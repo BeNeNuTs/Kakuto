@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public enum EStunType
 {
@@ -43,7 +43,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private bool m_CanIncreaseGaugeValue = true;
     private float m_CurrentGaugeValue = 0f;
     private float m_StabilizeGaugeCooldown = 0f;
-    public event UnityAction OnGaugeValueChanged;
+    public Action OnGaugeValueChanged;
 
     public PlayerStunInfoSubComponent(PlayerInfoComponent infoComponent, PlayerMovementComponent movementComp, Animator anim) : base(infoComponent.gameObject)
     {

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using System;
+using UnityEngine;
 
 public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 {
@@ -7,7 +7,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
     private PlayerInfoComponent m_InfoComponent;
 
-    public event UnityAction OnGaugeValueChanged;
+    public Action OnGaugeValueChanged;
 
     public PlayerSuperGaugeSubComponent(PlayerInfoComponent infoComp) : base(infoComp.gameObject)
     {

@@ -266,29 +266,29 @@ public class PlayerBaseAttackLogic
 
     }
 
-    public virtual void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<GameObject> hitFXList)
+    public virtual void GetHitFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref List<EHitFXType> hitFXList)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
                 if(hitNotifType == EHitNotificationType.Counter)
                 {
-                    hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Counter].m_FX);
+                    hitFXList.Add(EHitFXType.Counter);
                     return;
                 }
 
                 if(m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
                 {
-                    hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.SpecialHit].m_FX);
+                    hitFXList.Add(EHitFXType.SpecialHit);
                     return;
                 }
                 break;
             case EAttackResult.Blocked:
-                hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Block].m_FX);
+                hitFXList.Add(EHitFXType.Block);
                 return;
 
             case EAttackResult.Parried:
-                hitFXList.Add(AttackConfig.Instance.m_HitFX[(int)EHitFXType.Parry].m_FX);
+                hitFXList.Add(EHitFXType.Parry);
                 return;
         }
     }

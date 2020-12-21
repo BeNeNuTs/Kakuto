@@ -116,6 +116,7 @@ public class AttackConfig : ScriptableObject
     public float m_HitStopShakeAmount = 0.01f;
 
     public List<HitFX> m_HitFX;
+    public List<FX> m_OtherFX;
 
     public TimeScaleParams m_OnDeathTimeScaleParams;
     public CameraShakeParams m_OnDeathCamShakeParams;
@@ -136,6 +137,21 @@ public class AttackConfig : ScriptableObject
         while (m_HitFX.Count < HitFX.COUNT)
         {
             m_HitFX.Add(new HitFX((EHitFXType)m_HitFX.Count));
+        }
+
+        if (m_OtherFX == null)
+        {
+            m_OtherFX = new List<FX>();
+        }
+
+        while (m_OtherFX.Count > FX.COUNT)
+        {
+            m_OtherFX.RemoveAt(m_OtherFX.Count - 1);
+        }
+
+        while (m_OtherFX.Count < FX.COUNT)
+        {
+            m_OtherFX.Add(new FX((EFXType)m_OtherFX.Count));
         }
     }
 }

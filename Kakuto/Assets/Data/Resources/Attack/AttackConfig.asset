@@ -64,6 +64,17 @@ MonoBehaviour:
     m_FX: {fileID: 1313311603478089952, guid: 7d65dd97ed5a8bc43a615ad2e1f976c9, type: 3}
   - m_Name: SpecialHit
     m_FX: {fileID: 1313311603478089952, guid: 6d20520d9b8482345be837b91705284d, type: 3}
+  m_OtherFX:
+  - m_Name: ThrowTech
+    m_FX: {fileID: 1313311603478089952, guid: 20e642d7c1733d44cb560a73902daed9, type: 3}
+  - m_Name: Dash
+    m_FX: {fileID: 1313311603478089952, guid: b2dc246bf91e92243a8193a5fbde28f1, type: 3}
+  - m_Name: Jump
+    m_FX: {fileID: 1313311603478089952, guid: de976ce535e93e042b06d09fcfc6989d, type: 3}
+  - m_Name: Landing
+    m_FX: {fileID: 1313311603478089952, guid: 2f4f31f56d9577840b9f00ccccc7bda2, type: 3}
+  - m_Name: Teleport
+    m_FX: {fileID: 1313311603478089952, guid: 0f7fb3de824bc8c4bb3fecc094ae53a1, type: 3}
   m_OnDeathTimeScaleParams: {fileID: 11400000, guid: 676e15e67f8981f4daf38e3546fa2b58,
     type: 2}
   m_OnDeathCamShakeParams: {fileID: 11400000, guid: 4d128c1d48c006a40a51556b3ce6bd1c,

@@ -2,6 +2,7 @@
 
 public class PlayerAnimationEventHandler : MonoBehaviour
 {
+    public PlayerInfoComponent m_PlayerInfoComponent;
     public PlayerMovementComponent m_PlayerMovementComponent;
     public PlayerShadowComponent m_PlayerShadowComponent;
     public Rigidbody2D m_Rigidbody;
@@ -211,10 +212,16 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         m_Rigidbody.velocity = new Vector2(m_Rigidbody.velocity.x, yVelocity);
     }
 
-    public void SpawnFX(GameObject fx)
+    public void SpawnHitFX(EHitFXType hitFXType)
     {
-        GameObject fxInstance = Instantiate(fx, m_FXHook.transform.position, m_FXHook.transform.localRotation);
-        fxInstance.transform.localScale = m_FXHook.lossyScale;
+        FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
+        fxSubGameManager.SpawnHitFX(m_PlayerInfoComponent.GetPlayerIndex(), hitFXType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
+    }
+
+    public void SpawnOtherFX(EFXType fxType)
+    {
+        FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
+        fxSubGameManager.SpawnOtherFX(m_PlayerInfoComponent.GetPlayerIndex(), fxType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
     }
 
     public void DisplayShadow()

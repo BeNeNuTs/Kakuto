@@ -9,7 +9,8 @@ public enum ESubManager
     Round,
     OutOfBounds,
     CameraMultiTargets,
-    PlayerSpriteSortingOrder
+    PlayerSpriteSortingOrder,
+    FX
 }
 
 public abstract class SubGameManagerBase

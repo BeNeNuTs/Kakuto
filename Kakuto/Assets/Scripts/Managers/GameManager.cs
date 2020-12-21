@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,8 +8,8 @@ public class GameManager : Singleton<GameManager>
 
     private List<GameObject> m_Players = new List<GameObject>();
 
-    private static event UnityAction<GameObject> OnPlayer1Registered;
-    private static event UnityAction<GameObject> OnPlayer2Registered;
+    private static Action<GameObject> OnPlayer1Registered;
+    private static Action<GameObject> OnPlayer2Registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
@@ -45,7 +44,8 @@ public class GameManager : Singleton<GameManager>
             { ESubManager.Round, new RoundSubGameManager() },
             { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() },
             { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() },
-            { ESubManager.PlayerSpriteSortingOrder, new PlayerSpriteSortingOrderSubGameManager() }
+            { ESubManager.PlayerSpriteSortingOrder, new PlayerSpriteSortingOrderSubGameManager() },
+            { ESubManager.FX, new FXSubGameManager() }
         };
     }
 
@@ -139,7 +139,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void AddOnPlayerRegisteredCallback(UnityAction<GameObject> method, EPlayer player)
+    public void AddOnPlayerRegisteredCallback(Action<GameObject> method, EPlayer player)
     {
         GetOnPlayerRegisteredCallback(player) += method;
 
@@ -150,17 +150,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void RemoveOnPlayerRegisteredCallback(UnityAction<GameObject> method, EPlayer player)
+    public void RemoveOnPlayerRegisteredCallback(Action<GameObject> method, EPlayer player)
     {
         GetOnPlayerRegisteredCallback(player) -= method;
     }
 
-    private ref UnityAction<GameObject> GetOnPlayerRegisteredCallback(EPlayer player)
+    private ref Action<GameObject> GetOnPlayerRegisteredCallback(EPlayer player)
     {
         return ref GetOnPlayerRegisteredCallback(player.ToString());
     }
 
-    private ref UnityAction<GameObject> GetOnPlayerRegisteredCallback(string playerTag)
+    private ref Action<GameObject> GetOnPlayerRegisteredCallback(string playerTag)
     {
         if (playerTag.CompareTo(Player.Player1) == 0)
         {
