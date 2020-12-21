@@ -35,6 +35,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private Animator m_Anim;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
+    private TimeScaleSubGameManager m_TimeScaleManager;
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
 
@@ -58,6 +59,8 @@ public class PlayerHealthComponent : MonoBehaviour
         m_Anim = GetComponentInChildren<Animator>();
 
         m_StunInfoSC = new PlayerStunInfoSubComponent(m_InfoComponent, m_MovementComponent, m_Anim);
+
+        m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
 
         RegisterListeners();
     }
@@ -425,7 +428,7 @@ public class PlayerHealthComponent : MonoBehaviour
         if(timeScaleParams != null)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "StartTimeScale - Amount: " + timeScaleParams.m_TimeScaleAmount + " Duration: " + timeScaleParams.m_TimeScaleDuration);
-            TimeManager.StartTimeScale(timeScaleParams);
+            m_TimeScaleManager.StartTimeScale(timeScaleParams);
             if (timeScaleParams.m_TimeScaleAmount == 0f)
             {
                 TriggerHitStopShake(timeScaleParams.m_TimeScaleDuration);

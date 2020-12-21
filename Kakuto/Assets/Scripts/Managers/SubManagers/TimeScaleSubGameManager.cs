@@ -1,23 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class TimeManager : MonoBehaviour
+public class TimeScaleSubGameManager : SubGameManagerBase
 {
-    private static TimeManager m_Instance = null;
-    public static TimeManager Instance
-    {
-        get
-        {
-            if (m_Instance == null)
-            {
-                GameObject go = new GameObject();
-                m_Instance = go.AddComponent<TimeManager>();
-                go.name = "_TimeManager";
-            }
-            return m_Instance;
-        }
-    }
-
     private static float K_DEFAULT_FIXED_DELTA_TIME = Time.fixedDeltaTime;
 
     bool m_TimeIsFrozen = false;
@@ -26,7 +10,7 @@ public class TimeManager : MonoBehaviour
     float m_TimeScaleDuration = 2f;
     ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
 
-    void Update()
+    public override void Update()
     {
         if (m_TimeScaleInProgress)
         {
@@ -52,26 +36,26 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public static void StartTimeScale(TimeScaleParams timeScaleParams)
+    public void StartTimeScale(TimeScaleParams timeScaleParams)
     {
-        if(!Instance.m_TimeIsFrozen)
+        if(!m_TimeIsFrozen)
         {
             Time.timeScale = timeScaleParams.m_TimeScaleAmount;
             Time.fixedDeltaTime = Time.timeScale * K_DEFAULT_FIXED_DELTA_TIME;
-            Instance.m_TimeScaleDuration = timeScaleParams.m_TimeScaleDuration;
-            Instance.m_TimeScaleBackToNormal = timeScaleParams.m_TimeScaleBackToNormal;
-            Instance.m_TimeScaleTimeStamp = Time.unscaledTime;
-            Instance.m_TimeScaleInProgress = true;
+            m_TimeScaleDuration = timeScaleParams.m_TimeScaleDuration;
+            m_TimeScaleBackToNormal = timeScaleParams.m_TimeScaleBackToNormal;
+            m_TimeScaleTimeStamp = Time.unscaledTime;
+            m_TimeScaleInProgress = true;
         }
     }
 
-    public static void FreezeTime(Animator unscaledTimeAnimator = null)
+    public void FreezeTime(Animator unscaledTimeAnimator = null)
     {
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
-        Instance.m_TimeIsFrozen = true;
+        m_TimeIsFrozen = true;
 
-        Instance.m_TimeScaleInProgress = false; // stop time scale in progress
+        m_TimeScaleInProgress = false; // stop time scale in progress
 
         if(unscaledTimeAnimator != null)
         {
@@ -79,11 +63,11 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public static void UnfreezeTime(Animator unscaledTimeAnimator = null)
+    public void UnfreezeTime(Animator unscaledTimeAnimator = null)
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = K_DEFAULT_FIXED_DELTA_TIME;
-        Instance.m_TimeIsFrozen = false;
+        m_TimeIsFrozen = false;
 
         if (unscaledTimeAnimator != null)
         {

@@ -15,10 +15,12 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     private SpriteRenderer m_UIBackgroundMaskDetail;
 
     private BaseAttackStateMachineBehaviour m_CurrentAttack;
+    private TimeScaleSubGameManager m_TimeScaleManager;
 
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
+        m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
 
         m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
         m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
@@ -138,13 +140,13 @@ public class PlayerAnimationEventHandler : MonoBehaviour
     public void FreezeTime()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Freeze time");
-        TimeManager.FreezeTime(m_Animator);
+        m_TimeScaleManager.FreezeTime(m_Animator);
     }
 
     public void UnfreezeTime()
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unfreeze time");
-        TimeManager.UnfreezeTime(m_Animator);
+        m_TimeScaleManager.UnfreezeTime(m_Animator);
     }
 
     public void TriggerBackgroundEffect(BackgroundEffectAnimEventConfig backgroundEffectConfig)

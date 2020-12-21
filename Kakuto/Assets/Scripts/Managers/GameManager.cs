@@ -19,6 +19,14 @@ public class GameManager : Singleton<GameManager>
         gameManager.InitSubManagers();
     }
 
+    private void Update()
+    {
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        {
+            subManager.Update();
+        }
+    }
+
     private void LateUpdate()
     {
         foreach (SubGameManagerBase subManager in m_SubManagers.Values)
@@ -45,7 +53,8 @@ public class GameManager : Singleton<GameManager>
             { ESubManager.OutOfBounds, new OutOfBoundsSubGameManager() },
             { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() },
             { ESubManager.PlayerSpriteSortingOrder, new PlayerSpriteSortingOrderSubGameManager() },
-            { ESubManager.FX, new FXSubGameManager() }
+            { ESubManager.FX, new FXSubGameManager() },
+            { ESubManager.TimeScale, new TimeScaleSubGameManager() }
         };
     }
 

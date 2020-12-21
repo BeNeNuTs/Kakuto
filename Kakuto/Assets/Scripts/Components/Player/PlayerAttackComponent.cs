@@ -644,16 +644,17 @@ public class PlayerAttackComponent : MonoBehaviour
 
     void DisableAllHitBoxes()
     {
-        if(m_HitBoxes.Count == 0)
+        int hitBoxCount = m_HitBoxes.Count;
+        if (hitBoxCount == 0)
         {
             Debug.LogError("HitBoxes have not been initialized.");
         }
 
-        foreach(Collider2D hitBox in m_HitBoxes)
+        for(int i = 0; i < hitBoxCount; i++)
         {
-            if(hitBox != null)
+            if(m_HitBoxes[i] != null)
             {
-                hitBox.enabled = false;
+                m_HitBoxes[i].enabled = false;
             }   
         }
     }

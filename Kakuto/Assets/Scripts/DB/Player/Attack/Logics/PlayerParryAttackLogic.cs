@@ -12,12 +12,14 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
     private static readonly string K_PARRY_COUNTER_ANIM = "ParryCounterAttack";
 
     private readonly PlayerParryAttackConfig m_Config;
+    private readonly TimeScaleSubGameManager m_TimeScaleManager;
 
     private EParryState m_ParryState = EParryState.None;
 
     public PlayerParryAttackLogic(PlayerParryAttackConfig config)
     {
         m_Config = config;
+        m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
     }
 
     public override void OnAttackLaunched()
@@ -39,7 +41,7 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         if (m_ParryState == EParryState.Counter)
         {
             ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "ParrySuccess: Unreeze time");
-            TimeManager.UnfreezeTime(m_Animator);
+            m_TimeScaleManager.UnfreezeTime(m_Animator);
         }
         m_ParryState = EParryState.None;
 
@@ -65,8 +67,7 @@ public class PlayerParryAttackLogic : PlayerBaseAttackLogic
         m_Animator.Play(K_PARRY_COUNTER_ANIM, 0, 0);
 
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Attack, "ParrySuccess: Freeze time");
-        TimeManager.FreezeTime(m_Animator);
-
+        m_TimeScaleManager.FreezeTime(m_Animator);
     }
 
     void OnEndOfParry(BaseEventParameters baseParams)

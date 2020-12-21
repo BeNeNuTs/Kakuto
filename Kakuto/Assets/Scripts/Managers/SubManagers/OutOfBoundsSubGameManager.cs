@@ -24,8 +24,6 @@ public class OutOfBoundsSubGameManager : SubGameManagerBase
 
     public override void LateUpdate()
     {
-        base.LateUpdate();
-
         foreach (GameObject player in GameManager.Instance.GetPlayers())
         {
             Vector3 playerPos = player.transform.root.position;
