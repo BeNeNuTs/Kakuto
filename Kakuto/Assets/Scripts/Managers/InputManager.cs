@@ -53,12 +53,12 @@ public static class InputManager
         return isCrouching;
     }
 
-    public static List<GameInput> GetAttackInputList(int playerIndex, bool isLeftSide)
+    public static void GetAttackInputList(int playerIndex, bool isLeftSide, ref List<GameInput> attackInputs)
     {
-        List<GameInput> gameInputList = new List<GameInput>();
+        attackInputs.Clear();
         if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
-            gameInputList = GamePadManager.GetAttackInputList(playerIndex, isLeftSide);
+            GamePadManager.GetAttackInputList(playerIndex, isLeftSide, ref attackInputs);
         }
         else
         {
@@ -69,27 +69,27 @@ public static class InputManager
 
             if(isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
             {
-                gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Left : EInputKey.Right));
+                attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.Left : EInputKey.Right));
             }
 
             if (isRightKeyDown && !isUpKeyDown && !isDownKeyDown)
             {
-                gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Right : EInputKey.Left));
+                attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.Right : EInputKey.Left));
             }
 
             if (isUpKeyDown)
             {
                 if(isLeftKeyDown)
                 {
-                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpLeft : EInputKey.UpRight));
+                    attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.UpLeft : EInputKey.UpRight));
                 }
                 else if(isRightKeyDown)
                 {
-                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpRight : EInputKey.UpLeft));
+                    attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.UpRight : EInputKey.UpLeft));
                 }
                 else
                 {
-                    gameInputList.Add(new GameInput(EInputKey.Up));
+                    attackInputs.Add(new GameInput(EInputKey.Up));
                 }
             }
 
@@ -97,25 +97,23 @@ public static class InputManager
             {
                 if (isLeftKeyDown)
                 {
-                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownLeft : EInputKey.DownRight));
+                    attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.DownLeft : EInputKey.DownRight));
                 }
                 else if (isRightKeyDown)
                 {
-                    gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownRight : EInputKey.DownLeft));
+                    attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.DownRight : EInputKey.DownLeft));
                 }
                 else
                 {
-                    gameInputList.Add(new GameInput(EInputKey.Down));
+                    attackInputs.Add(new GameInput(EInputKey.Down));
                 }
             }
 
             foreach(char c in Input.inputString)
             {
-                gameInputList.Add(new GameInput(c.ToString().ToUpper()));
+                attackInputs.Add(new GameInput(c.ToString().ToUpper()));
             }
         }
-
-        return gameInputList;
     }
 
     public static bool GetStartInput()

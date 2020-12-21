@@ -25,6 +25,7 @@ public class PlayerAttackComponent : MonoBehaviour
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
 
+    private List<GameInput> m_AttackInputs = new List<GameInput>();
     private List<TriggeredGameInput> m_TriggeredInputsList;
     private string m_TriggeredInputsString;
 
@@ -170,37 +171,39 @@ public class PlayerAttackComponent : MonoBehaviour
         Profiler.BeginSample("PlayerAttackComponent.UpdateTriggerInputsList");
         int currentFrame = Time.frameCount;
 
-        List<GameInput> attackInputs = InputManager.GetAttackInputList(m_InfoComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide());
+        InputManager.GetAttackInputList(m_InfoComponent.GetPlayerIndex(), m_MovementComponent.IsLeftSide(), ref m_AttackInputs);
 
+        int attackInputsCount = m_AttackInputs.Count;
+        int triggeredInputsCount = m_TriggeredInputsList.Count;
         // If there is new inputs
-        if (attackInputs.Count > 0) 
+        if (attackInputsCount > 0) 
         {
-            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "New attack inputs : " + attackInputs.ToStringList());
-            if(m_TriggeredInputsList.Count > 0)
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "New attack inputs : " + m_AttackInputs.ToStringList());
+            if(triggeredInputsCount > 0)
             {
                 ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, "Adding input frame persistency bonus (" + m_AttackConfig.InputFramesPersistencyBonus + ") to current attack inputs : " + m_TriggeredInputsList.ToStringList());
             }
 
             // We need to add persistency bonus to the previous ones
-            foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+            for (int i = 0; i < triggeredInputsCount; i++)
             {
-                triggeredInput.AddPersistency(m_AttackConfig.InputFramesPersistencyBonus);
+                m_TriggeredInputsList[i].AddPersistency(m_AttackConfig.InputFramesPersistencyBonus);
             }
         }
 
         if(IsPlayerTimeFrozen())
         {
             // If time is frozen, notify previous inputs
-            foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+            for (int i = 0; i < triggeredInputsCount; i++)
             {
-                triggeredInput.OnTimeFreeze();
+                m_TriggeredInputsList[i].OnTimeFreeze();
             }
         }
         
         // Then add those new inputs in the list with the default persistency
-        foreach (GameInput input in attackInputs)
+        for(int i = 0; i < attackInputsCount; i++)
         {
-            m_TriggeredInputsList.Add(new TriggeredGameInput(input, currentFrame));
+            m_TriggeredInputsList.Add(new TriggeredGameInput(m_AttackInputs[i], currentFrame));
         }
 
         // Remove those which exceeds max allowed inputs
@@ -216,12 +219,12 @@ public class PlayerAttackComponent : MonoBehaviour
         // Also remove those which have their persistency elapsed
         int triggeredInputsElapsedCount = m_TriggeredInputsList.RemoveAll(input => input.IsElapsed(currentFrame));
 
-        if (attackInputs.Count > 0)
+        if (attackInputsCount > 0)
         {
             m_FramesToWaitBeforeEvaluatingAttacks = m_AttackConfig.FramesToWaitBeforeEvaluatingAttacks;
         }
 
-        if(triggeredInputsElapsedCount > 0 || attackInputs.Count > 0)
+        if(triggeredInputsElapsedCount > 0 || attackInputsCount > 0)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Input, m_TriggeredInputsList.Count == 0 ? "No more attack input" : "Current attack inputs : " + m_TriggeredInputsList.ToStringList());
         }
@@ -232,9 +235,9 @@ public class PlayerAttackComponent : MonoBehaviour
     void UpdateTriggerInputsString()
     {
         m_TriggeredInputsString = string.Empty;
-        foreach (TriggeredGameInput triggeredInput in m_TriggeredInputsList)
+        for (int i = 0; i < m_TriggeredInputsList.Count; i++)
         {
-            m_TriggeredInputsString += triggeredInput.GetInputString();
+            m_TriggeredInputsString += m_TriggeredInputsList[i].GetInputString();
         }
     }
 

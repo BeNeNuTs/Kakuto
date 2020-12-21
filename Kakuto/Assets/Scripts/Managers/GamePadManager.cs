@@ -45,13 +45,11 @@ public static class GamePadManager
         return (m_PlayerGamePads[playerIndex].m_LastYAxis < 0f);
     }
 
-    public static List<GameInput> GetAttackInputList(int playerIndex, bool isLeftSide)
+    public static void GetAttackInputList(int playerIndex, bool isLeftSide, ref List<GameInput> attackInputs)
     {
         Profiler.BeginSample("GamePadManager.GetAttackInputList");
 
         Update(playerIndex);
-
-        List<GameInput> gameInputList = new List<GameInput>();
 
         if (m_PlayerGamePads[playerIndex].IsGamePadIndexValid())
         {
@@ -62,28 +60,28 @@ public static class GamePadManager
                     switch (m_PlayerGamePads[playerIndex].m_CurrentDirection)
                     {
                         case EDirection.Down:
-                            gameInputList.Add(new GameInput(EInputKey.Down));
+                            attackInputs.Add(new GameInput(EInputKey.Down));
                             break;
                         case EDirection.DownRight:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownRight : EInputKey.DownLeft));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.DownRight : EInputKey.DownLeft));
                             break;
                         case EDirection.Right:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Right : EInputKey.Left));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.Right : EInputKey.Left));
                             break;
                         case EDirection.UpRight:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpRight : EInputKey.UpLeft));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.UpRight : EInputKey.UpLeft));
                             break;
                         case EDirection.Up:
-                            gameInputList.Add(new GameInput(EInputKey.Up));
+                            attackInputs.Add(new GameInput(EInputKey.Up));
                             break;
                         case EDirection.UpLeft:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.UpLeft : EInputKey.UpRight));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.UpLeft : EInputKey.UpRight));
                             break;
                         case EDirection.Left:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.Left : EInputKey.Right));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.Left : EInputKey.Right));
                             break;
                         case EDirection.DownLeft:
-                            gameInputList.Add(new GameInput((isLeftSide) ? EInputKey.DownLeft : EInputKey.DownRight));
+                            attackInputs.Add(new GameInput((isLeftSide) ? EInputKey.DownLeft : EInputKey.DownRight));
                             break;
                         default:
                             break;
@@ -94,13 +92,11 @@ public static class GamePadManager
             List<EInputKey> inputKeysDown = m_PlayerGamePads[playerIndex].GetInputKeysDown();
             foreach (EInputKey inputKey in inputKeysDown)
             {
-                gameInputList.Add(new GameInput(inputKey));
+                attackInputs.Add(new GameInput(inputKey));
             }
         }
 
         Profiler.EndSample();
-
-        return gameInputList;
     }
 
     public static bool GetAnyPlayerStartInput()

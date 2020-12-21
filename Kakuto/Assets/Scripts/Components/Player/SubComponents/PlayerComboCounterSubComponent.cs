@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using System;
+using UnityEngine;
 
 public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 {
     private uint m_ComboCounter = 0;
 
-    public event UnityAction OnHitCounterChanged;
+    public Action OnHitCounterChanged;
 
     public PlayerComboCounterSubComponent(GameObject owner) : base(owner)
     {
