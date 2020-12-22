@@ -13,6 +13,7 @@ public class PlayerAttackComponent : MonoBehaviour
 {
     private int K_HITBOXLAYER = 0;
     private int K_GRABOXLAYER = 0;
+    private int K_PROXIMITYBOXLAYER = 0;
 
     public PlayerAttacksConfig m_AttacksConfig;
     private List<PlayerBaseAttackLogic> m_AttackLogics;
@@ -57,6 +58,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         K_HITBOXLAYER = LayerMask.NameToLayer("HitBox");
         K_GRABOXLAYER = LayerMask.NameToLayer("GrabBox");
+        K_PROXIMITYBOXLAYER = LayerMask.NameToLayer("ProximityBox");
 
         m_AttackConfig = AttackConfig.Instance;
 
@@ -635,7 +637,7 @@ public class PlayerAttackComponent : MonoBehaviour
         foreach (Collider2D collider in allColliders)
         {
             colliderLayer = collider.gameObject.layer;
-            if (colliderLayer == K_HITBOXLAYER || colliderLayer == K_GRABOXLAYER)
+            if (colliderLayer == K_HITBOXLAYER || colliderLayer == K_GRABOXLAYER || colliderLayer == K_PROXIMITYBOXLAYER)
             {
                 m_HitBoxes.Add(collider);
             }

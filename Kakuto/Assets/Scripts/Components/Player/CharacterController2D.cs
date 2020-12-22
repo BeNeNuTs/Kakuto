@@ -29,6 +29,8 @@ public class CharacterController2D : MonoBehaviour
     private bool m_MovingRight;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
+    private PlayerProximityGuardSubComponent m_ProximityGuardSC;
+
 
     public Action<bool> OnJumpEvent;
     public Action OnDirectionChangedEvent;
@@ -47,7 +49,9 @@ public class CharacterController2D : MonoBehaviour
 
     private void Start()
     {
-        m_StunInfoSC = GetComponent<PlayerHealthComponent>().GetStunInfoSubComponent();
+        PlayerHealthComponent playerHealthComponent = GetComponent<PlayerHealthComponent>();
+        m_StunInfoSC = playerHealthComponent.GetStunInfoSubComponent();
+        m_ProximityGuardSC = playerHealthComponent.GetProximityGuardSubComponent();
     }
 
     private void FixedUpdate()
@@ -176,8 +180,7 @@ public class CharacterController2D : MonoBehaviour
             m_CharacterIsJumping = true;
         }
 
-        //only control the player if grounded or airControl is turned on
-        if ((m_Grounded && !m_CharacterIsJumping) || m_ControllerConfig.m_AirControl)
+        if (CanMove())
         {
             if(m_Grounded && !m_CharacterIsJumping)
             {
@@ -217,6 +220,17 @@ public class CharacterController2D : MonoBehaviour
                 OnDirectionChanged();
             }
         }
+    }
+
+    private bool CanMove()
+    {
+        // Only control the player if grounded or airControl is turned on
+        if ((m_Grounded && !m_CharacterIsJumping) || m_ControllerConfig.m_AirControl)
+        {
+            return !m_ProximityGuardSC.IsInProximityGuard();
+        }
+
+        return false;
     }
 
     private float GetWalkSpeed(float move, EJumpPhase jumpPhase)

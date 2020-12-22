@@ -95,20 +95,24 @@ public class ProjectileComponent : MonoBehaviour
         {
             if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
             {
-                if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+#if UNITY_EDITOR || DEBUG_DISPLAY
+                if (!collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    if (m_Logic != null)
+                    Debug.LogError("Projectile has collided with something else than HurtBox !");
+                }
+#endif
+
+                if (m_Logic != null)
+                {
+                    m_Logic.OnHandleCollision(true, true, m_Collider, collision);
+                    if(m_Config.m_ApplyConstantSpeedOnPlayerHit)
                     {
-                        m_Logic.OnHandleCollision(true, true, m_Collider, collision);
-                        if(m_Config.m_ApplyConstantSpeedOnPlayerHit)
-                        {
-                            m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
-                        }
+                        m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
+                    }
                         
-                        if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
-                        {
-                            RequestProjectileDestruction();
-                        }
+                    if (m_Logic.GetCurrentHitCount() >= m_Logic.GetMaxHitCount())
+                    {
+                        RequestProjectileDestruction();
                     }
                 }
             }

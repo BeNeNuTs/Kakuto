@@ -189,10 +189,14 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
         {
             if (collision.collider.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
             {
-                if (collision.collider.GetComponent<PlayerPushBoxHandler>())
+
+#if UNITY_EDITOR || DEBUG_DISPLAY
+                if (!collision.gameObject.GetComponent<PlayerPushBoxHandler>())
                 {
-                    m_CurrentAttack.OnHandlePushBoxCollision(collision);
+                    Debug.LogError("PushBox has collided with something else than PushBox !");
                 }
+#endif
+                m_CurrentAttack.OnHandlePushBoxCollision(collision);
             }
         }
     }

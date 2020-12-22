@@ -69,14 +69,13 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
         {
             if (collision.CompareTag(Utils.GetEnemyTag(gameObject)) && collision.gameObject != gameObject)
             {
-                if (collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
+#if UNITY_EDITOR || DEBUG_DISPLAY
+                if (!collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    m_CurrentAttack.OnHandleCollision(true, true, m_Collider, collision);
-                    if (m_CurrentAttack.GetCurrentHitCount() >= m_CurrentAttack.GetMaxHitCount())
-                    {
-                        m_Collider.enabled = false;
-                    }
+                    Debug.LogError("HitBox has collided with something else than HurtBox !");
                 }
+#endif
+                m_CurrentAttack.OnHandleCollision(true, true, m_Collider, collision);
             }
         }
     }

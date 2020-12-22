@@ -35,6 +35,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private Animator m_Anim;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
+    private PlayerProximityGuardSubComponent m_ProximityGuardSubComponent;
     private TimeScaleSubGameManager m_TimeScaleManager;
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
@@ -59,6 +60,7 @@ public class PlayerHealthComponent : MonoBehaviour
         m_Anim = GetComponentInChildren<Animator>();
 
         m_StunInfoSC = new PlayerStunInfoSubComponent(m_InfoComponent, m_MovementComponent, m_Anim);
+        m_ProximityGuardSubComponent = new PlayerProximityGuardSubComponent(this, m_MovementComponent, m_Anim);
 
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
 
@@ -79,6 +81,7 @@ public class PlayerHealthComponent : MonoBehaviour
     {
         UnregisterListeners();
         m_StunInfoSC.OnDestroy();
+        m_ProximityGuardSubComponent.OnDestroy();
     }
 
     void UnregisterListeners()
@@ -99,6 +102,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         m_StunInfoSC.Update();
+        m_ProximityGuardSubComponent.Update();
     }
 
     public bool IsDead()
@@ -290,7 +294,7 @@ public class PlayerHealthComponent : MonoBehaviour
         return canBlockAttack;
     }
 
-    private bool IsInBlockingStance()
+    public bool IsInBlockingStance()
     {
         if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks)
         {
@@ -579,6 +583,11 @@ public class PlayerHealthComponent : MonoBehaviour
     public PlayerStunInfoSubComponent GetStunInfoSubComponent()
     {
         return m_StunInfoSC;
+    }
+
+    public PlayerProximityGuardSubComponent GetProximityGuardSubComponent()
+    {
+        return m_ProximityGuardSubComponent;
     }
 
     private void DisplayDamageTakenUI(uint damage)

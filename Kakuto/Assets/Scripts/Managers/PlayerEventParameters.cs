@@ -217,6 +217,18 @@ public class StunEndEventParameters : StunEventParameters
 
     public override EPlayerEvent GetEventType() { return EPlayerEvent.StunEnd; }
 }
+
+public class ProximityBoxParameters : BaseEventParameters
+{
+    public bool m_OnEnter = false;
+
+    public ProximityBoxParameters(bool onEnter)
+    {
+        m_OnEnter = onEnter;
+    }
+
+    public override EPlayerEvent GetEventType() { return EPlayerEvent.ProximityBox; }
+}
 #endregion
 
 #region MOVEMENT
