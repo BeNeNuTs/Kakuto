@@ -37,6 +37,7 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
     {
         ProximityBoxParameters proximityBoxParameters = (ProximityBoxParameters)baseEventParameters;
         m_IsInsideProximityBox = proximityBoxParameters.m_OnEnter;
+        ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Proximity, "Is inside proximity box: " + m_IsInsideProximityBox);
         UpdateProximityGuard();
     }
 
@@ -47,7 +48,8 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
 
         if(wasInProximityGuard != m_IsInProximityGuard)
         {
-            if(m_IsInProximityGuard)
+            ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Proximity, (m_IsInProximityGuard) ? "Trigger" : "End" + " proximity guard");
+            if (m_IsInProximityGuard)
             {
                 TriggerProximityGuard();
             }

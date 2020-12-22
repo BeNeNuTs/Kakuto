@@ -9,13 +9,14 @@ public enum EChronicleCategory
     Health,
     Stun,
     Animation,
-    Input
+    Input,
+    Proximity
     // If new category, please update K_ChronicleCategory_Count and ChronicleConfig
 }
 
 public static class ChronicleManager
 {
-    public static uint K_ChronicleCategory_Count = 7;
+    public static uint K_ChronicleCategory_Count = 8;
 
     private static TextWriter m_WriterP1;
     private static TextWriter m_WriterP2;
