@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimeScaleSubGameManager : SubGameManagerBase
 {
@@ -9,6 +10,11 @@ public class TimeScaleSubGameManager : SubGameManagerBase
     float m_TimeScaleTimeStamp = 0f;
     float m_TimeScaleDuration = 2f;
     ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
+
+    public override void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    {
+        UnfreezeTime();
+    }
 
     public override void Update()
     {

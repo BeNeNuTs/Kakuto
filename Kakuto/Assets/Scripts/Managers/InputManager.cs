@@ -116,16 +116,17 @@ public static class InputManager
         }
     }
 
-    public static bool GetStartInput()
+    public static bool GetStartInput(out EPlayer startInputPlayer)
     {
         bool startInput = false;
         if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
-            startInput = GamePadManager.GetAnyPlayerStartInput();
+            startInput = GamePadManager.GetAnyPlayerStartInput(out startInputPlayer);
         }
         else
         {
             startInput = Input.GetKey(KeyCode.Return);
+            startInputPlayer = EPlayer.Player1;
         }
         return startInput;
     }

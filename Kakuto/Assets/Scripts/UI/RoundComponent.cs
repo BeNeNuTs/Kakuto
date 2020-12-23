@@ -20,7 +20,7 @@ public class RoundComponent : MonoBehaviour
         RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
         RoundSubGameManager.OnRoundBegin += OnRoundBegin;
 
-        m_InitTimestamp = Time.unscaledTime;
+        m_InitTimestamp = Time.time;
         UpdateRemainingTimeText();
         UpdateVictoryCounters();
     }
@@ -33,7 +33,7 @@ public class RoundComponent : MonoBehaviour
 
     void OnRoundBegin()
     {
-        m_InitTimestamp = Time.unscaledTime;
+        m_InitTimestamp = Time.time;
         UpdateRemainingTimeText();
     }
 
@@ -57,7 +57,7 @@ public class RoundComponent : MonoBehaviour
 
     void UpdateRemainingTimeText()
     {
-        m_RemaningTime = (uint)Mathf.Max(0f, GameConfig.Instance.m_RoundDuration - (Time.unscaledTime - m_InitTimestamp));
+        m_RemaningTime = (uint)Mathf.Max(0f, GameConfig.Instance.m_RoundDuration - (Time.time - m_InitTimestamp));
         m_TimerText.SetText(m_RemaningTime.ToString());
     }
 

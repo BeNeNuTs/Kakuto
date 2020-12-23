@@ -17,6 +17,7 @@ public class RoundSubGameManager : SubGameManagerBase
     private static readonly string K_ROUND_WON_ANIM = "RoundWon";
     private static readonly string K_ROUND_LOST_ANIM = "RoundLost";
 
+    public Scene m_RoundScene;
     public static Action OnRoundVictoryCounterChanged;
     public static Action OnRoundBegin;
     public static Action OnRoundOver;
@@ -47,15 +48,27 @@ public class RoundSubGameManager : SubGameManagerBase
         Utils.GetPlayerEventManager(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
+    public override void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    {
+        if(m_RoundScene != newScene)
+        {
+            ResetPlayersRoundVictoryCounter();
+            ResetPlayersSuperGaugeValues();
+
+            m_RoundIsBegin = false;
+            m_RoundIsOver = false;
+        }
+    }
+
     public override void OnPlayersRegistered()
     {
-        base.OnPlayersRegistered();
         foreach(GameObject player in GameManager.Instance.GetPlayers())
         {
             EnablePlayer(player, false);
             player.GetComponentInChildren<Animator>().Play(K_ROUND_ENTRY_ANIM, 0, 0);
         }
 
+        m_RoundScene = SceneManager.GetActiveScene();
         GameManager.Instance.StartCoroutine(OnRoundBegin_Internal());
     }
 

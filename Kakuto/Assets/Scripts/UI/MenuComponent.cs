@@ -5,17 +5,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuComponent : MonoBehaviour
+public abstract class MenuComponent : MonoBehaviour
 {
-    enum EMenuState
-    {
-        TitleScreen,
-        MainMenu,
-        Options
-    }
-
     [Serializable]
-    struct MenuData
+    protected struct MenuData
     {
 #pragma warning disable 0649
         public UnityEngine.Object[] m_ObjectsToDisable;
@@ -26,41 +19,9 @@ public class MenuComponent : MonoBehaviour
 #pragma warning restore 0649
     }
 
-#pragma warning disable 0649
-    [SerializeField] private MenuData m_GoToMainMenuData;
-    [SerializeField] private MenuData m_GoToOptionsData;
-#pragma warning restore 0649
-
-    private EMenuState m_MenuState = EMenuState.TitleScreen;
     private Button m_CurrentHighlightedButton;
 
-    private void Update()
-    {
-        UpdateCursorVisiblity();
-
-        switch (m_MenuState)
-        {
-            case EMenuState.TitleScreen:
-                if(InputManager.GetStartInput())
-                {
-                    GoToMainMenu();
-                }
-                break;
-
-            case EMenuState.MainMenu:
-                UpdateHighlightedButton(m_GoToMainMenuData);
-                break;
-            case EMenuState.Options:
-                UpdateHighlightedButton(m_GoToOptionsData);
-                if (InputManager.GetBackInput())
-                {
-                    GoToMainMenu();
-                }
-                break;
-        }
-    }
-
-    private void UpdateCursorVisiblity()
+    protected void UpdateCursorVisiblity()
     {
         if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
@@ -74,7 +35,7 @@ public class MenuComponent : MonoBehaviour
         }
     }
 
-    private void UpdateHighlightedButton(MenuData menuData)
+    protected void UpdateHighlightedButton(MenuData menuData)
     {
         GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
         if(selectedGO != null)
@@ -99,29 +60,20 @@ public class MenuComponent : MonoBehaviour
         }
     }
 
-    private void GoToMenu(MenuData data)
+    protected void GoToMenu(MenuData data, bool invert = false)
     {
-        SetActive(data.m_ObjectsToDisable, false);
-        SetActive(data.m_ObjectsToEnable, true);
+        SetActive(data.m_ObjectsToDisable, (invert) ? true : false);
+        SetActive(data.m_ObjectsToEnable, (invert) ? false : true);
 
-        data.m_DefaultHighlightedButton.Select();
+        if(!invert)
+        {
+            data.m_DefaultHighlightedButton.Select();
+        }
     }
 
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
-
-    public void GoToMainMenu()
-    {
-        GoToMenu(m_GoToMainMenuData);
-        m_MenuState = EMenuState.MainMenu;
-    }
-
-    public void GoToOptionsMenu()
-    {
-        GoToMenu(m_GoToOptionsData);
-        m_MenuState = EMenuState.Options;
     }
 
     public void QuitGame()
@@ -133,7 +85,7 @@ public class MenuComponent : MonoBehaviour
 #endif
     }
 
-    private void SetActive(UnityEngine.Object[] objs, bool active)
+    protected void SetActive(UnityEngine.Object[] objs, bool active)
     {
         if (objs != null)
         {
@@ -144,7 +96,7 @@ public class MenuComponent : MonoBehaviour
         }
     }
 
-    private void SetActive(UnityEngine.Object obj, bool active)
+    protected void SetActive(UnityEngine.Object obj, bool active)
     {
         if (obj is GameObject go)
         {

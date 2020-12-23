@@ -315,9 +315,9 @@ public class PlayerGamePad
         switch (m_GamePadType)
         {
             case EGamePadType.Xbox:
-                return Input.GetKey("joystick " + joystickNum + " button 0") || Input.GetKey("joystick " + joystickNum + " button 7");
+                return Input.GetKeyDown("joystick " + joystickNum + " button 7");
             case EGamePadType.PS4:
-                return Input.GetKey("joystick " + joystickNum + " button 1") || Input.GetKey("joystick " + joystickNum + " button 9");
+                return Input.GetKeyDown("joystick " + joystickNum + " button 9");
             case EGamePadType.Invalid:
             default:
                 return false;

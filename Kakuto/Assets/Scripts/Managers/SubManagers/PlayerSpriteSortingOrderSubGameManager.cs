@@ -43,11 +43,13 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         UpdateSortingOrder(playerSpriteRenderer, player.CompareTag(Player.Player1) ? ESortingOrder.Front : ESortingOrder.Back); // Set player1 in front by default
     }
 
-    public override void OnPlayerUnregistered(GameObject player)
+    public override void OnPlayerUnregistered(GameObject playerGO)
     {
-        base.OnPlayerUnregistered(player);
+        base.OnPlayerUnregistered(playerGO);
 
-        m_PlayerSpriteRendererList[player.CompareTag(Player.Player1) ? 0 : 1] = null;
+        EPlayer player = playerGO.CompareTag(Player.Player1) ? EPlayer.Player1 : EPlayer.Player2;
+        m_PlayerSpriteRendererList[(int)player] = null;
+        UnregisterListeners(player);
     }
 
     public override void Shutdown()

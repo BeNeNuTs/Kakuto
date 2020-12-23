@@ -99,13 +99,15 @@ public static class GamePadManager
         Profiler.EndSample();
     }
 
-    public static bool GetAnyPlayerStartInput()
+    public static bool GetAnyPlayerStartInput(out EPlayer startInputPlayer)
     {
-        for(int i = 0; i < m_PlayerGamePads.Length; i++)
+        startInputPlayer = EPlayer.Player1;
+        for (int i = 0; i < m_PlayerGamePads.Length; i++)
         {
             Update(i);
             if (m_PlayerGamePads[i].GetStartInput())
             {
+                startInputPlayer = (i == 0) ? EPlayer.Player1 : EPlayer.Player2;
                 return true;
             }
         }

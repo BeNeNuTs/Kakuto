@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -17,6 +18,19 @@ public class GameManager : Singleton<GameManager>
         GameManager gameManager = Create();
         gameManager.CreateSubManagers();
         gameManager.InitSubManagers();
+    }
+
+    private void Awake()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    {
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        {
+            subManager.OnActiveSceneChanged(previousScene, newScene);
+        }
     }
 
     private void Update()
@@ -41,6 +55,7 @@ public class GameManager : Singleton<GameManager>
         ShutdownSubManagers();
         DeleteSubManagers();
 
+        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         ChronicleManager.OnShutdown();
     }
 

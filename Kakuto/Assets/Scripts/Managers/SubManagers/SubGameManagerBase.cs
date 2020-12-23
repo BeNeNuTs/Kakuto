@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ESubManager
 {
@@ -25,4 +26,6 @@ public abstract class SubGameManagerBase
     public virtual void OnPlayerRegistered(GameObject player) { }
     public virtual void OnPlayerUnregistered(GameObject player) { }
     public virtual void OnPlayersRegistered() { }
+
+    public virtual void OnActiveSceneChanged(Scene previousScene, Scene newScene) { }
 }

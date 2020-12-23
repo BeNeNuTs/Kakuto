@@ -84,10 +84,10 @@ public class TrainingMapDisplay : MonoBehaviour
             if (m_PlayerAttackComponentToDisplay.GetCurrentAttack() != null && m_PlayerAttackComponentToDisplay.GetCurrentAttack() != m_CurrentDisplayAttack)
             {
                 m_TextToDisplayAttacks.text = m_PlayerAttackComponentToDisplay.GetCurrentAttack().m_Name + " launched !";
-                m_DislayAttacksTimeStamp = Time.unscaledTime;
+                m_DislayAttacksTimeStamp = Time.time;
                 m_CurrentDisplayAttack = m_PlayerAttackComponentToDisplay.GetCurrentAttack();
             }
-            else if (Time.unscaledTime > m_DislayAttacksTimeStamp + s_DisplayAttacksTime)
+            else if (Time.time > m_DislayAttacksTimeStamp + s_DisplayAttacksTime)
             {
                 ResetDisplayAttack();
             }
