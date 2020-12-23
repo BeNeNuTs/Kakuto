@@ -20,5 +20,9 @@ public class BackgroundCamera : MonoBehaviour
     {
         float deltaFOV = m_MainCamera.orthographicSize - m_MainCamDefaultFOV;
         m_BackgroundCamera.fieldOfView = m_BackgroundCamDefaultFOV + deltaFOV * m_FOVMultiplier;
+
+        Vector3 backgroundCamPos = m_BackgroundCamera.transform.localPosition;
+        backgroundCamPos.z = -deltaFOV;
+        m_BackgroundCamera.transform.localPosition = backgroundCamPos;
     }
 }
