@@ -6,6 +6,7 @@ public class TimeScaleSubGameManager : SubGameManagerBase
     private static float K_DEFAULT_FIXED_DELTA_TIME = Time.fixedDeltaTime;
 
     bool m_TimeIsFrozen = false;
+    public bool IsTimeFrozen => m_TimeIsFrozen;
     bool m_TimeScaleInProgress = false;
     float m_TimeScaleTimeStamp = 0f;
     float m_TimeScaleDuration = 2f;

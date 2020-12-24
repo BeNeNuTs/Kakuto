@@ -45,8 +45,9 @@ public class GamePauseMenuComponent : MenuComponent
 
 #pragma warning disable 0649
     [SerializeField] private MenuData m_GoToPauseMenuData;
+    [SerializeField] private MenuData m_QuitPauseMenuData;
+    [SerializeField] private MenuData m_GoToOptionsData;
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
-    //[SerializeField] private MenuData m_GoToOptionsData;
 #pragma warning restore 0649
 
     private EMenuState m_MenuState = EMenuState.Disabled;
@@ -117,11 +118,11 @@ public class GamePauseMenuComponent : MenuComponent
                     UpdateHighlightedButton(m_GoToPauseMenuData);
                     break;
                 case EMenuState.Options:
-                    //UpdateHighlightedButton(m_GoToOptionsData);
-                    //if (InputManager.GetBackInput())
-                    //{
-                    //    GoToMainMenu();
-                    //}
+                    UpdateHighlightedButton(m_GoToOptionsData);
+                    if (InputManager.GetBackInput())
+                    {
+                        GoToPauseMenu();
+                    }
                     break;
                 case EMenuState.QuitToMainMenuConfirmation:
                     UpdateHighlightedButton(m_QuiToMainMenuConfirmationData);
@@ -132,16 +133,22 @@ public class GamePauseMenuComponent : MenuComponent
 
     private void PauseGame()
     {
-        m_TimeScaleManager.FreezeTime();
-        m_PlayerInfos[0].OnPauseGame();
-        m_PlayerInfos[1].OnPauseGame();
+        if(!m_TimeScaleManager.IsTimeFrozen)
+        {
+            m_TimeScaleManager.FreezeTime();
+            m_PlayerInfos[0].OnPauseGame();
+            m_PlayerInfos[1].OnPauseGame();
+        }
     }
 
     private void UnpauseGame()
     {
-        m_PlayerInfos[0].OnUnpauseGame();
-        m_PlayerInfos[1].OnUnpauseGame();
-        m_TimeScaleManager.UnfreezeTime();
+        if (m_TimeScaleManager.IsTimeFrozen)
+        {
+            m_PlayerInfos[0].OnUnpauseGame();
+            m_PlayerInfos[1].OnUnpauseGame();
+            m_TimeScaleManager.UnfreezeTime();
+        }
     }
 
     public void GoToPauseMenu()
@@ -159,15 +166,15 @@ public class GamePauseMenuComponent : MenuComponent
 
     public void DisablePauseMenu()
     {
-        GoToMenu(m_GoToPauseMenuData, true);
+        GoToMenu(m_QuitPauseMenuData);
         EventSystem.current.SetSelectedGameObject(null);
         UnpauseGame();
         m_MenuState = EMenuState.Disabled;
     }
 
-    //public void GoToOptionsMenu()
-    //{
-    //    GoToMenu(m_GoToOptionsData);
-    //    m_MenuState = EMenuState.Options;
-    //}
+    public void GoToOptionsMenu()
+    {
+        GoToMenu(m_GoToOptionsData);
+        m_MenuState = EMenuState.Options;
+    }
 }
