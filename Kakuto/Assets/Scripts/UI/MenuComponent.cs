@@ -21,6 +21,26 @@ public abstract class MenuComponent : MonoBehaviour
 
     private Button m_CurrentHighlightedButton;
 
+    private void Awake()
+    {
+        OnAwake_Internal();
+    }
+
+    private void OnDestroy()
+    {
+        OnDestroy_Internal();
+    }
+
+    protected virtual void OnAwake_Internal() { }
+    protected virtual void OnDestroy_Internal() { }
+
+    private void Update()
+    {
+        OnUpdate_Internal();
+    }
+
+    protected virtual void OnUpdate_Internal() { }
+
     protected void UpdateCursorVisiblity()
     {
         if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
@@ -60,15 +80,12 @@ public abstract class MenuComponent : MonoBehaviour
         }
     }
 
-    protected void GoToMenu(MenuData data, bool invert = false)
+    protected void GoToMenu(MenuData data)
     {
-        SetActive(data.m_ObjectsToDisable, (invert) ? true : false);
-        SetActive(data.m_ObjectsToEnable, (invert) ? false : true);
+        SetActive(data.m_ObjectsToDisable, false);
+        SetActive(data.m_ObjectsToEnable, true);
 
-        if(!invert)
-        {
-            data.m_DefaultHighlightedButton.Select();
-        }
+        data.m_DefaultHighlightedButton?.Select();
     }
 
     public void LoadScene(string sceneName)

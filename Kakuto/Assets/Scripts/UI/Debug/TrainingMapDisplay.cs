@@ -34,22 +34,25 @@ public class TrainingMapDisplay : MonoBehaviour
 
     void LateUpdate()
     {
-        bool displayInputsInfo = ScenesConfig.GetDebugSettings().m_DisplayInputsInfo;
-        m_TextInputs.enabled = displayInputsInfo;
-        m_TextToDisplayInputs.enabled = displayInputsInfo;
-        m_TextInputsAttack.enabled = displayInputsInfo;
-        m_TextToDisplayInputsAttack.enabled = displayInputsInfo;
-        if (displayInputsInfo)
+        if(!GamePauseMenuComponent.m_IsInPause)
         {
-            DisplayInputs();
-        }
+            bool displayInputsInfo = ScenesConfig.GetDebugSettings().m_DisplayInputsInfo;
+            m_TextInputs.enabled = displayInputsInfo;
+            m_TextToDisplayInputs.enabled = displayInputsInfo;
+            m_TextInputsAttack.enabled = displayInputsInfo;
+            m_TextToDisplayInputsAttack.enabled = displayInputsInfo;
+            if (displayInputsInfo)
+            {
+                DisplayInputs();
+            }
 
-        bool displayAttacksInfo = ScenesConfig.GetDebugSettings().m_DisplayAttacksInfo;
-        m_TextAttacks.enabled = displayAttacksInfo;
-        m_TextToDisplayAttacks.enabled = displayAttacksInfo;
-        if (displayAttacksInfo)
-        {
-            DisplayAttack();
+            bool displayAttacksInfo = ScenesConfig.GetDebugSettings().m_DisplayAttacksInfo;
+            m_TextAttacks.enabled = displayAttacksInfo;
+            m_TextToDisplayAttacks.enabled = displayAttacksInfo;
+            if (displayAttacksInfo)
+            {
+                DisplayAttack();
+            }
         }
     }
 

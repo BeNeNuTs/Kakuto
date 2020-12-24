@@ -3,15 +3,16 @@ using UnityEngine.EventSystems;
 
 public class GamePauseMenuComponent : MenuComponent
 {
-    enum EMenuState
+    protected enum EMenuState
     {
         Disabled,
         PauseMenu,
         Options,
+        TrainingOptions,
         QuitToMainMenuConfirmation
     }
 
-    struct PlayerInfo
+    protected struct PlayerInfo
     {
         public Animator m_Animator;
         bool m_AnimatorUpdateUnscaled;
@@ -50,14 +51,16 @@ public class GamePauseMenuComponent : MenuComponent
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
 #pragma warning restore 0649
 
-    private EMenuState m_MenuState = EMenuState.Disabled;
-    private EPlayer m_PausePlayer = EPlayer.Player1;
+    public static bool m_IsInPause = false;
 
-    private PlayerInfo[] m_PlayerInfos = new PlayerInfo[2];
+    protected EMenuState m_MenuState = EMenuState.Disabled;
+    protected EPlayer m_PausePlayer = EPlayer.Player1;
 
-    private TimeScaleSubGameManager m_TimeScaleManager;
+    protected PlayerInfo[] m_PlayerInfos = new PlayerInfo[2];
 
-    private void Awake()
+    protected TimeScaleSubGameManager m_TimeScaleManager;
+
+    protected override void OnAwake_Internal()
     {
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player1);
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player2);
@@ -65,7 +68,7 @@ public class GamePauseMenuComponent : MenuComponent
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy_Internal()
     {
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player1);
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player2);
@@ -89,7 +92,7 @@ public class GamePauseMenuComponent : MenuComponent
         m_PlayerInfos[playerIndex].m_AttackComponent = player.GetComponent<PlayerAttackComponent>();       
     }
 
-    private void Update()
+    protected override void OnUpdate_Internal()
     {
         UpdateCursorVisiblity();
 
@@ -131,23 +134,25 @@ public class GamePauseMenuComponent : MenuComponent
         }
     }
 
-    private void PauseGame()
+    protected void PauseGame()
     {
         if(!m_TimeScaleManager.IsTimeFrozen)
         {
             m_TimeScaleManager.FreezeTime();
             m_PlayerInfos[0].OnPauseGame();
             m_PlayerInfos[1].OnPauseGame();
+            m_IsInPause = true;
         }
     }
 
-    private void UnpauseGame()
+    protected void UnpauseGame()
     {
         if (m_TimeScaleManager.IsTimeFrozen)
         {
             m_PlayerInfos[0].OnUnpauseGame();
             m_PlayerInfos[1].OnUnpauseGame();
             m_TimeScaleManager.UnfreezeTime();
+            m_IsInPause = false;
         }
     }
 
