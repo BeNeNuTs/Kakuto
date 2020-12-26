@@ -70,11 +70,11 @@ public abstract class MenuComponent : MonoBehaviour
         {
             if (menuData.m_ButtonList.Contains(m_CurrentHighlightedButton))
             {
-                m_CurrentHighlightedButton.Select();
+                m_CurrentHighlightedButton?.Select();
             }
             else
             {
-                menuData.m_DefaultHighlightedButton.Select();
+                menuData.m_DefaultHighlightedButton?.Select();
                 m_CurrentHighlightedButton = menuData.m_DefaultHighlightedButton;
             }
         }
@@ -90,7 +90,7 @@ public abstract class MenuComponent : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(sceneName);
     }
 
     public void QuitGame()

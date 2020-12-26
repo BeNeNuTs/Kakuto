@@ -23,3 +23,5 @@ MonoBehaviour:
   m_DefaultGamepadType: 1
   m_ImpulseChannel: -1
   m_ImpulseRawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_LoadingScreenPrefab: {fileID: 5833580053803527409, guid: ca53686c9d12a4947a8cb6bd3b36622c,
+    type: 3}

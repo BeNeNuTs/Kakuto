@@ -9,7 +9,8 @@ public enum ESubManager
     CameraMultiTargets,
     PlayerSpriteSortingOrder,
     FX,
-    TimeScale
+    TimeScale,
+    GameFlow
 }
 
 public abstract class SubGameManagerBase

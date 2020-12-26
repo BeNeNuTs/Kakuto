@@ -125,7 +125,7 @@ public static class InputManager
         }
         else
         {
-            startInput = Input.GetKey(KeyCode.Return);
+            startInput = Input.GetKeyDown(KeyCode.Return);
             startInputPlayer = EPlayer.Player1;
         }
         return startInput;

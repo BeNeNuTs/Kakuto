@@ -286,7 +286,7 @@ public class RoundSubGameManager : SubGameManagerBase
             SetPlayersSuperGaugeValues();
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
         m_RoundIsBegin = false;
         m_RoundIsOver = false;
     }

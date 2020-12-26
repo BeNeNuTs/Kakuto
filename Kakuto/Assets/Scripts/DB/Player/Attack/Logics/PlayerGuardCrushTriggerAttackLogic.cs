@@ -24,10 +24,8 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
     {
         base.OnInit(owner, attack);
 
-        if (m_InfoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
-        {
-            SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Active);
-        }
+        bool triggerAlwaysActive = m_InfoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive;
+        SetTriggerPointStatus(m_InfoComponent, (triggerAlwaysActive) ? ETriggerPointStatus.Active : ETriggerPointStatus.Inactive);
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)

@@ -62,4 +62,7 @@ public class GameConfig : ScriptableObject
     [Header("Signal Shape")]
     [Tooltip("Defines the signal that will be generated.")]
     public SignalSourceAsset m_ImpulseRawSignal;
+
+    [Separator("Loading screen")]
+    public GameObject m_LoadingScreenPrefab;
 }
