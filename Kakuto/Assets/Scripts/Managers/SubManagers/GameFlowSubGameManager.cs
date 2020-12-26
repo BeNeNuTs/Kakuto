@@ -29,6 +29,7 @@ public class GameFlowSubGameManager : SubGameManagerBase
 
         m_SceneToLoad = sceneName;
         m_IsLoading = true;
+        GamePauseMenuComponent.m_IsInPause = false;
     }
 
     private void OnLoadingScreenReady()
