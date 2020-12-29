@@ -28,5 +28,5 @@ public abstract class SubGameManagerBase
     public virtual void OnPlayerUnregistered(GameObject player) { }
     public virtual void OnPlayersRegistered() { }
 
-    public virtual void OnActiveSceneChanged(Scene previousScene, Scene newScene) { }
+    public virtual void OnSceneUnloaded(Scene unloadedScene) { }
 }

@@ -12,7 +12,7 @@ public class TimeScaleSubGameManager : SubGameManagerBase
     float m_TimeScaleDuration = 2f;
     ETimeScaleBackToNormal m_TimeScaleBackToNormal = ETimeScaleBackToNormal.Instant;
 
-    public override void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    public override void OnSceneUnloaded(Scene unloadedScene)
     {
         UnfreezeTime();
     }

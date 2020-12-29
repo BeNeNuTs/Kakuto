@@ -14,18 +14,20 @@ public class RoundComponent : MonoBehaviour
     private bool m_TimerOverNotified = false;
 
     private RoundSubGameManager m_RoundSubGameManager;
+    private UISettings m_UISettings;
 
     private void Awake()
     {
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
         m_RoundSubGameManager.RegisterRoundNotifAnimator(m_RoundNotifAnimator);
+        RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
+        RoundSubGameManager.OnRoundBegin += OnRoundBegin;
+
+        m_UISettings = ScenesConfig.GetUISettings();
     }
 
     private void Start()
     {
-        RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
-        RoundSubGameManager.OnRoundBegin += OnRoundBegin;
-
         m_InitTimestamp = Time.time;
         UpdateRemainingTimeText();
         UpdateVictoryCounters();
@@ -69,7 +71,7 @@ public class RoundComponent : MonoBehaviour
 
     void Update()
     {
-        if(ScenesConfig.GetUISettings().m_IsTimerEnabled && m_RoundSubGameManager.IsRoundBegin() && !m_RoundSubGameManager.IsRoundOver())
+        if(m_UISettings.m_IsTimerEnabled && m_RoundSubGameManager.IsRoundBegin() && !m_RoundSubGameManager.IsRoundOver())
         {
             UpdateRemainingTimeText();
         }

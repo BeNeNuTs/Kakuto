@@ -191,7 +191,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
             {
 
 #if UNITY_EDITOR || DEBUG_DISPLAY
-                if (!collision.gameObject.GetComponent<PlayerPushBoxHandler>())
+                if (!collision.collider.GetComponent<PlayerPushBoxHandler>())
                 {
                     Debug.LogError("PushBox has collided with something else than PushBox !");
                 }

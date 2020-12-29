@@ -27,18 +27,18 @@ public class GameFlowSubGameManager : SubGameManagerBase
         m_LoadingScreenComponent.StartLoading();
         m_LoadingScreenComponent.m_OnLoadingScreenReady += OnLoadingScreenReady;
 
-        m_SceneToLoad = sceneName;
         m_IsLoading = true;
+        m_SceneToLoad = sceneName;
         GamePauseMenuComponent.m_IsInPause = false;
     }
 
     private void OnLoadingScreenReady()
     {
         m_LoadingScreenComponent.m_OnLoadingScreenReady -= OnLoadingScreenReady;
-        GameManager.Instance.StartCoroutine(LoadAsyncScene(m_SceneToLoad));
+        GameManager.Instance.StartCoroutine(LoadAsyncScene());
     }
 
-    IEnumerator LoadAsyncScene(string sceneName)
+    IEnumerator LoadAsyncScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(m_SceneToLoad);
         while (!asyncLoad.isDone)
@@ -53,6 +53,12 @@ public class GameFlowSubGameManager : SubGameManagerBase
     {
         m_LoadingScreenComponent.EndLoading();
         m_IsLoading = false;
+        m_SceneToLoad = string.Empty;
+    }
+
+    public string GetLoadingScene()
+    {
+        return m_SceneToLoad;
     }
 
     public bool IsLoading()

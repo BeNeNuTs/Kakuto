@@ -22,17 +22,14 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
-    private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    private void OnSceneUnloaded(Scene unloadedScene)
     {
-        if(previousScene.IsValid() && newScene.IsValid())
+        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
         {
-            foreach (SubGameManagerBase subManager in m_SubManagers.Values)
-            {
-                subManager.OnActiveSceneChanged(previousScene, newScene);
-            }
+            subManager.OnSceneUnloaded(unloadedScene);
         }
     }
 
@@ -58,7 +55,7 @@ public class GameManager : Singleton<GameManager>
         ShutdownSubManagers();
         DeleteSubManagers();
 
-        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         ChronicleManager.OnShutdown();
     }
 

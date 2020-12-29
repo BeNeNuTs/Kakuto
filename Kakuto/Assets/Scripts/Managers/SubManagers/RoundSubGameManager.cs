@@ -28,14 +28,17 @@ public class RoundSubGameManager : SubGameManagerBase
     private static readonly string K_ROUND_WON_ANIM = "RoundWon";
     private static readonly string K_ROUND_LOST_ANIM = "RoundLost";
 
-    public Scene m_RoundScene;
+    private Scene m_RoundScene;
     public static Action OnRoundVictoryCounterChanged;
     public static Action OnRoundBegin;
     public static Action OnRoundOver;
 
     public Animator m_RoundNotifAnimator;
 
+    private IEnumerator m_RoundBeginCoroutine = null;
     private IEnumerator m_OnPlayerDeathCoroutine = null;
+    private IEnumerator m_PlayWonAndLostRoundAnimCoroutine = null;
+    private IEnumerator m_RestartRoundCoroutine = null;
 
     private readonly uint[] m_PlayersRoundVictoryCounter = { 0, 0 };
     private bool m_LastRoundTimeOver = false;
@@ -49,11 +52,15 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private readonly float[] m_PlayersSuperGaugeValues = { 0, 0 };
 
+    private GameFlowSubGameManager m_GameFlowManager;
+
     public override void Init()
     {
         base.Init();
         Utils.GetPlayerEventManager(Player.Player1).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
         Utils.GetPlayerEventManager(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
+
+        m_GameFlowManager = GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow);
     }
 
     public override void Shutdown()
@@ -63,15 +70,40 @@ public class RoundSubGameManager : SubGameManagerBase
         Utils.GetPlayerEventManager(Player.Player2).StopListening(EPlayerEvent.OnDeath, OnPlayerDeath);
     }
 
-    public override void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    public override void OnSceneUnloaded(Scene unloadedScene)
     {
-        if(m_RoundScene != newScene)
+        if(m_RoundScene.IsValid())
         {
-            ResetPlayersRoundVictoryCounter();
-            ResetPlayersSuperGaugeValues();
+            if (m_RoundScene == unloadedScene && m_RoundScene.name.CompareTo(m_GameFlowManager.GetLoadingScene()) != 0)
+            {
+                if (m_RoundBeginCoroutine != null)
+                {
+                    GameManager.Instance.StopCoroutine(m_RoundBeginCoroutine);
+                    m_RoundBeginCoroutine = null;
+                }
+                if (m_OnPlayerDeathCoroutine != null)
+                {
+                    GameManager.Instance.StopCoroutine(m_OnPlayerDeathCoroutine);
+                    m_OnPlayerDeathCoroutine = null;
+                }
+                if (m_PlayWonAndLostRoundAnimCoroutine != null)
+                {
+                    GameManager.Instance.StopCoroutine(m_PlayWonAndLostRoundAnimCoroutine);
+                    m_PlayWonAndLostRoundAnimCoroutine = null;
+                }
+                if (m_RestartRoundCoroutine != null)
+                {
+                    GameManager.Instance.StopCoroutine(m_RestartRoundCoroutine);
+                    m_RestartRoundCoroutine = null;
+                }
 
-            m_RoundIsBegin = false;
-            m_RoundIsOver = false;
+                ResetPlayersRoundVictoryCounter();
+                ResetPlayersSuperGaugeValues();
+
+                m_RoundIsBegin = false;
+                m_RoundIsOver = false;
+                m_RoundScene = default;
+            }
         }
     }
 
@@ -84,7 +116,8 @@ public class RoundSubGameManager : SubGameManagerBase
         }
 
         m_RoundScene = SceneManager.GetActiveScene();
-        GameManager.Instance.StartCoroutine(OnRoundBegin_Internal());
+        m_RoundBeginCoroutine = OnRoundBegin_Internal();
+        GameManager.Instance.StartCoroutine(m_RoundBeginCoroutine);
     }
 
     private void EnablePlayer(GameObject player, bool enable)
@@ -194,7 +227,8 @@ public class RoundSubGameManager : SubGameManagerBase
             m_RoundIsOver = true;
             OnRoundOver?.Invoke();
 
-            GameManager.Instance.StartCoroutine(PlayWonAndLostRoundAnimation());
+            m_PlayWonAndLostRoundAnimCoroutine = PlayWonAndLostRoundAnimation();
+            GameManager.Instance.StartCoroutine(m_PlayWonAndLostRoundAnimCoroutine);
         }
     }
 
@@ -254,7 +288,8 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if(m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            GameManager.Instance.StartCoroutine(RestartRound());
+            m_RestartRoundCoroutine = RestartRound();
+            GameManager.Instance.StartCoroutine(m_RestartRoundCoroutine);
         }
         else
         {
@@ -297,7 +332,8 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            GameManager.Instance.StartCoroutine(RestartRound());
+            m_RestartRoundCoroutine = RestartRound();
+            GameManager.Instance.StartCoroutine(m_RestartRoundCoroutine);
         }
     }
 
@@ -316,9 +352,9 @@ public class RoundSubGameManager : SubGameManagerBase
             SetPlayersSuperGaugeValues();
         }
 
-        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
         m_RoundIsBegin = false;
         m_RoundIsOver = false;
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public uint GetPlayerRoundVictoryCounter(EPlayer player)
