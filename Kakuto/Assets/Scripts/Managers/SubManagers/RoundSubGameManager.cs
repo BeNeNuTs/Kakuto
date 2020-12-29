@@ -13,6 +13,17 @@ public class RoundSubGameManager : SubGameManagerBase
         Both
     }
 
+    enum ERoundNotif
+    {
+        Round1,
+        Round2,
+        FinalRound,
+        DoubleKO,
+        KO,
+        Perfect,
+        TimeOver
+    }
+
     private static readonly string K_ROUND_ENTRY_ANIM = "RoundEntry";
     private static readonly string K_ROUND_WON_ANIM = "RoundWon";
     private static readonly string K_ROUND_LOST_ANIM = "RoundLost";
@@ -22,10 +33,14 @@ public class RoundSubGameManager : SubGameManagerBase
     public static Action OnRoundBegin;
     public static Action OnRoundOver;
 
+    public Animator m_RoundNotifAnimator;
+
     private IEnumerator m_OnPlayerDeathCoroutine = null;
 
     private readonly uint[] m_PlayersRoundVictoryCounter = { 0, 0 };
+    private bool m_LastRoundTimeOver = false;
     private ELastRoundWinner m_LastRoundWinner = ELastRoundWinner.Both;
+    private readonly float[] m_PlayersEndRoundHPPercentage = { 0f, 0f };
 
     private bool m_RoundIsBegin = false;
     private bool m_RoundIsOver = false;
@@ -80,7 +95,15 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private IEnumerator OnRoundBegin_Internal()
     {
-        yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime);
+        float startRoundUIDelay = 0f;
+        if (ScenesConfig.GetUISettings().m_IsCounterEnabled)
+        {
+            startRoundUIDelay = GameConfig.Instance.m_StartRoundUIDelay;
+            yield return new WaitForSeconds(startRoundUIDelay);
+            PlayStartRoundNotification();
+        }
+
+        yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime - startRoundUIDelay);
 
         while (!ArePlayersReady())
         {
@@ -94,6 +117,7 @@ public class RoundSubGameManager : SubGameManagerBase
         }
 
         m_RoundIsBegin = true;
+        m_LastRoundTimeOver = false;
         OnRoundBegin?.Invoke();
     }
 
@@ -112,36 +136,13 @@ public class RoundSubGameManager : SubGameManagerBase
     private IEnumerator OnPlayerDeathCoroutine()
     {
         yield return new WaitForEndOfFrame();
-        OnTimerOver();
+        OnRoundOver_Internal();
     }
 
     public void OnTimerOver()
     {
-        if (!m_RoundIsOver)
-        {
-            PlayerHealthComponent player1HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player1);
-            PlayerHealthComponent player2HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player2);
-
-            if(player1HealthComp.GetHPPercentage() > player2HealthComp.GetHPPercentage())
-            {
-                UpdateRoundVictoryCounter(ELastRoundWinner.Player1);
-            }
-            else if(player2HealthComp.GetHPPercentage() > player1HealthComp.GetHPPercentage())
-            {
-                UpdateRoundVictoryCounter(ELastRoundWinner.Player2);
-            }
-            else
-            {
-                uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
-                if (GetPlayerRoundVictoryCounter(EPlayer.Player1) < maxRoundsToWin - 1 && GetPlayerRoundVictoryCounter(EPlayer.Player2) < maxRoundsToWin - 1)
-                {
-                    UpdateRoundVictoryCounter(ELastRoundWinner.Both);
-                }
-                m_LastRoundWinner = ELastRoundWinner.Both;
-            }
-
-            OnRoundOver_Internal();
-        }
+        m_LastRoundTimeOver = true;
+        OnRoundOver_Internal();
     }
 
     private void UpdateRoundVictoryCounter(ELastRoundWinner roundWinner)
@@ -164,10 +165,37 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private void OnRoundOver_Internal()
     {
-        m_RoundIsOver = true;
-        OnRoundOver?.Invoke();
+        if (!m_RoundIsOver)
+        {
+            PlayerHealthComponent player1HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player1);
+            m_PlayersEndRoundHPPercentage[0] = player1HealthComp.GetHPPercentage();
 
-        GameManager.Instance.StartCoroutine(PlayWonAndLostRoundAnimation());
+            PlayerHealthComponent player2HealthComp = GameManager.Instance.GetPlayerComponent<PlayerHealthComponent>(EPlayer.Player2);
+            m_PlayersEndRoundHPPercentage[1] = player2HealthComp.GetHPPercentage();
+
+            if (m_PlayersEndRoundHPPercentage[0] > m_PlayersEndRoundHPPercentage[1])
+            {
+                UpdateRoundVictoryCounter(ELastRoundWinner.Player1);
+            }
+            else if (m_PlayersEndRoundHPPercentage[1] > m_PlayersEndRoundHPPercentage[0])
+            {
+                UpdateRoundVictoryCounter(ELastRoundWinner.Player2);
+            }
+            else
+            {
+                uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
+                if (GetPlayerRoundVictoryCounter(EPlayer.Player1) < maxRoundsToWin - 1 && GetPlayerRoundVictoryCounter(EPlayer.Player2) < maxRoundsToWin - 1)
+                {
+                    UpdateRoundVictoryCounter(ELastRoundWinner.Both);
+                }
+                m_LastRoundWinner = ELastRoundWinner.Both;
+            }
+
+            m_RoundIsOver = true;
+            OnRoundOver?.Invoke();
+
+            GameManager.Instance.StartCoroutine(PlayWonAndLostRoundAnimation());
+        }
     }
 
     private bool ArePlayersReady()
@@ -198,6 +226,8 @@ public class RoundSubGameManager : SubGameManagerBase
             // Player's not ready yet, wait one more second
             yield return new WaitForSeconds(1f);
         }
+
+        PlayEndRoundNotification();
 
         bool player1PlayedAnim = false;
         bool player2PlayedAnim = false;
@@ -317,6 +347,54 @@ public class RoundSubGameManager : SubGameManagerBase
     {
         m_PlayersSuperGaugeValues[(int)EPlayer.Player1] = 0;
         m_PlayersSuperGaugeValues[(int)EPlayer.Player2] = 0;
+    }
+
+    public void RegisterRoundNotifAnimator(Animator roundNotifAnimator)
+    {
+        m_RoundNotifAnimator = roundNotifAnimator;
+    }
+
+    void PlayStartRoundNotification()
+    {
+        uint player1VictoryCounter = GetPlayerRoundVictoryCounter(EPlayer.Player1);
+        uint player2VictoryCounter = GetPlayerRoundVictoryCounter(EPlayer.Player2);
+        ERoundNotif roundNotif = ERoundNotif.Round1;
+        uint maxRoundToWin = GameConfig.Instance.m_MaxRoundsToWin;
+        if (player1VictoryCounter >= maxRoundToWin - 1 && player2VictoryCounter >= maxRoundToWin - 1)
+        {
+            roundNotif = ERoundNotif.FinalRound;
+        }
+        else if (player1VictoryCounter > 0 || player2VictoryCounter > 0)
+        {
+            roundNotif = ERoundNotif.Round2;
+        }
+        PlayRoundNotification(true, roundNotif);
+    }
+
+    void PlayEndRoundNotification()
+    {
+        if(m_LastRoundTimeOver)
+        {
+            PlayRoundNotification(false, ERoundNotif.TimeOver);
+        }
+        else
+        {
+            if(m_LastRoundWinner == ELastRoundWinner.Player1 || m_LastRoundWinner == ELastRoundWinner.Player2)
+            {
+                bool isPerfect = m_PlayersEndRoundHPPercentage[m_LastRoundWinner == ELastRoundWinner.Player1 ? 0 : 1] == 1f;
+                PlayRoundNotification(false, isPerfect ? ERoundNotif.Perfect : ERoundNotif.KO);
+            }
+            else
+            {
+                PlayRoundNotification(false, ERoundNotif.DoubleKO);
+            }
+        }
+    }
+
+    void PlayRoundNotification(bool startRound, ERoundNotif roundNotif)
+    {
+        string animToPlay = "Round" + ((startRound) ? "Start_" : "End_") + roundNotif.ToString();
+        m_RoundNotifAnimator.Play(animToPlay, 0, 0);
     }
 
     public bool IsRoundOver()

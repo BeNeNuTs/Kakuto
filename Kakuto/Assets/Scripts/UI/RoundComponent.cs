@@ -7,6 +7,7 @@ public class RoundComponent : MonoBehaviour
     public TextMeshProUGUI m_TimerText;
     public Image[] m_Player1VictoryRounds;
     public Image[] m_Player2VictoryRounds;
+    public Animator m_RoundNotifAnimator;
 
     private float m_InitTimestamp = 0.0f;
     private uint m_RemaningTime = uint.MaxValue;
@@ -14,9 +15,14 @@ public class RoundComponent : MonoBehaviour
 
     private RoundSubGameManager m_RoundSubGameManager;
 
-    private void Start()
+    private void Awake()
     {
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
+        m_RoundSubGameManager.RegisterRoundNotifAnimator(m_RoundNotifAnimator);
+    }
+
+    private void Start()
+    {
         RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
         RoundSubGameManager.OnRoundBegin += OnRoundBegin;
 

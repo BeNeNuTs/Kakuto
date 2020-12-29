@@ -27,9 +27,12 @@ public class GameManager : Singleton<GameManager>
 
     private void OnActiveSceneChanged(Scene previousScene, Scene newScene)
     {
-        foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+        if(previousScene.IsValid() && newScene.IsValid())
         {
-            subManager.OnActiveSceneChanged(previousScene, newScene);
+            foreach (SubGameManagerBase subManager in m_SubManagers.Values)
+            {
+                subManager.OnActiveSceneChanged(previousScene, newScene);
+            }
         }
     }
 
