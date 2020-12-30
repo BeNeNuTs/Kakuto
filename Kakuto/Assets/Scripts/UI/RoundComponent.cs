@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class RoundComponent : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class RoundComponent : MonoBehaviour
     public Image[] m_Player1VictoryRounds;
     public Image[] m_Player2VictoryRounds;
     public Animator m_RoundNotifAnimator;
+    public GameObject m_EndRoundButtons;
+    public Button m_DefaultSelectedButton;
 
     private float m_InitTimestamp = 0.0f;
     private uint m_RemaningTime = uint.MaxValue;
@@ -19,7 +22,7 @@ public class RoundComponent : MonoBehaviour
     private void Awake()
     {
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
-        m_RoundSubGameManager.RegisterRoundNotifAnimator(m_RoundNotifAnimator);
+        m_RoundSubGameManager.RegisterRoundComponent(this);
         RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;
         RoundSubGameManager.OnRoundBegin += OnRoundBegin;
 
@@ -75,6 +78,14 @@ public class RoundComponent : MonoBehaviour
         {
             UpdateRemainingTimeText();
         }
+        else if(m_EndRoundButtons.activeSelf)
+        {
+            GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
+            if (selectedGO == null)
+            {
+                m_DefaultSelectedButton.Select();
+            }
+        }
     }
 
     void LateUpdate()
@@ -84,5 +95,26 @@ public class RoundComponent : MonoBehaviour
             m_RoundSubGameManager.OnTimerOver();
             m_TimerOverNotified = true;
         }
+    }
+
+    public uint GetRemainingTime()
+    {
+        return m_RemaningTime;
+    }
+
+    public void DisplayEndRoundButtons()
+    {
+        m_EndRoundButtons.SetActive(true);
+        m_DefaultSelectedButton.Select();
+    }
+
+    public void ReplayRound()
+    {
+        m_RoundSubGameManager.ReplayRound();
+    }
+
+    public void BackToMainMenu()
+    {
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene("Menu");
     }
 }

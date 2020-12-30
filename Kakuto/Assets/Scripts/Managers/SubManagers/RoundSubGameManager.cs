@@ -33,7 +33,7 @@ public class RoundSubGameManager : SubGameManagerBase
     public static Action OnRoundBegin;
     public static Action OnRoundOver;
 
-    public Animator m_RoundNotifAnimator;
+    public RoundComponent m_RoundComponent;
 
     private IEnumerator m_RoundBeginCoroutine = null;
     private IEnumerator m_OnPlayerDeathCoroutine = null;
@@ -288,7 +288,7 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if(m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            m_RestartRoundCoroutine = RestartRound();
+            m_RestartRoundCoroutine = RestartRound_Internal();
             GameManager.Instance.StartCoroutine(m_RestartRoundCoroutine);
         }
         else
@@ -332,28 +332,33 @@ public class RoundSubGameManager : SubGameManagerBase
 
         if (m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player1] && m_PlayerEndOfRoundAnimationFinished[(int)EPlayer.Player2])
         {
-            m_RestartRoundCoroutine = RestartRound();
+            m_RestartRoundCoroutine = RestartRound_Internal();
             GameManager.Instance.StartCoroutine(m_RestartRoundCoroutine);
         }
     }
 
-    private IEnumerator RestartRound()
+    private IEnumerator RestartRound_Internal()
     {
         yield return new WaitForSeconds(GameConfig.Instance.m_TimeToWaitAfterEndRoundAnimations);
+        m_RoundIsBegin = false;
+        m_RoundIsOver = false;
 
         uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {
-            ResetPlayersRoundVictoryCounter();
-            ResetPlayersSuperGaugeValues();
+            m_RoundComponent.DisplayEndRoundButtons();
         }
         else
         {
             SetPlayersSuperGaugeValues();
+            GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
 
-        m_RoundIsBegin = false;
-        m_RoundIsOver = false;
+    public void ReplayRound()
+    {
+        ResetPlayersRoundVictoryCounter();
+        ResetPlayersSuperGaugeValues();
         GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -385,9 +390,9 @@ public class RoundSubGameManager : SubGameManagerBase
         m_PlayersSuperGaugeValues[(int)EPlayer.Player2] = 0;
     }
 
-    public void RegisterRoundNotifAnimator(Animator roundNotifAnimator)
+    public void RegisterRoundComponent(RoundComponent roundComponent)
     {
-        m_RoundNotifAnimator = roundNotifAnimator;
+        m_RoundComponent = roundComponent;
     }
 
     void PlayStartRoundNotification()
@@ -430,7 +435,7 @@ public class RoundSubGameManager : SubGameManagerBase
     void PlayRoundNotification(bool startRound, ERoundNotif roundNotif)
     {
         string animToPlay = "Round" + ((startRound) ? "Start_" : "End_") + roundNotif.ToString();
-        m_RoundNotifAnimator.Play(animToPlay, 0, 0);
+        m_RoundComponent.m_RoundNotifAnimator.Play(animToPlay, 0, 0);
     }
 
     public bool IsRoundOver()
