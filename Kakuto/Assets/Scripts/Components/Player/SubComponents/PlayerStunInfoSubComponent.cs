@@ -32,6 +32,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
     }
 
+    private PlayerHealthComponent m_HealthComponent;
     private PlayerInfoComponent m_InfoComponent;
     private PlayerMovementComponent m_MovementComponent;
     private Animator m_Anim;
@@ -45,8 +46,9 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private float m_StabilizeGaugeCooldown = 0f;
     public Action OnGaugeValueChanged;
 
-    public PlayerStunInfoSubComponent(PlayerInfoComponent infoComponent, PlayerMovementComponent movementComp, Animator anim) : base(infoComponent.gameObject)
+    public PlayerStunInfoSubComponent(PlayerHealthComponent healthComponent, PlayerInfoComponent infoComponent, PlayerMovementComponent movementComp, Animator anim) : base(infoComponent.gameObject)
     {
+        m_HealthComponent = healthComponent;
         m_InfoComponent = infoComponent;
         m_MovementComponent = movementComp;
         m_Anim = anim;
@@ -389,7 +391,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void ClampGaugeValue()
     {
-        if (m_InfoComponent.GetPlayerSettings().m_IsImmuneToStunGauge)
+        if (m_HealthComponent.IsDead() || m_InfoComponent.GetPlayerSettings().m_IsImmuneToStunGauge)
         {
             m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_StunGaugeMaxValue - 1);
         }

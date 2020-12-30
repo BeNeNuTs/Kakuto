@@ -59,7 +59,7 @@ public class PlayerHealthComponent : MonoBehaviour
 
         m_Anim = GetComponentInChildren<Animator>();
 
-        m_StunInfoSC = new PlayerStunInfoSubComponent(m_InfoComponent, m_MovementComponent, m_Anim);
+        m_StunInfoSC = new PlayerStunInfoSubComponent(this, m_InfoComponent, m_MovementComponent, m_Anim);
         m_ProximityGuardSubComponent = new PlayerProximityGuardSubComponent(this, m_MovementComponent, m_Anim);
 
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
