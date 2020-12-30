@@ -17,6 +17,7 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         base.Init();
         RegisterListeners(EPlayer.Player1);
         RegisterListeners(EPlayer.Player2);
+        RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
     void RegisterListeners(EPlayer player)
@@ -38,9 +39,10 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         base.OnPlayerRegistered(player);
 
         SpriteRenderer playerSpriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
-        m_PlayerSpriteRendererList[player.CompareTag(Player.Player1) ? 0 : 1] = playerSpriteRenderer;
+        bool isPlayer1 = player.CompareTag(Player.Player1);
+        m_PlayerSpriteRendererList[isPlayer1 ? 0 : 1] = playerSpriteRenderer;
 
-        UpdateSortingOrder(playerSpriteRenderer, player.CompareTag(Player.Player1) ? ESortingOrder.Front : ESortingOrder.Back); // Set player1 in front by default
+        UpdateSortingOrder(playerSpriteRenderer, isPlayer1 ? ESortingOrder.Front : ESortingOrder.Back); // Set player1 in front by default
     }
 
     public override void OnPlayerUnregistered(GameObject playerGO)
@@ -49,7 +51,6 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
 
         EPlayer player = playerGO.CompareTag(Player.Player1) ? EPlayer.Player1 : EPlayer.Player2;
         m_PlayerSpriteRendererList[(int)player] = null;
-        UnregisterListeners(player);
     }
 
     public override void Shutdown()
@@ -57,6 +58,12 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         base.Shutdown();
         UnregisterListeners(EPlayer.Player1);
         UnregisterListeners(EPlayer.Player2);
+        RoundSubGameManager.OnRoundOver -= OnRoundOver;
+    }
+
+    void UpdateSortingOrder(EPlayer player, ESortingOrder order)
+    {
+        UpdateSortingOrder(m_PlayerSpriteRendererList[(int)player], order);
     }
 
     void UpdateSortingOrder(GameObject player, ESortingOrder order)
@@ -100,6 +107,22 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
         GameObject victim = damageTakenInfo.m_Victim;
         UpdateSortingOrder(instigator, ESortingOrder.Front);
         UpdateSortingOrder(victim, ESortingOrder.Back);
+    }
+
+    void OnRoundOver(RoundSubGameManager.ELastRoundWinner lastRoundWinner)
+    {
+        switch (lastRoundWinner)
+        {
+            case RoundSubGameManager.ELastRoundWinner.Both:
+            case RoundSubGameManager.ELastRoundWinner.Player1:
+                UpdateSortingOrder(EPlayer.Player1, ESortingOrder.Front);
+                UpdateSortingOrder(EPlayer.Player2, ESortingOrder.Back);
+                break;
+            case RoundSubGameManager.ELastRoundWinner.Player2:
+                UpdateSortingOrder(EPlayer.Player2, ESortingOrder.Front);
+                UpdateSortingOrder(EPlayer.Player1, ESortingOrder.Back);
+                break;
+        }
     }
 
     GameObject GetEnemyOf(GameObject player)

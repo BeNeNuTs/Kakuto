@@ -623,7 +623,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_MovementComponent.OnLanding -= OnLandingAfterAttackInAir;
     }
 
-    void OnRoundOver()
+    void OnRoundOver(RoundSubGameManager.ELastRoundWinner lastRoundWinner)
     {
         enabled = false;
         RoundSubGameManager.OnRoundOver -= OnRoundOver;

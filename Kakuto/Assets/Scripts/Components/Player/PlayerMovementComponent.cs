@@ -430,7 +430,7 @@ public class PlayerMovementComponent : MonoBehaviour
         SetMovementBlocked(false, EBlockedReason.StunEnd);
     }
 
-    void OnRoundOver()
+    void OnRoundOver(RoundSubGameManager.ELastRoundWinner lastRoundWinner)
     {
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Round Over");
         SetMovementBlocked(true, EBlockedReason.TimeOver);

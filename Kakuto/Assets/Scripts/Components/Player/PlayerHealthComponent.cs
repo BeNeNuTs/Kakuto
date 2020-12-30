@@ -569,7 +569,7 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.OnDeath, new DeathEventParameters(gameObject.tag));
     }
 
-    private void OnRoundOver()
+    private void OnRoundOver(RoundSubGameManager.ELastRoundWinner lastRoundWinner)
     {
         UnregisterListeners();
         RoundSubGameManager.OnRoundOver -= OnRoundOver;

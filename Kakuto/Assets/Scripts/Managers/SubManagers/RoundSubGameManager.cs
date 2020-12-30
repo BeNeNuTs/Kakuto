@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class RoundSubGameManager : SubGameManagerBase
 {
-    enum ELastRoundWinner
+    public enum ELastRoundWinner
     {
         Player1,
         Player2,
@@ -31,7 +31,7 @@ public class RoundSubGameManager : SubGameManagerBase
     private Scene m_RoundScene;
     public static Action OnRoundVictoryCounterChanged;
     public static Action OnRoundBegin;
-    public static Action OnRoundOver;
+    public static Action<ELastRoundWinner> OnRoundOver;
 
     public RoundComponent m_RoundComponent;
 
@@ -225,7 +225,7 @@ public class RoundSubGameManager : SubGameManagerBase
             }
 
             m_RoundIsOver = true;
-            OnRoundOver?.Invoke();
+            OnRoundOver?.Invoke(m_LastRoundWinner);
 
             m_PlayWonAndLostRoundAnimCoroutine = PlayWonAndLostRoundAnimation();
             GameManager.Instance.StartCoroutine(m_PlayWonAndLostRoundAnimCoroutine);
