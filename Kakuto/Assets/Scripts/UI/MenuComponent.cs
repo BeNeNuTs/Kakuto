@@ -57,25 +57,28 @@ public abstract class MenuComponent : MonoBehaviour
 
     protected void UpdateHighlightedButton(MenuData menuData)
     {
-        GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
-        if(selectedGO != null)
+        if(EventSystem.current != null)
         {
-            Button selectedButton = selectedGO.GetComponent<Button>();
-            if(selectedButton != null && selectedButton != m_CurrentHighlightedButton)
+            GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
+            if (selectedGO != null)
             {
-                m_CurrentHighlightedButton = selectedButton;
-            }
-        }
-        else
-        {
-            if (menuData.m_ButtonList.Contains(m_CurrentHighlightedButton))
-            {
-                m_CurrentHighlightedButton?.Select();
+                Button selectedButton = selectedGO.GetComponent<Button>();
+                if (selectedButton != null && selectedButton != m_CurrentHighlightedButton)
+                {
+                    m_CurrentHighlightedButton = selectedButton;
+                }
             }
             else
             {
-                menuData.m_DefaultHighlightedButton?.Select();
-                m_CurrentHighlightedButton = menuData.m_DefaultHighlightedButton;
+                if (menuData.m_ButtonList.Contains(m_CurrentHighlightedButton))
+                {
+                    m_CurrentHighlightedButton?.Select();
+                }
+                else
+                {
+                    menuData.m_DefaultHighlightedButton?.Select();
+                    m_CurrentHighlightedButton = menuData.m_DefaultHighlightedButton;
+                }
             }
         }
     }
@@ -90,7 +93,7 @@ public abstract class MenuComponent : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(sceneName);
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(sceneName, false);
     }
 
     public void QuitGame()

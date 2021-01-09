@@ -351,7 +351,7 @@ public class RoundSubGameManager : SubGameManagerBase
         else
         {
             SetPlayersSuperGaugeValues();
-            GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
+            GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name, true);
         }
     }
 
@@ -359,7 +359,7 @@ public class RoundSubGameManager : SubGameManagerBase
     {
         ResetPlayersRoundVictoryCounter();
         ResetPlayersSuperGaugeValues();
-        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene(SceneManager.GetActiveScene().name, true);
     }
 
     public uint GetPlayerRoundVictoryCounter(EPlayer player)

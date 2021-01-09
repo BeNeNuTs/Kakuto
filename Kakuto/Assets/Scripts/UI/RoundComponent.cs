@@ -115,6 +115,6 @@ public class RoundComponent : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene("Menu");
+        GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene("Menu", false);
     }
 }

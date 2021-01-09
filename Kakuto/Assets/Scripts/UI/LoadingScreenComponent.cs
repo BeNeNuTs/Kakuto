@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LoadingScreenComponent : MonoBehaviour
@@ -11,9 +12,11 @@ public class LoadingScreenComponent : MonoBehaviour
     public Action m_OnLoadingScreenReady;
 
 
-    public void StartLoading()
+    public void StartLoading(bool useFastLoading)
     {
+        m_Animator.SetBool("UseFastLoading", useFastLoading);
         m_Animator.SetTrigger("OnLoadingStart");
+        EventSystem.current.enabled = false;
         m_GraphicRaycaster.enabled = true;
         m_IsLoadingScreenReady = false;
     }
@@ -27,6 +30,7 @@ public class LoadingScreenComponent : MonoBehaviour
     public void EndLoading()
     {
         m_Animator.SetTrigger("OnLoadingEnd");
+        EventSystem.current.enabled = true;
         m_GraphicRaycaster.enabled = false;
     }
 }

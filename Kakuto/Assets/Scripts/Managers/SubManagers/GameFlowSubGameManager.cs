@@ -22,9 +22,9 @@ public class GameFlowSubGameManager : SubGameManagerBase
         GameObject.DontDestroyOnLoad(loadingScreenGO);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(string sceneName, bool useFastLoading)
     {
-        m_LoadingScreenComponent.StartLoading();
+        m_LoadingScreenComponent.StartLoading(useFastLoading);
         m_LoadingScreenComponent.m_OnLoadingScreenReady += OnLoadingScreenReady;
 
         m_IsLoading = true;
