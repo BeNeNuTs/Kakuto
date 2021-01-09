@@ -825,6 +825,64 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &505110667644392875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927988210115307677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dedd479dfe2cd24d88d8a5a2f6bcf5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GoToPauseMenuData:
+    m_ObjectsToDisable:
+    - {fileID: 7401663020255255123}
+    - {fileID: 2280275265732725184}
+    m_ObjectsToEnable:
+    - {fileID: 9150603653731335836}
+    m_ButtonList:
+    - {fileID: 4480890296939636893}
+    - {fileID: 1238702650937449551}
+    - {fileID: 1760473768156949381}
+    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
+  m_Player1PauseSprite: {fileID: 21300000, guid: c3d24741a2ab23a4b8cdc39562fcfa5f,
+    type: 3}
+  m_Player2PauseSprite: {fileID: 21300000, guid: 19aec749803e2ac4f9a658711adb9a80,
+    type: 3}
+  m_PauseImage: {fileID: 7246703831576564637}
+  m_QuitPauseMenuData:
+    m_ObjectsToDisable:
+    - {fileID: 9150603653731335836}
+    - {fileID: 2280275265732725184}
+    m_ObjectsToEnable: []
+    m_ButtonList:
+    - {fileID: 4480890296939636893}
+    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
+  m_GoToOptionsData:
+    m_ObjectsToDisable:
+    - {fileID: 9150603653731335836}
+    - {fileID: 2280275265087774892}
+    - {fileID: 2280275264399424050}
+    m_ObjectsToEnable:
+    - {fileID: 2280275265732725184}
+    - {fileID: 2280275264864483982}
+    m_ButtonList:
+    - {fileID: 2280275264481577754}
+    - {fileID: 2280275265484255602}
+    - {fileID: 2280275265169013564}
+    - {fileID: 2280275265066153082}
+    m_DefaultHighlightedButton: {fileID: 2280275264481577754}
+  m_QuiToMainMenuConfirmationData:
+    m_ObjectsToDisable: []
+    m_ObjectsToEnable:
+    - {fileID: 7401663020255255123}
+    m_ButtonList:
+    - {fileID: 8016643406850426078}
+    - {fileID: 6884780437311694649}
+    m_DefaultHighlightedButton: {fileID: 6884780437311694649}
 --- !u!1 &5641974199351067132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,8 +1530,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 160}
-  m_SizeDelta: {x: 468, y: 217}
+  m_AnchoredPosition: {x: 0, y: 167.9}
+  m_SizeDelta: {x: 442, y: 132}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3431081395563950488
 CanvasRenderer:
@@ -1503,7 +1561,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 00e05f3c346fd2f4a95848c076938c58, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c3d24741a2ab23a4b8cdc39562fcfa5f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1841,59 +1899,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &505110667644392875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927988210115307677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dedd479dfe2cd24d88d8a5a2f6bcf5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_GoToPauseMenuData:
-    m_ObjectsToDisable:
-    - {fileID: 7401663020255255123}
-    - {fileID: 2280275265732725184}
-    m_ObjectsToEnable:
-    - {fileID: 9150603653731335836}
-    m_ButtonList:
-    - {fileID: 4480890296939636893}
-    - {fileID: 1238702650937449551}
-    - {fileID: 1760473768156949381}
-    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
-  m_QuitPauseMenuData:
-    m_ObjectsToDisable:
-    - {fileID: 9150603653731335836}
-    - {fileID: 2280275265732725184}
-    m_ObjectsToEnable: []
-    m_ButtonList:
-    - {fileID: 4480890296939636893}
-    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
-  m_GoToOptionsData:
-    m_ObjectsToDisable:
-    - {fileID: 9150603653731335836}
-    - {fileID: 2280275265087774892}
-    - {fileID: 2280275264399424050}
-    m_ObjectsToEnable:
-    - {fileID: 2280275265732725184}
-    - {fileID: 2280275264864483982}
-    m_ButtonList:
-    - {fileID: 2280275264481577754}
-    - {fileID: 2280275265484255602}
-    - {fileID: 2280275265169013564}
-    - {fileID: 2280275265066153082}
-    m_DefaultHighlightedButton: {fileID: 2280275264481577754}
-  m_QuiToMainMenuConfirmationData:
-    m_ObjectsToDisable: []
-    m_ObjectsToEnable:
-    - {fileID: 7401663020255255123}
-    m_ButtonList:
-    - {fileID: 8016643406850426078}
-    - {fileID: 6884780437311694649}
-    m_DefaultHighlightedButton: {fileID: 6884780437311694649}
 --- !u!1 &9150603653731335836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,7 +1914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7175724039162630441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1939,6 +1944,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 505110667644392875}
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: GoToPauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274926269272509090, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_Name
@@ -2047,21 +2067,6 @@ PrefabInstance:
     - target: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 505110667644392875}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: GoToPauseMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6274926269272509090, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274926269272509091, guid: 7d262ccd779fb4a47a06d25a96884107,
@@ -2201,9 +2206,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d262ccd779fb4a47a06d25a96884107, type: 3}
---- !u!224 &8927988210115307649 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
+--- !u!1 &8927988210115307677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
     type: 3}
   m_PrefabInstance: {fileID: 5237737459359056738}
   m_PrefabAsset: {fileID: 0}
@@ -2279,9 +2284,9 @@ MonoBehaviour:
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8927988210115307677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
+--- !u!224 &8927988210115307649 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
     type: 3}
   m_PrefabInstance: {fileID: 5237737459359056738}
   m_PrefabAsset: {fileID: 0}

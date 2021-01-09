@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GamePauseMenuComponent : MenuComponent
 {
@@ -46,6 +47,9 @@ public class GamePauseMenuComponent : MenuComponent
 
 #pragma warning disable 0649
     [SerializeField] private MenuData m_GoToPauseMenuData;
+    [SerializeField] private Sprite m_Player1PauseSprite;
+    [SerializeField] private Sprite m_Player2PauseSprite;
+    [SerializeField] private Image m_PauseImage;
     [SerializeField] private MenuData m_QuitPauseMenuData;
     [SerializeField] private MenuData m_GoToOptionsData;
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
@@ -100,6 +104,7 @@ public class GamePauseMenuComponent : MenuComponent
         {
             if (InputManager.GetStartInput(out m_PausePlayer))
             {
+                m_PauseImage.sprite = (m_PausePlayer == EPlayer.Player1) ? m_Player1PauseSprite : m_Player2PauseSprite;
                 GoToPauseMenu();
                 return;
             }
