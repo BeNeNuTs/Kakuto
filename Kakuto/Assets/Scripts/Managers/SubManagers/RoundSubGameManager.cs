@@ -134,9 +134,9 @@ public class RoundSubGameManager : SubGameManagerBase
             startRoundUIDelay = GameConfig.Instance.m_StartRoundUIDelay;
             yield return new WaitForSeconds(startRoundUIDelay);
             PlayStartRoundNotification();
-        }
 
-        yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime - startRoundUIDelay);
+            yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime - startRoundUIDelay);
+        }
 
         while (!ArePlayersReady())
         {
