@@ -13,6 +13,7 @@ public class MainMenuComponent : MenuComponent
 #pragma warning disable 0649
     [SerializeField] private MenuData m_GoToMainMenuData;
     [SerializeField] private MenuData m_GoToOptionsData;
+    [SerializeField] private HighlightInfo[] m_OptionsHighlightInfo;
 #pragma warning restore 0649
 
     private EMenuState m_MenuState = EMenuState.TitleScreen;
@@ -39,6 +40,7 @@ public class MainMenuComponent : MenuComponent
                 {
                     GoToMainMenu();
                 }
+                UpdateHighlightedGameObject(m_OptionsHighlightInfo);
                 break;
         }
     }

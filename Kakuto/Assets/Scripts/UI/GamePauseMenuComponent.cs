@@ -46,12 +46,17 @@ public class GamePauseMenuComponent : MenuComponent
     }
 
 #pragma warning disable 0649
+    [Header("Pause")]
     [SerializeField] private MenuData m_GoToPauseMenuData;
     [SerializeField] private Sprite m_Player1PauseSprite;
     [SerializeField] private Sprite m_Player2PauseSprite;
     [SerializeField] private Image m_PauseImage;
     [SerializeField] private MenuData m_QuitPauseMenuData;
+
+    [Header("Options")]
     [SerializeField] private MenuData m_GoToOptionsData;
+    [SerializeField] private HighlightInfo[] m_OptionsHighlightInfo;
+    [Header("Quit")]
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
 #pragma warning restore 0649
 
@@ -131,6 +136,7 @@ public class GamePauseMenuComponent : MenuComponent
                     {
                         GoToPauseMenu();
                     }
+                    UpdateHighlightedGameObject(m_OptionsHighlightInfo);
                     break;
                 case EMenuState.QuitToMainMenuConfirmation:
                     UpdateHighlightedButton(m_QuiToMainMenuConfirmationData);

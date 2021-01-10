@@ -19,7 +19,15 @@ public abstract class MenuComponent : MonoBehaviour
 #pragma warning restore 0649
     }
 
+    [Serializable]
+    public class HighlightInfo
+    {
+        public GameObject m_SelectedGameObject;
+        public Image m_HighlightImage;
+    }
+
     private Button m_CurrentHighlightedButton;
+    private HighlightInfo m_CurrentHighlight = null;
 
     private void Awake()
     {
@@ -79,6 +87,48 @@ public abstract class MenuComponent : MonoBehaviour
                     menuData.m_DefaultHighlightedButton?.Select();
                     m_CurrentHighlightedButton = menuData.m_DefaultHighlightedButton;
                 }
+            }
+        }
+    }
+
+    protected void UpdateHighlightedGameObject(HighlightInfo[] highlightInfos)
+    {
+        if (EventSystem.current != null)
+        {
+            GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
+            if (selectedGO != null)
+            {
+                if(m_CurrentHighlight == null || selectedGO != m_CurrentHighlight.m_SelectedGameObject)
+                {
+                    bool newHighlightFound = false;
+                    for (int i = 0; i < highlightInfos.Length; i++)
+                    {
+                        if (selectedGO == highlightInfos[i].m_SelectedGameObject)
+                        {
+                            if(m_CurrentHighlight != null)
+                            {
+                                m_CurrentHighlight.m_HighlightImage.enabled = false;
+                            }
+                            m_CurrentHighlight = highlightInfos[i];
+                            m_CurrentHighlight.m_HighlightImage.enabled = true;
+                            newHighlightFound = true;
+                        }
+                    }
+
+                    if(!newHighlightFound)
+                    {
+                        if (m_CurrentHighlight != null)
+                        {
+                            m_CurrentHighlight.m_HighlightImage.enabled = false;
+                            m_CurrentHighlight = null;
+                        }
+                    }
+                }
+            }
+            else if (m_CurrentHighlight != null)
+            {
+                m_CurrentHighlight.m_HighlightImage.enabled = false;
+                m_CurrentHighlight = null;
             }
         }
     }
