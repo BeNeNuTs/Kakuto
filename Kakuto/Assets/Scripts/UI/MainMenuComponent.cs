@@ -12,6 +12,7 @@ public class MainMenuComponent : MenuComponent
 
 #pragma warning disable 0649
     [SerializeField] private MenuData m_GoToMainMenuData;
+    [SerializeField] private Button m_OptionsButton;
     [SerializeField] private MenuData m_GoToOptionsData;
     [SerializeField] private HighlightInfo[] m_OptionsHighlightInfo;
 #pragma warning restore 0649
@@ -48,6 +49,10 @@ public class MainMenuComponent : MenuComponent
     public void GoToMainMenu()
     {
         GoToMenu(m_GoToMainMenuData);
+        if(m_MenuState == EMenuState.Options)
+        {
+            m_OptionsButton?.Select();
+        }
         m_MenuState = EMenuState.MainMenu;
     }
 

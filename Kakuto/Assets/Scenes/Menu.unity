@@ -1898,6 +1898,7 @@ MonoBehaviour:
     - {fileID: 775072044}
     - {fileID: 2020919588}
     m_DefaultHighlightedButton: {fileID: 1655088581}
+  m_OptionsButton: {fileID: 775072044}
   m_GoToOptionsData:
     m_ObjectsToDisable:
     - {fileID: 1070889312}

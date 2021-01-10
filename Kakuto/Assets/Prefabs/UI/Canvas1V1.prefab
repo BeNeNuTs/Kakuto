@@ -861,6 +861,7 @@ MonoBehaviour:
     m_ButtonList:
     - {fileID: 4480890296939636893}
     m_DefaultHighlightedButton: {fileID: 4480890296939636893}
+  m_OptionButton: {fileID: 1238702650937449551}
   m_GoToOptionsData:
     m_ObjectsToDisable:
     - {fileID: 9150603653731335836}
@@ -882,6 +883,7 @@ MonoBehaviour:
     m_HighlightImage: {fileID: 4678705771215951373}
   - m_SelectedGameObject: {fileID: 8078404175114830946}
     m_HighlightImage: {fileID: 4961975360482702343}
+  m_QuitToMainMenuButton: {fileID: 1760473768156949381}
   m_QuiToMainMenuConfirmationData:
     m_ObjectsToDisable: []
     m_ObjectsToEnable:
@@ -1956,21 +1958,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas1V1
       objectReference: {fileID: 0}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 505110667644392875}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: GoToPauseMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6274926269272509090, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2074,6 +2061,21 @@ PrefabInstance:
     - target: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 505110667644392875}
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: GoToPauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274926269272509090, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274926269272509091, guid: 7d262ccd779fb4a47a06d25a96884107,

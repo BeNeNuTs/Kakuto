@@ -54,9 +54,12 @@ public class GamePauseMenuComponent : MenuComponent
     [SerializeField] private MenuData m_QuitPauseMenuData;
 
     [Header("Options")]
+    [SerializeField] private Button m_OptionButton;
     [SerializeField] private MenuData m_GoToOptionsData;
     [SerializeField] private HighlightInfo[] m_OptionsHighlightInfo;
+
     [Header("Quit")]
+    [SerializeField] private Button m_QuitToMainMenuButton;
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
 #pragma warning restore 0649
 
@@ -98,7 +101,7 @@ public class GamePauseMenuComponent : MenuComponent
         }
         m_PlayerInfos[playerIndex].m_Animator = player.GetComponentInChildren<Animator>();
         m_PlayerInfos[playerIndex].m_MovementComponent = player.GetComponent<PlayerMovementComponent>();
-        m_PlayerInfos[playerIndex].m_AttackComponent = player.GetComponent<PlayerAttackComponent>();       
+        m_PlayerInfos[playerIndex].m_AttackComponent = player.GetComponent<PlayerAttackComponent>();
     }
 
     protected override void OnUpdate_Internal()
@@ -147,7 +150,7 @@ public class GamePauseMenuComponent : MenuComponent
 
     protected void PauseGame()
     {
-        if(!m_TimeScaleManager.IsTimeFrozen)
+        if (!m_TimeScaleManager.IsTimeFrozen)
         {
             m_TimeScaleManager.FreezeTime();
             m_PlayerInfos[0].OnPauseGame();
@@ -171,8 +174,23 @@ public class GamePauseMenuComponent : MenuComponent
     {
         GoToMenu(m_GoToPauseMenuData);
         PauseGame();
+
+        switch (m_MenuState)
+        {
+            case EMenuState.Options:
+                m_OptionButton?.Select();
+                break;
+            case EMenuState.TrainingOptions:
+                OnGoToPauseMenuFromTrainingOptions();
+                break;
+            case EMenuState.QuitToMainMenuConfirmation:
+                m_QuitToMainMenuButton?.Select();
+                break;
+        }
         m_MenuState = EMenuState.PauseMenu;
     }
+
+    protected virtual void OnGoToPauseMenuFromTrainingOptions() { }
 
     public void DisplayQuitToMainMenuConfirmation()
     {

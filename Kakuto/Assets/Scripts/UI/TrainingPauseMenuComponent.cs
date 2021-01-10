@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class TrainingPauseMenuComponent : GamePauseMenuComponent
 {
 #pragma warning disable 0649
+    [SerializeField] private Button m_TrainingOptionsButton;
     [SerializeField] private MenuData m_GoToTrainingOptionsMenuData;
 #pragma warning restore 0649
 
@@ -23,5 +25,10 @@ public class TrainingPauseMenuComponent : GamePauseMenuComponent
     {
         GoToMenu(m_GoToTrainingOptionsMenuData);
         m_MenuState = EMenuState.TrainingOptions;
+    }
+
+    protected override void OnGoToPauseMenuFromTrainingOptions()
+    {
+        m_TrainingOptionsButton?.Select();
     }
 }
