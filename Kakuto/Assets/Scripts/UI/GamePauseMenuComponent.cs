@@ -56,7 +56,6 @@ public class GamePauseMenuComponent : MenuComponent
     [Header("Options")]
     [SerializeField] private Button m_OptionButton;
     [SerializeField] private MenuData m_GoToOptionsData;
-    [SerializeField] private HighlightInfo[] m_OptionsHighlightInfo;
 
     [Header("Quit")]
     [SerializeField] private Button m_QuitToMainMenuButton;
@@ -139,7 +138,6 @@ public class GamePauseMenuComponent : MenuComponent
                     {
                         GoToPauseMenu();
                     }
-                    UpdateHighlightedGameObject(m_OptionsHighlightInfo);
                     break;
                 case EMenuState.QuitToMainMenuConfirmation:
                     UpdateHighlightedButton(m_QuiToMainMenuConfirmationData);
