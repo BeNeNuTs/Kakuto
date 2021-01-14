@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DashType: 0
   m_MassMultiplier: 10
-  m_Impulse: 62
+  m_Impulse: 50
