@@ -131,6 +131,21 @@ public static class InputManager
         return startInput;
     }
 
+    public static bool GetSubmitInput(out EPlayer submitInputPlayer)
+    {
+        bool submitInput = false;
+        if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
+        {
+            submitInput = GamePadManager.GetAnyPlayerSubmitInput(out submitInputPlayer);
+        }
+        else
+        {
+            submitInput = Input.GetKeyDown(KeyCode.Return);
+            submitInputPlayer = EPlayer.Player1;
+        }
+        return submitInput;
+    }
+
     public static bool GetBackInput()
     {
         bool backInput = false;

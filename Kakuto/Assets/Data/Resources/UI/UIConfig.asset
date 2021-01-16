@@ -16,3 +16,68 @@ MonoBehaviour:
   m_TimeBetweenHealthBar: 0.5
   m_TimeToDisappearAfterComboBreak: 2
   m_MaxHitNotificationDisplayTime: 2
+  m_InputUIInfos:
+  - m_Input: 8
+    m_XboxSprite: {fileID: 21300000, guid: e0997e24a1d93514fb004e2c9f1845fd, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: ec0ef8feb688d574ebf8e6ee2e6ae863, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 00164e68caa5f88448233a3f3c250806, type: 3}
+  - m_Input: 9
+    m_XboxSprite: {fileID: 21300000, guid: d3be8b16104c94748a9745d272610610, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: ee828b5a6533ee44192493bdff0bf251, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: d19b826e4fb6bec48939fa65486623dd, type: 3}
+  - m_Input: 10
+    m_XboxSprite: {fileID: 21300000, guid: ea1b0ce4ad661c3428cd747dbe19f1b2, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: b629b3c3876445a44aaf11ab8d09bff9, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: daca2695afdeb744396ec92a01a74625, type: 3}
+  - m_Input: 11
+    m_XboxSprite: {fileID: 21300000, guid: 379b9a23d98572349892532b2406243f, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: d9bec234b34e4b2409a28ac6237ca3d2, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: d3c97c2508ac1ae4b95f8a73c22670a2, type: 3}
+  - m_Input: 13
+    m_XboxSprite: {fileID: 21300000, guid: 91d2d4a30b1e46045b9e59e6f06034eb, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: f2c62197a1dac2b4299f0d0c237adfb9, type: 3}
+    m_GameSprite: {fileID: 0}
+  - m_Input: 12
+    m_XboxSprite: {fileID: 21300000, guid: d3c53c29d0f1d0d4594157c8b1c12383, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 79628d1581174804494c86368f4ade89, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 1065bf1e43167df4f929943df1d2f126, type: 3}
+  - m_Input: 14
+    m_XboxSprite: {fileID: 21300000, guid: 5bc52bdf730476945976e60ab941947d, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 9370bd330cc40a740b48ea64dfd8ddb5, type: 3}
+    m_GameSprite: {fileID: 0}
+  - m_Input: 15
+    m_XboxSprite: {fileID: 21300000, guid: e28d3125f40789f45a02895ea2ff59c0, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 6db64c6353bccce43bf3bdef055fa2ec, type: 3}
+    m_GameSprite: {fileID: 0}
+  - m_Input: 0
+    m_XboxSprite: {fileID: 21300000, guid: 7dd3450bdd6ffaa41a3a5b25cfdf7203, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 7dd3450bdd6ffaa41a3a5b25cfdf7203, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 7dd3450bdd6ffaa41a3a5b25cfdf7203, type: 3}
+  - m_Input: 1
+    m_XboxSprite: {fileID: 21300000, guid: dd164a008ee2d6d43bfcb406f4cddba4, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: dd164a008ee2d6d43bfcb406f4cddba4, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: dd164a008ee2d6d43bfcb406f4cddba4, type: 3}
+  - m_Input: 2
+    m_XboxSprite: {fileID: 21300000, guid: 5b2dd777ac7ba5e40be3d3519fc7f4af, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 5b2dd777ac7ba5e40be3d3519fc7f4af, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 5b2dd777ac7ba5e40be3d3519fc7f4af, type: 3}
+  - m_Input: 3
+    m_XboxSprite: {fileID: 21300000, guid: ec87302c2ce70c84cb4966a024afd2be, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: ec87302c2ce70c84cb4966a024afd2be, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: ec87302c2ce70c84cb4966a024afd2be, type: 3}
+  - m_Input: 4
+    m_XboxSprite: {fileID: 21300000, guid: 93807503ad45d2749bbfcc62e7932a08, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 93807503ad45d2749bbfcc62e7932a08, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 93807503ad45d2749bbfcc62e7932a08, type: 3}
+  - m_Input: 5
+    m_XboxSprite: {fileID: 21300000, guid: 90fcfbcbae97390479168d48decaf7ce, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 90fcfbcbae97390479168d48decaf7ce, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 90fcfbcbae97390479168d48decaf7ce, type: 3}
+  - m_Input: 6
+    m_XboxSprite: {fileID: 21300000, guid: 5e81c31575dc2b74f95737b793d1f50d, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 5e81c31575dc2b74f95737b793d1f50d, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 5e81c31575dc2b74f95737b793d1f50d, type: 3}
+  - m_Input: 7
+    m_XboxSprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}
+    m_PS4Sprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}
+    m_GameSprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}

@@ -134,7 +134,7 @@ public class GamePauseMenuComponent : MenuComponent
                     break;
                 case EMenuState.Options:
                     UpdateHighlightedButton(m_GoToOptionsData);
-                    if (InputManager.GetBackInput())
+                    if (!InputListener.m_IsListeningInput && InputManager.GetBackInput())
                     {
                         GoToPauseMenu();
                     }

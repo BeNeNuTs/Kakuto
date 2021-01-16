@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Profiling;
+using System;
+using UnityEditor;
 
 public enum EGamePadsConnectedState
 {
@@ -18,6 +19,16 @@ public static class GamePadManager
     private static int m_LastNbGamePadConnected = 0;
 
     private static PlayerGamePad[] m_PlayerGamePads = { new PlayerGamePad(0), new PlayerGamePad(1) };
+
+    // Add a menu item named "Do Something" to MyMenu in the menu bar.
+    [MenuItem("Kakuto/Clear saved input mapping")]
+    static void ClearSavedInputMapping()
+    {
+        PlayerPrefs.SetString("Player1InputMapping", "");
+        PlayerPrefs.SetString("Player2InputMapping", "");
+        Debug.Log("Input mapping cleared!");
+    }
+
 
     public static float GetHorizontalMovement(int playerIndex)
     {
@@ -115,6 +126,22 @@ public static class GamePadManager
         return false;
     }
 
+    public static bool GetAnyPlayerSubmitInput(out EPlayer submitInputPlayer)
+    {
+        submitInputPlayer = EPlayer.Player1;
+        for (int i = 0; i < m_PlayerGamePads.Length; i++)
+        {
+            Update(i);
+            if (m_PlayerGamePads[i].GetSubmitInput())
+            {
+                submitInputPlayer = (i == 0) ? EPlayer.Player1 : EPlayer.Player2;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static bool GetAnyPlayerBackInput()
     {
         for (int i = 0; i < m_PlayerGamePads.Length; i++)
@@ -165,6 +192,40 @@ public static class GamePadManager
     public static int GetJoystickNum(int playerIndex)
     {
         return m_PlayerGamePads[playerIndex].GetJoystickNum();
+    }
+
+    public static EGamePadType GetPlayerGamepadType(int playerIndex, Action<EGamePadType> onGamePadTypeChanged = null)
+    {
+        if(onGamePadTypeChanged != null)
+            m_PlayerGamePads[playerIndex].OnGamePadTypeChanged += onGamePadTypeChanged;
+        return m_PlayerGamePads[playerIndex].GamePadType;
+    }
+
+    public static List<GameInput> GetPlayerGamepadInput(int playerIndex)
+    {
+        Update(playerIndex);
+
+        List<GameInput> playerGamepadInputList = new List<GameInput>();
+        if (m_PlayerGamePads[playerIndex].IsGamePadIndexValid())
+        {
+            List<EInputKey> inputKeysDown = m_PlayerGamePads[playerIndex].GetInputKeysDown(false);
+            foreach (EInputKey inputKey in inputKeysDown)
+            {
+                playerGamepadInputList.Add(new GameInput(inputKey));
+            }
+        }
+
+        return playerGamepadInputList;
+    }
+
+    public static EInputKey GetPlayerGamepadInputMapping(int playerIndex, EInputKey value)
+    {
+        return m_PlayerGamePads[playerIndex].GetInputMapping(value);
+    }
+
+    public static void SetPlayerGamepadInputMapping(int playerIndex, EInputKey key, EInputKey newValue)
+    {
+        m_PlayerGamePads[playerIndex].SetInputMapping(key, newValue);
     }
 
     private static void Update(int playerIndex)

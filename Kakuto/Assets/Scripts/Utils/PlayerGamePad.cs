@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public enum EGamePadType
 {
@@ -25,14 +26,40 @@ public enum EDirection
 
 public class PlayerGamePad
 {
-    private static readonly int K_GAMEPAD_BUTTON = 6;
+    public static readonly int K_GAMEPAD_BUTTON = 6;
+    public static readonly Dictionary<EInputKey, EInputKey> K_DEFAULT_INPUT_MAPPING = new Dictionary<EInputKey, EInputKey>
+    {
+        { EInputKey.A, EInputKey.A },
+        { EInputKey.B, EInputKey.B },
+        { EInputKey.X, EInputKey.X },
+        { EInputKey.Y, EInputKey.Y },
+        { EInputKey.LB, EInputKey.LB },
+        { EInputKey.RB, EInputKey.RB },
+        { EInputKey.LT, EInputKey.LT },
+        { EInputKey.RT, EInputKey.RT }
+    };
+
+    public Dictionary<EInputKey, EInputKey> m_InputMapping = new Dictionary<EInputKey, EInputKey>(K_DEFAULT_INPUT_MAPPING);
 
     public int m_LastUpdate = -1;
 
     public int m_PlayerIndex = -1;
     private int m_GamePadIndex = -1;
 
-    public EGamePadType m_GamePadType = EGamePadType.Invalid;
+    private EGamePadType m_GamePadType = EGamePadType.Invalid;
+    public EGamePadType GamePadType
+    {
+        get => m_GamePadType;
+        set
+        {
+            if(m_GamePadType != value)
+            {
+                m_GamePadType = value;
+                OnGamePadTypeChanged?.Invoke(value);
+            }
+        }
+    }
+    public Action<EGamePadType> OnGamePadTypeChanged;
 
     public float m_LastXAxis = 0f;
     public float m_LastYAxis = 0f;
@@ -53,12 +80,65 @@ public class PlayerGamePad
     public PlayerGamePad(int _m_PlayerIndex)
     {
         m_PlayerIndex = _m_PlayerIndex;
+        LoadInputMapping();
+    }
+
+    private void LoadInputMapping()
+    {
+        string inputMappingStr = PlayerPrefs.GetString("Player" + (m_PlayerIndex + 1) + "InputMapping");
+        if (string.IsNullOrEmpty(inputMappingStr))
+        {
+            m_InputMapping = new Dictionary<EInputKey, EInputKey>(K_DEFAULT_INPUT_MAPPING);
+            return;
+        }
+
+        string[] inputsKeyValue = inputMappingStr.Split('|');
+        for(int i = 0; i < inputsKeyValue.Length; i++)
+        {
+            string[] inputKeyValue = inputsKeyValue[i].Split(';');
+            EInputKey inputKey = GameInput.ConvertInputStringToKey(inputKeyValue[0]);
+            EInputKey inputValue = GameInput.ConvertInputStringToKey(inputKeyValue[1]);
+
+            if(m_InputMapping.ContainsKey(inputKey))
+            {
+                m_InputMapping[inputKey] = inputValue;
+            }
+        }
+    }
+
+    public void SetInputMapping(EInputKey key, EInputKey newValue)
+    {
+        if (m_InputMapping.ContainsKey(key))
+        {
+            m_InputMapping[key] = newValue;
+            SaveInputMapping();
+        }
+    }
+
+    public EInputKey GetInputMapping(EInputKey value)
+    {
+        foreach(KeyValuePair<EInputKey, EInputKey> keyValue in m_InputMapping)
+        {
+            if(keyValue.Value == value)
+            {
+                return keyValue.Key;
+            }
+        }
+
+        return EInputKey.Invalid;
+    }
+
+    private void SaveInputMapping()
+    {
+        var pairs = m_InputMapping.Select(x => string.Format("{0}{1}{2}", x.Key, ';', x.Value));
+        string inputMappingStr = string.Join("|", pairs);
+        PlayerPrefs.SetString("Player" + (m_PlayerIndex + 1) + "InputMapping", inputMappingStr);
     }
 
     public void ResetGamePadIndex()
     {
         m_GamePadIndex = -1;
-        m_GamePadType = EGamePadType.Invalid;
+        GamePadType = EGamePadType.Invalid;
     }
 
     public bool IsGamePadIndexValid()
@@ -114,7 +194,7 @@ public class PlayerGamePad
                     if (nbValidGamePadFound == m_PlayerIndex)
                     {
                         m_GamePadIndex = i;
-                        m_GamePadType = FindGamePadTypeFromName(joystickNames[i]);
+                        GamePadType = FindGamePadTypeFromName(joystickNames[i]);
                         break;
                     }
                     nbValidGamePadFound++;
@@ -151,7 +231,7 @@ public class PlayerGamePad
         float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + GetJoystickNum());
         if (horizontalRawAxis == 0)
         {
-            horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + m_GamePadType.ToString());
+            horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
         }
 
         if (horizontalRawAxis > 0)
@@ -178,7 +258,7 @@ public class PlayerGamePad
         float verticalRawAxis = Input.GetAxisRaw("Vertical" + GetJoystickNum());
         if (verticalRawAxis == 0)
         {
-            verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + m_GamePadType.ToString());
+            verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
         }
 
         if (verticalRawAxis > 0)
@@ -261,16 +341,16 @@ public class PlayerGamePad
             int joystickNum = GetJoystickNum();
 
             m_LastLTAxis = m_CurrentLTAxis;
-            m_CurrentLTAxis = Input.GetAxisRaw("LT" + joystickNum + "_" + m_GamePadType.ToString());
+            m_CurrentLTAxis = Input.GetAxisRaw("LT" + joystickNum + "_" + GamePadType.ToString());
 
             m_LastRTAxis = m_CurrentRTAxis;
-            m_CurrentRTAxis = Input.GetAxisRaw("RT" + joystickNum + "_" + m_GamePadType.ToString());
+            m_CurrentRTAxis = Input.GetAxisRaw("RT" + joystickNum + "_" + GamePadType.ToString());
         }
     }
 
     private float GetMinTriggerValue()
     {
-        switch (m_GamePadType)
+        switch (GamePadType)
         {
             case EGamePadType.Xbox:
                 return 0f;
@@ -282,7 +362,7 @@ public class PlayerGamePad
         }
     }
 
-    public List<EInputKey> GetInputKeysDown()
+    public List<EInputKey> GetInputKeysDown(bool useRemapInputs = true)
     {
         List<EInputKey> inputKeysDown = new List<EInputKey>();
 
@@ -291,19 +371,19 @@ public class PlayerGamePad
         {
             if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
             {
-                inputKeysDown.Add(ConvertGamePadButtonAsKey(i));
+                inputKeysDown.Add(ConvertGamePadButtonAsKey(i, useRemapInputs));
             }
         }
 
         float minTriggerValue = GetMinTriggerValue();
         if (m_CurrentLTAxis > minTriggerValue && m_LastLTAxis == minTriggerValue)
         {
-            inputKeysDown.Add(EInputKey.LT);
+            inputKeysDown.Add(useRemapInputs ? m_InputMapping[EInputKey.LT] : EInputKey.LT);
         }
 
         if (m_CurrentRTAxis > minTriggerValue && m_LastRTAxis == minTriggerValue)
         {
-            inputKeysDown.Add(EInputKey.RT);
+            inputKeysDown.Add(useRemapInputs ? m_InputMapping[EInputKey.RT] : EInputKey.RT);
         }
 
         return inputKeysDown;
@@ -312,7 +392,7 @@ public class PlayerGamePad
     public bool GetStartInput()
     {
         int joystickNum = GetJoystickNum();
-        switch (m_GamePadType)
+        switch (GamePadType)
         {
             case EGamePadType.Xbox:
                 return Input.GetKeyDown("joystick " + joystickNum + " button 7");
@@ -324,72 +404,87 @@ public class PlayerGamePad
         }
     }
 
-    public bool GetBackInput()
+    public bool GetSubmitInput()
     {
         int joystickNum = GetJoystickNum();
-        switch (m_GamePadType)
+        switch (GamePadType)
         {
             case EGamePadType.Xbox:
-                return Input.GetKey("joystick " + joystickNum + " button 1");
+                return Input.GetKeyDown("joystick " + joystickNum + " button 0");
             case EGamePadType.PS4:
-                return Input.GetKey("joystick " + joystickNum + " button 2");
+                return Input.GetKeyDown("joystick " + joystickNum + " button 1");
             case EGamePadType.Invalid:
             default:
                 return false;
         }
     }
 
-    public EInputKey ConvertGamePadButtonAsKey(int buttonIndex)
+    public bool GetBackInput()
+    {
+        int joystickNum = GetJoystickNum();
+        switch (GamePadType)
+        {
+            case EGamePadType.Xbox:
+                return Input.GetKeyDown("joystick " + joystickNum + " button 1");
+            case EGamePadType.PS4:
+                return Input.GetKeyDown("joystick " + joystickNum + " button 2");
+            case EGamePadType.Invalid:
+            default:
+                return false;
+        }
+    }
+
+    public EInputKey ConvertGamePadButtonAsKey(int buttonIndex, bool useRemapInputs)
     {
         switch (m_GamePadType)
         {
             case EGamePadType.Xbox:
-                return ConvertXboxGamePadButtonAsKey(buttonIndex);
+                return ConvertXboxGamePadButtonAsKey(buttonIndex, useRemapInputs);
             case EGamePadType.PS4:
-                return ConvertPS4GamePadButtonAsKey(buttonIndex);
+                return ConvertPS4GamePadButtonAsKey(buttonIndex, useRemapInputs);
             case EGamePadType.Invalid:
             default:
                 return EInputKey.Invalid;
         }
     }
 
-    private static EInputKey ConvertXboxGamePadButtonAsKey(int buttonIndex)
+    private EInputKey ConvertXboxGamePadButtonAsKey(int buttonIndex, bool useRemapInputs)
     {
         switch (buttonIndex)
         {
             case 0:
-                return EInputKey.A;
+                return useRemapInputs ? m_InputMapping[EInputKey.A] : EInputKey.A;
             case 1:
-                return EInputKey.B;
+                return useRemapInputs ? m_InputMapping[EInputKey.B] : EInputKey.B;
             case 2:
-                return EInputKey.X;
+                return useRemapInputs ? m_InputMapping[EInputKey.X] : EInputKey.X;
             case 3:
-                return EInputKey.Y;
+                return useRemapInputs ? m_InputMapping[EInputKey.Y] : EInputKey.Y;
             case 4:
-                return EInputKey.LB;
+                return useRemapInputs ? m_InputMapping[EInputKey.LB] : EInputKey.LB;
             case 5:
-                return EInputKey.RB;
+                return useRemapInputs ? m_InputMapping[EInputKey.RB] : EInputKey.RB;
             default:
                 return EInputKey.Invalid;
         }
     }
 
-    private static EInputKey ConvertPS4GamePadButtonAsKey(int buttonIndex)
+    private EInputKey ConvertPS4GamePadButtonAsKey(int buttonIndex, bool useRemapInputs)
     {
         switch (buttonIndex)
         {
             case 0:
-                return EInputKey.X;
+                return useRemapInputs ? m_InputMapping[EInputKey.X] : EInputKey.X;
             case 1:
-                return EInputKey.A;
+                return useRemapInputs ? m_InputMapping[EInputKey.A] : EInputKey.A;
             case 2:
-                return EInputKey.B;
+                return useRemapInputs ? m_InputMapping[EInputKey.B] : EInputKey.B;
             case 3:
-                return EInputKey.Y;
+                return useRemapInputs ? m_InputMapping[EInputKey.Y] : EInputKey.Y;
             case 4:
-                return EInputKey.LB;
+                return useRemapInputs ? m_InputMapping[EInputKey.LB] : EInputKey.LB;
             case 5:
-                return EInputKey.RB;
+                return useRemapInputs ? m_InputMapping[EInputKey.RB] : EInputKey.RB;
             default:
                 return EInputKey.Invalid;
         }

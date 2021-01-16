@@ -133,6 +133,14 @@ public abstract class MenuComponent : MonoBehaviour
         }
     }
 
+    protected void UpdateSubmitSelectable()
+    {
+        if (InputManager.GetSubmitInput(out EPlayer submitInputPlayer))
+        {
+            EventSystem.current?.currentSelectedGameObject?.GetComponent<Button>()?.onClick?.Invoke();
+        }
+    }
+
     protected void GoToMenu(MenuData data)
     {
         SetActive(data.m_ObjectsToDisable, false);

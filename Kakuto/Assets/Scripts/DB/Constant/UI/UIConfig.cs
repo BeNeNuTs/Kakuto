@@ -1,5 +1,14 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
+public class InputUIInfo
+{
+    public EInputKey m_Input;
+    public Sprite m_XboxSprite;
+    public Sprite m_PS4Sprite;
+    public Sprite m_GameSprite;
+}
+
 public class UIConfig : ScriptableObject
 {
     static UIConfig s_Instance = null;
@@ -27,4 +36,7 @@ public class UIConfig : ScriptableObject
     [Separator("Hit notifications")]
     [Tooltip("After how much time the hit notification is displayed")]
     public float m_MaxHitNotificationDisplayTime = 2.0f;
+
+    [Separator("Inputs")]
+    public InputUIInfo[] m_InputUIInfos;
 }

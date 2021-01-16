@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class AudioMenuComponent : MenuComponent
 {
+#pragma warning disable 0649
     [SerializeField] private Button[] m_OptionButtons;
     [SerializeField] private Selectable m_DefaultSelectable;
     [SerializeField] private HighlightInfo[] m_AudioHighlightInfo;
+#pragma warning restore 0649
 
     public void OnEnable()
     {
