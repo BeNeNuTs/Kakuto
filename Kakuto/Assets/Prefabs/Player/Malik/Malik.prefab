@@ -246,7 +246,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596736549716289547}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.031, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5025473378732827118}
@@ -265,8 +265,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012406826, y: 0.03839624}
-  m_Size: {x: 0.31166148, y: 0.71}
+  m_Offset: {x: -0.064872, y: 0.03839624}
+  m_Size: {x: 0.20673114, y: 0.71}
   m_Direction: 0
 --- !u!114 &7436580204411013188
 MonoBehaviour:
@@ -979,7 +979,7 @@ PrefabInstance:
     - target: {fileID: 3943496833267493027, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3781024142746770525, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
@@ -999,7 +999,7 @@ PrefabInstance:
     - target: {fileID: 3599251487148823360, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2664367139628888165, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
