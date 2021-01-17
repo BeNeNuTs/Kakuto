@@ -29,6 +29,10 @@ public abstract class MenuComponent : MonoBehaviour
     private Button m_CurrentHighlightedButton;
     private HighlightInfo m_CurrentHighlight = null;
 
+    private float m_LastDpadNavigationUpdatedTime = 0f;
+    private bool m_ActiveDpadNavigationRepeatDelay = false;
+    private bool m_DpadNavigationRepeatDelayChecked = false;
+
     private void Awake()
     {
         OnAwake_Internal();
@@ -138,6 +142,63 @@ public abstract class MenuComponent : MonoBehaviour
         if (InputManager.GetSubmitInput(out EPlayer submitInputPlayer))
         {
             EventSystem.current?.currentSelectedGameObject?.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
+        }
+    }
+
+    protected void UpdateDpadNavigation()
+    {
+        EventSystem currentEventSystem = EventSystem.current;
+        if (currentEventSystem != null)
+        {
+            float unscaledTime = Time.unscaledTime;
+            if(m_DpadNavigationRepeatDelayChecked || !m_ActiveDpadNavigationRepeatDelay || unscaledTime > m_LastDpadNavigationUpdatedTime + UIConfig.Instance.m_DpadNavigationInputRepeatDelay)
+            {
+                if (unscaledTime > m_LastDpadNavigationUpdatedTime + UIConfig.Instance.DpadNavigationInputPerSecond)
+                {
+                    GameObject selectedGO = currentEventSystem.currentSelectedGameObject;
+                    if (selectedGO != null)
+                    {
+                        if (GamePadManager.GetAnyPlayerDpadDirection(out EPlayer player, out float horizontalAxis, out float verticalAxis))
+                        {
+                            Selectable selectableGO = selectedGO.GetComponent<Selectable>();
+                            if (selectableGO != null)
+                            {
+                                if (horizontalAxis < 0f)
+                                {
+                                    selectableGO.FindSelectableOnLeft()?.Select();
+                                }
+                                else if (horizontalAxis > 0f)
+                                {
+                                    selectableGO.FindSelectableOnRight()?.Select();
+                                }
+                                else if (verticalAxis < 0f)
+                                {
+                                    selectableGO.FindSelectableOnDown()?.Select();
+                                }
+                                else if (verticalAxis > 0f)
+                                {
+                                    selectableGO.FindSelectableOnUp()?.Select();
+                                }
+                                m_LastDpadNavigationUpdatedTime = Time.unscaledTime;
+                                if(m_ActiveDpadNavigationRepeatDelay)
+                                    m_DpadNavigationRepeatDelayChecked = true;
+                                else
+                                    m_ActiveDpadNavigationRepeatDelay = true;
+                            }
+                        }
+                        else
+                        {
+                            m_ActiveDpadNavigationRepeatDelay = false;
+                            m_DpadNavigationRepeatDelayChecked = false;
+                        }
+                    }
+                }
+            }
+            else if (!GamePadManager.GetAnyPlayerDpadDirection(out EPlayer player, out float horizontalAxis, out float verticalAxis))
+            {
+                m_ActiveDpadNavigationRepeatDelay = false;
+                m_DpadNavigationRepeatDelayChecked = false;
+            }
         }
     }
 

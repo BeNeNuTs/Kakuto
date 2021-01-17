@@ -17,7 +17,8 @@ public class TrainingPauseMenuComponent : GamePauseMenuComponent
             if (!InputListener.m_IsListeningInput)
             {
                 UpdateButtonClick();
-                if(InputManager.GetBackInput())
+                UpdateDpadNavigation();
+                if (InputManager.GetBackInput())
                 {
                     GoToPauseMenu();
                 }

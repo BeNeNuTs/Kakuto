@@ -132,6 +132,7 @@ public class GamePauseMenuComponent : MenuComponent
                 case EMenuState.PauseMenu:
                     UpdateHighlightedButton(m_GoToPauseMenuData);
                     UpdateButtonClick();
+                    UpdateDpadNavigation();
                     if (InputManager.GetBackInput(out EPlayer backInputPlayer))
                     {
                         if (backInputPlayer == m_PausePlayer)
@@ -145,6 +146,7 @@ public class GamePauseMenuComponent : MenuComponent
                     if (!InputListener.m_IsListeningInput)
                     {
                         UpdateButtonClick();
+                        UpdateDpadNavigation();
                         if (InputManager.GetBackInput())
                         {
                             GoToPauseMenu();
@@ -154,6 +156,7 @@ public class GamePauseMenuComponent : MenuComponent
                 case EMenuState.QuitToMainMenuConfirmation:
                     UpdateHighlightedButton(m_QuiToMainMenuConfirmationData);
                     UpdateButtonClick();
+                    UpdateDpadNavigation();
                     if (InputManager.GetBackInput())
                     {
                         GoToPauseMenu();

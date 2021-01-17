@@ -160,6 +160,24 @@ public static class GamePadManager
         return false;
     }
 
+    public static bool GetAnyPlayerDpadDirection(out EPlayer dpadDirectionInputPlayer, out float horizontalRawAxis, out float verticalRawAxis)
+    {
+        dpadDirectionInputPlayer = EPlayer.Player1;
+        horizontalRawAxis = 0f;
+        verticalRawAxis = 0f;
+        for (int i = 0; i < m_PlayerGamePads.Length; i++)
+        {
+            Update(i);
+            if (m_PlayerGamePads[i].GetDpadInput(out horizontalRawAxis, out verticalRawAxis))
+            {
+                dpadDirectionInputPlayer = (i == 0) ? EPlayer.Player1 : EPlayer.Player2;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static EGamePadsConnectedState UpdateGamePadsState()
     {
         if (Time.unscaledTime < m_LastGamePadsConnectedCheck + K_GAMEPAD_CONNECTION_CHECK)

@@ -35,12 +35,14 @@ public class MainMenuComponent : MenuComponent
             case EMenuState.MainMenu:
                 UpdateHighlightedButton(m_GoToMainMenuData);
                 UpdateButtonClick();
+                UpdateDpadNavigation();
                 break;
             case EMenuState.Options:
                 UpdateHighlightedButton(m_GoToOptionsData);
                 if (!InputListener.m_IsListeningInput)
                 {
                     UpdateButtonClick();
+                    UpdateDpadNavigation();
                     if (InputManager.GetBackInput())
                     {
                         GoToMainMenu();

@@ -38,5 +38,8 @@ public class UIConfig : ScriptableObject
     public float m_MaxHitNotificationDisplayTime = 2.0f;
 
     [Separator("Inputs")]
+    [SerializeField] private float m_DpadNavigationInputPerSecond = 10f;
+    public float DpadNavigationInputPerSecond => 1f / m_DpadNavigationInputPerSecond;
+    public float m_DpadNavigationInputRepeatDelay = 0.5f;
     public InputUIInfo[] m_InputUIInfos;
 }

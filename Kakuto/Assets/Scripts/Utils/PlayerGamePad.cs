@@ -440,6 +440,15 @@ public class PlayerGamePad
         }
     }
 
+    public bool GetDpadInput(out float horizontalRawAxis, out float verticalRawAxis)
+    {
+        int joystickNum = GetJoystickNum();
+        horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
+        verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
+
+        return horizontalRawAxis != 0f || verticalRawAxis != 0f;
+    }
+
     public EInputKey ConvertGamePadButtonAsKey(int buttonIndex, bool useRemapInputs)
     {
         switch (m_GamePadType)

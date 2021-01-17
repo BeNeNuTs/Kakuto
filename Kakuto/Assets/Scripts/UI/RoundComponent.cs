@@ -90,6 +90,7 @@ public class RoundComponent : MenuComponent
                     m_DefaultSelectedButton.Select();
                 }
                 UpdateButtonClick();
+                UpdateDpadNavigation();
             }
         }
     }
