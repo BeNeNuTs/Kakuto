@@ -144,13 +144,15 @@ public static class GamePadManager
         return false;
     }
 
-    public static bool GetAnyPlayerBackInput()
+    public static bool GetAnyPlayerBackInput(out EPlayer backInputPlayer)
     {
+        backInputPlayer = EPlayer.Player1;
         for (int i = 0; i < m_PlayerGamePads.Length; i++)
         {
             Update(i);
             if (m_PlayerGamePads[i].GetBackInput())
             {
+                backInputPlayer = (i == 0) ? EPlayer.Player1 : EPlayer.Player2;
                 return true;
             }
         }
