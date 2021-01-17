@@ -34,14 +34,14 @@ public class MainMenuComponent : MenuComponent
 
             case EMenuState.MainMenu:
                 UpdateHighlightedButton(m_GoToMainMenuData);
-                //UpdateSubmitSelectable();
+                UpdateButtonClick();
                 break;
             case EMenuState.Options:
                 UpdateHighlightedButton(m_GoToOptionsData);
                 if (!InputListener.m_IsListeningInput)
                 {
-                    //UpdateSubmitSelectable();
-                    if(InputManager.GetBackInput())
+                    UpdateButtonClick();
+                    if (InputManager.GetBackInput())
                     {
                         GoToMainMenu();
                     }

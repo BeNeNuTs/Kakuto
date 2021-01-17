@@ -148,14 +148,21 @@ public static class InputManager
 
     public static bool GetBackInput()
     {
+        EPlayer playerBackInput;
+        return GetBackInput(out playerBackInput);
+    }
+
+    public static bool GetBackInput(out EPlayer backInputPlayer)
+    {
         bool backInput = false;
         if (GamePadManager.UpdateGamePadsState() == EGamePadsConnectedState.Connected)
         {
-            backInput = GamePadManager.GetAnyPlayerBackInput();
+            backInput = GamePadManager.GetAnyPlayerBackInput(out backInputPlayer);
         }
         else
         {
             backInput = Input.GetKey(KeyCode.Backspace);
+            backInputPlayer = EPlayer.Player1;
         }
         return backInput;
     }

@@ -144,13 +144,15 @@ public static class GamePadManager
         return false;
     }
 
-    public static bool GetAnyPlayerBackInput()
+    public static bool GetAnyPlayerBackInput(out EPlayer backInputPlayer)
     {
+        backInputPlayer = EPlayer.Player1;
         for (int i = 0; i < m_PlayerGamePads.Length; i++)
         {
             Update(i);
             if (m_PlayerGamePads[i].GetBackInput())
             {
+                backInputPlayer = (i == 0) ? EPlayer.Player1 : EPlayer.Player2;
                 return true;
             }
         }
@@ -228,6 +230,11 @@ public static class GamePadManager
     public static void SetPlayerGamepadInputMapping(int playerIndex, EInputKey key, EInputKey newValue)
     {
         m_PlayerGamePads[playerIndex].SetInputMapping(key, newValue);
+    }
+
+    public static void ResetPlayerGamepadInputMapping(int playerIndex)
+    {
+        m_PlayerGamePads[playerIndex].ResetInputMapping();
     }
 
     private static void Update(int playerIndex)

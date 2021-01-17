@@ -133,11 +133,11 @@ public abstract class MenuComponent : MonoBehaviour
         }
     }
 
-    protected void UpdateSubmitSelectable()
+    protected void UpdateButtonClick()
     {
         if (InputManager.GetSubmitInput(out EPlayer submitInputPlayer))
         {
-            EventSystem.current?.currentSelectedGameObject?.GetComponent<Button>()?.onClick?.Invoke();
+            EventSystem.current?.currentSelectedGameObject?.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
         }
     }
 

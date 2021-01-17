@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class RoundComponent : MonoBehaviour
+public class RoundComponent : MenuComponent
 {
     public TextMeshProUGUI m_TimerText;
     public Image[] m_Player1VictoryRounds;
@@ -11,6 +11,8 @@ public class RoundComponent : MonoBehaviour
     public Animator m_RoundNotifAnimator;
     public GameObject m_EndRoundButtons;
     public Button m_DefaultSelectedButton;
+    public Image m_P1Wins;
+    public Image m_P2Wins;
 
     private float m_InitTimestamp = 0.0f;
     private uint m_RemaningTime = uint.MaxValue;
@@ -80,10 +82,14 @@ public class RoundComponent : MonoBehaviour
         }
         else if(m_EndRoundButtons.activeSelf)
         {
-            GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
-            if (selectedGO == null)
+            if(EventSystem.current != null)
             {
-                m_DefaultSelectedButton.Select();
+                GameObject selectedGO = EventSystem.current.currentSelectedGameObject;
+                if (selectedGO == null)
+                {
+                    m_DefaultSelectedButton.Select();
+                }
+                UpdateButtonClick();
             }
         }
     }
@@ -102,8 +108,12 @@ public class RoundComponent : MonoBehaviour
         return m_RemaningTime;
     }
 
-    public void DisplayEndRoundButtons()
+    public void DisplayEndRoundButtons(RoundSubGameManager.ELastRoundWinner winner)
     {
+        bool p1wins = winner == RoundSubGameManager.ELastRoundWinner.Player1;
+        m_P1Wins.enabled = p1wins;
+        m_P2Wins.enabled = !p1wins;
+
         m_EndRoundButtons.SetActive(true);
         m_DefaultSelectedButton.Select();
     }

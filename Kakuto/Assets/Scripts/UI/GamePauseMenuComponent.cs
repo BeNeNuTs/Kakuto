@@ -131,16 +131,33 @@ public class GamePauseMenuComponent : MenuComponent
             {
                 case EMenuState.PauseMenu:
                     UpdateHighlightedButton(m_GoToPauseMenuData);
+                    UpdateButtonClick();
+                    if (InputManager.GetBackInput(out EPlayer backInputPlayer))
+                    {
+                        if (backInputPlayer == m_PausePlayer)
+                        {
+                            DisablePauseMenu();
+                        }
+                    }
                     break;
                 case EMenuState.Options:
                     UpdateHighlightedButton(m_GoToOptionsData);
-                    if (!InputListener.m_IsListeningInput && InputManager.GetBackInput())
+                    if (!InputListener.m_IsListeningInput)
                     {
-                        GoToPauseMenu();
+                        UpdateButtonClick();
+                        if (InputManager.GetBackInput())
+                        {
+                            GoToPauseMenu();
+                        }
                     }
                     break;
                 case EMenuState.QuitToMainMenuConfirmation:
                     UpdateHighlightedButton(m_QuiToMainMenuConfirmationData);
+                    UpdateButtonClick();
+                    if (InputManager.GetBackInput())
+                    {
+                        GoToPauseMenu();
+                    }
                     break;
             }
         }

@@ -346,7 +346,7 @@ public class RoundSubGameManager : SubGameManagerBase
         uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {
-            m_RoundComponent.DisplayEndRoundButtons();
+            m_RoundComponent.DisplayEndRoundButtons(m_LastRoundWinner);
         }
         else
         {

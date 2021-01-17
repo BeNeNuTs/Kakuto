@@ -14,9 +14,13 @@ public class TrainingPauseMenuComponent : GamePauseMenuComponent
         if(m_MenuState == EMenuState.TrainingOptions)
         {
             UpdateHighlightedButton(m_GoToTrainingOptionsMenuData);
-            if (!InputListener.m_IsListeningInput && InputManager.GetBackInput())
+            if (!InputListener.m_IsListeningInput)
             {
-                GoToPauseMenu();
+                UpdateButtonClick();
+                if(InputManager.GetBackInput())
+                {
+                    GoToPauseMenu();
+                }
             }
         }
     }

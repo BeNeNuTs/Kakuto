@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class InputListener : MonoBehaviour
     public EInputKey m_DefaultInputKey;
     public Image m_XboxImageInput;
     public Image m_PS4ImageInput;
+    public TextMeshProUGUI m_PressAKeyText;
     public Button m_InputButton;
 
     [NonSerialized] public EInputKey m_CurrentInputKey = EInputKey.Invalid;
@@ -27,6 +29,12 @@ public class InputListener : MonoBehaviour
         UpdateInputSprite();
         m_PS4ImageInput.enabled = !isXboxGamepad;
         m_XboxImageInput.enabled = isXboxGamepad;
+    }
+
+    public void ResetInputMapping()
+    {
+        m_CurrentInputKey = EInputKey.Invalid;
+        UpdateInputSprite();
     }
 
     private void UpdateInputSprite()
@@ -68,6 +76,9 @@ public class InputListener : MonoBehaviour
             m_IsListeningInput = true;
             m_CurrentEventSystem = EventSystem.current;
             m_CurrentEventSystem.enabled = false;
+            m_XboxImageInput.enabled = false;
+            m_PS4ImageInput.enabled = false;
+            m_PressAKeyText.enabled = true;
             StartCoroutine(ListenInput_Coroutine());
         }
     }
@@ -96,6 +107,11 @@ public class InputListener : MonoBehaviour
         UpdateInputSprite();
         GamePadManager.SetPlayerGamepadInputMapping((int)m_Player, m_CurrentInputKey, m_DefaultInputKey);
         m_CurrentEventSystem.enabled = true;
+
+        bool isXboxGamepad = GamePadManager.GetPlayerGamepadType((int)m_Player) == EGamePadType.Xbox;
+        m_XboxImageInput.enabled = isXboxGamepad;
+        m_PS4ImageInput.enabled = !isXboxGamepad;
+        m_PressAKeyText.enabled = false;
         m_InputButton.Select();
         m_IsListeningInput = false;
     }

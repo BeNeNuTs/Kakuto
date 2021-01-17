@@ -124,25 +124,14 @@ MonoBehaviour:
     m_HasMovementRequirement: 0
     m_MovementRequiredList: 
     m_InputStringList:
-    - "\u2193\u2198\u2192 + LT"
     - "\u2193\u2198\u2192 + RT"
     - "\u2193\u2198\u2192 + standHP + standLP"
     - "\u2193\u2198\u2192 + standLP + standHP"
     m_ComputedInputStringList:
-    - "\u2193\u2198\u2192LT"
     - "\u2193\u2198\u2192RT"
     - "\u2193\u2198\u2192XY"
     - "\u2193\u2198\u2192YX"
     m_ComputedGameInputList:
-    - m_GameInputList:
-      - m_InputString: "\u2193"
-        m_InputKey: 0
-      - m_InputString: "\u2198"
-        m_InputKey: 1
-      - m_InputString: "\u2192"
-        m_InputKey: 2
-      - m_InputString: LT
-        m_InputKey: 14
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
@@ -198,12 +187,10 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - "\u2193\u2199\u2190 + RT"
-    - "\u2193\u2199\u2190 + LT"
     - "\u2193\u2199\u2190 + standHP + standLP"
     - "\u2193\u2199\u2190 + standLP + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2199\u2190RT"
-    - "\u2193\u2199\u2190LT"
     - "\u2193\u2199\u2190XY"
     - "\u2193\u2199\u2190YX"
     m_ComputedGameInputList:
@@ -216,15 +203,6 @@ MonoBehaviour:
         m_InputKey: 6
       - m_InputString: RT
         m_InputKey: 15
-    - m_GameInputList:
-      - m_InputString: "\u2193"
-        m_InputKey: 0
-      - m_InputString: "\u2199"
-        m_InputKey: 7
-      - m_InputString: "\u2190"
-        m_InputKey: 6
-      - m_InputString: LT
-        m_InputKey: 14
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
@@ -590,17 +568,12 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - RB
-    - LB
     m_ComputedInputStringList:
     - RB
-    - LB
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: RB
         m_InputKey: 12
-    - m_GameInputList:
-      - m_InputString: LB
-        m_InputKey: 13
     m_BlockMovement: 1
     m_UseTimeScaleEffect: 0
     m_TimeScaleParams: {fileID: 0}
