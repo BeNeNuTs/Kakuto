@@ -232,6 +232,11 @@ public static class GamePadManager
         m_PlayerGamePads[playerIndex].SetInputMapping(key, newValue);
     }
 
+    public static void ResetPlayerGamepadInputMapping(int playerIndex)
+    {
+        m_PlayerGamePads[playerIndex].ResetInputMapping();
+    }
+
     private static void Update(int playerIndex)
     {
         Profiler.BeginSample("GamePadManager.GetAttackInputList");

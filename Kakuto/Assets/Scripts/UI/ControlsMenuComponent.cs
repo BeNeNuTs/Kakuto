@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,5 +67,20 @@ public class ControlsMenuComponent : MenuComponent
     {
         base.OnUpdate_Internal();
         UpdateHighlightedGameObject(m_ControlsHighlightInfo);
+    }
+
+    public void ResetPlayerInputMapping(int playerIndex)
+    {
+        // Check if it's the correct player's trying to update input
+        List<GameInput> gamepadInputList = GamePadManager.GetPlayerGamepadInput(playerIndex);
+        if (gamepadInputList.Exists(x => x.GetInputKey() == EInputKey.A))
+        {
+            GamePadManager.ResetPlayerGamepadInputMapping(playerIndex);
+            PlayerControlInfo playerControlInfo = playerIndex == 0 ? m_Player1ControlsMapping : m_Player2ControlsMapping;
+            for (int i = 0; i < playerControlInfo.m_InputListeners.Length; i++)
+            {
+                playerControlInfo.m_InputListeners[i].ResetInputMapping();
+            }
+        }
     }
 }

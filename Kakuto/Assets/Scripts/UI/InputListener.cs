@@ -31,6 +31,12 @@ public class InputListener : MonoBehaviour
         m_XboxImageInput.enabled = isXboxGamepad;
     }
 
+    public void ResetInputMapping()
+    {
+        m_CurrentInputKey = EInputKey.Invalid;
+        UpdateInputSprite();
+    }
+
     private void UpdateInputSprite()
     {
         if (m_CurrentInputKey == EInputKey.Invalid)

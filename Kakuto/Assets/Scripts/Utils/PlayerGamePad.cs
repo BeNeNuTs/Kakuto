@@ -128,6 +128,12 @@ public class PlayerGamePad
         return EInputKey.Invalid;
     }
 
+    public void ResetInputMapping()
+    {
+        m_InputMapping = new Dictionary<EInputKey, EInputKey>(K_DEFAULT_INPUT_MAPPING);
+        SaveInputMapping();
+    }
+
     private void SaveInputMapping()
     {
         var pairs = m_InputMapping.Select(x => string.Format("{0}{1}{2}", x.Key, ';', x.Value));
