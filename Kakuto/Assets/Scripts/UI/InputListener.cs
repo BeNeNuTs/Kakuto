@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class InputListener : MonoBehaviour
 {
     public static bool m_IsListeningInput = false;
+    public static Action<InputListener> OnInputChanged;
 
     public EPlayer m_Player;
 
@@ -18,6 +19,7 @@ public class InputListener : MonoBehaviour
     public TextMeshProUGUI m_PressAKeyText;
     public Button m_InputButton;
 
+    [NonSerialized] public EInputKey m_OldInputKey = EInputKey.Invalid;
     [NonSerialized] public EInputKey m_CurrentInputKey = EInputKey.Invalid;
 
     private EventSystem m_CurrentEventSystem;
@@ -74,6 +76,7 @@ public class InputListener : MonoBehaviour
         if(gamepadInputList.Exists(x => x.GetInputKey() == EInputKey.A))
         {
             m_IsListeningInput = true;
+            m_OldInputKey = m_CurrentInputKey;
             m_CurrentEventSystem = EventSystem.current;
             m_CurrentEventSystem.enabled = false;
             m_XboxImageInput.enabled = false;
@@ -114,6 +117,7 @@ public class InputListener : MonoBehaviour
         m_PressAKeyText.enabled = false;
         m_InputButton.Select();
         m_IsListeningInput = false;
+        OnInputChanged?.Invoke(this);
     }
 
     private bool HasValidInput(List<GameInput> gameInputs, out EInputKey validInput)

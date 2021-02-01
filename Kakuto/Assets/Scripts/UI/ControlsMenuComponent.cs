@@ -23,6 +23,16 @@ public class ControlsMenuComponent : MenuComponent
     [SerializeField] private PlayerControlInfo m_Player2ControlsMapping;
 #pragma warning restore 0649
 
+    public void Awake()
+    {
+        InputListener.OnInputChanged += OnPlayerInputChanged;
+    }
+
+    public void OnDestroy()
+    {
+        InputListener.OnInputChanged -= OnPlayerInputChanged;
+    }
+
     public void OnEnable()
     {
         for (int i = 0; i < m_OptionButtons.Length; i++)
@@ -80,6 +90,21 @@ public class ControlsMenuComponent : MenuComponent
             for (int i = 0; i < playerControlInfo.m_InputListeners.Length; i++)
             {
                 playerControlInfo.m_InputListeners[i].ResetInputMapping();
+            }
+        }
+    }
+
+    private void OnPlayerInputChanged(InputListener inputListener)
+    {
+        PlayerControlInfo playerControlInfos = inputListener.m_Player == EPlayer.Player1 ? m_Player1ControlsMapping : m_Player2ControlsMapping;
+        for (int i = 0; i < playerControlInfos.m_InputListeners.Length; i++)
+        {
+            if(playerControlInfos.m_InputListeners[i] != inputListener && playerControlInfos.m_InputListeners[i].m_CurrentInputKey == inputListener.m_CurrentInputKey)
+            {
+                EGamePadType playerGamepadType = GamePadManager.GetPlayerGamepadType((int)inputListener.m_Player);
+
+                playerControlInfos.m_InputListeners[i].m_CurrentInputKey = inputListener.m_OldInputKey;
+                playerControlInfos.m_InputListeners[i].UpdateInputForGamepadType(playerGamepadType);
             }
         }
     }
