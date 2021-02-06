@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using System;
 
 [Serializable]
@@ -25,6 +23,8 @@ public class PlayerAttack
     public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
     public bool m_IsEXAttack = false;
+    [Tooltip("When hitting the enemy, is this attack able to juggle him")]
+    public bool m_CanJuggle = true;
 
     // Condition (SuperGauge, AttackRequirement)
     [Separator("Condition")]

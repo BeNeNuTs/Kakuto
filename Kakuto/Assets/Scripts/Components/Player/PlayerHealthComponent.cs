@@ -222,25 +222,40 @@ public class PlayerHealthComponent : MonoBehaviour
     void OnHit(BaseEventParameters baseParams)
     {
         Profiler.BeginSample("PlayerHealthComponent.OnHit");
-        if (IsDead())
-        {
-            return;
-        }
 
-#if UNITY_EDITOR || DEBUG_DISPLAY
-        if(m_DEBUG_BreakOnHit)
-        {
-            Debug.Break();
-        }
-#endif
         HitEventParameters hitParams = (HitEventParameters)baseParams;
         PlayerBaseAttackLogic hitAttackLogic = hitParams.m_AttackLogic;
+        if (CanReceiveHit(hitAttackLogic))
+        {
+#if UNITY_EDITOR || DEBUG_DISPLAY
+            if (m_DEBUG_BreakOnHit)
+            {
+                Debug.Break();
+            }
+#endif
 
-        GetHitInfo(hitAttackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType);
-        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + hitAttackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
+            GetHitInfo(hitAttackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On hit by : " + hitAttackLogic.GetAttack().m_Name + ", damage : " + hitDamage + ", result : " + attackResult + ", hitNotif : " + hitNotificationType);
 
-        ApplyDamage(hitAttackLogic, hitDamage, attackResult, hitNotificationType);
+            ApplyDamage(hitAttackLogic, hitDamage, attackResult, hitNotificationType);
+        }
+
         Profiler.EndSample();
+    }
+
+    private bool CanReceiveHit(PlayerBaseAttackLogic playerBaseAttackLogic)
+    {
+        if(IsDead())
+        {
+            return false;
+        }
+
+        if(m_StunInfoSC.IsStunned() && m_MovementComponent.IsJumping())
+        {
+            return playerBaseAttackLogic.GetAttack().m_CanJuggle;
+        }
+
+        return true;
     }
 
     private void GetHitInfo(PlayerBaseAttackLogic attackLogic, out uint hitDamage, out EAttackResult attackResult, out EHitNotificationType hitNotificationType)
