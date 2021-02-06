@@ -24,7 +24,7 @@ public class PlayerAttack
     public bool m_IsASuper = false;
     public bool m_IsEXAttack = false;
     [Tooltip("When hitting the enemy, is this attack able to juggle him")]
-    public bool m_CanJuggle = true;
+    public bool m_CanJuggle = false;
 
     // Condition (SuperGauge, AttackRequirement)
     [Separator("Condition")]
