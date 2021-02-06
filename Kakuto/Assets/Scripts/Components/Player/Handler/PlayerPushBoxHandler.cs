@@ -13,6 +13,8 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
+    Collider2D[] m_FallingHits = new Collider2D[2];
+
     private void Awake()
     {
 #if UNITY_EDITOR
@@ -79,16 +81,16 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     void UpdateFallingTrajectory()
     {
         float circleRadius = m_Collider.bounds.extents.x;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(m_Collider.bounds.center + ((m_Collider.bounds.extents.y + circleRadius) * Vector3.down), circleRadius, 1 << gameObject.layer);
-        for(int i = 0; i < hits.Length; i++)
+        int hitCount = Physics2D.OverlapCircleNonAlloc(m_Collider.bounds.center + ((m_Collider.bounds.extents.y + circleRadius) * Vector3.down), circleRadius, m_FallingHits, 1 << gameObject.layer);
+        for(int i = 0; i < hitCount; i++)
         {
-            if(hits[i].attachedRigidbody != m_Collider.attachedRigidbody)
+            if(m_FallingHits[i].attachedRigidbody != m_Collider.attachedRigidbody)
             {
-                Vector3 trajectoryDir = (m_Collider.bounds.center.x < hits[i].bounds.center.x) ? Vector3.left : Vector3.right;
+                Vector3 trajectoryDir = (m_Collider.bounds.center.x < m_FallingHits[i].bounds.center.x) ? Vector3.left : Vector3.right;
                 m_Rigidbody.velocity = new Vector2(0f, m_Rigidbody.velocity.y);
-                Vector2 targetPosition = AdjustPosition(hits[i].bounds.center.x, trajectoryDir, hits[i]);
+                Vector2 targetPosition = AdjustPosition(m_FallingHits[i].bounds.center.x, trajectoryDir, m_FallingHits[i]);
 
-                PlayerPushBoxHandler pushBoxhandler = hits[i].GetComponent<PlayerPushBoxHandler>();
+                PlayerPushBoxHandler pushBoxhandler = m_FallingHits[i].GetComponent<PlayerPushBoxHandler>();
                 if(pushBoxhandler != null)
                 {
                     pushBoxhandler.OnEnemyFallingOnMe(m_Collider, targetPosition);

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TeleportCondition: 0
   m_TeleportOffset: {x: 0, y: -0.7, z: 0}
+  m_FinalTeleportAirVelocity: {x: 0.8, y: 1.3}

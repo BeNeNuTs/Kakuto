@@ -4,8 +4,10 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
 {
     private readonly PlayerTeleportAttackConfig m_Config;
 
+    private Rigidbody2D m_Rigidbody;
     private ProjectileComponent m_CurrentProjectile;
     private Vector3 m_LastProjectilePosition;
+    private bool m_IsAirProjectile;
     private bool m_TeleportRequested = false;
 
     public PlayerTeleportAttackLogic(PlayerTeleportAttackConfig config)
@@ -16,6 +18,7 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
     public override void OnInit(GameObject owner, PlayerAttack attack)
     {
         base.OnInit(owner, attack);
+        m_Rigidbody = m_Owner.GetComponent<Rigidbody2D>();
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }
@@ -67,6 +70,7 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         base.OnAttackLaunched();
 
         m_LastProjectilePosition = m_CurrentProjectile.transform.position;
+        m_IsAirProjectile = m_CurrentProjectile.GetConfig().m_ProjectileAngle > 0f;
         m_TeleportRequested = false;
 
         m_CurrentProjectile.RequestProjectileDestruction();
@@ -88,6 +92,17 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
             projectilePosition = m_CurrentProjectile.transform.position;
         }
         m_Owner.transform.position = projectilePosition + m_Config.m_TeleportOffset;
+        m_Rigidbody.position = m_Owner.transform.position;
+        if(m_IsAirProjectile)
+        {
+            int frame = Time.frameCount;
+            Vector2 velocityToApply = m_Config.m_FinalTeleportAirVelocity;
+            if (!m_MovementComponent.IsFacingRight())
+            {
+                velocityToApply.x *= -1f;
+            }
+            m_Rigidbody.velocity = velocityToApply;
+        }
         m_TeleportRequested = true;
     }
 

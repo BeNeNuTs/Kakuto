@@ -13,6 +13,9 @@ public class PlayerTeleportAttackConfig : PlayerBaseAttackConfig
     public ETeleportCondition m_TeleportCondition;
     public Vector3 m_TeleportOffset;
 
+    [Tooltip("This velocity will be applied on player only if teleport is triggered on an air projectile.")]
+    public Vector2 m_FinalTeleportAirVelocity;
+
     public override PlayerBaseAttackLogic CreateLogic()
     {
         return new PlayerTeleportAttackLogic(this);

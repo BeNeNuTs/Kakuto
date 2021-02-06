@@ -13,8 +13,7 @@ public class CharacterController2D : MonoBehaviour
 
     static readonly float k_TimeBetweenJumpsTakeOff = .5f;      // Time between jumps take off
 
-    private List<Collider2D> m_GroundCheckColliders = new List<Collider2D>();
-    private Collider2D[] m_GroundCheckContacts = new Collider2D[1];
+    private Collider2D[] m_GroundCheckCollider = new Collider2D[1];
     private bool m_Grounded;                                    // Whether or not the player is grounded.
     private float m_LastJumpTakeOffTimeStamp = 0f;              // Last time character jumps take off
     private float m_LastJumpLandingTimeStamp = 0f;              // Last time character jumps landing
@@ -67,37 +66,16 @@ public class CharacterController2D : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
-        m_GroundCheckColliders.Clear();
-        m_GroundCheckContacts[0] = null;
-        bool hasContacts = (m_GroundCheck.GetContacts(m_GroundCheckContacts) > 0);
-        if (!hasContacts)
+        if(Physics2D.OverlapCircleNonAlloc(transform.position, m_MovementConfig.m_OverlapCircleRadius, m_GroundCheckCollider, m_MovementConfig.m_GroundLayerMask) > 0)
         {
-            Collider2D overlapCollider = Physics2D.OverlapCircle(transform.position, m_MovementConfig.m_OverlapCircleRadius, m_MovementConfig.m_GroundLayerMask);
-            if(overlapCollider != null)
+            if (!wasGrounded)
             {
-                m_GroundCheckColliders.Add(overlapCollider);
+                m_LastJumpLandingTimeStamp = Time.time;
+                OnJumpEvent?.Invoke(false);
+                m_CharacterIsJumping = false;
+                m_JumpApexReached = false;
             }
-        }
-        else if(m_GroundCheckContacts[0] != null)
-        {
-            m_GroundCheckColliders.Add(m_GroundCheckContacts[0]);
-        }
-
-        int groundCheckCollidersCount = m_GroundCheckColliders.Count;
-        for (int i = 0; i < groundCheckCollidersCount; i++)
-        {
-            if (Utils.IsInLayerMask(m_GroundCheckColliders[i].gameObject.layer, m_MovementConfig.m_GroundLayerMask))
-            {
-                if (!wasGrounded)
-                {
-                    m_LastJumpLandingTimeStamp = Time.time;
-                    OnJumpEvent?.Invoke(false);
-                    m_CharacterIsJumping = false;
-                    m_JumpApexReached = false;
-                }
-                m_Grounded = true;
-                break;
-            }
+            m_Grounded = true;
         }
 
         if (wasGrounded && !m_Grounded)
