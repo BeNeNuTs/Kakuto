@@ -443,8 +443,15 @@ public class PlayerGamePad
     public bool GetDpadInput(out float horizontalRawAxis, out float verticalRawAxis)
     {
         int joystickNum = GetJoystickNum();
-        horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
-        verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
+        if(IsGamePadIndexValid())
+        {
+            horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
+            verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
+        }
+        else
+        {
+            horizontalRawAxis = verticalRawAxis = 0f;
+        }
 
         return horizontalRawAxis != 0f || verticalRawAxis != 0f;
     }

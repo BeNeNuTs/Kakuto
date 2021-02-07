@@ -128,6 +128,8 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private IEnumerator OnRoundBegin_Internal()
     {
+        yield return new WaitForEndOfFrame(); // Wait for end of frame in order to let the animator play the K_ROUND_ENTRY_ANIM
+
         float startRoundUIDelay = 0f;
         if (ScenesConfig.GetUISettings().m_IsCounterEnabled)
         {
@@ -240,6 +242,7 @@ public class RoundSubGameManager : SubGameManagerBase
             if (playerHealth && !playerHealth.IsDead())
             {
                 Animator playerAnimator = player.GetComponentInChildren<Animator>();
+                AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
                 if (playerAnimator != null && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("StandIdle"))
                 {
                     // If player's not dead and not playing StandIdle animation, then he's not ready to play end round animations
