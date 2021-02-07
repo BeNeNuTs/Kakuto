@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class TrainingPauseMenuComponent : GamePauseMenuComponent
 {
 #pragma warning disable 0649
+    [Header("Training options")]
     [SerializeField] private Button m_TrainingOptionsButton;
     [SerializeField] private MenuData m_GoToTrainingOptionsMenuData;
 #pragma warning restore 0649
