@@ -123,6 +123,9 @@ public class PlayerMovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (IsPlayerTimeFrozen())
+            return;
+
         UpdatePlayerSide();
 
         int playerIndex = m_InfoComponent.GetPlayerIndex();
@@ -159,6 +162,11 @@ public class PlayerMovementComponent : MonoBehaviour
         
         m_Animator.SetBool("IsCrouching", m_CrouchInput);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
+    }
+
+    bool IsPlayerTimeFrozen()
+    {
+        return Time.timeScale == 0f && m_Animator.updateMode == AnimatorUpdateMode.Normal;
     }
 
     public void UpdatePlayerSide()
@@ -268,7 +276,10 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(m_IsMovementBlocked && (m_MovementBlockedReason != EBlockedReason.TimeOver || !m_TriggerJumpImpulse))
+        if (IsPlayerTimeFrozen())
+            return;
+
+        if (m_IsMovementBlocked && (m_MovementBlockedReason != EBlockedReason.TimeOver || !m_TriggerJumpImpulse))
         {
             return;
         }

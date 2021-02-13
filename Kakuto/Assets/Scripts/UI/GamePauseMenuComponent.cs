@@ -84,6 +84,7 @@ public class GamePauseMenuComponent : MenuComponent
     protected PlayerInfo[] m_PlayerInfos = new PlayerInfo[2];
 
     protected TimeScaleSubGameManager m_TimeScaleManager;
+    protected bool m_WasTimeFrozen = false;
 
     protected override void OnAwake_Internal()
     {
@@ -182,9 +183,14 @@ public class GamePauseMenuComponent : MenuComponent
 
     protected void PauseGame()
     {
-        if (!m_TimeScaleManager.IsTimeFrozen)
+        if (!IsInPause)
         {
-            m_TimeScaleManager.FreezeTime();
+            m_WasTimeFrozen = m_TimeScaleManager.IsTimeFrozen;
+            if(!m_WasTimeFrozen)
+            {
+                m_TimeScaleManager.FreezeTime();
+            }
+            
             m_PlayerInfos[0].OnPauseGame();
             m_PlayerInfos[1].OnPauseGame();
             IsInPause = true;
@@ -193,11 +199,14 @@ public class GamePauseMenuComponent : MenuComponent
 
     protected void UnpauseGame()
     {
-        if (m_TimeScaleManager.IsTimeFrozen)
+        if (IsInPause)
         {
             m_PlayerInfos[0].OnUnpauseGame();
             m_PlayerInfos[1].OnUnpauseGame();
-            m_TimeScaleManager.UnfreezeTime();
+            if (!m_WasTimeFrozen)
+            {
+                m_TimeScaleManager.UnfreezeTime();
+            }
             IsInPause = false;
         }
     }
