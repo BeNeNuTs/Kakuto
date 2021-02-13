@@ -60,6 +60,17 @@ public class TrainingOptionsMenuComponent : MenuComponent
         }
     }
 
+    public void ResetTrainingOptions()
+    {
+        K_DEFAULT_TRAINING_OPTIONS.CopyTo(m_TrainingOptions, 0);
+        for (int i = 0; i < m_TrainingOptions.Length; i++)
+        {
+            UpdateTrainingOptions((ETrainingOption)i, m_TrainingOptions[i]);
+        }
+        InitTrainingOptionListeners();
+        SaveTrainingOptions();
+    }
+
     private static void CopyPlayerSettings(PlayerSettings from, PlayerSettings to)
     {
         to.m_AttackEnabled = from.m_AttackEnabled;
