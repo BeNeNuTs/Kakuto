@@ -20,6 +20,7 @@ MonoBehaviour:
       m_SuperGaugeAlwaysFilled: 1
       m_TriggerPointAlwaysActive: 1
       m_IsStatic: 0
+      m_DefaultStance: 0
       m_DisplayDamageTaken: 1
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
@@ -31,6 +32,7 @@ MonoBehaviour:
       m_SuperGaugeAlwaysFilled: 1
       m_TriggerPointAlwaysActive: 1
       m_IsStatic: 1
+      m_DefaultStance: 0
       m_DisplayDamageTaken: 1
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
@@ -45,10 +47,10 @@ MonoBehaviour:
       m_DisplayAttacksInfo: 1
       m_DisplayFPS: 1
       m_DisplayFrameCounter: 1
-      m_DisplayAnimationInfo: 0
+      m_DisplayAnimationInfo: 1
       m_DisplayAttackTriggerInfo: 0
       m_DisplayGamepadInfo: 1
-      m_DisplayBoxColliders: 0
+      m_DisplayBoxColliders: 1
   - m_Scene: 1v1
     m_PlayerSettings:
     - m_Name: Player1
@@ -56,6 +58,7 @@ MonoBehaviour:
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
       m_IsStatic: 0
+      m_DefaultStance: 0
       m_DisplayDamageTaken: 0
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
@@ -67,6 +70,7 @@ MonoBehaviour:
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
       m_IsStatic: 0
+      m_DefaultStance: 1
       m_DisplayDamageTaken: 0
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
@@ -84,4 +88,4 @@ MonoBehaviour:
       m_DisplayAnimationInfo: 0
       m_DisplayAttackTriggerInfo: 0
       m_DisplayGamepadInfo: 0
-      m_DisplayBoxColliders: 1
+      m_DisplayBoxColliders: 0

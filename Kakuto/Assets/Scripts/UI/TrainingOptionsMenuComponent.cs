@@ -76,9 +76,9 @@ public class TrainingOptionsMenuComponent : MenuComponent
 
     public static void LoadTrainingOptions()
     {
-        m_Player1Settings = ScenesConfig.GetPlayerSettings(0);
-        m_Player2Settings = ScenesConfig.GetPlayerSettings(1);
-        m_DebugSettings = ScenesConfig.GetDebugSettings();
+        m_Player1Settings = ScenesConfig.GetPlayerSettings(0, "TrainingMap");
+        m_Player2Settings = ScenesConfig.GetPlayerSettings(1, "TrainingMap");
+        m_DebugSettings = ScenesConfig.GetDebugSettings("TrainingMap");
 
 #if UNITY_EDITOR
         m_InitialPlayer1Settings = new PlayerSettings(Player.Player1);
