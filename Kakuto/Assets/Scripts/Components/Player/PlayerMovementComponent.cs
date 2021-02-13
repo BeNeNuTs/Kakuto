@@ -133,33 +133,37 @@ public class PlayerMovementComponent : MonoBehaviour
         m_HorizontalMoveInput = 0f;
         m_JumpInput = false;
         m_CrouchInput = false;
-        if(!m_InfoComponent.GetPlayerSettings().m_IsStatic)
+
+        bool isStatic = m_InfoComponent.GetPlayerSettings().m_IsStatic;
+        EPlayerStance defaultStance = m_InfoComponent.GetPlayerSettings().m_DefaultStance;
+
+        if (m_MovementBlockedReason != EBlockedReason.TimeOver)
         {
-            if(m_MovementBlockedReason != EBlockedReason.TimeOver)
-            {
-                m_CrouchInput = InputManager.GetCrouchInput(playerIndex);
-            }
-            
-            if (!m_IsMovementBlocked)
+            m_CrouchInput = (isStatic) ? defaultStance == EPlayerStance.Crouch : InputManager.GetCrouchInput(playerIndex);
+        }
+
+        if (!m_IsMovementBlocked)
+        {
+            if(!isStatic)
             {
                 m_HorizontalMoveInput = InputManager.GetHorizontalMovement(playerIndex);
-                m_JumpInput = InputManager.GetJumpInput(playerIndex);
+            }
+            m_JumpInput = (isStatic) ? defaultStance == EPlayerStance.Jump : InputManager.GetJumpInput(playerIndex);
 
-                if (IsStanding())
+            if (IsStanding())
+            {
+                if (m_JumpInput && !m_JumpTakeOffRequested && !m_TriggerJumpImpulse && m_Controller.CanJump())
                 {
-                    if (m_JumpInput && !m_JumpTakeOffRequested && !m_TriggerJumpImpulse && m_Controller.CanJump())
-                    {
-                        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
+                    ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
 
-                        m_Animator.SetTrigger("TakeOff");
-                        m_AttackComponent.SetAttackBlockedByTakeOff(true);
-                        m_JumpTakeOffRequested = true;
-                        m_JumpTakeOffDirection = m_HorizontalMoveInput;
-                    }
+                    m_Animator.SetTrigger("TakeOff");
+                    m_AttackComponent.SetAttackBlockedByTakeOff(true);
+                    m_JumpTakeOffRequested = true;
+                    m_JumpTakeOffDirection = m_HorizontalMoveInput;
                 }
             }
         }
-        
+
         m_Animator.SetBool("IsCrouching", m_CrouchInput);
         m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
     }

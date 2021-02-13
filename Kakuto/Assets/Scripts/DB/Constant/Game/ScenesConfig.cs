@@ -52,6 +52,8 @@ public class PlayerSettings
 
     [Separator("Movement")]
     public bool m_IsStatic;
+    [ConditionalField(true, nameof(m_IsStatic))]
+    public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
 
     [Separator("Health")]
     public bool m_DisplayDamageTaken;

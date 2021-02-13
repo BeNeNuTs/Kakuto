@@ -10,13 +10,6 @@ public enum EPlayer2TrainingMode
     Player
 }
 
-public enum EStanceTrainingMode
-{
-    Stand,
-    Crouch,
-    Jump
-}
-
 public enum EGuardTrainingMode
 {
     None,

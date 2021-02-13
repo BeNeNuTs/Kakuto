@@ -190,7 +190,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
                 }
                 break;
             case ETrainingOption.StanceMode:
-                //Todo
+                m_Player2Settings.m_DefaultStance = (EPlayerStance)currentValue;
                 break;
             case ETrainingOption.GuardMode:
                 switch ((EGuardTrainingMode)currentValue)
