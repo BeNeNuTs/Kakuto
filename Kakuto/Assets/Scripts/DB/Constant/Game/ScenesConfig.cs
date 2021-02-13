@@ -21,8 +21,34 @@ public class PlayerSettings
 
     [Separator("Attack")]
     public bool m_AttackEnabled;
-    public bool m_SuperGaugeAlwaysFilled;
-    public bool m_TriggerPointAlwaysActive;
+    [SerializeField] private bool m_SuperGaugeAlwaysFilled;
+    public bool SuperGaugeAlwaysFilled
+    {
+        get => m_SuperGaugeAlwaysFilled;
+        set
+        {
+            if(m_SuperGaugeAlwaysFilled != value)
+            {
+                m_SuperGaugeAlwaysFilled = value;
+                OnSuperGaugeAlwaysFilledChanged?.Invoke(value);
+            }
+        }
+    }
+    public Action<bool> OnSuperGaugeAlwaysFilledChanged;
+    [SerializeField] private bool m_TriggerPointAlwaysActive;
+    public bool TriggerPointAlwaysActive
+    {
+        get => m_TriggerPointAlwaysActive;
+        set
+        {
+            if (m_TriggerPointAlwaysActive != value)
+            {
+                m_TriggerPointAlwaysActive = value;
+                OnTriggerPointAlwaysActiveChanged?.Invoke(value);
+            }
+        }
+    }
+    public Action<bool> OnTriggerPointAlwaysActiveChanged;
 
     [Separator("Movement")]
     public bool m_IsStatic;

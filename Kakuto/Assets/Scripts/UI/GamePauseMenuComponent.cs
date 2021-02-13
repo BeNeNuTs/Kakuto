@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -62,7 +63,20 @@ public class GamePauseMenuComponent : MenuComponent
     [SerializeField] private MenuData m_QuiToMainMenuConfirmationData;
 #pragma warning restore 0649
 
-    public static bool m_IsInPause = false;
+    private static bool m_IsInPause = false;
+    public static bool IsInPause
+    {
+        get => m_IsInPause;
+        set
+        {
+            if(m_IsInPause != value)
+            {
+                m_IsInPause = value;
+                IsInPauseChanged?.Invoke(value);
+            }
+        }
+    } 
+    public static Action<bool> IsInPauseChanged;
 
     protected EMenuState m_MenuState = EMenuState.Disabled;
     protected EPlayer m_PausePlayer = EPlayer.Player1;
@@ -173,7 +187,7 @@ public class GamePauseMenuComponent : MenuComponent
             m_TimeScaleManager.FreezeTime();
             m_PlayerInfos[0].OnPauseGame();
             m_PlayerInfos[1].OnPauseGame();
-            m_IsInPause = true;
+            IsInPause = true;
         }
     }
 
@@ -184,7 +198,7 @@ public class GamePauseMenuComponent : MenuComponent
             m_PlayerInfos[0].OnUnpauseGame();
             m_PlayerInfos[1].OnUnpauseGame();
             m_TimeScaleManager.UnfreezeTime();
-            m_IsInPause = false;
+            IsInPause = false;
         }
     }
 

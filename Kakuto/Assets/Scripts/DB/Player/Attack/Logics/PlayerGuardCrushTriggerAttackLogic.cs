@@ -24,8 +24,10 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
     {
         base.OnInit(owner, attack);
 
-        bool triggerAlwaysActive = m_InfoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive;
+        bool triggerAlwaysActive = m_InfoComponent.GetPlayerSettings().TriggerPointAlwaysActive;
         SetTriggerPointStatus(m_InfoComponent, (triggerAlwaysActive) ? ETriggerPointStatus.Active : ETriggerPointStatus.Inactive);
+
+        m_InfoComponent.GetPlayerSettings().OnTriggerPointAlwaysActiveChanged += OnTriggerPointAlwaysActiveChanged;
     }
 
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
@@ -86,6 +88,8 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
         base.OnShutdown();
 
         SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Inactive); // Reset trigger point at the end of each round
+        m_InfoComponent.GetPlayerSettings().OnTriggerPointAlwaysActiveChanged -= OnTriggerPointAlwaysActiveChanged;
+        GamePauseMenuComponent.IsInPauseChanged -= ActiveTriggerPointAfterPause;
     }
 
     public static void SetTriggerPointStatus(PlayerInfoComponent infoComponent, ETriggerPointStatus status)
@@ -97,7 +101,7 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
                 infoComponent.ResetDefaultAndCurrentPalette();
             }
 
-            if (infoComponent.GetPlayerSettings().m_TriggerPointAlwaysActive)
+            if (infoComponent.GetPlayerSettings().TriggerPointAlwaysActive)
             {
                 status = ETriggerPointStatus.Active;
             }
@@ -110,5 +114,29 @@ public class PlayerGuardCrushTriggerAttackLogic : PlayerBaseAttackLogic
     public static ETriggerPointStatus GetTriggerPointStatus(int playerIndex)
     {
         return m_TriggerPointStatus[playerIndex];
+    }
+
+    private void OnTriggerPointAlwaysActiveChanged(bool triggerPointAlwaysActive)
+    {
+        if(GetTriggerPointStatus(m_InfoComponent.GetPlayerIndex()) == ETriggerPointStatus.Inactive)
+        {
+            if (triggerPointAlwaysActive)
+            {
+                GamePauseMenuComponent.IsInPauseChanged += ActiveTriggerPointAfterPause;
+            }
+            else
+            {
+                GamePauseMenuComponent.IsInPauseChanged -= ActiveTriggerPointAfterPause;
+            }
+        }
+    }
+
+    private void ActiveTriggerPointAfterPause(bool _isInPause)
+    {
+        if (!_isInPause)
+        {
+            SetTriggerPointStatus(m_InfoComponent, ETriggerPointStatus.Active);
+            GamePauseMenuComponent.IsInPauseChanged -= ActiveTriggerPointAfterPause;
+        }
     }
 }

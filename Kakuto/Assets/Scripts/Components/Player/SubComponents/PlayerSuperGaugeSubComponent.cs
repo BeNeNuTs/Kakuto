@@ -12,7 +12,8 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
     public PlayerSuperGaugeSubComponent(PlayerInfoComponent infoComp) : base(infoComp.gameObject)
     {
         m_InfoComponent = infoComp;
-        if (m_InfoComponent.GetPlayerSettings().m_SuperGaugeAlwaysFilled)
+
+        if (m_InfoComponent.GetPlayerSettings().SuperGaugeAlwaysFilled)
         {
             IncreaseGaugeValue(AttackConfig.Instance.m_SuperGaugeMaxValue);
         }
@@ -20,6 +21,14 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
         {
             IncreaseGaugeValue(GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round).GetPlayerSuperGaugeValue(m_InfoComponent.GetPlayerEnum()));
         }
+        m_InfoComponent.GetPlayerSettings().OnSuperGaugeAlwaysFilledChanged += OnSuperGaugeAlwaysFilledChanged;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        m_InfoComponent.GetPlayerSettings().OnSuperGaugeAlwaysFilledChanged -= OnSuperGaugeAlwaysFilledChanged;
+        GamePauseMenuComponent.IsInPauseChanged -= FillSuperGaugeAfterPause;
     }
 
     public void IncreaseGaugeValue(float value)
@@ -31,7 +40,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
     public void DecreaseGaugeValue(float value)
     {
-        if (m_InfoComponent.GetPlayerSettings().m_SuperGaugeAlwaysFilled)
+        if (m_InfoComponent.GetPlayerSettings().SuperGaugeAlwaysFilled)
         {
             return;
         }
@@ -54,5 +63,26 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
     private void ClampGaugeValue()
     {
         m_CurrentGaugeValue = Mathf.Clamp(m_CurrentGaugeValue, 0f, AttackConfig.Instance.m_SuperGaugeMaxValue);
+    }
+
+    private void OnSuperGaugeAlwaysFilledChanged(bool superGaugeAlwaysFilled)
+    {
+        if (superGaugeAlwaysFilled)
+        {
+            GamePauseMenuComponent.IsInPauseChanged += FillSuperGaugeAfterPause;
+        }
+        else
+        {
+            GamePauseMenuComponent.IsInPauseChanged -= FillSuperGaugeAfterPause;
+        }
+    }
+
+    private void FillSuperGaugeAfterPause(bool isInPause)
+    {
+        if (!isInPause)
+        {
+            IncreaseGaugeValue(AttackConfig.Instance.m_SuperGaugeMaxValue);
+            GamePauseMenuComponent.IsInPauseChanged -= FillSuperGaugeAfterPause;
+        }
     }
 }

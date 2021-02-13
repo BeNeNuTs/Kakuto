@@ -30,7 +30,7 @@ public class GameFlowSubGameManager : SubGameManagerBase
 
         m_IsLoading = true;
         m_SceneToLoad = sceneName;
-        GamePauseMenuComponent.m_IsInPause = false;
+        GamePauseMenuComponent.IsInPause = false;
     }
 
     private void OnLoadingScreenReady()

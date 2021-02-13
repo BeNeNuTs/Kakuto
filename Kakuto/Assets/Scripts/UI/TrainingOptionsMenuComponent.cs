@@ -63,8 +63,8 @@ public class TrainingOptionsMenuComponent : MenuComponent
     private static void CopyPlayerSettings(PlayerSettings from, PlayerSettings to)
     {
         to.m_AttackEnabled = from.m_AttackEnabled;
-        to.m_SuperGaugeAlwaysFilled = from.m_SuperGaugeAlwaysFilled;
-        to.m_TriggerPointAlwaysActive = from.m_TriggerPointAlwaysActive;
+        to.SuperGaugeAlwaysFilled = from.SuperGaugeAlwaysFilled;
+        to.TriggerPointAlwaysActive = from.TriggerPointAlwaysActive;
         to.m_IsStatic = from.m_IsStatic;
         to.m_DisplayDamageTaken = from.m_DisplayDamageTaken;
         to.m_IsBlockingAllAttacks = from.m_IsBlockingAllAttacks;
@@ -213,10 +213,10 @@ public class TrainingOptionsMenuComponent : MenuComponent
                 }
                 break;
             case ETrainingOption.InfiniteSuperGauge:
-                m_Player1Settings.m_SuperGaugeAlwaysFilled = m_Player2Settings.m_SuperGaugeAlwaysFilled = currentValue == 0 ? false : true;
+                m_Player1Settings.SuperGaugeAlwaysFilled = m_Player2Settings.SuperGaugeAlwaysFilled = currentValue == 0 ? false : true;
                 break;
             case ETrainingOption.InfiniteTriggerPoint:
-                m_Player1Settings.m_TriggerPointAlwaysActive = m_Player2Settings.m_TriggerPointAlwaysActive = currentValue == 0 ? false : true;
+                m_Player1Settings.TriggerPointAlwaysActive = m_Player2Settings.TriggerPointAlwaysActive = currentValue == 0 ? false : true;
                 break;
             case ETrainingOption.ImmuneToStun:
                 m_Player1Settings.m_IsImmuneToStunGauge = m_Player2Settings.m_IsImmuneToStunGauge = currentValue == 0 ? false : true;

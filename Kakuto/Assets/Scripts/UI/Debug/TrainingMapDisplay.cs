@@ -33,7 +33,7 @@ public class TrainingMapDisplay : MonoBehaviour
 
     void LateUpdate()
     {
-        if(!GamePauseMenuComponent.m_IsInPause)
+        if(!GamePauseMenuComponent.IsInPause)
         {
             bool displayInputsInfo = ScenesConfig.GetDebugSettings().m_DisplayInputsInfo;
             m_TextInputs.enabled = displayInputsInfo;
