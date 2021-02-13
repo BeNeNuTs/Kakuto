@@ -972,6 +972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 1
   m_IsModeOption: 1
+  m_Toggle: {fileID: 0}
   m_Selectable: {fileID: 8614576600895366846}
   m_HighlightImage: {fileID: 1860062898054476164}
   m_LeftArrow: {fileID: 8271641703634615895}
@@ -1079,6 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 2
   m_IsModeOption: 1
+  m_Toggle: {fileID: 0}
   m_Selectable: {fileID: 4151452022648412070}
   m_HighlightImage: {fileID: 609865442196169516}
   m_LeftArrow: {fileID: 797909685611219094}
@@ -1972,6 +1974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 4
   m_IsModeOption: 0
+  m_Toggle: {fileID: 8971090155503451894}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -2530,6 +2533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 3
   m_IsModeOption: 0
+  m_Toggle: {fileID: 8812161036500535733}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -2765,6 +2769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 6
   m_IsModeOption: 0
+  m_Toggle: {fileID: 5523323111127781838}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -4732,6 +4737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 7
   m_IsModeOption: 0
+  m_Toggle: {fileID: 5774654863597942037}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -5067,8 +5073,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5116,7 +5122,7 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -5976,6 +5982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 0
   m_IsModeOption: 1
+  m_Toggle: {fileID: 0}
   m_Selectable: {fileID: 7771248188787070655}
   m_HighlightImage: {fileID: 2139492206299455520}
   m_LeftArrow: {fileID: 8385315523305919144}
@@ -6683,6 +6690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 8
   m_IsModeOption: 0
+  m_Toggle: {fileID: 6155835474070429129}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -7047,6 +7055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrainingOption: 5
   m_IsModeOption: 0
+  m_Toggle: {fileID: 2531521587406999601}
   m_Selectable: {fileID: 0}
   m_HighlightImage: {fileID: 0}
   m_LeftArrow: {fileID: 0}
@@ -7270,6 +7279,16 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  m_TrainingOptionListeners:
+  - {fileID: 4483637037661569618}
+  - {fileID: 5205665312078385258}
+  - {fileID: 3814509402993885194}
+  - {fileID: 3131427789693596149}
+  - {fileID: 6600980645323175808}
+  - {fileID: 7405678131202044593}
+  - {fileID: 8904062023844034233}
+  - {fileID: 8169060771124496733}
+  - {fileID: 1457768224845776250}
 --- !u!1 &8606153249184343184
 GameObject:
   m_ObjectHideFlags: 0
@@ -7599,8 +7618,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7648,7 +7667,7 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -8026,16 +8045,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 5954823530446520456}
-    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: GoToPauseMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 6274926269272509090, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_IsActive
@@ -8046,16 +8055,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2333050518198701927, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -8065,6 +8064,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 5954823530446520456}
+    - target: {fileID: 6274926270211569432, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: GoToPauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 5630087516398521070, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
@@ -8102,6 +8111,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 849199198091952570, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699350365365286429, guid: 7d262ccd779fb4a47a06d25a96884107,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 0

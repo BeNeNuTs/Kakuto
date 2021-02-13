@@ -22,18 +22,18 @@ MonoBehaviour:
       m_IsStatic: 0
       m_DisplayDamageTaken: 1
       m_IsBlockingAllAttacks: 0
-      m_IsBlockingAllAttacksAfterHitStun: 1
+      m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
       m_IsInvincible: 1
       m_IsImmuneToStunGauge: 1
     - m_Name: Player2
-      m_AttackEnabled: 1
+      m_AttackEnabled: 0
       m_SuperGaugeAlwaysFilled: 1
       m_TriggerPointAlwaysActive: 1
-      m_IsStatic: 0
+      m_IsStatic: 1
       m_DisplayDamageTaken: 1
       m_IsBlockingAllAttacks: 0
-      m_IsBlockingAllAttacksAfterHitStun: 1
+      m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 1
       m_IsInvincible: 1
       m_IsImmuneToStunGauge: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
       m_DisplayAnimationInfo: 0
       m_DisplayAttackTriggerInfo: 0
       m_DisplayGamepadInfo: 1
-      m_DisplayBoxColliders: 1
+      m_DisplayBoxColliders: 0
   - m_Scene: 1v1
     m_PlayerSettings:
     - m_Name: Player1

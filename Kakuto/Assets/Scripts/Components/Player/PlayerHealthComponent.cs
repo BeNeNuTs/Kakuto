@@ -311,7 +311,8 @@ public class PlayerHealthComponent : MonoBehaviour
 
     public bool IsInBlockingStance()
     {
-        if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks)
+        // Can block all attack only in dummy mode => attack disabled
+        if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks && !m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
         {
             return true;
         }
