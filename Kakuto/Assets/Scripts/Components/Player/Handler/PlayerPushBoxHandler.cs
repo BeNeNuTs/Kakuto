@@ -15,7 +15,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 
     Collider2D[] m_FallingHits = new Collider2D[2];
 
-    private void Awake()
+    protected override void Awake_Internal()
     {
 #if UNITY_EDITOR
         if (m_HealthComponent == null)

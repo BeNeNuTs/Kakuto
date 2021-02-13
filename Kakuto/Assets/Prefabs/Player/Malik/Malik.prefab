@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bc62a14e6492743b60025c1a89af07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 0, g: 0.49803922, b: 1, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 0, g: 0.47505808, b: 1, a: 1}
 --- !u!1 &293122004
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a700582c5553d2f40abb3e3a2515c126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0.50048995, b: 0, a: 1}
+  m_DrawCollider: 0
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
   m_HealthComponent: {fileID: 7705063140710011067}
   m_Controller: {fileID: 7705063140710011071}
   m_AttackComponent: {fileID: 7705063140710011066}
@@ -192,8 +192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &1838544080
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a700582c5553d2f40abb3e3a2515c126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0.50048995, b: 0, a: 1}
+  m_DrawCollider: 0
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
   m_HealthComponent: {fileID: 7705063140710011067}
   m_Controller: {fileID: 7705063140710011071}
   m_AttackComponent: {fileID: 7705063140710011066}
@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &6872168045849260140
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -402,8 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &5355964113340573335
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -500,8 +500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e05fa3fbe2cb441b869865cb236af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 0, g: 0.09803922, b: 1, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0.8489028, b: 0, a: 1}
   m_AttackComponent: {fileID: 7705063140710011066}
 --- !u!1 &5296461491712690478
 GameObject:
@@ -604,8 +604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &3621991013176271123
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -702,8 +702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e05fa3fbe2cb441b869865cb236af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 0, g: 0.09767294, b: 1, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0.8489028, b: 0, a: 1}
   m_AttackComponent: {fileID: 7705063140710011066}
 --- !u!1 &8410879756175923395
 GameObject:
@@ -775,8 +775,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57686909ab53a6439ba775e08cd6bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0.34109807, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 0, g: 0.41959214, b: 1, a: 1}
 --- !u!1 &8940834602725064834
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,8 +821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511f5a5f1abb03b429c0cf19f9476878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!61 &2965940117716402298
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1147,6 +1147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2828982240439453219, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_ColliderColor.g
+      value: 0.38975367
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dd623bf673cf2346b8230dbde6c4547, type: 3}

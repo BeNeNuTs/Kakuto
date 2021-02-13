@@ -7,7 +7,7 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
     PlayerAttackComponent m_PlayerAttackComponent;
     Collider2D m_Collider;
 
-    private void Awake()
+    protected override void Awake_Internal()
     {
         m_PlayerAttackComponent = GetComponentInParent<PlayerAttackComponent>();
         m_Collider = GetComponent<Collider2D>();

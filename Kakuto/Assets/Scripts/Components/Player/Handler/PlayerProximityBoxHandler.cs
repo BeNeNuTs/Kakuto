@@ -9,7 +9,7 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
     Collider2D m_Collider;
     List<Collider2D> m_HurtBoxesDetected = new List<Collider2D>();
 
-    private void Awake()
+    protected override void Awake_Internal()
     {
 #if UNITY_EDITOR
         if (m_AttackComponent == null)

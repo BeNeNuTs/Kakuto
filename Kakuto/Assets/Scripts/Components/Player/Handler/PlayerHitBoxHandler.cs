@@ -7,7 +7,7 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
     PlayerBaseAttackLogic m_CurrentAttack;
     Collider2D m_Collider;
 
-    private void Awake()
+    protected override void Awake_Internal()
     {
 #if UNITY_EDITOR
         if (m_AttackComponent == null)
