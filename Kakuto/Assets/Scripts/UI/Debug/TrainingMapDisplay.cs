@@ -117,14 +117,16 @@ public class TrainingMapDisplay : MonoBehaviour
                 m_TriggeredInputs.RemoveRange(0, (int)(m_TriggeredInputs.Count - m_GameInputList.transform.childCount));
             }
 
+            int triggeredInputIndex;
             for (int i = 0; i < m_TriggeredInputs.Count; i++)
             {
+                triggeredInputIndex = (m_TriggeredInputs.Count - 1) - i;
                 Transform gameInputs = m_GameInputList.transform.GetChild(i);
                 for (int j = 0; j < gameInputs.childCount; j++)
                 {
-                    if(j < m_TriggeredInputs[i].Count)
+                    if(j < m_TriggeredInputs[triggeredInputIndex].Count)
                     {
-                        if (m_TriggeredInputs[i][j].GetInputKey() == EInputKey.LT)
+                        if (m_TriggeredInputs[triggeredInputIndex][j].GetInputKey() == EInputKey.LT)
                         {
                             // Check that it remains at least 2 gameinputs image to fill, else stop now
                             if (j < m_GameInputsImage[i].Count - 2)
@@ -143,7 +145,7 @@ public class TrainingMapDisplay : MonoBehaviour
                                 break;
                             }
                         }
-                        else if(m_TriggeredInputs[i][j].GetInputKey() == EInputKey.RT)
+                        else if(m_TriggeredInputs[triggeredInputIndex][j].GetInputKey() == EInputKey.RT)
                         {
                             // Check that it remains at least 2 gameinputs image to fill, else stop now
                             if (j < m_GameInputsImage[i].Count - 2)
@@ -164,7 +166,7 @@ public class TrainingMapDisplay : MonoBehaviour
                         }
                         else
                         {
-                            InputUIInfo inputInfo = UIConfig.Instance.GetAssociatedInputUIInfo(m_TriggeredInputs[i][j].GetInputKey());
+                            InputUIInfo inputInfo = UIConfig.Instance.GetAssociatedInputUIInfo(m_TriggeredInputs[triggeredInputIndex][j].GetInputKey());
                             if (inputInfo != null)
                             {
                                 m_GameInputsImage[i][j].sprite = inputInfo.m_GameSprite;
