@@ -144,6 +144,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
     {
         m_DefaultSelectable.Select();
         UpdateHighlightedGameObject(m_TrainingOptionsHighlightInfo);
+        UpdateScrollView();
     }
 
     protected override void OnUpdate_Internal()
