@@ -48,25 +48,12 @@ public class InputListener : MonoBehaviour
                 m_CurrentInputKey = m_DefaultInputKey;
         }
 
-        InputUIInfo associatedInputUIInfo = GetAssociatedInputUIInfo(m_CurrentInputKey);
+        InputUIInfo associatedInputUIInfo = UIConfig.Instance.GetAssociatedInputUIInfo(m_CurrentInputKey);
         if (associatedInputUIInfo != null)
         {
             m_PS4ImageInput.sprite = associatedInputUIInfo.m_PS4Sprite;
             m_XboxImageInput.sprite = associatedInputUIInfo.m_XboxSprite;
         }
-    }
-
-    private InputUIInfo GetAssociatedInputUIInfo(EInputKey inputKey)
-    {
-        InputUIInfo[] inputUIInfos = UIConfig.Instance.m_InputUIInfos;
-        for (int i = 0; i < inputUIInfos.Length; i++)
-        {
-            if (inputUIInfos[i].m_Input == inputKey)
-            {
-                return inputUIInfos[i];
-            }
-        }
-        return null;
     }
 
     public void StartListeningInput()

@@ -105,6 +105,8 @@ public class ControlsMenuComponent : MenuComponent
 
                 playerControlInfos.m_InputListeners[i].m_CurrentInputKey = inputListener.m_OldInputKey;
                 playerControlInfos.m_InputListeners[i].UpdateInputForGamepadType(playerGamepadType);
+
+                GamePadManager.SetPlayerGamepadInputMapping((int)inputListener.m_Player, playerControlInfos.m_InputListeners[i].m_CurrentInputKey, playerControlInfos.m_InputListeners[i].m_DefaultInputKey);
             }
         }
     }
