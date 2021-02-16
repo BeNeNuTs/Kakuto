@@ -21,13 +21,24 @@ public static class GamePadManager
     private static PlayerGamePad[] m_PlayerGamePads = { new PlayerGamePad(0), new PlayerGamePad(1) };
 
 #if UNITY_EDITOR
-    // Add a menu item named "Do Something" to MyMenu in the menu bar.
     [MenuItem("Kakuto/Clear saved input mapping")]
-    static void ClearSavedInputMapping()
+    public static void ClearSavedInputMapping()
     {
         PlayerPrefs.SetString("Player1InputMapping", "");
         PlayerPrefs.SetString("Player2InputMapping", "");
         Debug.Log("Input mapping cleared!");
+    }
+
+    [MenuItem("Kakuto/Log Player1 input mapping")]
+    public static void LogPlayer1InputMapping()
+    {
+        Debug.Log(m_PlayerGamePads[0].GetInputMappingStr());
+    }
+
+    [MenuItem("Kakuto/Log Player2 input mapping")]
+    public static void LogPlayer2InputMapping()
+    {
+        Debug.Log(m_PlayerGamePads[1].GetInputMappingStr());
     }
 #endif
 

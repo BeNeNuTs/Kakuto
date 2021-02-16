@@ -97,6 +97,7 @@ public class ControlsMenuComponent : MenuComponent
     private void OnPlayerInputChanged(InputListener inputListener)
     {
         PlayerControlInfo playerControlInfos = inputListener.m_Player == EPlayer.Player1 ? m_Player1ControlsMapping : m_Player2ControlsMapping;
+        List<EInputKey> unassignedInputs = new List<EInputKey>(PlayerGamePad.K_ASSIGNABLE_INPUTS);
         for (int i = 0; i < playerControlInfos.m_InputListeners.Length; i++)
         {
             if(playerControlInfos.m_InputListeners[i] != inputListener && playerControlInfos.m_InputListeners[i].m_CurrentInputKey == inputListener.m_CurrentInputKey)
@@ -106,8 +107,22 @@ public class ControlsMenuComponent : MenuComponent
                 playerControlInfos.m_InputListeners[i].m_CurrentInputKey = inputListener.m_OldInputKey;
                 playerControlInfos.m_InputListeners[i].UpdateInputForGamepadType(playerGamepadType);
 
-                GamePadManager.SetPlayerGamepadInputMapping((int)inputListener.m_Player, playerControlInfos.m_InputListeners[i].m_CurrentInputKey, playerControlInfos.m_InputListeners[i].m_DefaultInputKey);
+                GamePadManager.SetPlayerGamepadInputMapping((int)inputListener.m_Player, inputListener.m_OldInputKey, playerControlInfos.m_InputListeners[i].m_DefaultInputKey);
             }
+
+            unassignedInputs.Remove(playerControlInfos.m_InputListeners[i].m_CurrentInputKey);
+        }
+
+#if UNITY_EDITOR || DEBUG_DISPLAY
+        if(unassignedInputs.Count > 1)
+        {
+            Debug.LogError("There should be only one unassigned remaining input after OnPlayerInputChanged");
+        }
+#endif
+
+        for(int i = 0; i < unassignedInputs.Count; i++)
+        {
+            GamePadManager.SetPlayerGamepadInputMapping((int)inputListener.m_Player, unassignedInputs[i], PlayerGamePad.K_DEFAULT_UNASSIGNED_INPUT);
         }
     }
 }

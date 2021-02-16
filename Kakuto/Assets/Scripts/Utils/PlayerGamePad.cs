@@ -39,6 +39,20 @@ public class PlayerGamePad
         { EInputKey.RT, EInputKey.RT }
     };
 
+    public static readonly EInputKey[] K_ASSIGNABLE_INPUTS = new EInputKey[]
+    {
+        EInputKey.A,
+        EInputKey.B,
+        EInputKey.X,
+        EInputKey.Y,
+        EInputKey.LB,
+        EInputKey.RB,
+        EInputKey.LT,
+        EInputKey.RT,
+    };
+
+    public static readonly EInputKey K_DEFAULT_UNASSIGNED_INPUT = EInputKey.LB;
+
     public Dictionary<EInputKey, EInputKey> m_InputMapping = new Dictionary<EInputKey, EInputKey>(K_DEFAULT_INPUT_MAPPING);
 
     public int m_LastUpdate = -1;
@@ -126,6 +140,16 @@ public class PlayerGamePad
         }
 
         return EInputKey.Invalid;
+    }
+
+    public string GetInputMappingStr()
+    {
+        string str = "";
+        foreach (KeyValuePair<EInputKey, EInputKey> keyValue in m_InputMapping)
+        {
+            str += "{" + keyValue.Key + ", " + keyValue.Value + "}\n";
+        }
+        return str;
     }
 
     public void ResetInputMapping()

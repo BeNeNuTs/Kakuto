@@ -34,6 +34,8 @@ public class TrainingMapDisplay : MonoBehaviour
 
     private DebugSettings m_DebugSettings;
 
+    private bool m_IsGamePaused = false;
+
     void Awake()
     {
         m_PlayerMovementComponentToDisplay = Utils.FindComponentMatchingWithTag<PlayerMovementComponent>(m_Target.ToString());
@@ -74,6 +76,13 @@ public class TrainingMapDisplay : MonoBehaviour
     {
         if(!GamePauseMenuComponent.IsInPause)
         {
+            // If game was paused, skip this frame in order to not display back/select input
+            if(m_IsGamePaused)
+            {
+                m_IsGamePaused = false;
+                return;
+            }
+
             bool displayInputsInfo = m_DebugSettings.m_DisplayInputsInfo;
             m_GameInputList.SetActive(displayInputsInfo);
 
@@ -98,6 +107,10 @@ public class TrainingMapDisplay : MonoBehaviour
             }
 #endif
         }
+        else
+        {
+            m_IsGamePaused = true;
+        }
     }
 
     void DisplayInputs()
@@ -106,7 +119,7 @@ public class TrainingMapDisplay : MonoBehaviour
         if (m_AttackInputs.Count > 0)
         {
             // LB is not assigned
-            m_AttackInputs.RemoveAll(input => input.GetInputKey() == EInputKey.LB);
+            m_AttackInputs.RemoveAll(input => input.GetInputKey() == PlayerGamePad.K_DEFAULT_UNASSIGNED_INPUT);
         }
 
         if (m_AttackInputs.Count > 0)
