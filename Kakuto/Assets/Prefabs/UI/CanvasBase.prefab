@@ -13021,6 +13021,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Options
       objectReference: {fileID: 0}
+    - target: {fileID: 1695641947813661726, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1695641947813661727, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13131,6 +13136,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7035711438743014645, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035711438743014645, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1695641947551786378, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -13147,6 +13162,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1695641949210980271, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695641949013741560, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695641949013741560, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 0
@@ -13210,16 +13235,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7035711438743014645, guid: c0d2130135640c341b4ba88cae77e1a9,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7035711438743014645, guid: c0d2130135640c341b4ba88cae77e1a9,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0d2130135640c341b4ba88cae77e1a9, type: 3}
