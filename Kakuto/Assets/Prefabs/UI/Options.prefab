@@ -13480,6 +13480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5552122349057553624}
   - component: {fileID: 2886295080099667821}
+  - component: {fileID: 3432554990758207899}
   m_Layer: 5
   m_Name: Panel - MoveList
   m_TagString: Untagged
@@ -13516,6 +13517,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3356713814613381153}
   m_CullTransparentMesh: 0
+--- !u!114 &3432554990758207899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3356713814613381153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe876e697ea15fd4da17bdbf0971af59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScrollRect: {fileID: 7410432127262129261}
+  m_ScrollSpeed: 0.025
 --- !u!1 &3467884700908235505
 GameObject:
   m_ObjectHideFlags: 0
