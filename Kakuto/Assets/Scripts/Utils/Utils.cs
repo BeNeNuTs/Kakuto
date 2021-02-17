@@ -102,9 +102,9 @@ public static class Utils
     {
         switch (tag)
         {
-            case "Player1":
+            case Player.Player1:
                 return Player1EventManager.Instance;
-            case "Player2":
+            case Player.Player2:
                 return Player2EventManager.Instance;
             default:
                 Debug.LogError("Can't find PlayerEventManager from tag : " + tag);

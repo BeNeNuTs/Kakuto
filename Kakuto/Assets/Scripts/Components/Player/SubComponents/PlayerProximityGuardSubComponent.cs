@@ -2,13 +2,17 @@
 
 public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
 {
+    private static readonly string K_ANIM_ONPROXIMITYEND_TRIGGER = "OnProximityEnd";
+    private static readonly string K_ANIM_PROXIMITY_CROUCH_IN = "ProximityCrouch_In";
+    private static readonly string K_ANIM_PROXIMITY_STAND_IN = "ProximityStand_In";
+
     private readonly PlayerHealthComponent m_PlayerHealthComponent;
     private readonly PlayerStunInfoSubComponent m_PlayerStunInfoSubComponent;
     private readonly PlayerMovementComponent m_PlayerMovementComponent;
     private readonly Animator m_Animator;
 
     private bool m_IsInsideProximityBox;
-    private bool m_IsInProximityGuard;
+    private bool m_IsInProximityGuard;  
 
     public PlayerProximityGuardSubComponent(PlayerHealthComponent healthComponent, PlayerMovementComponent movementComponent, Animator anim) : base(healthComponent.gameObject)
     {
@@ -72,13 +76,13 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
 
     private void TriggerProximityGuard()
     {
-        m_Animator.ResetTrigger("OnProximityEnd");
-        m_Animator.Play(m_PlayerMovementComponent.IsCrouching() ? "ProximityCrouch_In" : "ProximityStand_In", 0, 0);
+        m_Animator.ResetTrigger(K_ANIM_ONPROXIMITYEND_TRIGGER);
+        m_Animator.Play(m_PlayerMovementComponent.IsCrouching() ? K_ANIM_PROXIMITY_CROUCH_IN : K_ANIM_PROXIMITY_STAND_IN, 0, 0);
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StopMovement);
     }
 
     private void EndProximityGuard()
     {
-        m_Animator.SetTrigger("OnProximityEnd");
+        m_Animator.SetTrigger(K_ANIM_ONPROXIMITYEND_TRIGGER);
     }
 }

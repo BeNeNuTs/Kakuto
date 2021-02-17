@@ -18,6 +18,9 @@ public class TrainingOptionsMenuComponent : MenuComponent
         1
     };
 
+    private static readonly string K_TRAININGMAP = "TrainingMap";
+    private static readonly string K_TRAININGOPTIONS = "TrainingOptions";
+
 #pragma warning disable 0649
     [SerializeField] private Selectable m_DefaultSelectable;
     [SerializeField] private HighlightInfo[] m_TrainingOptionsHighlightInfo;
@@ -41,7 +44,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
     [MenuItem("Kakuto/Clear saved training options")]
     static void ClearSavedTrainingOptions()
     {
-        PlayerPrefs.SetString("TrainingOptions", "");
+        PlayerPrefs.SetString(K_TRAININGOPTIONS, "");
         Debug.Log("Training options cleared!");
     }
 #endif
@@ -87,9 +90,9 @@ public class TrainingOptionsMenuComponent : MenuComponent
 
     public static void LoadTrainingOptions()
     {
-        m_Player1Settings = ScenesConfig.GetPlayerSettings(0, "TrainingMap");
-        m_Player2Settings = ScenesConfig.GetPlayerSettings(1, "TrainingMap");
-        m_DebugSettings = ScenesConfig.GetDebugSettings("TrainingMap");
+        m_Player1Settings = ScenesConfig.GetPlayerSettings(0, K_TRAININGMAP);
+        m_Player2Settings = ScenesConfig.GetPlayerSettings(1, K_TRAININGMAP);
+        m_DebugSettings = ScenesConfig.GetDebugSettings(K_TRAININGMAP);
 
 #if UNITY_EDITOR
         m_InitialPlayer1Settings = new PlayerSettings(Player.Player1);
@@ -99,7 +102,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
         CopyPlayerSettings(m_Player2Settings, m_InitialPlayer2Settings);
 #endif
 
-        string trainingOptionsStr = PlayerPrefs.GetString("TrainingOptions");
+        string trainingOptionsStr = PlayerPrefs.GetString(K_TRAININGOPTIONS);
         if (string.IsNullOrEmpty(trainingOptionsStr))
         {
             K_DEFAULT_TRAINING_OPTIONS.CopyTo(m_TrainingOptions, 0);
@@ -127,7 +130,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
             trainingOptionsStr += m_TrainingOptions[i].ToString();
         }
 
-        PlayerPrefs.SetString("TrainingOptions", trainingOptionsStr);
+        PlayerPrefs.SetString(K_TRAININGOPTIONS, trainingOptionsStr);
     }
 
     private void OnDestroy()

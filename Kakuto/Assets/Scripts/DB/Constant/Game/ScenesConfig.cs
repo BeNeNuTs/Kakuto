@@ -150,10 +150,10 @@ public class ScenesConfig : ScriptableObject
         int playerIndex = -1;
         switch (tag)
         {
-            case "Player1":
+            case Player.Player1:
                 playerIndex = 0;
                 break;
-            case "Player2":
+            case Player.Player2:
                 playerIndex = 1;
                 break;
         }

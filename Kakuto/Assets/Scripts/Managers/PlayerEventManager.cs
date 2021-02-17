@@ -136,7 +136,6 @@ public abstract class PlayerEventManager
 
     public void TriggerEvent(EPlayerEvent eventType, BaseEventParameters eventParams = null)
     {
-        Assert.IsTrue(eventParams == null || eventType == eventParams.GetEventType(), "Parameter's type " + eventParams?.GetType() + " is not matching with the EventType " + eventType);
         if (m_EventDictionary.TryGetValue(eventType, out Action<BaseEventParameters> thisEvent))
         {
             thisEvent.Invoke(eventParams);

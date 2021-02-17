@@ -25,6 +25,28 @@ public enum EInputKey
     Invalid
 }
 
+public static class GameInputConstants
+{
+    public const string K_DOWN = "↓";
+    public const string K_DOWN_RIGHT = "↘";
+    public const string K_RIGHT = "→";
+    public const string K_UP_RIGHT = "↗";
+    public const string K_UP = "↑";
+    public const string K_UP_LEFT = "↖";
+    public const string K_LEFT = "←";
+    public const string K_DOWN_LEFT = "↙";
+
+    public const string K_A = "A";
+    public const string K_B = "B";
+    public const string K_X = "X";
+    public const string K_Y = "Y";
+
+    public const string K_RB = "RB";
+    public const string K_LB = "LB";
+    public const string K_RT = "RT";
+    public const string K_LT = "LT";
+}
+
 [Serializable]
 public class GameInputList
 {
@@ -80,39 +102,53 @@ public class GameInput
         switch (key)
         {
             case EInputKey.Down:
-                inputString = "↓";
+                inputString = GameInputConstants.K_DOWN;
                 break;
             case EInputKey.DownRight:
-                inputString = "↘";
+                inputString = GameInputConstants.K_DOWN_RIGHT;
                 break;
             case EInputKey.Right:
-                inputString = "→";
+                inputString = GameInputConstants.K_RIGHT;
                 break;
             case EInputKey.UpRight:
-                inputString = "↗";
+                inputString = GameInputConstants.K_UP_RIGHT;
                 break;
             case EInputKey.Up:
-                inputString = "↑";
+                inputString = GameInputConstants.K_UP;
                 break;
             case EInputKey.UpLeft:
-                inputString = "↖";
+                inputString = GameInputConstants.K_UP_LEFT;
                 break;
             case EInputKey.Left:
-                inputString = "←";
+                inputString = GameInputConstants.K_LEFT;
                 break;
             case EInputKey.DownLeft:
-                inputString = "↙";
+                inputString = GameInputConstants.K_DOWN_LEFT;
                 break;
 
             case EInputKey.A:
+                inputString = GameInputConstants.K_A;
+                break;
             case EInputKey.B:
+                inputString = GameInputConstants.K_B;
+                break;
             case EInputKey.X:
+                inputString = GameInputConstants.K_X;
+                break;
             case EInputKey.Y:
+                inputString = GameInputConstants.K_Y;
+                break;
             case EInputKey.RB:
+                inputString = GameInputConstants.K_RB;
+                break;
             case EInputKey.LB:
+                inputString = GameInputConstants.K_LB;
+                break;
             case EInputKey.RT:
+                inputString = GameInputConstants.K_RT;
+                break;
             case EInputKey.LT:
-                inputString = key.ToString();
+                inputString = GameInputConstants.K_LT;
                 break;
 
             case EInputKey.Invalid:
@@ -128,53 +164,53 @@ public class GameInput
         EInputKey inputKey = EInputKey.Invalid;
         switch (str)
         {
-            case "↓":
+            case GameInputConstants.K_DOWN:
                 inputKey = EInputKey.Down;
                 break;
-            case "↘":
+            case GameInputConstants.K_DOWN_RIGHT:
                 inputKey = EInputKey.DownRight;
                 break;
-            case "→":
+            case GameInputConstants.K_RIGHT:
                 inputKey = EInputKey.Right;
                 break;
-            case "↗":
+            case GameInputConstants.K_UP_RIGHT:
                 inputKey = EInputKey.UpRight;
                 break;
-            case "↑":
+            case GameInputConstants.K_UP:
                 inputKey = EInputKey.Up;
                 break;
-            case "↖":
+            case GameInputConstants.K_UP_LEFT:
                 inputKey = EInputKey.UpLeft;
                 break;
-            case "←":
+            case GameInputConstants.K_LEFT:
                 inputKey = EInputKey.Left;
                 break;
-            case "↙":
+            case GameInputConstants.K_DOWN_LEFT:
                 inputKey = EInputKey.DownLeft;
                 break;
 
-            case "A":
+            case GameInputConstants.K_A:
                 inputKey = EInputKey.A;
                 break;
-            case "B":
+            case GameInputConstants.K_B:
                 inputKey = EInputKey.B;
                 break;
-            case "X":
+            case GameInputConstants.K_X:
                 inputKey = EInputKey.X;
                 break;
-            case "Y":
+            case GameInputConstants.K_Y:
                 inputKey = EInputKey.Y;
                 break;
-            case "RB":
+            case GameInputConstants.K_RB:
                 inputKey = EInputKey.RB;
                 break;
-            case "LB":
+            case GameInputConstants.K_LB:
                 inputKey = EInputKey.LB;
                 break;
-            case "RT":
+            case GameInputConstants.K_RT:
                 inputKey = EInputKey.RT;
                 break;
-            case "LT":
+            case GameInputConstants.K_LT:
                 inputKey = EInputKey.LT;
                 break;
 

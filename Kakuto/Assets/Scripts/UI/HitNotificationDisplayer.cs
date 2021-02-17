@@ -4,6 +4,8 @@ using System.Collections;
 
 public class HitNotificationDisplayer : MonoBehaviour
 {
+    private static readonly string K_ANIM_ISACTIVE_BOOL = "IsActive";
+
     public EPlayer m_Target;
     public Animator m_Animator;
     public GameObject m_NotificationBackground;
@@ -48,7 +50,7 @@ public class HitNotificationDisplayer : MonoBehaviour
     private void SetNotificationActive(bool active)
     {
         m_Animator.enabled = true;
-        m_Animator.SetBool("IsActive", active);
+        m_Animator.SetBool(K_ANIM_ISACTIVE_BOOL, active);
     }
 
     private void TriggerNotification_Internal(EHitNotificationType hitNotifType)

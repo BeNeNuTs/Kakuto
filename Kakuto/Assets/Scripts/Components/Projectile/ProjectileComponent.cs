@@ -19,6 +19,13 @@ public class ProjectileComponent : MonoBehaviour
     private int m_KeepConstantSpeedUntilFrame = 0;
     private bool m_DestructionRequested = false;
 
+    private static readonly string K_ANIM_ANGLE_INT = "Angle";
+    private static readonly string K_ANIM_ISSUPER_BOOL = "IsSuper";
+    private static readonly string K_ANIM_ISGUARDCRUSH_BOOL = "IsGuardCrush";
+    private static readonly string K_ANIM_DESTRUCTION_REQUESTED_TRIGGER = "DestructionRequested";
+
+    private static readonly string K_GROUND_TAG = "Ground";
+
     public void OnInit(PlayerProjectileAttackLogic logic, PlayerProjectileAttackConfig config)
     {
         m_Logic = logic;
@@ -29,9 +36,9 @@ public class ProjectileComponent : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
-        m_Animator.SetInteger("Angle", Mathf.FloorToInt(m_Config.m_ProjectileAngle));
-        m_Animator.SetBool("IsSuper", m_Logic.IsASuper());
-        m_Animator.SetBool("IsGuardCrush", m_Logic.IsGuardCrush());
+        m_Animator.SetInteger(K_ANIM_ANGLE_INT, Mathf.FloorToInt(m_Config.m_ProjectileAngle));
+        m_Animator.SetBool(K_ANIM_ISSUPER_BOOL, m_Logic.IsASuper());
+        m_Animator.SetBool(K_ANIM_ISGUARDCRUSH_BOOL, m_Logic.IsGuardCrush());
 
         InitPalette();
 
@@ -133,7 +140,7 @@ public class ProjectileComponent : MonoBehaviour
                     }
                 }
             }
-            else if (collision.CompareTag("Ground")) // Collision with Ground
+            else if (collision.CompareTag(K_GROUND_TAG)) // Collision with Ground
             {
                 RequestProjectileDestruction();
             }
@@ -145,7 +152,7 @@ public class ProjectileComponent : MonoBehaviour
         if (!m_DestructionRequested)
         {
             m_Collider.enabled = false;
-            m_Animator.SetTrigger("DestructionRequested");
+            m_Animator.SetTrigger(K_ANIM_DESTRUCTION_REQUESTED_TRIGGER);
             m_DestructionRequested = true;
         }
     }

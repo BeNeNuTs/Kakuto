@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public static class InputManager
 {
+    private const string K_LEFT = "left";
+    private const string K_RIGHT = "right";
+    private const string K_UP = "up";
+    private const string K_DOWN = "down";
+
     public static float GetHorizontalMovement(int playerIndex)
     {
         float horizontalInput = 0f;
@@ -13,11 +18,11 @@ public static class InputManager
         }
         else
         {
-            if(Input.GetKey("left"))
+            if(Input.GetKey(K_LEFT))
             {
                 horizontalInput = -1f;
             }
-            else if(Input.GetKey("right"))
+            else if(Input.GetKey(K_RIGHT))
             {
                 horizontalInput = 1f;
             }
@@ -34,7 +39,7 @@ public static class InputManager
         }
         else
         {
-            isJumping = Input.GetKey("up");
+            isJumping = Input.GetKey(K_UP);
         }
         return isJumping;
     }
@@ -48,7 +53,7 @@ public static class InputManager
         }
         else
         {
-            isCrouching = Input.GetKey("down");
+            isCrouching = Input.GetKey(K_DOWN);
         }
         return isCrouching;
     }
@@ -62,10 +67,10 @@ public static class InputManager
         }
         else
         {
-            bool isLeftKeyDown = Input.GetKeyDown("left");
-            bool isRightKeyDown = Input.GetKeyDown("right");
-            bool isUpKeyDown = Input.GetKeyDown("up");
-            bool isDownKeyDown = Input.GetKeyDown("down");
+            bool isLeftKeyDown = Input.GetKeyDown(K_LEFT);
+            bool isRightKeyDown = Input.GetKeyDown(K_RIGHT);
+            bool isUpKeyDown = Input.GetKeyDown(K_UP);
+            bool isDownKeyDown = Input.GetKeyDown(K_DOWN);
 
             if(isLeftKeyDown && !isUpKeyDown && !isDownKeyDown)
             {

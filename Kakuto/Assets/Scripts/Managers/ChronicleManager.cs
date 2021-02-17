@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using System.Diagnostics;
 
 public enum EChronicleCategory
 {
@@ -42,11 +43,10 @@ public static class ChronicleManager
 #endif
     }
 
+    [Conditional("DEBUG_DISPLAY"), Conditional("UNITY_EDITOR")]
     public static void AddChronicle(GameObject owner, EChronicleCategory category, string text)
     {
-#if DEBUG_DISPLAY || UNITY_EDITOR
         AddChronicle(owner.tag, category, text);
-#endif
     }
 
     static void OpenFiles()
@@ -94,12 +94,12 @@ public static class ChronicleManager
     {
         switch (playerTag)
         {
-            case "Player1":
+            case Player.Player1:
                 return m_WriterP1;
-            case "Player2":
+            case Player.Player2:
                 return m_WriterP2;
             default:
-                Debug.LogError("GetWriter on : " + playerTag + " is not allowed");
+                UnityEngine.Debug.LogError("GetWriter on : " + playerTag + " is not allowed");
                 return null;
         }
     }
@@ -108,11 +108,11 @@ public static class ChronicleManager
     {
         switch(tag)
         {
-            case "Player1":
-            case "Player2":
+            case Player.Player1:
+            case Player.Player2:
                 return true;
             default:
-                Debug.LogError("AddChronicle on : " + tag + " is not allowed");
+                UnityEngine.Debug.LogError("AddChronicle on : " + tag + " is not allowed");
                 return false;
         }
     }

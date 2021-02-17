@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class StunGaugeDisplayer : MonoBehaviour
 {
+    private static readonly string K_STUNNED_TEXT = "STUNNED";
+
     public EPlayer m_Target;
     public Image m_GaugeImage;
     public TextMeshProUGUI m_GaugeTextAmount;
@@ -43,7 +45,7 @@ public class StunGaugeDisplayer : MonoBehaviour
             }
             else
             {
-                m_GaugeTextAmount.text = "STUNNED";
+                m_GaugeTextAmount.text = K_STUNNED_TEXT;
             }
         }
     }

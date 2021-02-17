@@ -53,6 +53,14 @@ public class PlayerGamePad
 
     public static readonly EInputKey K_DEFAULT_UNASSIGNED_INPUT = EInputKey.LB;
 
+    public static readonly string K_HORIZONTAL = "Horizontal";
+    public static readonly string K_VERTICAL = "Vertical";
+    public static readonly string K_DPAD_X = "DpadX";
+    public static readonly string K_DPAD_Y = "DpadY";
+
+    public static readonly string K_JOYSTICK_SPACE = "joystick ";
+    public static readonly string K_SPACE_BUTTON_SPACE = " button ";
+
     public Dictionary<EInputKey, EInputKey> m_InputMapping = new Dictionary<EInputKey, EInputKey>(K_DEFAULT_INPUT_MAPPING);
 
     public int m_LastUpdate = -1;
@@ -258,10 +266,10 @@ public class PlayerGamePad
 
     private void UpdateHorizontal()
     {
-        float horizontalRawAxis = Input.GetAxisRaw("Horizontal" + GetJoystickNum());
+        float horizontalRawAxis = Input.GetAxisRaw(K_HORIZONTAL + GetJoystickNum());
         if (horizontalRawAxis == 0)
         {
-            horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
+            horizontalRawAxis = Input.GetAxisRaw(K_DPAD_X + GetJoystickNum() + "_" + GamePadType.ToString());
         }
 
         if (horizontalRawAxis > 0)
@@ -285,10 +293,10 @@ public class PlayerGamePad
 
     private void UpdateVertical()
     {
-        float verticalRawAxis = Input.GetAxisRaw("Vertical" + GetJoystickNum());
+        float verticalRawAxis = Input.GetAxisRaw(K_VERTICAL + GetJoystickNum());
         if (verticalRawAxis == 0)
         {
-            verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
+            verticalRawAxis = Input.GetAxisRaw(K_DPAD_Y + GetJoystickNum() + "_" + GamePadType.ToString());
         }
 
         if (verticalRawAxis > 0)
@@ -371,10 +379,10 @@ public class PlayerGamePad
             int joystickNum = GetJoystickNum();
 
             m_LastLTAxis = m_CurrentLTAxis;
-            m_CurrentLTAxis = Input.GetAxisRaw("LT" + joystickNum + "_" + GamePadType.ToString());
+            m_CurrentLTAxis = Input.GetAxisRaw(GameInputConstants.K_LT + joystickNum + "_" + GamePadType.ToString());
 
             m_LastRTAxis = m_CurrentRTAxis;
-            m_CurrentRTAxis = Input.GetAxisRaw("RT" + joystickNum + "_" + GamePadType.ToString());
+            m_CurrentRTAxis = Input.GetAxisRaw(GameInputConstants.K_RT + joystickNum + "_" + GamePadType.ToString());
         }
     }
 
@@ -399,7 +407,7 @@ public class PlayerGamePad
         int joystickNum = GetJoystickNum();
         for (int i = 0; i < K_GAMEPAD_BUTTON; i++)
         {
-            if (Input.GetKeyDown("joystick " + joystickNum + " button " + i))
+            if (Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + K_SPACE_BUTTON_SPACE + i))
             {
                 inputKeysDown.Add(ConvertGamePadButtonAsKey(i, useRemapInputs));
             }
@@ -425,9 +433,9 @@ public class PlayerGamePad
         switch (GamePadType)
         {
             case EGamePadType.Xbox:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 7");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 7");
             case EGamePadType.PS4:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 9");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 9");
             case EGamePadType.Invalid:
             default:
                 return false;
@@ -440,9 +448,9 @@ public class PlayerGamePad
         switch (GamePadType)
         {
             case EGamePadType.Xbox:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 0");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 0");
             case EGamePadType.PS4:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 1");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 1");
             case EGamePadType.Invalid:
             default:
                 return false;
@@ -455,9 +463,9 @@ public class PlayerGamePad
         switch (GamePadType)
         {
             case EGamePadType.Xbox:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 1");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 1");
             case EGamePadType.PS4:
-                return Input.GetKeyDown("joystick " + joystickNum + " button 2");
+                return Input.GetKeyDown(K_JOYSTICK_SPACE + joystickNum + " button 2");
             case EGamePadType.Invalid:
             default:
                 return false;
@@ -469,8 +477,8 @@ public class PlayerGamePad
         int joystickNum = GetJoystickNum();
         if(IsGamePadIndexValid())
         {
-            horizontalRawAxis = Input.GetAxisRaw("DpadX" + GetJoystickNum() + "_" + GamePadType.ToString());
-            verticalRawAxis = Input.GetAxisRaw("DpadY" + GetJoystickNum() + "_" + GamePadType.ToString());
+            horizontalRawAxis = Input.GetAxisRaw(K_DPAD_X + GetJoystickNum() + "_" + GamePadType.ToString());
+            verticalRawAxis = Input.GetAxisRaw(K_DPAD_Y + GetJoystickNum() + "_" + GamePadType.ToString());
         }
         else
         {

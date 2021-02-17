@@ -2,6 +2,8 @@
 
 public class PlayerInfoComponent : MonoBehaviour
 {
+    private static readonly string K_PALETTE_TEX_PROPERTY = "_PaletteTex";
+
     public PlayerInfoConfig m_InfoConfig;
     public EPalette m_InitialPalette = EPalette.Default;
 
@@ -73,9 +75,9 @@ public class PlayerInfoComponent : MonoBehaviour
 
     public void InitWithCurrentPalette(Material material)
     {
-        if (material != null && material.HasProperty("_PaletteTex"))
+        if (material != null && material.HasProperty(K_PALETTE_TEX_PROPERTY))
         {
-            material.SetTexture("_PaletteTex", GetCurrentPalette());
+            material.SetTexture(K_PALETTE_TEX_PROPERTY, GetCurrentPalette());
         }
     }
 

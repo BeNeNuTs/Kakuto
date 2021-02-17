@@ -33,6 +33,13 @@ public class PlayerMovementComponent : MonoBehaviour
         TimeOver
     }
 
+    private static readonly string K_ANIM_TAKE_OFF_TRIGGER = "TakeOff";
+    private static readonly string K_ANIM_TURN_AROUND_TRIGGER = "TurnAroundRequested";
+    private static readonly string K_ANIM_IS_CROUCHING_BOOL = "IsCrouching";
+    private static readonly string K_ANIM_IS_JUMPING_BOOL = "IsJumping";
+    private static readonly string K_ANIM_SPEED_FLOAT = "Speed";
+    private static readonly string K_ANIM_MOVING_DIRECTION_FLOAT = "MovingDirection";
+
     private CharacterController2D m_Controller;
     private Animator m_Animator;
     private PlayerAttackComponent m_AttackComponent;
@@ -156,7 +163,7 @@ public class PlayerMovementComponent : MonoBehaviour
                 {
                     ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump take off requested");
 
-                    m_Animator.SetTrigger("TakeOff");
+                    m_Animator.SetTrigger(K_ANIM_TAKE_OFF_TRIGGER);
                     m_AttackComponent.SetAttackBlockedByTakeOff(true);
                     m_JumpTakeOffRequested = true;
                     m_JumpTakeOffDirection = m_HorizontalMoveInput;
@@ -164,8 +171,8 @@ public class PlayerMovementComponent : MonoBehaviour
             }
         }
 
-        m_Animator.SetBool("IsCrouching", m_CrouchInput);
-        m_Animator.SetFloat("Speed", Mathf.Abs(m_HorizontalMoveInput));
+        m_Animator.SetBool(K_ANIM_IS_CROUCHING_BOOL, m_CrouchInput);
+        m_Animator.SetFloat(K_ANIM_SPEED_FLOAT, Mathf.Abs(m_HorizontalMoveInput));
     }
 
     bool IsPlayerTimeFrozen()
@@ -200,7 +207,7 @@ public class PlayerMovementComponent : MonoBehaviour
                 if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
                 {
                     Flip();
-                    m_Animator.SetTrigger("TurnAroundRequested");
+                    m_Animator.SetTrigger(K_ANIM_TURN_AROUND_TRIGGER);
                 }
             }
         }
@@ -236,7 +243,7 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             m_JumpTakeOffRequested = false;
             m_TriggerJumpImpulse = true;
-            m_Animator.ResetTrigger("TakeOff");
+            m_Animator.ResetTrigger(K_ANIM_TAKE_OFF_TRIGGER);
 
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Jump impulse requested after take off");
         }
@@ -248,7 +255,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void OnJumping(bool isJumping)
     {
-        m_Animator.SetBool("IsJumping", isJumping);
+        m_Animator.SetBool(K_ANIM_IS_JUMPING_BOOL, isJumping);
         if(isJumping)
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On Jumping");
@@ -270,7 +277,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void OnDirectionChanged()
     {
-        m_Animator.SetFloat("MovingDirection", m_Animator.GetFloat("MovingDirection") * -1.0f);
+        m_Animator.SetFloat(K_ANIM_MOVING_DIRECTION_FLOAT, m_Animator.GetFloat(K_ANIM_MOVING_DIRECTION_FLOAT) * -1.0f);
     }
 
     public EMovingDirection GetMovingDirection()
@@ -299,7 +306,7 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "On player stance changed | " + string.Format("{0,-20} {1,-20}", ("Old stance : " + m_PlayerStance), "New stance : " + newStance));
             m_PlayerStance = newStance;
-            m_Animator.ResetTrigger("TurnAroundRequested");
+            m_Animator.ResetTrigger(K_ANIM_TURN_AROUND_TRIGGER);
         }
 
         if(m_JumpPhase != newJumpPhase)
@@ -464,8 +471,8 @@ public class PlayerMovementComponent : MonoBehaviour
 
             if (m_IsMovementBlocked)
             {
-                m_Animator.ResetTrigger("TakeOff");
-                m_Animator.ResetTrigger("TurnAroundRequested");
+                m_Animator.ResetTrigger(K_ANIM_TAKE_OFF_TRIGGER);
+                m_Animator.ResetTrigger(K_ANIM_TURN_AROUND_TRIGGER);
                 m_JumpTakeOffRequested = false;
                 
                 // If movement is blocked by timeOver, let the jump be triggered before end of round anim

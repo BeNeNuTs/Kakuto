@@ -32,6 +32,15 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
     }
 
+    private static readonly string K_ANIM_ONSTUNEND_TRIGGER = "OnStunEnd";
+    private static readonly string K_ANIM_BLOCKSTAND_IN = "BlockStand_In";
+    private static readonly string K_ANIM_BLOCKSTAND_OUT = "BlockStand_Out";
+    private static readonly string K_START_AUTOBLOCKING_ATTACK = "StartAutoBlockingAttacks";
+
+    private static readonly string K_STUN = "Stun";
+    private static readonly string K_STUNNED = "Stunned";
+    private static readonly string K_KO = "KO";
+
     private PlayerHealthComponent m_HealthComponent;
     private PlayerInfoComponent m_InfoComponent;
     private PlayerMovementComponent m_MovementComponent;
@@ -137,7 +146,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
 #endif
 
-        m_Anim.ResetTrigger("OnStunEnd");
+        m_Anim.ResetTrigger(K_ANIM_ONSTUNEND_TRIGGER);
     }
 
     bool IsStunDurationAnimDriven(bool isHitKO, bool isGrabAttack, EStunType stunType)
@@ -202,7 +211,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void TriggerOnStunEndAnim()
     {
-        m_Anim.SetTrigger("OnStunEnd");
+        m_Anim.SetTrigger(K_ANIM_ONSTUNEND_TRIGGER);
         m_StunInfo.m_EndOfStunAnimRequested = true;
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
@@ -298,8 +307,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "StartAutoBlockingAttacks | Duration : " + blockingAttackDuration);
 
         StartStun_Internal(false, false, EStunType.Block);
-        SetStunDuration_Internal("StartAutoBlockingAttacks", "BlockStand_Out", blockingAttackDuration);
-        m_Anim.Play("BlockStand_In", 0, 0);
+        SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKSTAND_OUT, blockingAttackDuration);
+        m_Anim.Play(K_ANIM_BLOCKSTAND_IN, 0, 0);
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
         Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
@@ -347,14 +356,14 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void PlayGaugeStunAnim(bool playKOAnimation)
     {
-        string stunAnimName = "";
+        string stunAnimName;
         if(playKOAnimation)
         {
-            stunAnimName = "Stun" + m_MovementComponent.GetCurrentStance().ToString() + "KO";
+            stunAnimName = K_STUN + m_MovementComponent.GetCurrentStance().ToString() + K_KO;
         }
         else
         {
-            stunAnimName = "Stunned";
+            stunAnimName = K_STUNNED;
         }
         m_Anim.Play(stunAnimName, 0, 0);
     }

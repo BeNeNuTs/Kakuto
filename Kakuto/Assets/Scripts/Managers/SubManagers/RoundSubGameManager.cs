@@ -27,6 +27,7 @@ public class RoundSubGameManager : SubGameManagerBase
     private static readonly string K_ROUND_ENTRY_ANIM = "RoundEntry";
     private static readonly string K_ROUND_WON_ANIM = "RoundWon";
     private static readonly string K_ROUND_LOST_ANIM = "RoundLost";
+    private static readonly string K_STANDIDLE_TAG = "StandIdle";
 
     private Scene m_RoundScene;
     public static Action OnRoundVictoryCounterChanged;
@@ -243,7 +244,7 @@ public class RoundSubGameManager : SubGameManagerBase
             {
                 Animator playerAnimator = player.GetComponentInChildren<Animator>();
                 AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-                if (playerAnimator != null && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag("StandIdle"))
+                if (playerAnimator != null && !playerAnimator.GetCurrentAnimatorStateInfo(0).IsTag(K_STANDIDLE_TAG))
                 {
                     // If player's not dead and not playing StandIdle animation, then he's not ready to play end round animations
                     return false;
