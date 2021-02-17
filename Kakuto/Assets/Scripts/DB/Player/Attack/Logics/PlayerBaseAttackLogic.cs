@@ -164,7 +164,7 @@ public class PlayerBaseAttackLogic
         }
         else if(damageTakenInfo.m_AttackLogic.GetType() != typeof(PlayerProjectileAttackLogic))
         {
-            Debug.LogError("DamageTaken event has been received in " + m_Attack.m_AnimationAttackName + " but damage taken doesn't come from this attack. This attack has not been stopped correctly");
+            KakutoDebug.LogError("DamageTaken event has been received in " + m_Attack.m_AnimationAttackName + " but damage taken doesn't come from this attack. This attack has not been stopped correctly");
         }
     }
 

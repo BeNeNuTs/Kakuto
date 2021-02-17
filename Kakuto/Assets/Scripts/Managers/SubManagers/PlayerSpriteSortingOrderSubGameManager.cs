@@ -135,7 +135,7 @@ public class PlayerSpriteSortingOrderSubGameManager : SubGameManagerBase
             }
         }
 
-        Debug.LogError("Enemy of " + player + " has not been found.");
+        KakutoDebug.LogError("Enemy of " + player + " has not been found.");
         return null;
     }
 }

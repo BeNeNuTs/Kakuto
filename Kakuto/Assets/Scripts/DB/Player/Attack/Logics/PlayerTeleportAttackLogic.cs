@@ -119,7 +119,7 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
 
         if (m_CurrentProjectile != null && m_CurrentProjectile != destroyedProjectile)
         {
-            Debug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + destroyedProjectile);
+            KakutoDebug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + destroyedProjectile);
         }
 
         // If the attack's launched and teleport has not been requested yet

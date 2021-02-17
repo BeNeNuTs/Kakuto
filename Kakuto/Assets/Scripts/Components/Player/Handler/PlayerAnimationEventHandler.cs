@@ -29,7 +29,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 #if UNITY_EDITOR
         if (m_UIBackground == null || m_UIMaskedBackground == null || m_UIBackgroundMask == null)
         {
-            Debug.LogError("UIBackground elements can't be found");
+            KakutoDebug.LogError("UIBackground elements can't be found");
         }
 #endif
     }
@@ -49,7 +49,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         else
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
-            Debug.LogError("Block attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            KakutoDebug.LogError("Block attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
@@ -63,7 +63,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         else
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
-            Debug.LogError("Unblock attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            KakutoDebug.LogError("Unblock attack: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
@@ -77,7 +77,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         else
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Block movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
-            Debug.LogError("Block movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            KakutoDebug.LogError("Block movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 
@@ -91,7 +91,7 @@ public class PlayerAnimationEventHandler : MonoBehaviour
         else
         {
             ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Animation, "Unblock movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
-            Debug.LogError("Unblock movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
+            KakutoDebug.LogError("Unblock movement: Unable to find BaseAttackStateMachineBehaviour from current animation state info.");
         }
     }
 

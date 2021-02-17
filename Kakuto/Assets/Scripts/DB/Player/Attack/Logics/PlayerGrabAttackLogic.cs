@@ -42,11 +42,11 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
 #if UNITY_EDITOR
         if (m_GrabHook == null)
         {
-            Debug.LogError(K_GRAB_HOOK + " can't be found on " + m_Owner);
+            KakutoDebug.LogError(K_GRAB_HOOK + " can't be found on " + m_Owner);
         }
         if (m_FXHook == null)
         {
-            Debug.LogError(K_FX_HOOK + " can't be found on " + m_Owner);
+            KakutoDebug.LogError(K_FX_HOOK + " can't be found on " + m_Owner);
         }
 #endif
     }

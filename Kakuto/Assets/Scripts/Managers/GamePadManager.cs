@@ -26,19 +26,19 @@ public static class GamePadManager
     {
         PlayerPrefs.SetString("Player1InputMapping", "");
         PlayerPrefs.SetString("Player2InputMapping", "");
-        Debug.Log("Input mapping cleared!");
+        KakutoDebug.Log("Input mapping cleared!");
     }
 
     [MenuItem("Kakuto/Log Player1 input mapping")]
     public static void LogPlayer1InputMapping()
     {
-        Debug.Log(m_PlayerGamePads[0].GetInputMappingStr());
+        KakutoDebug.Log(m_PlayerGamePads[0].GetInputMappingStr());
     }
 
     [MenuItem("Kakuto/Log Player2 input mapping")]
     public static void LogPlayer2InputMapping()
     {
-        Debug.Log(m_PlayerGamePads[1].GetInputMappingStr());
+        KakutoDebug.Log(m_PlayerGamePads[1].GetInputMappingStr());
     }
 #endif
 

@@ -75,7 +75,7 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
         }
         else
         {
-            Debug.LogError("OnHandlePushBoxCollision has been triggered whereas the attack is not launched !");
+            KakutoDebug.LogError("OnHandlePushBoxCollision has been triggered whereas the attack is not launched !");
         }
     }
 }

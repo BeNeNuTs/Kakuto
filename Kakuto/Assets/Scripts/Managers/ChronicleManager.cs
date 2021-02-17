@@ -99,7 +99,7 @@ public static class ChronicleManager
             case Player.Player2:
                 return m_WriterP2;
             default:
-                UnityEngine.Debug.LogError("GetWriter on : " + playerTag + " is not allowed");
+                KakutoDebug.LogError("GetWriter on : " + playerTag + " is not allowed");
                 return null;
         }
     }
@@ -112,7 +112,7 @@ public static class ChronicleManager
             case Player.Player2:
                 return true;
             default:
-                UnityEngine.Debug.LogError("AddChronicle on : " + tag + " is not allowed");
+                KakutoDebug.LogError("AddChronicle on : " + tag + " is not allowed");
                 return false;
         }
     }

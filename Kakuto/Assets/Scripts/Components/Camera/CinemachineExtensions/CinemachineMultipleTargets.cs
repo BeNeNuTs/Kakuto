@@ -62,7 +62,7 @@ namespace Cinemachine
             }
             else
             {
-                Debug.LogError("Ground doesn't found.");
+                KakutoDebug.LogError("Ground doesn't found.");
             }
         }
 

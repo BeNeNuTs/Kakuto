@@ -130,7 +130,7 @@ public class PlayerAnimationRootMotionHandler : MonoBehaviour
 
                     if (m_GravityScale == 0f)
                     {
-                        Debug.LogError("Stored gravity scale of " + transform.root.gameObject.name + " is zero !!");
+                        KakutoDebug.LogError("Stored gravity scale of " + transform.root.gameObject.name + " is zero !!");
                         m_GravityScale = 2.25f;
                     }
                     m_Rigidbody.gravityScale = m_GravityScale;

@@ -17,7 +17,7 @@ class EditorDataBaker : IPreprocessBuildWithReport
             bakeableObject.BakeData();
         }
 
-        Debug.Log("Data baking success !");
+        KakutoDebug.Log("Data baking success !");
     }
 }
 #endif

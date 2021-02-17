@@ -357,7 +357,7 @@ public class PlayerHealthComponent : MonoBehaviour
         Profiler.BeginSample("PlayerHealthComponent.OnDamageTaken");
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
+        KakutoDebug.Log("Player : " + gameObject.name + " HP : " + m_HP + " damage taken : " + damage + " attack " + attackResult.ToString());
 #endif
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 

@@ -47,7 +47,7 @@ public class PlayerSuperGaugeSubComponent : PlayerBaseSubComponent
 
         if (value > m_CurrentGaugeValue)
         {
-            Debug.LogError("The amount to decrease to the super gauge is superior to the current amount: Current Amount(" + m_CurrentGaugeValue + ") - Amount to Decrease(" + value + ")");
+            KakutoDebug.LogError("The amount to decrease to the super gauge is superior to the current amount: Current Amount(" + m_CurrentGaugeValue + ") - Amount to Decrease(" + value + ")");
         }
 
         m_CurrentGaugeValue -= value;

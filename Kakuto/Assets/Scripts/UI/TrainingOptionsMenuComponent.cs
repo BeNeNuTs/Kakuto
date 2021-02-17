@@ -45,7 +45,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
     static void ClearSavedTrainingOptions()
     {
         PlayerPrefs.SetString(K_TRAININGOPTIONS, "");
-        Debug.Log("Training options cleared!");
+        KakutoDebug.Log("Training options cleared!");
     }
 #endif
 
@@ -111,7 +111,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
 
         if(trainingOptionsStr.Length != m_TrainingOptions.Length)
         {
-            Debug.LogError("LoadTrainingOptions failed");
+            KakutoDebug.LogError("LoadTrainingOptions failed");
             return;
         }
 
@@ -200,7 +200,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
                         m_Player2Settings.m_IsStatic = false;
                         break;
                     default:
-                        Debug.LogError("Player2TrainingMode isn't valid.");
+                        KakutoDebug.LogError("Player2TrainingMode isn't valid.");
                         break;
                 }
                 break;
@@ -223,7 +223,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
                         m_Player2Settings.m_IsBlockingAllAttacksAfterHitStun = false;
                         break;
                     default:
-                        Debug.LogError("GuardTrainingMode isn't valid.");
+                        KakutoDebug.LogError("GuardTrainingMode isn't valid.");
                         break;
                 }
                 break;

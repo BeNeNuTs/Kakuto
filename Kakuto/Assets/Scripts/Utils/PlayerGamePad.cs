@@ -259,7 +259,7 @@ public class PlayerGamePad
         else
         {
             EGamePadType defaultGamepadType = GameConfig.Instance.m_DefaultGamepadType;
-            Debug.LogError("Gamepad : " + joystickName + " has not been recognized. Default mapping : " + defaultGamepadType.ToString());
+            KakutoDebug.LogError("Gamepad : " + joystickName + " has not been recognized. Default mapping : " + defaultGamepadType.ToString());
             return defaultGamepadType;
         }
     }

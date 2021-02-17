@@ -107,7 +107,7 @@ public static class Utils
             case Player.Player2:
                 return Player2EventManager.Instance;
             default:
-                Debug.LogError("Can't find PlayerEventManager from tag : " + tag);
+                KakutoDebug.LogError("Can't find PlayerEventManager from tag : " + tag);
                 return null;
         }
     }
@@ -137,7 +137,7 @@ public static class Utils
             case "Player2":
                 return "Player1";
             default:
-                Debug.LogError("Can't find enemy from tag : " + tag);
+                KakutoDebug.LogError("Can't find enemy from tag : " + tag);
                 return null;
         }
     }

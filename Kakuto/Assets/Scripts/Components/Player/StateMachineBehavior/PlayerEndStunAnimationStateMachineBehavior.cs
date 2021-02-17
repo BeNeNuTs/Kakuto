@@ -17,7 +17,7 @@ public class PlayerEndStunAnimationStateMachineBehavior : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log(Time.time + " | StunAnimationEnd: " + animator.transform.root.name + " normalizedTime: " + stateInfo.normalizedTime);
+        KakutoDebug.Log(Time.time + " | StunAnimationEnd: " + animator.transform.root.name + " normalizedTime: " + stateInfo.normalizedTime);
 #endif
         //If this animation is well finished, we need to stop stun on state exit
         if (stateInfo.normalizedTime >= 1.0f)

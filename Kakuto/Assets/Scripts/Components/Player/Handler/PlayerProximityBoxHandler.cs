@@ -14,7 +14,7 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR
         if (m_AttackComponent == null)
         {
-            Debug.LogError("Missing AttackComponent in " + this);
+            KakutoDebug.LogError("Missing AttackComponent in " + this);
         }
 #endif
 
@@ -98,7 +98,7 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR || DEBUG_DISPLAY
                 if (!collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    Debug.LogError("ProximityBox has collided with something else than HurtBox !");
+                    KakutoDebug.LogError("ProximityBox has collided with something else than HurtBox !");
                 }
 #endif
                 Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(onEnter));

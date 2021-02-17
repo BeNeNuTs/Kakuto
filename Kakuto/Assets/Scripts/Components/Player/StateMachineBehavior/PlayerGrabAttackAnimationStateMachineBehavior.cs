@@ -24,8 +24,7 @@ public class PlayerGrabAttackAnimationStateMachineBehavior : BaseAttackStateMach
         AnimatorClipInfo[] clipInfoList = animator.GetNextAnimatorClipInfo(0);
         if(clipInfoList.Length != 1)
         {
-            Debug.LogError("clipInfoList should have one element");
-            Debug.Break();
+            KakutoDebug.LogError("clipInfoList should have one element");
             return;
         }
 

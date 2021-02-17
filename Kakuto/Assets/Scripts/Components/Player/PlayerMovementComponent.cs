@@ -424,7 +424,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if (m_IsMovementBlocked)
         {
-            Debug.LogError("Movement was already blocked");
+            KakutoDebug.LogError("Movement was already blocked");
             return;
         }
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Block movement requested by : " + ((BlockMovementEventParameters)baseParams).m_CurrentAttack);
@@ -435,7 +435,7 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if (m_IsMovementBlocked == false)
         {
-            Debug.LogError("Movement was not blocked");
+            KakutoDebug.LogError("Movement was not blocked");
             return;
         }
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "Unblock movement requested by : " + ((UnblockMovementEventParameters)baseParams).m_CurrentAttack);
@@ -540,7 +540,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
                     default:
                         string errorMsg = "Movement has been blocked with an invalid reason : " + m_MovementBlockedReason + " and trying to unblock with reason : " + reason;
-                        Debug.LogError(errorMsg);
+                        KakutoDebug.LogError(errorMsg);
                         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Movement, "ERROR : " + errorMsg);
                         return true;
                 }

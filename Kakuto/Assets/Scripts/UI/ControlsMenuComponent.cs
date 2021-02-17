@@ -116,7 +116,7 @@ public class ControlsMenuComponent : MenuComponent
 #if UNITY_EDITOR || DEBUG_DISPLAY
         if(unassignedInputs.Count > 1)
         {
-            Debug.LogError("There should be only one unassigned remaining input after OnPlayerInputChanged");
+            KakutoDebug.LogError("There should be only one unassigned remaining input after OnPlayerInputChanged");
         }
 #endif
 

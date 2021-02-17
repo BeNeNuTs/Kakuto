@@ -11,7 +11,7 @@ public abstract class BaseAttackStateMachineBehaviour : StateMachineBehaviour
             m_PlayerAnimationEventHandler = owner.GetComponent<PlayerAnimationEventHandler>();
 #if UNITY_EDITOR
             if (m_PlayerAnimationEventHandler == null)
-                Debug.LogError("Can't find PlayerAnimationEventHandler on " + owner);
+                KakutoDebug.LogError("Can't find PlayerAnimationEventHandler on " + owner);
 #endif
         }
     }

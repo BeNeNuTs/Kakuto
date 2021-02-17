@@ -32,7 +32,7 @@ public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR || DEBUG_DISPLAY
                 if (!collision.gameObject.GetComponent<PlayerGrabHurtBoxHandler>())
                 {
-                    Debug.LogError("GrabBox has collided with something else than GrabHurtBox !");
+                    KakutoDebug.LogError("GrabBox has collided with something else than GrabHurtBox !");
                 }
 #endif
                 Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.GrabTry, new GrabTryEventParameters(m_PlayerAttackComponent.GetCurrentAttackLogic()));

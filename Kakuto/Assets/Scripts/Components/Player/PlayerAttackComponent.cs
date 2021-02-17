@@ -514,7 +514,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if (m_IsAttackBlocked && m_UnblockAttackConfig == null)
             {
-                Debug.LogError("Attack was already blocked by " + blockAttackEventParams.m_CurrentAttack);
+                KakutoDebug.LogError("Attack was already blocked by " + blockAttackEventParams.m_CurrentAttack);
                 return;
             }
 
@@ -532,7 +532,7 @@ public class PlayerAttackComponent : MonoBehaviour
         {
             if(m_IsAttackBlocked == false)
             {
-                Debug.LogError("Attack was not blocked by " + unblockAttackEventParams.m_AttackToUnblock);
+                KakutoDebug.LogError("Attack was not blocked by " + unblockAttackEventParams.m_AttackToUnblock);
                 return;
             }
 
@@ -562,7 +562,7 @@ public class PlayerAttackComponent : MonoBehaviour
     {
         if(m_IsAttackBlocked == false)
         {
-            Debug.LogError("Attack was not blocked by stun");
+            KakutoDebug.LogError("Attack was not blocked by stun");
             return;
         }
 
@@ -649,7 +649,7 @@ public class PlayerAttackComponent : MonoBehaviour
         int hitBoxCount = m_HitBoxes.Count;
         if (hitBoxCount == 0)
         {
-            Debug.LogError("HitBoxes have not been initialized.");
+            KakutoDebug.LogError("HitBoxes have not been initialized.");
         }
 
         for(int i = 0; i < hitBoxCount; i++)

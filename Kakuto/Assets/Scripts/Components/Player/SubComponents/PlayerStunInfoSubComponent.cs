@@ -86,7 +86,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             }
             else
             {
-                Debug.LogError(m_Owner + " doesn't use an AnimatorOverrideController");
+                KakutoDebug.LogError(m_Owner + " doesn't use an AnimatorOverrideController");
             }
         }
     }
@@ -142,7 +142,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 #if DEBUG_DISPLAY || UNITY_EDITOR
         if (m_StunInfo.m_IsDurationAnimDriven)
         {
-            Debug.Log(Time.time + " | Player : " + m_Owner.name + " is anim stunned");
+            KakutoDebug.Log(Time.time + " | Player : " + m_Owner.name + " is anim stunned");
         }
 #endif
 
@@ -161,7 +161,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
                 return true;                                                        // Gauge : Stun duration is always anim drive
             case EStunType.None:
             default:
-                Debug.LogError("Invalid stun type : " + stunType);
+                KakutoDebug.LogError("Invalid stun type : " + stunType);
                 return false;
         }
     }
@@ -183,7 +183,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         }
         else
         {
-            Debug.LogError("Trying to set stun duration but " + m_Owner + " is not stunned or duration is anim driven");
+            KakutoDebug.LogError("Trying to set stun duration but " + m_Owner + " is not stunned or duration is anim driven");
         }
     }
 
@@ -191,12 +191,12 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         if (!m_AnimationsLengthDictionary.TryGetValue(outStunAnimName, out float outStunAnimDuration))
         {
-            Debug.LogError(outStunAnimName + " animation can't be found in AnimationsLength dictionary for " + m_Owner);
+            KakutoDebug.LogError(outStunAnimName + " animation can't be found in AnimationsLength dictionary for " + m_Owner);
         }
 
         if (outStunAnimDuration >= stunDuration)
         {
-            Debug.LogError(outStunAnimName + " animation has a length (" + outStunAnimDuration + ") superior to the " + m_StunInfo.m_StunType.ToString() + " stun duration (" + stunDuration + ") of " + attackName);
+            KakutoDebug.LogError(outStunAnimName + " animation has a length (" + outStunAnimDuration + ") superior to the " + m_StunInfo.m_StunType.ToString() + " stun duration (" + stunDuration + ") of " + attackName);
             outStunAnimDuration = stunDuration;
         }
 
@@ -204,7 +204,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_EndOfStunAnimTimestamp = Time.time + finalDuration;
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
+        KakutoDebug.Log(Time.time + " | Player : " + m_Owner.name + " is stunned during " + stunDuration + " seconds");
 #endif
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Set stun duration : " + stunDuration);
     }
@@ -215,7 +215,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_EndOfStunAnimRequested = true;
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log(Time.time + " | TriggerOnStunEndAnim");
+        KakutoDebug.Log(Time.time + " | TriggerOnStunEndAnim");
 #endif
     }
 
@@ -249,7 +249,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StunEnd, new StunEndEventParameters(stunType, wasStunByGrabAttack));
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
+        KakutoDebug.Log(Time.time + " | Player : " + m_Owner.name + " is no more stunned");
 #endif
 
         if (ShouldTriggerGaugeStun() && CanTriggerGaugeStun())
@@ -311,7 +311,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_Anim.Play(K_ANIM_BLOCKSTAND_IN, 0, 0);
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
-        Debug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
+        KakutoDebug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
 #endif
     }
 

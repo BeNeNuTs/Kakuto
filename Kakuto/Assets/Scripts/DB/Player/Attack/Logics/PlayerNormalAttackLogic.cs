@@ -194,7 +194,7 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
         if (playerStance == EPlayerStance.Jump)
         {
-            Debug.LogError("A player can't block an attack while jumping.");
+            KakutoDebug.LogError("A player can't block an attack while jumping.");
         }
 
         blockAnimName += "_" + state.ToString();

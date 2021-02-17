@@ -105,7 +105,7 @@ public class ProjectileComponent : MonoBehaviour
 #if UNITY_EDITOR || DEBUG_DISPLAY
                 if (!collision.gameObject.GetComponent<PlayerHurtBoxHandler>())
                 {
-                    Debug.LogError("Projectile has collided with something else than HurtBox !");
+                    KakutoDebug.LogError("Projectile has collided with something else than HurtBox !");
                 }
 #endif
 

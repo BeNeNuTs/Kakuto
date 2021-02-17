@@ -53,7 +53,7 @@ public class PlayerAttacksConfig : BakeableScriptableObject
             }
             else
             {
-                Debug.LogError("No attack config found for " + attack.m_Name);
+                KakutoDebug.LogError("No attack config found for " + attack.m_Name);
             }
         }
 
@@ -125,14 +125,14 @@ public class PlayerAttacksConfig : BakeableScriptableObject
                                 // Catch error cases ///////////////
                                 if (attack == attack2)
                                 {
-                                    Debug.LogError("An input of attack " + attack.m_Name + " is refering itself.");
+                                    KakutoDebug.LogError("An input of attack " + attack.m_Name + " is refering itself.");
                                     attack.SetInputStringComputed();
                                     return;
                                 }
 
                                 if (attack2.IsInputStringProcessing())
                                 {
-                                    Debug.LogError("Attacks " + attack.m_Name + " and " + attack2.m_Name + " inputs are refering each other");
+                                    KakutoDebug.LogError("Attacks " + attack.m_Name + " and " + attack2.m_Name + " inputs are refering each other");
                                     attack.SetInputStringComputed();
                                     return;
                                 }
@@ -236,7 +236,7 @@ public class PlayerAttacksConfig : BakeableScriptableObject
         EditorUtility.SetDirty(this);
 #endif
 
-        Debug.Log("Attack list sorted !");
+        KakutoDebug.Log("Attack list sorted !");
     }
 
     static int SortByInput(PlayerAttack attack1, PlayerAttack attack2)
@@ -249,12 +249,12 @@ public class PlayerAttacksConfig : BakeableScriptableObject
                 compareOrder = attack2.m_Name.CompareTo(attack1.m_Name);
                 if(compareOrder == 0)
                 {
-                    Debug.LogError("2 attacks have the same name, this is not allowed. Attack sorting failed.");
+                    KakutoDebug.LogError("2 attacks have the same name, this is not allowed. Attack sorting failed.");
                 }
             }
             return compareOrder;
         }
-        Debug.LogError("Attack list contains attack without input");
+        KakutoDebug.LogError("Attack list contains attack without input");
         return 0;
     }
 }

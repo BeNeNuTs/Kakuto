@@ -28,7 +28,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 #if UNITY_EDITOR
         if (m_ProjectileHook == null)
         {
-            Debug.LogError(K_PROJECTILE_HOOK + " can't be found on " + m_Owner);
+            KakutoDebug.LogError(K_PROJECTILE_HOOK + " can't be found on " + m_Owner);
         }
 #endif
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
@@ -127,7 +127,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
 
         if (!m_CurrentProjectiles.Contains(destroyedProjectile))
         {
-            Debug.LogError("Trying to destroy a projectile which is not in the list");
+            KakutoDebug.LogError("Trying to destroy a projectile which is not in the list");
         }
 
         m_CurrentProjectiles.Remove(destroyedProjectile);
@@ -147,7 +147,7 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         }
         else
         {
-            Debug.LogError("ProjectileComponent could not be found on " + projectile);
+            KakutoDebug.LogError("ProjectileComponent could not be found on " + projectile);
             GameObject.Destroy(projectile);
         }
 

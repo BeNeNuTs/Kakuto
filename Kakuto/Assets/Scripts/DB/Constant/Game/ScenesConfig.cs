@@ -171,7 +171,7 @@ public class ScenesConfig : ScriptableObject
             }
         }
 
-        Debug.LogError("Scene settings not found for the current scene : " + sceneName);
+        KakutoDebug.LogError("Scene settings not found for the current scene : " + sceneName);
         return null;
     }
 
@@ -188,7 +188,7 @@ public class ScenesConfig : ScriptableObject
             return sceneSettings.m_PlayerSettings[playerIndex];
         }
 
-        Debug.LogError("Player settings not found for player " + playerIndex + " in the current scene : " + sceneName);
+        KakutoDebug.LogError("Player settings not found for player " + playerIndex + " in the current scene : " + sceneName);
         return null;
     }
 
@@ -205,7 +205,7 @@ public class ScenesConfig : ScriptableObject
             return sceneSettings.m_UISettings;
         }
 
-        Debug.LogError("UI settings not found in the current scene : " + sceneName);
+        KakutoDebug.LogError("UI settings not found in the current scene : " + sceneName);
         return null;
     }
 
@@ -222,7 +222,7 @@ public class ScenesConfig : ScriptableObject
             return sceneSettings.m_DebugSettings;
         }
 
-        Debug.LogError("UI settings not found in the current scene : " + sceneName);
+        KakutoDebug.LogError("UI settings not found in the current scene : " + sceneName);
         return null;
     }
 }

@@ -46,7 +46,7 @@ public static class PlayerAnimationHelper
                             {
                                 if (animOverride.Key.name.ToLower() == animToFind.Key.ToLower())
                                 {
-                                    Debug.LogError(animToFind.Key + " animation has already been found !");
+                                    KakutoDebug.LogError(animToFind.Key + " animation has already been found !");
                                     continue;
                                 }   
                             }
@@ -55,32 +55,32 @@ public static class PlayerAnimationHelper
                             {
                                 if (!animOverride.Value.name.ToLower().Contains(animToFind.Value.ToLower()))
                                 {
-                                    Debug.LogError("Animation related to " + animToFind.Key + " is named : " + animOverride.Value.name + " and does not contain '" + animToFind.Value + "'");
+                                    KakutoDebug.LogError("Animation related to " + animToFind.Key + " is named : " + animOverride.Value.name + " and does not contain '" + animToFind.Value + "'");
                                 }
                                 animationFound = true;
                             }
                             else if (animOverride.Value.name.ToLower().Contains(animToFind.Value.ToLower()))
                             {
-                                Debug.LogError("Animation " + animOverride.Value.name + " is also containing naming '" + animToFind.Value + "'");
-                                Debug.LogError("There should be only one animation containing that naming");
+                                KakutoDebug.LogError("Animation " + animOverride.Value.name + " is also containing naming '" + animToFind.Value + "'");
+                                KakutoDebug.LogError("There should be only one animation containing that naming");
                             }
                         }
                     }
 
                     if (!animationFound)
                     {
-                        Debug.LogError(animToFind.Key + " animation has not been found !");
+                        KakutoDebug.LogError(animToFind.Key + " animation has not been found !");
                     }
                 }
             }
             else
             {
-                Debug.LogError(anim.gameObject + " doesn't use an AnimatorOverrideController");
+                KakutoDebug.LogError(anim.gameObject + " doesn't use an AnimatorOverrideController");
             }
         }
         else
         {
-            Debug.LogError("Can't find an Animator on " + gameObject.name);
+            KakutoDebug.LogError("Can't find an Animator on " + gameObject.name);
         }
         
     }

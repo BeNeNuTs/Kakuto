@@ -20,19 +20,19 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR
         if (m_HealthComponent == null)
         {
-            Debug.LogError("Missing HealthComponent in " + this);
+            KakutoDebug.LogError("Missing HealthComponent in " + this);
         }
         if (m_Controller == null)
         {
-            Debug.LogError("Missing CharacterController2D in " + this);
+            KakutoDebug.LogError("Missing CharacterController2D in " + this);
         }
         if (m_AttackComponent == null)
         {
-            Debug.LogError("Missing AttackComponent in " + this);
+            KakutoDebug.LogError("Missing AttackComponent in " + this);
         }
         if (m_Rigidbody == null)
         {
-            Debug.LogError("Missing Rigidbody in " + this);
+            KakutoDebug.LogError("Missing Rigidbody in " + this);
         }
 #endif
 
@@ -195,7 +195,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR || DEBUG_DISPLAY
                 if (!collision.collider.GetComponent<PlayerPushBoxHandler>())
                 {
-                    Debug.LogError("PushBox has collided with something else than PushBox !");
+                    KakutoDebug.LogError("PushBox has collided with something else than PushBox !");
                 }
 #endif
                 m_CurrentAttack.OnHandlePushBoxCollision(collision);

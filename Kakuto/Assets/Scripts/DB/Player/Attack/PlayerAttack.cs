@@ -143,7 +143,7 @@ public class PlayerAttack
 
         if(m_NeededStanceList.Count == 0)
         {
-            Debug.LogError("Needed stance list is empty for attack " + m_Name);
+            KakutoDebug.LogError("Needed stance list is empty for attack " + m_Name);
         }
         else
         {
@@ -153,7 +153,7 @@ public class PlayerAttack
                 {
                     if(m_NeededStanceList[i] == m_NeededStanceList[j])
                     {
-                        Debug.LogError("Needed stance list contains the stance " + m_NeededStanceList[i] + " twice for attack " + m_Name);
+                        KakutoDebug.LogError("Needed stance list contains the stance " + m_NeededStanceList[i] + " twice for attack " + m_Name);
                     }
                 }
             }
@@ -165,7 +165,7 @@ public class PlayerAttack
 #if UNITY_EDITOR
         if(m_ComputedGameInputList == null || m_ComputedInputStringList.Count == 0)
         {
-            Debug.LogError("PlayerAttack " + m_Name + " has empty computed input string list.");
+            KakutoDebug.LogError("PlayerAttack " + m_Name + " has empty computed input string list.");
         }
 #endif
         return m_ComputedInputStringList;
@@ -176,7 +176,7 @@ public class PlayerAttack
 #if UNITY_EDITOR
         if(m_ComputedGameInputList == null || m_ComputedGameInputList.Count == 0)
         {
-            Debug.LogError("PlayerAttack " + m_Name + " has empty computed game input list.");
+            KakutoDebug.LogError("PlayerAttack " + m_Name + " has empty computed game input list.");
         }
 #endif
         return m_ComputedGameInputList;

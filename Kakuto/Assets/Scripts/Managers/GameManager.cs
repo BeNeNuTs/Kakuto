@@ -104,7 +104,7 @@ public class GameManager : Singleton<GameManager>
     {
         if(!player.CompareTag(Player.Player1) && !player.CompareTag(Player.Player2))
         {
-            Debug.LogError("GameManager::RegisterPlayer - Trying to register an invalid player " + player);
+            KakutoDebug.LogError("GameManager::RegisterPlayer - Trying to register an invalid player " + player);
             return;
         }
 
@@ -153,7 +153,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (!player.CompareTag(Player.Player1) && !player.CompareTag(Player.Player2))
         {
-            Debug.LogError("GameManager::UnregisterPlayer - Trying to unregister an invalid player " + player);
+            KakutoDebug.LogError("GameManager::UnregisterPlayer - Trying to unregister an invalid player " + player);
             return;
         }
 
