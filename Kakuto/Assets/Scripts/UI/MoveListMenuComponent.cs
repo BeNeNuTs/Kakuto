@@ -24,8 +24,8 @@ public class MoveListMenuComponent : MenuComponent
     private void UpdateScrollView(bool moveUp)
     {
         if(moveUp)
-            m_ScrollRect.verticalNormalizedPosition += m_ScrollSpeed;
+            m_ScrollRect.verticalNormalizedPosition += m_ScrollSpeed * Time.deltaTime;
         else
-            m_ScrollRect.verticalNormalizedPosition -= m_ScrollSpeed;
+            m_ScrollRect.verticalNormalizedPosition -= m_ScrollSpeed * Time.deltaTime;
     }
 }
