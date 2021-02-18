@@ -421,6 +421,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 300382261900274945}
   m_PressAKeyText: {fileID: 2549615983737158957}
   m_InputButton: {fileID: 1273190959166376609}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &227106118180292722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1957,6 +1958,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 6635760246719611295}
   m_PressAKeyText: {fileID: 2068046062162212130}
   m_InputButton: {fileID: 154164028711085478}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &936288084155668288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2531,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 3593333218380877366}
   m_PressAKeyText: {fileID: 4742474665146780316}
   m_InputButton: {fileID: 5259978084045075443}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1111892464435820522
 GameObject:
   m_ObjectHideFlags: 0
@@ -5036,6 +5039,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 2663023741777885136}
   m_PressAKeyText: {fileID: 8506168039139305958}
   m_InputButton: {fileID: 6110595097859512563}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1695641947952738972
 GameObject:
   m_ObjectHideFlags: 0
@@ -6162,6 +6166,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 7836864449838707728}
   m_PressAKeyText: {fileID: 1697848111872274982}
   m_InputButton: {fileID: 7734481210221270708}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1695641948393328322
 GameObject:
   m_ObjectHideFlags: 0
@@ -6438,6 +6443,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 141016182000275131}
   m_PressAKeyText: {fileID: 1279482706160612956}
   m_InputButton: {fileID: 8029218647489065799}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1695641948444420012
 GameObject:
   m_ObjectHideFlags: 0
@@ -7219,6 +7225,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 4679959384179817246}
   m_PressAKeyText: {fileID: 6940082929192359355}
   m_InputButton: {fileID: 6368115089812759265}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1695641948609036268
 GameObject:
   m_ObjectHideFlags: 0
@@ -7729,6 +7736,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 2887409663079515781}
   m_PressAKeyText: {fileID: 153112577277876611}
   m_InputButton: {fileID: 170149746533693516}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &1695641948893282409
 GameObject:
   m_ObjectHideFlags: 0
@@ -8012,6 +8020,8 @@ MonoBehaviour:
     - {fileID: 924229811564808316}
     - {fileID: 6046874542909701125}
     - {fileID: 1770128795488203275}
+  m_WrongPlayerFeedbackDuration: 0.2
+  m_WrongPlayerFeedbackSpeed: 40
 --- !u!1 &1695641949013741542
 GameObject:
   m_ObjectHideFlags: 0
@@ -10680,6 +10690,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 5613444638157224535}
   m_PressAKeyText: {fileID: 7581365779124039988}
   m_InputButton: {fileID: 308730777071044098}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &2167437759434866411
 GameObject:
   m_ObjectHideFlags: 0
@@ -11577,6 +11588,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 6268671156696415917}
   m_PressAKeyText: {fileID: 4150171696376067631}
   m_InputButton: {fileID: 2685139944992368967}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &2640017007283048582
 GameObject:
   m_ObjectHideFlags: 0
@@ -14797,6 +14809,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 7085297375628880746}
   m_PressAKeyText: {fileID: 7094140782891069781}
   m_InputButton: {fileID: 3345526999056659198}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &3935636270555950707
 GameObject:
   m_ObjectHideFlags: 0
@@ -16387,6 +16400,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 1693503902008508575}
   m_PressAKeyText: {fileID: 2110072373462485728}
   m_InputButton: {fileID: 3844580496201146974}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &4788632897528410316
 GameObject:
   m_ObjectHideFlags: 0
@@ -21855,6 +21869,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 3893079407116593469}
   m_PressAKeyText: {fileID: 1339507376697910919}
   m_InputButton: {fileID: 6841373785439276952}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &7501048554464107884
 GameObject:
   m_ObjectHideFlags: 0
@@ -22129,6 +22144,7 @@ MonoBehaviour:
   m_PS4ImageInput: {fileID: 2755388110382477446}
   m_PressAKeyText: {fileID: 6523632397965189363}
   m_InputButton: {fileID: 5558401289910733319}
+  m_ControlMenuComponent: {fileID: 8819929772558595814}
 --- !u!1 &7675212916641512247
 GameObject:
   m_ObjectHideFlags: 0

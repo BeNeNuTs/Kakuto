@@ -246,4 +246,7 @@ public abstract class MenuComponent : MonoBehaviour
             comp.enabled = active;
         }
     }
+
+    public Button GetCurrentHighlightedButton() { return m_CurrentHighlightedButton; }
+    public HighlightInfo GetCurrentHighlight() { return m_CurrentHighlight; }
 }

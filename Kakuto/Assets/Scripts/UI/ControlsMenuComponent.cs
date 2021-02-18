@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,7 +22,12 @@ public class ControlsMenuComponent : MenuComponent
 
     [SerializeField] private PlayerControlInfo m_Player1ControlsMapping;
     [SerializeField] private PlayerControlInfo m_Player2ControlsMapping;
+
+    public float m_WrongPlayerFeedbackDuration = 0.5f;
+    public float m_WrongPlayerFeedbackSpeed = 1f;
 #pragma warning restore 0649
+
+    private IEnumerator m_WrongPlayerFeedbackCoroutine;
 
     public void Awake()
     {
@@ -91,6 +97,49 @@ public class ControlsMenuComponent : MenuComponent
             {
                 playerControlInfo.m_InputListeners[i].ResetInputMapping();
             }
+        }
+        else
+        {
+            DisplayWrongPlayerFeedback();
+        }
+    }
+
+    public void DisplayWrongPlayerFeedback()
+    {
+        if (m_WrongPlayerFeedbackCoroutine != null)
+        {
+            StopCoroutine(m_WrongPlayerFeedbackCoroutine);
+        }
+        m_WrongPlayerFeedbackCoroutine = WrongPlayerFeedback_Coroutine();
+        StartCoroutine(m_WrongPlayerFeedbackCoroutine);
+    }
+
+    private IEnumerator WrongPlayerFeedback_Coroutine()
+    {
+        Image highlightImage = null;
+        HighlightInfo highlightInfo = GetCurrentHighlight();
+        if (highlightInfo != null)
+        {
+            highlightImage = highlightInfo.m_HighlightImage;
+        }
+
+        if (highlightImage != null)
+        {
+            float startingTime = Time.unscaledTime;
+            while (Time.unscaledTime < startingTime + m_WrongPlayerFeedbackDuration)
+            {
+                if (Mathf.Sin((Time.unscaledTime - startingTime) * m_WrongPlayerFeedbackSpeed) > 0f)
+                {
+                    highlightImage.color = Color.red;
+                }
+                else
+                {
+                    highlightImage.color = Color.white;
+                }
+                yield return null;
+            }
+
+            highlightImage.color = Color.white;
         }
     }
 

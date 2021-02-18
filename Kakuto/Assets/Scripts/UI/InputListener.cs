@@ -18,6 +18,7 @@ public class InputListener : MonoBehaviour
     public Image m_PS4ImageInput;
     public TextMeshProUGUI m_PressAKeyText;
     public Button m_InputButton;
+    public ControlsMenuComponent m_ControlMenuComponent;
 
     [NonSerialized] public EInputKey m_OldInputKey = EInputKey.Invalid;
     [NonSerialized] public EInputKey m_CurrentInputKey = EInputKey.Invalid;
@@ -70,6 +71,10 @@ public class InputListener : MonoBehaviour
             m_PS4ImageInput.enabled = false;
             m_PressAKeyText.enabled = true;
             StartCoroutine(ListenInput_Coroutine());
+        }
+        else
+        {
+            m_ControlMenuComponent.DisplayWrongPlayerFeedback();
         }
     }
 
