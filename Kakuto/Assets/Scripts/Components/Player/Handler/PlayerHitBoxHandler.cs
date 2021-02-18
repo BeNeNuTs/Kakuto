@@ -3,9 +3,9 @@
 public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 {
     public PlayerAttackComponent m_AttackComponent;
+    public Collider2D m_Collider;
 
     PlayerBaseAttackLogic m_CurrentAttack;
-    Collider2D m_Collider;
 
     protected override void Awake_Internal()
     {
@@ -17,7 +17,6 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
 #endif
 
         m_CurrentAttack = null;
-        m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
     }
 

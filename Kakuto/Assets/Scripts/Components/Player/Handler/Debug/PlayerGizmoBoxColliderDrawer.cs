@@ -11,11 +11,14 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
 
     private void Awake()
     {
-        m_DebugSettings = ScenesConfig.GetDebugSettings();
-        m_BoxCollider = GetComponent<BoxCollider2D>();
-        if(m_BoxCollider == null)
+        if(m_DrawCollider)
         {
-            m_DrawCollider = false;
+            m_DebugSettings = ScenesConfig.GetDebugSettings();
+            m_BoxCollider = GetComponent<BoxCollider2D>();
+            if (m_BoxCollider == null)
+            {
+                m_DrawCollider = false;
+            }
         }
         Awake_Internal();
     }
@@ -24,9 +27,9 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
 
     private void Update()
     {
-        if (m_DrawCollider && m_DebugSettings.m_DisplayBoxColliders)
+        if (m_DrawCollider)
         {
-            if (m_BoxCollider.enabled)
+            if (m_BoxCollider.enabled && m_DebugSettings.m_DisplayBoxColliders)
             {
                 Bounds bounds = m_BoxCollider.bounds;
                 Quaternion rotation = transform.rotation;

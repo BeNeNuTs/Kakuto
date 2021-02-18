@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 {
     public PlayerAttackComponent m_AttackComponent;
+    public Collider2D m_Collider;
 
     PlayerBaseAttackLogic m_CurrentAttack;
-    Collider2D m_Collider;
     List<Collider2D> m_HurtBoxesDetected = new List<Collider2D>();
 
     protected override void Awake_Internal()
@@ -19,7 +19,6 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 #endif
 
         m_CurrentAttack = null;
-        m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
     }
 

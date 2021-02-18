@@ -160,9 +160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cd4639c79d19c4aa8bdf59ea11f0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  d_OverrideGizmo: 1
-  d_GizmoColor: {r: 1, g: 0.8279878, b: 0, a: 1}
+  m_DrawCollider: 1
+  m_ColliderColor: {r: 1, g: 0, b: 0, a: 1}
   m_AttackComponent: {fileID: 6641475778014050454}
+  m_Collider: {fileID: 4284806836753068833}
 --- !u!1 &2722015654465949671
 GameObject:
   m_ObjectHideFlags: 0

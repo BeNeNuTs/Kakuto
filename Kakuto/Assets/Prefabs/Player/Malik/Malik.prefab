@@ -72,6 +72,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DrawCollider: 1
   m_ColliderColor: {r: 0, g: 0.47505808, b: 1, a: 1}
+  m_PlayerAttackComponent: {fileID: 7705063140710011066}
+  m_Collider: {fileID: 137356884}
 --- !u!1 &293122004
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +150,7 @@ MonoBehaviour:
   m_Controller: {fileID: 7705063140710011071}
   m_AttackComponent: {fileID: 7705063140710011066}
   m_Rigidbody: {fileID: 7705063140710011064}
+  m_Collider: {fileID: 293122006}
 --- !u!1 &1838544078
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +289,7 @@ MonoBehaviour:
   m_Controller: {fileID: 7705063140710011071}
   m_AttackComponent: {fileID: 7705063140710011066}
   m_Rigidbody: {fileID: 7705063140710011064}
+  m_Collider: {fileID: 4282452321426468964}
 --- !u!1 &4717585616207254109
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +507,7 @@ MonoBehaviour:
   m_DrawCollider: 1
   m_ColliderColor: {r: 1, g: 0.8489028, b: 0, a: 1}
   m_AttackComponent: {fileID: 7705063140710011066}
+  m_Collider: {fileID: 6531613401452756248}
 --- !u!1 &5296461491712690478
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +710,7 @@ MonoBehaviour:
   m_DrawCollider: 1
   m_ColliderColor: {r: 1, g: 0.8489028, b: 0, a: 1}
   m_AttackComponent: {fileID: 7705063140710011066}
+  m_Collider: {fileID: 8893233477100900326}
 --- !u!1 &8410879756175923395
 GameObject:
   m_ObjectHideFlags: 0

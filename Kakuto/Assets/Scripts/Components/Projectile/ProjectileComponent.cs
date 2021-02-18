@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class ProjectileComponent : MonoBehaviour
+public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
 {
+    public Collider2D m_Collider;
+    public Rigidbody2D m_Rigidbody;
+    public SpriteRenderer m_SpriteRenderer;
+    public Animator m_Animator;
+
     private PlayerProjectileAttackLogic m_Logic;
     private PlayerProjectileAttackConfig m_Config;
     private string m_PlayerTag = "Unknown";
 
-    Collider2D m_Collider;
-    private Rigidbody2D m_Rigidbody;
-    private SpriteRenderer m_SpriteRenderer;
-    private Animator m_Animator;
     private float m_LifeTime = 0f;
 
     private int m_KeepConstantSpeedUntilFrame = 0;
@@ -32,10 +30,6 @@ public class ProjectileComponent : MonoBehaviour
         m_Config = config;
         m_PlayerTag = logic.GetOwner().tag;
 
-        m_Collider = GetComponent<Collider2D>();
-        m_Rigidbody = GetComponent<Rigidbody2D>();
-        m_SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        m_Animator = GetComponent<Animator>();
         m_Animator.SetInteger(K_ANIM_ANGLE_INT, Mathf.FloorToInt(m_Config.m_ProjectileAngle));
         m_Animator.SetBool(K_ANIM_ISSUPER_BOOL, m_Logic.IsASuper());
         m_Animator.SetBool(K_ANIM_ISGUARDCRUSH_BOOL, m_Logic.IsGuardCrush());
@@ -98,7 +92,7 @@ public class ProjectileComponent : MonoBehaviour
 
     void HandleCollision(Collider2D collision)
     {
-        if(isActiveAndEnabled && m_Collider.isActiveAndEnabled)
+        if (isActiveAndEnabled && m_Collider.isActiveAndEnabled)
         {
             if (collision.CompareTag(Utils.GetEnemyTag(m_PlayerTag)) && collision.gameObject != gameObject) // Collision with an enemy player
             {
@@ -170,11 +164,12 @@ public class ProjectileComponent : MonoBehaviour
     void DestroyProjectile()
     {
         Utils.GetPlayerEventManager(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileDestroyed, new ProjectileDestroyedEventParameters(this));
-        gameObject.SetActive(false);
+        m_Rigidbody.gameObject.SetActive(false);
         m_Collider.enabled = false;
-        Destroy(gameObject);
+        Destroy(m_Rigidbody.gameObject);
     }
 
     public PlayerProjectileAttackLogic GetLogic() { return m_Logic; }
     public PlayerProjectileAttackConfig GetConfig() { return m_Config; }
+    public string GetPlayerTag() { return m_PlayerTag; }
 }

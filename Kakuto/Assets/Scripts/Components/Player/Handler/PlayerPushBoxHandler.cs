@@ -8,11 +8,12 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 
     public Rigidbody2D m_Rigidbody;
 
+    public Collider2D m_Collider;
+
     OutOfBoundsSubGameManager m_OOBSubManager;
     PlayerStunInfoSubComponent m_StunInfoSC;
     PlayerBaseAttackLogic m_CurrentAttack;
-    Collider2D m_Collider;
-
+    
     Collider2D[] m_FallingHits = new Collider2D[2];
 
     protected override void Awake_Internal()
@@ -37,7 +38,6 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 #endif
 
         m_CurrentAttack = null;
-        m_Collider = GetComponent<Collider2D>();
         RegisterListeners();
     }
 

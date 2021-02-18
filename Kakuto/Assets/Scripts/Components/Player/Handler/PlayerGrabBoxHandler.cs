@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class PlayerGrabBoxHandler : PlayerGizmoBoxColliderDrawer
 {
-    PlayerAttackComponent m_PlayerAttackComponent;
-    Collider2D m_Collider;
-
-    protected override void Awake_Internal()
-    {
-        m_PlayerAttackComponent = GetComponentInParent<PlayerAttackComponent>();
-        m_Collider = GetComponent<Collider2D>();
-    }
+    public PlayerAttackComponent m_PlayerAttackComponent;
+    public Collider2D m_Collider;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
