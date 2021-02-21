@@ -4086,7 +4086,7 @@ AnimationClip:
   - time: 0.23333333
     functionName: UnblockAttack
     data: 
-    objectReferenceParameter: {fileID: 11400000, guid: 5b5841caad916314db6d80e91c8e46ee,
+    objectReferenceParameter: {fileID: 11400000, guid: 9942a352e0f440e4e80e0b31dca8682d,
       type: 2}
     floatParameter: 0
     intParameter: 0

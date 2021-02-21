@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: UnblockAttackAnimEX_HadoGround
   m_EditorClassIdentifier: 
   m_UnblockAllowedAttacks:
-  - m_Attack: 21
-    m_OnlyOnHit: 1
   - m_Attack: 19
     m_OnlyOnHit: 0
