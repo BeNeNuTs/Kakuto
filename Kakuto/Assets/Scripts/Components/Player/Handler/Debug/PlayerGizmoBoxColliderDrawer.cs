@@ -27,15 +27,14 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
 
     private void Update()
     {
-        if (m_DrawCollider)
+        if (CanDrawCollider())
         {
-            if (m_BoxCollider.enabled && m_DebugSettings.m_DisplayBoxColliders)
-            {
-                Bounds bounds = m_BoxCollider.bounds;
-                Quaternion rotation = transform.rotation;
-                rotation *= Quaternion.Euler(Vector3.right * 90f);
-                GLDebug.DrawSquare(bounds.center, rotation, new Vector3(m_BoxCollider.size.x, 0f, m_BoxCollider.size.y), m_ColliderColor);
-            }
+            Bounds bounds = m_BoxCollider.bounds;
+            Quaternion rotation = transform.rotation;
+            rotation *= Quaternion.Euler(Vector3.right * 90f);
+            GLDebug.DrawSquare(bounds.center, rotation, new Vector3(m_BoxCollider.size.x, 0f, m_BoxCollider.size.y), m_ColliderColor);
         }
     }
+
+    protected virtual bool CanDrawCollider() { return m_DrawCollider && m_BoxCollider.enabled && m_DebugSettings.m_DisplayBoxColliders; }
 }

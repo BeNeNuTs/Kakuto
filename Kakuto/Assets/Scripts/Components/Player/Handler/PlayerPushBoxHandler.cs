@@ -202,4 +202,6 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
             }
         }
     }
+
+    protected override bool CanDrawCollider() { return base.CanDrawCollider() && m_CurrentAttack != null; }
 }

@@ -104,4 +104,6 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
             }
         }
     }
+
+    protected override bool CanDrawCollider() { return base.CanDrawCollider() && m_CurrentAttack != null; }
 }

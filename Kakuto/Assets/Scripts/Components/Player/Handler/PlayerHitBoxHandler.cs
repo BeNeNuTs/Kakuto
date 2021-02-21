@@ -78,4 +78,6 @@ public class PlayerHitBoxHandler : PlayerGizmoBoxColliderDrawer
             }
         }
     }
+
+    protected override bool CanDrawCollider() { return base.CanDrawCollider() && m_CurrentAttack != null; }
 }

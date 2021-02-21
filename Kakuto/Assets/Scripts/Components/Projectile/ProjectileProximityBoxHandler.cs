@@ -72,4 +72,6 @@ public class ProjectileProximityBoxHandler : PlayerGizmoBoxColliderDrawer
             }
         }
     }
+
+    protected override bool CanDrawCollider() { return base.CanDrawCollider() && !m_EnemyTakesDamages; }
 }

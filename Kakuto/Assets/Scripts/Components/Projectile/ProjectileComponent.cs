@@ -75,8 +75,8 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
                 speed = m_Config.m_ProjectileSpeedOverTime.Evaluate(m_LifeTime);
             }
 
-            Vector3 moveDirection = transform.right * transform.localScale.x;
-            m_Rigidbody.MovePosition(transform.position + moveDirection * speed * Time.fixedDeltaTime);
+            Vector3 moveDirection = m_Rigidbody.transform.right * m_Rigidbody.transform.localScale.x;
+            m_Rigidbody.MovePosition(m_Rigidbody.transform.position + moveDirection * speed * Time.fixedDeltaTime);
         }
     }
 
