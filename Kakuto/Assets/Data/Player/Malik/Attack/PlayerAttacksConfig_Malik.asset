@@ -363,10 +363,16 @@ MonoBehaviour:
     - "\u2193\u2198\u2192 + RT"
     - "\u2193\u2198\u2192 + standHP + standLP"
     - "\u2193\u2198\u2192 + standLP + standHP"
+    - "\u2198\u2192 + RT"
+    - "\u2198\u2192 + standHP + standLP"
+    - "\u2198\u2192 + standLP + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192RT"
     - "\u2193\u2198\u2192XY"
     - "\u2193\u2198\u2192YX"
+    - "\u2198\u2192RT"
+    - "\u2198\u2192XY"
+    - "\u2198\u2192YX"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
@@ -391,6 +397,31 @@ MonoBehaviour:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: Y
+        m_InputKey: 11
+      - m_InputString: X
+        m_InputKey: 10
+    - m_GameInputList:
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: RT
+        m_InputKey: 15
+    - m_GameInputList:
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: X
+        m_InputKey: 10
+      - m_InputString: Y
+        m_InputKey: 11
+    - m_GameInputList:
       - m_InputString: "\u2198"
         m_InputKey: 1
       - m_InputString: "\u2192"
@@ -427,10 +458,16 @@ MonoBehaviour:
     - "\u2193\u2199\u2190 + RT"
     - "\u2193\u2199\u2190 + standHP + standLP"
     - "\u2193\u2199\u2190 + standLP + standHP"
+    - "\u2199\u2190 + RT"
+    - "\u2199\u2190 + standHP + standLP"
+    - "\u2199\u2190 + standLP + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2199\u2190RT"
     - "\u2193\u2199\u2190XY"
     - "\u2193\u2199\u2190YX"
+    - "\u2199\u2190RT"
+    - "\u2199\u2190XY"
+    - "\u2199\u2190YX"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
@@ -455,6 +492,31 @@ MonoBehaviour:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2199"
+        m_InputKey: 7
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: Y
+        m_InputKey: 11
+      - m_InputString: X
+        m_InputKey: 10
+    - m_GameInputList:
+      - m_InputString: "\u2199"
+        m_InputKey: 7
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: RT
+        m_InputKey: 15
+    - m_GameInputList:
+      - m_InputString: "\u2199"
+        m_InputKey: 7
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: X
+        m_InputKey: 10
+      - m_InputString: Y
+        m_InputKey: 11
+    - m_GameInputList:
       - m_InputString: "\u2199"
         m_InputKey: 7
       - m_InputString: "\u2190"
@@ -489,12 +551,21 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - "\u2193\u2198\u2192 + standHP"
+    - "\u2198\u2192 + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192X"
+    - "\u2198\u2192X"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: X
+        m_InputKey: 10
+    - m_GameInputList:
       - m_InputString: "\u2198"
         m_InputKey: 1
       - m_InputString: "\u2192"
@@ -527,12 +598,21 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - "\u2193\u2198\u2192 + standLP"
+    - "\u2198\u2192 + standLP"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192Y"
+    - "\u2198\u2192Y"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: Y
+        m_InputKey: 11
+    - m_GameInputList:
       - m_InputString: "\u2198"
         m_InputKey: 1
       - m_InputString: "\u2192"
@@ -565,12 +645,21 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - "\u2193\u2198\u2192 + standLK"
+    - "\u2198\u2192 + standLK"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192B"
+    - "\u2198\u2192B"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: B
+        m_InputKey: 9
+    - m_GameInputList:
       - m_InputString: "\u2198"
         m_InputKey: 1
       - m_InputString: "\u2192"
@@ -602,9 +691,13 @@ MonoBehaviour:
     m_InputStringList:
     - "\u2193\u2199\u2190 + standLP"
     - "\u2193\u2199\u2190 + standHP"
+    - "\u2199\u2190 + standLP"
+    - "\u2199\u2190 + standHP"
     m_ComputedInputStringList:
     - "\u2193\u2199\u2190Y"
     - "\u2193\u2199\u2190X"
+    - "\u2199\u2190Y"
+    - "\u2199\u2190X"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
@@ -618,6 +711,20 @@ MonoBehaviour:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2199"
+        m_InputKey: 7
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: X
+        m_InputKey: 10
+    - m_GameInputList:
+      - m_InputString: "\u2199"
+        m_InputKey: 7
+      - m_InputString: "\u2190"
+        m_InputKey: 6
+      - m_InputString: Y
+        m_InputKey: 11
+    - m_GameInputList:
       - m_InputString: "\u2199"
         m_InputKey: 7
       - m_InputString: "\u2190"
@@ -649,12 +756,21 @@ MonoBehaviour:
     m_MovementRequiredList: 
     m_InputStringList:
     - "\u2193\u2198\u2192 + standHK"
+    - "\u2198\u2192 + standHK"
     m_ComputedInputStringList:
     - "\u2193\u2198\u2192A"
+    - "\u2198\u2192A"
     m_ComputedGameInputList:
     - m_GameInputList:
       - m_InputString: "\u2193"
         m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: A
+        m_InputKey: 8
+    - m_GameInputList:
       - m_InputString: "\u2198"
         m_InputKey: 1
       - m_InputString: "\u2192"
