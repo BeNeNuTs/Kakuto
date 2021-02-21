@@ -117,17 +117,15 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         ProjectileDestroyedEventParameters projectileDestroyedParams = (ProjectileDestroyedEventParameters)baseParams;
         ProjectileComponent destroyedProjectile = projectileDestroyedParams.m_Projectile;
 
-        if (m_CurrentProjectile != null && m_CurrentProjectile != destroyedProjectile)
+        if (m_CurrentProjectile != null && m_CurrentProjectile == destroyedProjectile)
         {
-            KakutoDebug.LogError("Trying to destroy a projectile which is not the current one : Current " + m_CurrentProjectile + " Destroyed : " + destroyedProjectile);
+            // If the attack's launched and teleport has not been requested yet
+            if (m_AttackLaunched && !m_TeleportRequested)
+            {
+                // Save the last know projectile position
+                m_LastProjectilePosition = m_CurrentProjectile.transform.position;
+            }
+            m_CurrentProjectile = null;
         }
-
-        // If the attack's launched and teleport has not been requested yet
-        if(m_AttackLaunched && !m_TeleportRequested)
-        {
-            // Save the last know projectile position
-            m_LastProjectilePosition = m_CurrentProjectile.transform.position;
-        }
-        m_CurrentProjectile = null;
     }
 }

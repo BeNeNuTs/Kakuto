@@ -47,11 +47,13 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     public override bool EvaluateConditions(PlayerBaseAttackLogic currentAttackLogic)
     {
         bool conditionIsValid = base.EvaluateConditions(currentAttackLogic);
-        if(conditionIsValid)
+        // If projectile is a super, don't need to check others projectiles
+        if(conditionIsValid && !m_Attack.m_IsASuper)
         {
             foreach(ProjectileComponent projectile in m_CurrentProjectiles)
             {
-                conditionIsValid &= projectile.GetLogic().IsASuper(); // Condition is valid only is there is no other projectiles than super in the scene
+                if(!projectile.HasDestructionBeenRequested())
+                    conditionIsValid &= projectile.GetLogic().IsASuper(); // Condition is valid only if there is no other alive projectile than super in the scene
             }
         }
         return conditionIsValid;

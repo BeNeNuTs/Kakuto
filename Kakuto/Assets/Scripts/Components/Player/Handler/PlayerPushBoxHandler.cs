@@ -139,7 +139,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if(MovementConfig.Instance.m_DEBUG_DisplayFallingRaycast)
+        if(MovementConfig.Instance.m_DEBUG_DisplayFallingRaycast && Application.isPlaying)
         {
             if (m_Collider != null && m_Collider.enabled)
             {
