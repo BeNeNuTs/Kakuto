@@ -20,6 +20,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         public bool m_IsDurationAnimDriven;
         public float m_EndOfStunAnimTimestamp;
         public bool m_EndOfStunAnimRequested;
+        public bool m_IsInJuggleState;
 
         public void Reset()
         {
@@ -29,6 +30,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             m_IsDurationAnimDriven = false;
             m_EndOfStunAnimTimestamp = 0;
             m_EndOfStunAnimRequested = false;
+            m_IsInJuggleState = false;
         }
     }
 
@@ -117,11 +119,11 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         if(attackResult != EAttackResult.Parried)
         {
-            StartStun_Internal(attackLogic.IsHitKO(), attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab, (attackResult == EAttackResult.Blocked) ? EStunType.Block : EStunType.Hit);
+            StartStun_Internal(attackLogic.IsHitKO(), attackLogic.GetAttack().m_CanJuggleLaunch, attackLogic.GetAttack().m_AnimationAttackName == EAnimationAttackName.Grab, (attackResult == EAttackResult.Blocked) ? EStunType.Block : EStunType.Hit);
         }
     }
 
-    void StartStun_Internal(bool isHitKO, bool isGrabAttack, EStunType stunType)
+    void StartStun_Internal(bool isHitKO, bool canJuggleLaunch, bool isGrabAttack, EStunType stunType)
     {
         if (IsGaugeStunned())
         {
@@ -134,6 +136,13 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_IsDurationAnimDriven = IsStunDurationAnimDriven(isHitKO, isGrabAttack, stunType); 
         m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
         m_StunInfo.m_EndOfStunAnimRequested = false;
+        if (m_MovementComponent.IsJumping())
+        {
+            if (canJuggleLaunch)
+            {
+                m_StunInfo.m_IsInJuggleState = true;
+            }
+        }
 
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "Start stun | Type : " + stunType.ToString() + ", Duration anim driven : " + m_StunInfo.m_IsDurationAnimDriven);
 
@@ -301,12 +310,17 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         return m_StunInfo.m_IsStunned && m_StunInfo.m_IsDurationAnimDriven;
     }
 
+    public bool IsInJuggleState()
+    {
+        return m_StunInfo.m_IsInJuggleState;
+    }
+
     private void StartAutoBlockingAttacks()
     {
         float blockingAttackDuration = m_InfoComponent.GetPlayerSettings().m_BlockingAttacksDuration;
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "StartAutoBlockingAttacks | Duration : " + blockingAttackDuration);
 
-        StartStun_Internal(false, false, EStunType.Block);
+        StartStun_Internal(false, false, false, EStunType.Block);
         SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKSTAND_OUT, blockingAttackDuration);
         m_Anim.Play(K_ANIM_BLOCKSTAND_IN, 0, 0);
 
@@ -347,7 +361,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
 
     private void TriggerGaugeStun(bool playKOAnimation)
     {
-        StartStun_Internal(true, false, EStunType.Gauge);
+        StartStun_Internal(true, false, false, EStunType.Gauge);
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StopMovement);
         PlayGaugeStunAnim(playKOAnimation);
 

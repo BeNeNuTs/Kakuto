@@ -252,7 +252,13 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if(m_StunInfoSC.IsStunned() && m_MovementComponent.IsJumping())
         {
-            return playerBaseAttackLogic.GetAttack().m_CanJuggle;
+            if(playerBaseAttackLogic.GetAttack().m_CanJuggleLaunch ||
+              (m_StunInfoSC.IsInJuggleState() && playerBaseAttackLogic.GetAttack().m_CanJuggleHit))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         return true;

@@ -23,8 +23,10 @@ public class PlayerAttack
     public EPlayerStance m_DefaultStance = EPlayerStance.Stand;
     public bool m_IsASuper = false;
     public bool m_IsEXAttack = false;
-    [Tooltip("When hitting the enemy, is this attack able to juggle him")]
-    public bool m_CanJuggle = false;
+    [Tooltip("When hitting an already stunned enemy in the air, is this attack able to put him in juggle state")]
+    public bool m_CanJuggleLaunch = false;
+    [Tooltip("When hitting the enemy is in juggle state, is this attack able hit him")]
+    public bool m_CanJuggleHit = false;
 
     // Condition (SuperGauge, AttackRequirement)
     [Separator("Condition")]
