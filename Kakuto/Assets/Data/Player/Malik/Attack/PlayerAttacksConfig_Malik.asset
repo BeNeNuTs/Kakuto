@@ -533,6 +533,54 @@ MonoBehaviour:
     m_CameraShakeParams: {fileID: 11400000, guid: 83fd14c0907461442ac941877ca2346d,
       type: 2}
     m_AttackConfig: {fileID: 11400000, guid: c4ec831d1e818114ba9cad98b2b9cd65, type: 2}
+  - m_Name: infernoAfterHado
+    m_Description: Buffer hado > super
+    m_AnimationAttackName: 21
+    m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 1
+    m_IsEXAttack: 0
+    m_CanJuggleLaunch: 0
+    m_CanJuggleHit: 0
+    m_HasCondition: 1
+    m_SuperGaugeAmountNeeded: 100
+    m_HasAttackRequirement: 1
+    m_AttackRequired: 15
+    m_HasMovementRequirement: 0
+    m_MovementRequiredList: 
+    m_InputStringList:
+    - "\u2193\u2198\u2192 + standHP"
+    - "\u2193\u2198\u2192 + standLP"
+    m_ComputedInputStringList:
+    - "\u2193\u2198\u2192X"
+    - "\u2193\u2198\u2192Y"
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: "\u2193"
+        m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: X
+        m_InputKey: 10
+    - m_GameInputList:
+      - m_InputString: "\u2193"
+        m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: Y
+        m_InputKey: 11
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleParams: {fileID: 0}
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeParams: {fileID: 11400000, guid: 08811b0ac26e8ec449d8cca9d6dd01e4,
+      type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 209a2d42736cd8f4ab390f4beeade51e, type: 2}
   - m_Name: Hadoground_Fast
     m_Description: 
     m_AnimationAttackName: 15
