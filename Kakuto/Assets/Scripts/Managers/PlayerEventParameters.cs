@@ -221,10 +221,12 @@ public class StunEndEventParameters : StunEventParameters
 public class ProximityBoxParameters : BaseEventParameters
 {
     public bool m_OnEnter = false;
+    public Collider2D m_Collider;
 
-    public ProximityBoxParameters(bool onEnter)
+    public ProximityBoxParameters(bool onEnter, Collider2D collider)
     {
         m_OnEnter = onEnter;
+        m_Collider = collider;
     }
 
     public override EPlayerEvent GetEventType() { return EPlayerEvent.ProximityBox; }

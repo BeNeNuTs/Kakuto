@@ -9,8 +9,9 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
     PlayerBaseAttackLogic m_CurrentAttack;
     List<Collider2D> m_HurtBoxesDetected = new List<Collider2D>();
 
-    protected override void Awake_Internal()
+    protected override void Awake()
     {
+        base.Awake();
 #if UNITY_EDITOR
         if (m_AttackComponent == null)
         {
@@ -46,6 +47,11 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
     void OnAttackLaunched(BaseEventParameters baseParams)
     {
         AttackLaunchedEventParameters attackLaunchedParams = (AttackLaunchedEventParameters)baseParams;
+        // PlayerProjectileAttackLogic will be handled by ProjectileProximityBoxHandler
+        if (attackLaunchedParams.m_AttackLogic is PlayerProjectileAttackLogic)
+        {
+            return;
+        }
         m_CurrentAttack = attackLaunchedParams.m_AttackLogic;
     }
 
@@ -63,10 +69,14 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void OnEnemyTakesDamages(BaseEventParameters baseParams)
     {
-        m_CurrentAttack = null;
         if(m_HurtBoxesDetected.Count > 0)
         {
-            Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(false));
+            DamageTakenEventParameters damageTakenEventParameters = (DamageTakenEventParameters)baseParams;
+            if(damageTakenEventParameters.m_AttackLogic == m_CurrentAttack)
+            {
+                Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(false, m_Collider));
+                m_CurrentAttack = null;
+            }
         }
     }
 
@@ -100,7 +110,7 @@ public class PlayerProximityBoxHandler : PlayerGizmoBoxColliderDrawer
                     KakutoDebug.LogError("ProximityBox has collided with something else than HurtBox !");
                 }
 #endif
-                Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(onEnter));
+                Utils.GetEnemyEventManager(gameObject).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(onEnter, m_Collider));
             }
         }
     }

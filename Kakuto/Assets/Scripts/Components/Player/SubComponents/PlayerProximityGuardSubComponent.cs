@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
 {
@@ -12,7 +13,9 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
     private readonly Animator m_Animator;
 
     private bool m_IsInsideProximityBox;
-    private bool m_IsInProximityGuard;  
+    private bool m_IsInProximityGuard;
+
+    private List<Collider2D> m_ProximityBoxes = new List<Collider2D>();
 
     public PlayerProximityGuardSubComponent(PlayerHealthComponent healthComponent, PlayerMovementComponent movementComponent, Animator anim) : base(healthComponent.gameObject)
     {
@@ -40,7 +43,15 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
     private void OnProximityBoxEvent(BaseEventParameters baseEventParameters)
     {
         ProximityBoxParameters proximityBoxParameters = (ProximityBoxParameters)baseEventParameters;
-        m_IsInsideProximityBox = proximityBoxParameters.m_OnEnter;
+        if(proximityBoxParameters.m_OnEnter)
+        {
+            m_ProximityBoxes.Add(proximityBoxParameters.m_Collider);
+        }
+        else
+        {
+            m_ProximityBoxes.Remove(proximityBoxParameters.m_Collider);
+        }
+        m_IsInsideProximityBox = proximityBoxParameters.m_OnEnter || m_ProximityBoxes.Count > 0;
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Proximity, "Is inside proximity box: " + m_IsInsideProximityBox);
         UpdateProximityGuard();
     }

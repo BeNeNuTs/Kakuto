@@ -52,8 +52,10 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
         }
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if(!m_SpriteRenderer.isVisible)
         {
             DestroyProjectile();

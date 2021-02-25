@@ -16,8 +16,9 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
     
     Collider2D[] m_FallingHits = new Collider2D[2];
 
-    protected override void Awake_Internal()
+    protected override void Awake()
     {
+        base.Awake();
 #if UNITY_EDITOR
         if (m_HealthComponent == null)
         {
@@ -41,7 +42,7 @@ public class PlayerPushBoxHandler : PlayerGizmoBoxColliderDrawer
         RegisterListeners();
     }
 
-    private void Start()
+    void Start()
     {
         m_StunInfoSC = m_HealthComponent.GetStunInfoSubComponent();
         m_OOBSubManager = GameManager.Instance.GetSubManager<OutOfBoundsSubGameManager>(ESubManager.OutOfBounds);

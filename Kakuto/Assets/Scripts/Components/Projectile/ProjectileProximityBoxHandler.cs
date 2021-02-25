@@ -31,10 +31,14 @@ public class ProjectileProximityBoxHandler : PlayerGizmoBoxColliderDrawer
 
     void OnEnemyTakesDamages(BaseEventParameters baseParams)
     {
-        m_EnemyTakesDamages = true;
         if (m_HurtBoxesDetected.Count > 0)
         {
-            Utils.GetEnemyEventManager(m_ProjectileComponent.GetPlayerTag()).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(false));
+            DamageTakenEventParameters damageTakenEventParameters = (DamageTakenEventParameters)baseParams;
+            if (damageTakenEventParameters.m_AttackLogic == m_ProjectileComponent.GetLogic())
+            {
+                Utils.GetEnemyEventManager(m_ProjectileComponent.GetPlayerTag()).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(false, m_Collider));
+                m_EnemyTakesDamages = true;
+            }
         }
     }
 
@@ -68,7 +72,7 @@ public class ProjectileProximityBoxHandler : PlayerGizmoBoxColliderDrawer
                     KakutoDebug.LogError("ProximityBox has collided with something else than HurtBox !");
                 }
 #endif
-                Utils.GetEnemyEventManager(m_ProjectileComponent.GetPlayerTag()).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(onEnter));
+                Utils.GetEnemyEventManager(m_ProjectileComponent.GetPlayerTag()).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(onEnter, m_Collider));
             }
         }
     }

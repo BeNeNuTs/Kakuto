@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
     private DebugSettings m_DebugSettings;
     private BoxCollider2D m_BoxCollider;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if(m_DrawCollider)
         {
@@ -20,12 +21,9 @@ public class PlayerGizmoBoxColliderDrawer : MonoBehaviour
                 m_DrawCollider = false;
             }
         }
-        Awake_Internal();
     }
 
-    protected virtual void Awake_Internal() { }
-
-    private void Update()
+    protected virtual void Update()
     {
         if (CanDrawCollider())
         {
