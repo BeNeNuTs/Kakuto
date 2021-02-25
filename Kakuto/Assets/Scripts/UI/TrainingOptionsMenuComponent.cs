@@ -25,6 +25,10 @@ public class TrainingOptionsMenuComponent : MenuComponent
     [SerializeField] private Selectable m_DefaultSelectable;
     [SerializeField] private HighlightInfo[] m_TrainingOptionsHighlightInfo;
     [SerializeField] private ScrollRect m_ScrollRect;
+    [SerializeField] private Image m_ScrollArrowUp;
+    [SerializeField] private float m_ScrollArrowUpActivationTheshold = 1f;
+    [SerializeField] private Image m_ScrollArrowDown;
+    [SerializeField] private float m_ScrollArrowDownActivationTheshold = 0f;
     [SerializeField] private float[] m_ScrollViewNormalizedPosition;
     [SerializeField] private TrainingOptionListener[] m_TrainingOptionListeners;
 #pragma warning restore 0649
@@ -170,7 +174,10 @@ public class TrainingOptionsMenuComponent : MenuComponent
             }
         }
 
-        if(!highlightImageEnabledFound)
+        m_ScrollArrowUp.enabled = m_ScrollRect.verticalNormalizedPosition < m_ScrollArrowUpActivationTheshold;
+        m_ScrollArrowDown.enabled = m_ScrollRect.verticalNormalizedPosition > m_ScrollArrowDownActivationTheshold;
+
+        if (!highlightImageEnabledFound)
         {
             m_DefaultSelectable.Select();
         }

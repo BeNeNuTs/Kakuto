@@ -7,7 +7,9 @@ public class MoveListMenuComponent : MenuComponent
     [SerializeField] private ScrollRect m_ScrollRect;
     [SerializeField] private float m_ScrollSpeed;
     [SerializeField] private Image m_ScrollArrowUp;
+    [SerializeField] private float m_ScrollArrowUpActivationTheshold = 1f;
     [SerializeField] private Image m_ScrollArrowDown;
+    [SerializeField] private float m_ScrollArrowDownActivationTheshold = 0f;
 #pragma warning restore 0649
 
     protected override void OnUpdate_Internal()
@@ -30,7 +32,7 @@ public class MoveListMenuComponent : MenuComponent
         else
             m_ScrollRect.verticalNormalizedPosition += m_ScrollSpeed * Time.unscaledDeltaTime;
 
-        m_ScrollArrowDown.enabled = m_ScrollRect.verticalNormalizedPosition > 0f;
-        m_ScrollArrowUp.enabled = m_ScrollRect.verticalNormalizedPosition < 1f;
+        m_ScrollArrowUp.enabled = m_ScrollRect.verticalNormalizedPosition < m_ScrollArrowUpActivationTheshold;
+        m_ScrollArrowDown.enabled = m_ScrollRect.verticalNormalizedPosition > m_ScrollArrowDownActivationTheshold;
     }
 }

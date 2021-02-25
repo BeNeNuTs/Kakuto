@@ -13640,7 +13640,9 @@ MonoBehaviour:
   m_ScrollRect: {fileID: 7410432127262129261}
   m_ScrollSpeed: 1
   m_ScrollArrowUp: {fileID: 212122612545394773}
+  m_ScrollArrowUpActivationTheshold: 0.9
   m_ScrollArrowDown: {fileID: 6548276649586442320}
+  m_ScrollArrowDownActivationTheshold: 0.08
 --- !u!1 &3467884700908235505
 GameObject:
   m_ObjectHideFlags: 0
