@@ -56,6 +56,19 @@ public class ControlsMenuComponent : MenuComponent
         UpdateInputForGamepadType(playerGamepadType, m_Player2ControlsMapping);
     }
 
+    public void OnDisable()
+    {
+        for (int i = 0; i < m_OptionButtons.Length; i++)
+        {
+            Navigation buttonNavigation = m_OptionButtons[i].navigation;
+            if(buttonNavigation.selectOnDown == m_DefaultSelectable)
+            {
+                buttonNavigation.selectOnDown = null;
+                m_OptionButtons[i].navigation = buttonNavigation;
+            }
+        }
+    }
+
     private void OnPlayer1GamepadTypeChanged(EGamePadType newGamePadType)
     {
         UpdateInputForGamepadType(newGamePadType, m_Player1ControlsMapping);
