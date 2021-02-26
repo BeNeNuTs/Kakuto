@@ -21,7 +21,7 @@ public class RoundComponent : MenuComponent
     private RoundSubGameManager m_RoundSubGameManager;
     private UISettings m_UISettings;
 
-    private void Awake()
+    protected void Awake()
     {
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
         m_RoundSubGameManager.RegisterRoundComponent(this);
@@ -31,14 +31,14 @@ public class RoundComponent : MenuComponent
         m_UISettings = ScenesConfig.GetUISettings();
     }
 
-    private void Start()
+    protected void Start()
     {
         m_InitTimestamp = Time.time;
         UpdateRemainingTimeText();
         UpdateVictoryCounters();
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         RoundSubGameManager.OnRoundVictoryCounterChanged -= UpdateVictoryCounters;
         RoundSubGameManager.OnRoundBegin -= OnRoundBegin;
@@ -74,7 +74,7 @@ public class RoundComponent : MenuComponent
         m_TimerText.SetText(m_RemaningTime.ToString());
     }
 
-    void Update()
+    protected void Update()
     {
         if(m_UISettings.m_IsTimerEnabled && m_RoundSubGameManager.IsRoundBegin() && !m_RoundSubGameManager.IsRoundOver())
         {
@@ -95,7 +95,7 @@ public class RoundComponent : MenuComponent
         }
     }
 
-    void LateUpdate()
+    protected void LateUpdate()
     {
         if(m_RemaningTime == 0 && !m_TimerOverNotified)
         {

@@ -53,7 +53,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
     }
 #endif
 
-    private void Awake()
+    protected void Awake()
     {
         TrainingOptionListener.OnValueChangedCallback += OnTrainingOptionChanged;
         InitTrainingOptionListeners();
@@ -137,7 +137,7 @@ public class TrainingOptionsMenuComponent : MenuComponent
         PlayerPrefs.SetString(K_TRAININGOPTIONS, trainingOptionsStr);
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         TrainingOptionListener.OnValueChangedCallback -= OnTrainingOptionChanged;
 
@@ -147,16 +147,15 @@ public class TrainingOptionsMenuComponent : MenuComponent
 #endif
     }
 
-    public void OnEnable()
+    protected void OnEnable()
     {
         m_DefaultSelectable.Select();
         UpdateHighlightedGameObject(m_TrainingOptionsHighlightInfo);
         UpdateScrollView();
     }
 
-    protected override void OnUpdate_Internal()
+    protected void Update()
     {
-        base.OnUpdate_Internal();
         UpdateHighlightedGameObject(m_TrainingOptionsHighlightInfo);
         UpdateScrollView();
     }

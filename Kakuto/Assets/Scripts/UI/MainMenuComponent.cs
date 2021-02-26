@@ -19,7 +19,7 @@ public class MainMenuComponent : MenuComponent
 
     private EMenuState m_MenuState = EMenuState.TitleScreen;
 
-    private void Update()
+    protected void Update()
     {
         UpdateCursorVisiblity();
 

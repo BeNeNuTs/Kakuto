@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public abstract class MenuComponent : MonoBehaviour
@@ -32,26 +31,6 @@ public abstract class MenuComponent : MonoBehaviour
     private float m_LastDpadNavigationUpdatedTime = 0f;
     private bool m_ActiveDpadNavigationRepeatDelay = false;
     private bool m_DpadNavigationRepeatDelayChecked = false;
-
-    private void Awake()
-    {
-        OnAwake_Internal();
-    }
-
-    private void OnDestroy()
-    {
-        OnDestroy_Internal();
-    }
-
-    protected virtual void OnAwake_Internal() { }
-    protected virtual void OnDestroy_Internal() { }
-
-    private void Update()
-    {
-        OnUpdate_Internal();
-    }
-
-    protected virtual void OnUpdate_Internal() { }
 
     protected void UpdateCursorVisiblity()
     {

@@ -9,9 +9,10 @@ public class TrainingPauseMenuComponent : GamePauseMenuComponent
     [SerializeField] private MenuData m_GoToTrainingOptionsMenuData;
 #pragma warning restore 0649
 
-    protected override void OnUpdate_Internal()
+    protected override void Update()
     {
-        base.OnUpdate_Internal();
+        base.Update();
+
         if(m_MenuState == EMenuState.TrainingOptions)
         {
             UpdateHighlightedButton(m_GoToTrainingOptionsMenuData);

@@ -29,17 +29,17 @@ public class ControlsMenuComponent : MenuComponent
 
     private IEnumerator m_WrongPlayerFeedbackCoroutine;
 
-    public void Awake()
+    protected void Awake()
     {
         InputListener.OnInputChanged += OnPlayerInputChanged;
     }
 
-    public void OnDestroy()
+    protected void OnDestroy()
     {
         InputListener.OnInputChanged -= OnPlayerInputChanged;
     }
 
-    public void OnEnable()
+    protected void OnEnable()
     {
         for (int i = 0; i < m_OptionButtons.Length; i++)
         {
@@ -79,9 +79,8 @@ public class ControlsMenuComponent : MenuComponent
         }
     }
 
-    protected override void OnUpdate_Internal()
+    protected void Update()
     {
-        base.OnUpdate_Internal();
         UpdateHighlightedGameObject(m_ControlsHighlightInfo);
     }
 

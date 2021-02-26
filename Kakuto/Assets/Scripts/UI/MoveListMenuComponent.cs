@@ -12,9 +12,8 @@ public class MoveListMenuComponent : MenuComponent
     [SerializeField] private float m_ScrollArrowDownActivationTheshold = 0f;
 #pragma warning restore 0649
 
-    protected override void OnUpdate_Internal()
+    protected void Update()
     {
-        base.OnUpdate_Internal();
         if(GamePadManager.GetJumpInput((int)EPlayer.Player1) || GamePadManager.GetJumpInput((int)EPlayer.Player2))
         {
             UpdateScrollView(false);

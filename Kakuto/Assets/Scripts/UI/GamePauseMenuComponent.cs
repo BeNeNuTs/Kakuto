@@ -86,7 +86,7 @@ public class GamePauseMenuComponent : MenuComponent
     protected TimeScaleSubGameManager m_TimeScaleManager;
     protected bool m_WasTimeFrozen = false;
 
-    protected override void OnAwake_Internal()
+    protected void Awake()
     {
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player1);
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player2);
@@ -94,7 +94,7 @@ public class GamePauseMenuComponent : MenuComponent
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
     }
 
-    protected override void OnDestroy_Internal()
+    protected void OnDestroy()
     {
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player1);
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player2);
@@ -118,7 +118,7 @@ public class GamePauseMenuComponent : MenuComponent
         m_PlayerInfos[playerIndex].m_AttackComponent = player.GetComponent<PlayerAttackComponent>();
     }
 
-    protected override void OnUpdate_Internal()
+    protected virtual void Update()
     {
         UpdateCursorVisiblity();
 
