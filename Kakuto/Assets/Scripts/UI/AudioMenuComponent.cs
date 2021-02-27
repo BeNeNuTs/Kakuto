@@ -141,7 +141,7 @@ public class AudioMenuComponent : MenuComponent
 
     private static void OnVolumeChanged_Internal(string key, float value, bool saveVolume)
     {
-        GameConfig.Instance.m_MainMixer.SetFloat(key, Mathf.Log10(value) * 20f);
+        GameConfig.Instance.m_MainMixer.SetFloat(key, Mathf.Log10(value) * 30f);
         m_CurrentVolumes[key] = value;
 
         if (saveVolume)

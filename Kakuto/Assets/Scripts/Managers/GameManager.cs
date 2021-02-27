@@ -25,6 +25,11 @@ public class GameManager : Singleton<GameManager>
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
+    private void Start()
+    {
+        GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadOptions();
+    }
+
     private void OnSceneUnloaded(Scene unloadedScene)
     {
         foreach (SubGameManagerBase subManager in m_SubManagers.Values)

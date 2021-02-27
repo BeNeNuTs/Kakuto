@@ -13,6 +13,11 @@ public class GameFlowSubGameManager : SubGameManagerBase
     {
         base.Init();
         InitLoadingScreen();
+    }
+
+    public void LoadOptions()
+    {
+        // Need to load audio options here in order to affect AudioMixer (Init is too early)
         AudioMenuComponent.LoadAudioOptions();
         TrainingOptionsMenuComponent.LoadTrainingOptions();
     }

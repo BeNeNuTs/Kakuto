@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 
 [CreateAssetMenu(fileName = "PlayerAttacksConfig", menuName = "Data/Player/Attacks/PlayerAttacksConfig", order = 0)]
 public class PlayerAttacksConfig : BakeableScriptableObject
@@ -88,10 +87,6 @@ public class PlayerAttacksConfig : BakeableScriptableObject
                 ComputeInputStringList_Internal(attack);
             }   
         }
-
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(this);
-#endif
     }
     
     private void ComputeInputStringList_Internal(PlayerAttack attack)
@@ -232,9 +227,6 @@ public class PlayerAttacksConfig : BakeableScriptableObject
     private void SortAttackList()
     {
         m_AttackList.Sort(SortByInput);
-#if UNITY_EDITOR
-        EditorUtility.SetDirty(this);
-#endif
 
         KakutoDebug.Log("Attack list sorted !");
     }
