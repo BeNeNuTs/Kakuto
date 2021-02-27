@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
@@ -10,6 +12,13 @@ public class AudioMenuComponent : MenuComponent
 
     private static readonly float K_SLIDER_INCREMENT = 0.1f;
 
+    private static Dictionary<string, float> m_CurrentVolumes = new Dictionary<string, float>()
+    {
+        { K_MASTER_VOLUME, 1f },
+        { K_MUSIC_VOLUME, 1f },
+        { K_SFX_VOLUME, 1f }
+    };
+
 #pragma warning disable 0649
     [SerializeField] private Button[] m_OptionButtons;
     [SerializeField] private Selectable m_DefaultSelectable;
@@ -18,11 +27,33 @@ public class AudioMenuComponent : MenuComponent
     [SerializeField] private Slider m_MasterSlider;
     [SerializeField] private Slider m_MusicSlider;
     [SerializeField] private Slider m_SFXSlider;
-
-    [SerializeField] private AudioMixer m_MainMixer;
 #pragma warning restore 0649
 
-    public void OnEnable()
+#if UNITY_EDITOR
+    [MenuItem("Kakuto/Clear saved audio options")]
+    static void ClearSavedAudioOptions()
+    {
+        PlayerPrefs.SetFloat(K_MASTER_VOLUME, 1f);
+        PlayerPrefs.SetFloat(K_MUSIC_VOLUME, 1f);
+        PlayerPrefs.SetFloat(K_SFX_VOLUME, 1f);
+        KakutoDebug.Log("Audio options cleared!");
+    }
+#endif
+
+    public static void LoadAudioOptions()
+    {
+        LoadAudioGroupVolume(K_MASTER_VOLUME);
+        LoadAudioGroupVolume(K_MUSIC_VOLUME);
+        LoadAudioGroupVolume(K_SFX_VOLUME);
+    }
+
+    private static void LoadAudioGroupVolume(string key)
+    {
+        float volume = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : 1f;
+        OnVolumeChanged_Internal(key, volume, false);
+    }
+
+    protected void OnEnable()
     {
         for (int i = 0; i < m_OptionButtons.Length; i++)
         {
@@ -31,9 +62,13 @@ public class AudioMenuComponent : MenuComponent
             m_OptionButtons[i].navigation = buttonNavigation;
         }
         UpdateHighlightedGameObject(m_AudioHighlightInfo);
+
+        m_MasterSlider.value = m_CurrentVolumes[K_MASTER_VOLUME];
+        m_MusicSlider.value = m_CurrentVolumes[K_MUSIC_VOLUME];
+        m_SFXSlider.value = m_CurrentVolumes[K_SFX_VOLUME];
     }
 
-    public void OnDisable()
+    protected void OnDisable()
     {
         for (int i = 0; i < m_OptionButtons.Length; i++)
         {
@@ -91,21 +126,25 @@ public class AudioMenuComponent : MenuComponent
 
     public void OnMasterVolumeChanged(float value)
     {
-        OnVolumeChanged(K_MASTER_VOLUME, value);
+        OnVolumeChanged_Internal(K_MASTER_VOLUME, value, true);
     }
 
     public void OnMusicVolumeChanged(float value)
     {
-        OnVolumeChanged(K_MUSIC_VOLUME, value);
+        OnVolumeChanged_Internal(K_MUSIC_VOLUME, value, true);
     }
 
     public void OnSFXVolumeChanged(float value)
     {
-        OnVolumeChanged(K_SFX_VOLUME, value);
+        OnVolumeChanged_Internal(K_SFX_VOLUME, value, true);
     }
 
-    private void OnVolumeChanged(string key, float value)
+    private static void OnVolumeChanged_Internal(string key, float value, bool saveVolume)
     {
-        m_MainMixer.SetFloat(key, Mathf.Log10(value) * 20f);
+        GameConfig.Instance.m_MainMixer.SetFloat(key, Mathf.Log10(value) * 20f);
+        m_CurrentVolumes[key] = value;
+
+        if (saveVolume)
+            PlayerPrefs.SetFloat(key, value);
     }
 }

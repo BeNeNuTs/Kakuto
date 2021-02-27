@@ -13,6 +13,7 @@ public class GameFlowSubGameManager : SubGameManagerBase
     {
         base.Init();
         InitLoadingScreen();
+        AudioMenuComponent.LoadAudioOptions();
         TrainingOptionsMenuComponent.LoadTrainingOptions();
     }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Cinemachine;
+using UnityEngine.Audio;
 
 public class GameConfig : ScriptableObject
 {
@@ -68,4 +69,7 @@ public class GameConfig : ScriptableObject
 
     [Separator("Loading screen")]
     public GameObject m_LoadingScreenPrefab;
+
+    [Separator("Audio")]
+    public AudioMixer m_MainMixer;
 }
