@@ -71,20 +71,18 @@ public class AudioSubGameManager : SubGameManagerBase
 
     void InitAttackSFXAudioSources(ref GameObject handler, ref Dictionary<EAttackSFXType, AudioSource> attackSFXAudioSources)
     {
-        AudioSource whiffAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LP, whiffAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LK, whiffAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HP, whiffAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HK, whiffAudioSource);
+        AudioSource attackAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
+        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LP, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LK, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HP, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HK, attackAudioSource);
 
-        AudioSource hitAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Light, hitAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Heavy, hitAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Throw, hitAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Special, hitAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Hit_Light, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Hit_Heavy, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Hit_Throw, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Hit_Special, attackAudioSource);
 
-        AudioSource hitBlockedAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
-        attackSFXAudioSources.Add(EAttackSFXType.Blocked_Hit, hitBlockedAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Blocked_Hit, attackAudioSource);
     }
 
     AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, AudioClip defaultClip = null)
@@ -102,7 +100,8 @@ public class AudioSubGameManager : SubGameManagerBase
         AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AttackSFXAudioSources[attackSFXType] : m_Player2AttackSFXAudioSources[attackSFXType];
         AudioClip[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
         AudioClip attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
-        sourceToPlay.PlayOneShot(attackSFXToPlay);
+        sourceToPlay.clip = attackSFXToPlay;
+        sourceToPlay.Play();
     }
 
     public void PlayAnimSFX(int playerIndex, EAnimSFXType animSFXType)
@@ -113,7 +112,7 @@ public class AudioSubGameManager : SubGameManagerBase
 
     private void OnPlayerAttackStateChanged(PlayerBaseAttackLogic playerAttackLogic, EAttackState attackState)
     {
-        if (attackState == EAttackState.Recovery && !playerAttackLogic.HasTouched())
+        if (attackState == EAttackState.Startup)
         {
             switch (playerAttackLogic.GetAttack().m_AnimationAttackName)
             {

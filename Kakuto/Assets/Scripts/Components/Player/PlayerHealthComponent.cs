@@ -546,7 +546,8 @@ public class PlayerHealthComponent : MonoBehaviour
         EAttackSFXType attackSFXType = EAttackSFXType.Hit_Light;
         if(attackLogic.GetHitSFX(attackResult, ref attackSFXType))
         {
-            m_AudioManager.PlayAttackSFX(m_InfoComponent.GetPlayerIndex(), attackSFXType);
+            // Play attack SFX on the instigator of the hit in order to cancel whiff sfx
+            m_AudioManager.PlayAttackSFX(attackLogic.GetPlayerIndex(), attackSFXType);
         }
         else
         {
