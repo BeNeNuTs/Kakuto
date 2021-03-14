@@ -322,9 +322,15 @@ public class PlayerHealthComponent : MonoBehaviour
     public bool IsInBlockingStance()
     {
         // Can block all attack only in dummy mode => attack disabled
-        if (m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacks && !m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
+        PlayerSettings playerSettings = m_InfoComponent.GetPlayerSettings();
+        if (playerSettings.m_IsBlockingAllAttacks && !playerSettings.m_AttackEnabled)
         {
-            return true;
+            if (playerSettings.m_DefaultStance == EPlayerStance.Jump)
+            {
+                return m_MovementComponent.IsJumping() == false;
+            }
+            else
+                return true;
         }
 
         if (m_StunInfoSC.IsBlockStunned())

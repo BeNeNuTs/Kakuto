@@ -272,10 +272,14 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         else
         {
             // Can block attack after hit stun only in dummy mode => attack disabled
-            if (stunType == EStunType.Hit && m_InfoComponent.GetPlayerSettings().m_IsBlockingAllAttacksAfterHitStun && !m_InfoComponent.GetPlayerSettings().m_AttackEnabled)
+            PlayerSettings playerSettings = m_InfoComponent.GetPlayerSettings();
+            if (stunType == EStunType.Hit && playerSettings.m_IsBlockingAllAttacksAfterHitStun && !playerSettings.m_AttackEnabled)
             {
-                m_MovementComponent.UpdatePlayerSide();
-                StartAutoBlockingAttacks();
+                if(playerSettings.m_DefaultStance != EPlayerStance.Jump)
+                {
+                    m_MovementComponent.UpdatePlayerSide();
+                    StartAutoBlockingAttacks();
+                }
             }
         }
     }
