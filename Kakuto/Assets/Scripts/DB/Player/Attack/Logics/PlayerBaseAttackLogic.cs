@@ -293,4 +293,24 @@ public class PlayerBaseAttackLogic
                 return;
         }
     }
+
+    public virtual bool GetHitSFX(EAttackResult attackResult, ref EAttackSFXType hitSFXType)
+    {
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                if (m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
+                {
+                    hitSFXType = EAttackSFXType.Hit_Special;
+                    return true;
+                }
+                break;
+            case EAttackResult.Blocked:
+            case EAttackResult.Parried:
+                hitSFXType = EAttackSFXType.Blocked_Hit;
+                return true;
+        }
+
+        return false;
+    }
 }

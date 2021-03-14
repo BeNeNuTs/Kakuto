@@ -300,4 +300,28 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
             }
         }
     }
+
+    public override bool GetHitSFX(EAttackResult attackResult, ref EAttackSFXType hitSFXType)
+    {
+        bool baseResult = base.GetHitSFX(attackResult, ref hitSFXType);
+        if (!baseResult)
+        {
+            switch (attackResult)
+            {
+                case EAttackResult.Hit:
+                    switch (m_Config.m_HitStrength)
+                    {
+                        case EHitStrength.Weak:
+                            hitSFXType = EAttackSFXType.Hit_Light;
+                            break;
+                        case EHitStrength.Strong:
+                            hitSFXType = EAttackSFXType.Hit_Heavy;
+                            break;
+                    }
+                    return true;
+            }
+        }
+
+        return baseResult;
+    }
 }

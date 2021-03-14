@@ -37,6 +37,8 @@ public class PlayerHealthComponent : MonoBehaviour
     private PlayerStunInfoSubComponent m_StunInfoSC;
     private PlayerProximityGuardSubComponent m_ProximityGuardSubComponent;
     private TimeScaleSubGameManager m_TimeScaleManager;
+    private FXSubGameManager m_FXManager;
+    private AudioSubGameManager m_AudioManager;
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
 
@@ -63,6 +65,8 @@ public class PlayerHealthComponent : MonoBehaviour
         m_ProximityGuardSubComponent = new PlayerProximityGuardSubComponent(this, m_MovementComponent, m_Anim);
 
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
+        m_FXManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
+        m_AudioManager = GameManager.Instance.GetSubManager<AudioSubGameManager>(ESubManager.Audio);
 
         RegisterListeners();
     }
@@ -477,6 +481,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         TriggerHitFX(attackLogic, hitPoint, attackResult, hitNotificationType);
+        PlayHitSFX(attackLogic, attackResult);
 
         Profiler.EndSample();
     }
@@ -501,15 +506,28 @@ public class PlayerHealthComponent : MonoBehaviour
                 flipHitFX = attackLogic.GetOwner().transform.position.x < transform.position.x;
             }
 
-            FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
             int playerIndex = m_InfoComponent.GetPlayerIndex();
             for (int i = 0; i < m_HitFXTypeList.Count; i++)
             {
-                fxSubGameManager.SpawnHitFX(playerIndex, m_HitFXTypeList[i], hitPoint, Quaternion.identity, flipHitFX);
+                m_FXManager.SpawnHitFX(playerIndex, m_HitFXTypeList[i], hitPoint, Quaternion.identity, flipHitFX);
             }
         }
 
         Profiler.EndSample();
+    }
+
+    private void PlayHitSFX(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult)
+    {
+        EAttackSFXType attackSFXType = EAttackSFXType.Hit_Light;
+        if(attackLogic.GetHitSFX(attackResult, ref attackSFXType))
+        {
+            m_AudioManager.PlayAttackSFX(m_InfoComponent.GetPlayerIndex(), attackSFXType);
+        }
+        else
+        {
+            KakutoDebug.LogError("No SFX found for attack " + attackLogic.GetAnimationAttackName() + " taken in " + attackResult);
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "No SFX found for attack " + attackLogic.GetAnimationAttackName() + " taken in " + attackResult);
+        }
     }
 
     private void TriggerHitStopShake(float duration)

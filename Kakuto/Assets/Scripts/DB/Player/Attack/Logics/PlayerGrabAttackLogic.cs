@@ -210,4 +210,20 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
             hitFXList.Add(EHitFXType.HeavyHit);
         }
     }
+
+    public override bool GetHitSFX(EAttackResult attackResult, ref EAttackSFXType hitSFXType)
+    {
+        bool baseResult = base.GetHitSFX(attackResult, ref hitSFXType);
+        if (!baseResult)
+        {
+            switch (attackResult)
+            {
+                case EAttackResult.Hit:
+                    hitSFXType = EAttackSFXType.Hit_Throw;
+                    return true;
+            }
+        }
+
+        return baseResult;
+    }
 }
