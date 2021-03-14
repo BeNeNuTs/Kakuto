@@ -72,4 +72,7 @@ public class GameConfig : ScriptableObject
 
     [Separator("Audio")]
     public AudioMixer m_MainMixer;
+    public AudioMixerGroup m_MusicMixerGroup;
+    public AudioMixerGroup m_SFXMixerGroup;
+    public AudioMixerGroup m_VoiceMixerGroup;
 }
