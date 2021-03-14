@@ -110,6 +110,12 @@ public class AudioSubGameManager : SubGameManagerBase
         sourceToPlay.Play();
     }
 
+    public void StopAnimSFX(int playerIndex, EAnimSFXType animSFXType)
+    {
+        AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AnimSFXAudioSources[animSFXType] : m_Player2AnimSFXAudioSources[animSFXType];
+        sourceToPlay.Stop();
+    }
+
     private void OnPlayerAttackStateChanged(PlayerBaseAttackLogic playerAttackLogic, EAttackState attackState)
     {
         if (attackState == EAttackState.Startup)
@@ -131,6 +137,8 @@ public class AudioSubGameManager : SubGameManagerBase
                 case EAnimationAttackName.CrouchHP:
                 case EAnimationAttackName.StandHP:
                 case EAnimationAttackName.JumpHP:
+                //Special08 = Overhead
+                case EAnimationAttackName.Special08:
                     PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_HP);
                     break;
 
