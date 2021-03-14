@@ -9,6 +9,7 @@ public class AudioMenuComponent : MenuComponent
     private static readonly string K_MASTER_VOLUME = "MasterVolume";
     private static readonly string K_MUSIC_VOLUME = "MusicVolume";
     private static readonly string K_SFX_VOLUME = "SFXVolume";
+    private static readonly string K_VOICE_VOLUME = "VoiceVolume";
 
     private static readonly float K_SLIDER_INCREMENT = 0.1f;
 
@@ -16,7 +17,8 @@ public class AudioMenuComponent : MenuComponent
     {
         { K_MASTER_VOLUME, 1f },
         { K_MUSIC_VOLUME, 1f },
-        { K_SFX_VOLUME, 1f }
+        { K_SFX_VOLUME, 1f },
+        { K_VOICE_VOLUME, 1f }
     };
 
 #pragma warning disable 0649
@@ -27,6 +29,7 @@ public class AudioMenuComponent : MenuComponent
     [SerializeField] private Slider m_MasterSlider;
     [SerializeField] private Slider m_MusicSlider;
     [SerializeField] private Slider m_SFXSlider;
+    [SerializeField] private Slider m_VoiceSlider;
 #pragma warning restore 0649
 
 #if UNITY_EDITOR
@@ -36,6 +39,7 @@ public class AudioMenuComponent : MenuComponent
         PlayerPrefs.SetFloat(K_MASTER_VOLUME, 1f);
         PlayerPrefs.SetFloat(K_MUSIC_VOLUME, 1f);
         PlayerPrefs.SetFloat(K_SFX_VOLUME, 1f);
+        PlayerPrefs.SetFloat(K_VOICE_VOLUME, 1f);
         KakutoDebug.Log("Audio options cleared!");
     }
 #endif
@@ -45,6 +49,7 @@ public class AudioMenuComponent : MenuComponent
         LoadAudioGroupVolume(K_MASTER_VOLUME);
         LoadAudioGroupVolume(K_MUSIC_VOLUME);
         LoadAudioGroupVolume(K_SFX_VOLUME);
+        LoadAudioGroupVolume(K_VOICE_VOLUME);
     }
 
     private static void LoadAudioGroupVolume(string key)
@@ -66,6 +71,7 @@ public class AudioMenuComponent : MenuComponent
         m_MasterSlider.value = m_CurrentVolumes[K_MASTER_VOLUME];
         m_MusicSlider.value = m_CurrentVolumes[K_MUSIC_VOLUME];
         m_SFXSlider.value = m_CurrentVolumes[K_SFX_VOLUME];
+        m_VoiceSlider.value = m_CurrentVolumes[K_VOICE_VOLUME];
     }
 
     protected void OnDisable()
@@ -137,6 +143,11 @@ public class AudioMenuComponent : MenuComponent
     public void OnSFXVolumeChanged(float value)
     {
         OnVolumeChanged_Internal(K_SFX_VOLUME, value, true);
+    }
+
+    public void OnVoiceVolumeChanged(float value)
+    {
+        OnVolumeChanged_Internal(K_VOICE_VOLUME, value, true);
     }
 
     private static void OnVolumeChanged_Internal(string key, float value, bool saveVolume)
