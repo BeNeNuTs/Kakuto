@@ -37,6 +37,8 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     private static readonly string K_ANIM_ONSTUNEND_TRIGGER = "OnStunEnd";
     private static readonly string K_ANIM_BLOCKSTAND_IN = "BlockStand_In";
     private static readonly string K_ANIM_BLOCKSTAND_OUT = "BlockStand_Out";
+    private static readonly string K_ANIM_BLOCKCROUCH_IN = "BlockCrouch_In";
+    private static readonly string K_ANIM_BLOCKCROUCH_OUT = "BlockCrouch_Out";
     private static readonly string K_START_AUTOBLOCKING_ATTACK = "StartAutoBlockingAttacks";
 
     private static readonly string K_STUN = "Stun";
@@ -325,8 +327,16 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "StartAutoBlockingAttacks | Duration : " + blockingAttackDuration);
 
         StartStun_Internal(false, false, false, EStunType.Block);
-        SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKSTAND_OUT, blockingAttackDuration);
-        m_Anim.Play(K_ANIM_BLOCKSTAND_IN, 0, 0);
+        if(m_MovementComponent.IsCrouching())
+        {
+            SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKCROUCH_OUT, blockingAttackDuration);
+            m_Anim.Play(K_ANIM_BLOCKCROUCH_IN, 0, 0);
+        }
+        else
+        {
+            SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKSTAND_OUT, blockingAttackDuration);
+            m_Anim.Play(K_ANIM_BLOCKSTAND_IN, 0, 0);
+        }
 
 #if DEBUG_DISPLAY || UNITY_EDITOR
         KakutoDebug.Log("Player : " + m_Owner.name + " will block all attacks during " + blockingAttackDuration + " seconds");
