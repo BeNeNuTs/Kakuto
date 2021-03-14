@@ -308,18 +308,31 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
     {
-        bool canBlockAttack = IsInBlockingStance();
-        if(canBlockAttack && m_MovementComponent)
+        if (IsBlockingAllAttacks())
+            return true;
+        else
         {
-            //Check if the player is in the right stance for this attack
-            bool isCrouching = m_MovementComponent.IsCrouching();
-            canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
-        }
+            bool canBlockAttack = IsInBlockingStance_Internal();
+            if (canBlockAttack && m_MovementComponent)
+            {
+                //Check if the player is in the right stance for this attack
+                bool isCrouching = m_MovementComponent.IsCrouching();
+                canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
+            }
 
-        return canBlockAttack;
+            return canBlockAttack;
+        }
     }
 
     public bool IsInBlockingStance()
+    {
+        if (IsBlockingAllAttacks())
+            return true;
+
+        return IsInBlockingStance_Internal();
+    }
+
+    private bool IsBlockingAllAttacks()
     {
         // Can block all attack only in dummy mode => attack disabled
         PlayerSettings playerSettings = m_InfoComponent.GetPlayerSettings();
@@ -333,6 +346,11 @@ public class PlayerHealthComponent : MonoBehaviour
                 return true;
         }
 
+        return false;
+    }
+
+    private bool IsInBlockingStance_Internal()
+    {
         if (m_StunInfoSC.IsBlockStunned())
         {
             return true;
