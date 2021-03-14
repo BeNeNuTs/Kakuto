@@ -22,6 +22,12 @@ public class ProjectileProximityBoxHandler : PlayerGizmoBoxColliderDrawer
     void OnDestroy()
     {
         UnregisterListeners();
+
+        if(m_HurtBoxesDetected.Count > 0)
+        {
+            m_HurtBoxesDetected.Clear();
+            Utils.GetEnemyEventManager(m_ProjectileComponent.GetPlayerTag()).TriggerEvent(EPlayerEvent.ProximityBox, new ProximityBoxParameters(false, m_Collider));
+        }
     }
 
     void UnregisterListeners()
