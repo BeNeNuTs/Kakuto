@@ -306,7 +306,6 @@ public class PlayerBaseAttackLogic
                 }
                 break;
             case EAttackResult.Blocked:
-            case EAttackResult.Parried:
                 hitSFXType = EAttackSFXType.Blocked_Hit;
                 return true;
         }
