@@ -219,7 +219,7 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
             switch (attackResult)
             {
                 case EAttackResult.Hit:
-                    hitSFXType = EAttackSFXType.Hit_Throw;
+                    hitSFXType = EAttackSFXType.Hit_Heavy;
                     return true;
             }
         }

@@ -221,6 +221,7 @@ public class PlayerHealthComponent : MonoBehaviour
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + grabAttackLogic.GetAttack().m_Name);
         m_StunInfoSC.StartStun(grabAttackLogic, EAttackResult.Hit);
         PlayHitAnimation(grabAttackLogic);
+        m_AudioManager.PlayAttackSFX(m_InfoComponent.GetPlayerIndex(), EAttackSFXType.Hit_Throw);
     }
 
     void OnHit(BaseEventParameters baseParams)
