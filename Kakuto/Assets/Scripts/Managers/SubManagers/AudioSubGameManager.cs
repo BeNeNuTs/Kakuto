@@ -31,6 +31,18 @@ public class AudioSubGameManager : SubGameManagerBase
         InitAllSFX();
     }
 
+    public override void OnPlayerRegistered(GameObject player)
+    {
+        PlayerAttackComponent attackComponent = player.GetComponent<PlayerAttackComponent>();
+        attackComponent.OnCurrentAttackStateChanged += OnPlayerAttackStateChanged;
+    }
+
+    public override void OnPlayerUnregistered(GameObject player)
+    {
+        PlayerAttackComponent attackComponent = player.GetComponent<PlayerAttackComponent>();
+        attackComponent.OnCurrentAttackStateChanged -= OnPlayerAttackStateChanged;
+    }
+
     void InitAllSFX()
     {
         CreateHandler(1, ref m_Player1SFXHandler);
@@ -97,5 +109,38 @@ public class AudioSubGameManager : SubGameManagerBase
     {
         AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AnimSFXAudioSources[animSFXType] : m_Player2AnimSFXAudioSources[animSFXType];
         sourceToPlay.Play();
+    }
+
+    private void OnPlayerAttackStateChanged(PlayerBaseAttackLogic playerAttackLogic, EAttackState attackState)
+    {
+        if (attackState == EAttackState.Recovery && !playerAttackLogic.HasTouched())
+        {
+            switch (playerAttackLogic.GetAttack().m_AnimationAttackName)
+            {
+                case EAnimationAttackName.CrouchLP:
+                case EAnimationAttackName.StandLP:
+                case EAnimationAttackName.JumpLP:
+                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_LP);
+                    break;
+
+                case EAnimationAttackName.CrouchLK:
+                case EAnimationAttackName.StandLK:
+                case EAnimationAttackName.JumpLK:
+                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_LK);
+                    break;
+
+                case EAnimationAttackName.CrouchHP:
+                case EAnimationAttackName.StandHP:
+                case EAnimationAttackName.JumpHP:
+                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_HP);
+                    break;
+
+                case EAnimationAttackName.CrouchHK:
+                case EAnimationAttackName.StandHK:
+                case EAnimationAttackName.JumpHK:
+                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_HK);
+                    break;
+            }
+        }
     }
 }

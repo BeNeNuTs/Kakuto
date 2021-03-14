@@ -149,6 +149,7 @@ public class PlayerBaseAttackLogic
     public bool HasTouched() { return m_HasTouched; }
 
     public GameObject GetOwner() { return m_Owner; }
+    public int GetPlayerIndex() { return m_InfoComponent.GetPlayerIndex(); }
     public PlayerAttack GetAttack() { return m_Attack; }
     public Animator GetAnimator() { return m_Animator; }
 
@@ -217,7 +218,7 @@ public class PlayerBaseAttackLogic
     {
         if (victimAttackComponent.GetCurrentAttackLogic() != null)
         {
-            EAttackState victimAttackState = victimAttackComponent.GetCurrentAttackState();
+            EAttackState victimAttackState = victimAttackComponent.CurrentAttackState;
             if (victimAttackState == EAttackState.Startup || victimAttackState == EAttackState.Active)
             {
                 return EHitNotificationType.Counter;

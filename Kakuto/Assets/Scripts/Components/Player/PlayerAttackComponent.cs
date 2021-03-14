@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -32,6 +33,16 @@ public class PlayerAttackComponent : MonoBehaviour
 
     private PlayerBaseAttackLogic m_CurrentAttackLogic;
     private EAttackState m_CurrentAttackState = EAttackState.Startup;
+    public EAttackState CurrentAttackState
+    {
+        get => m_CurrentAttackState;
+        private set
+        {
+            m_CurrentAttackState = value;
+            OnCurrentAttackStateChanged?.Invoke(GetCurrentAttackLogic(), value);
+        }
+    }
+    public Action<PlayerBaseAttackLogic, EAttackState> OnCurrentAttackStateChanged;
 
     private UnblockAttackAnimEventConfig m_UnblockAttackConfig = null;
     private bool m_IsAttackBlocked = false;
@@ -275,22 +286,24 @@ public class PlayerAttackComponent : MonoBehaviour
         Profiler.BeginSample("PlayerAttackComponent.UpdateAttackState");
         if (GetCurrentAttackLogic() != null)
         {
-            if(m_CurrentAttackState == EAttackState.Startup)
+            if(CurrentAttackState == EAttackState.Startup)
             {
-                foreach (Collider2D hitBox in m_HitBoxes)
+                for (int i = 0; i < m_HitBoxes.Count; i++)
                 {
+                    Collider2D hitBox = m_HitBoxes[i];
                     if (hitBox != null && hitBox.enabled)
                     {
-                        m_CurrentAttackState = EAttackState.Active;
+                        CurrentAttackState = EAttackState.Active;
                         break;
                     }
                 }
             }
-            else if(m_CurrentAttackState == EAttackState.Active)
+            else if(CurrentAttackState == EAttackState.Active)
             {
                 bool allHitboxDisabled = true;
-                foreach (Collider2D hitBox in m_HitBoxes)
+                for (int i = 0; i < m_HitBoxes.Count; i++)
                 {
+                    Collider2D hitBox = m_HitBoxes[i];
                     if (hitBox != null && hitBox.enabled)
                     {
                         allHitboxDisabled = false;
@@ -300,7 +313,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
                 if(allHitboxDisabled)
                 {
-                    m_CurrentAttackState = EAttackState.Recovery;
+                    CurrentAttackState = EAttackState.Recovery;
                 }
             }
         }
@@ -410,7 +423,7 @@ public class PlayerAttackComponent : MonoBehaviour
         m_UnblockAttackConfig = null;
         attackLogic.OnAttackLaunched();
         m_CurrentAttackLogic = attackLogic;
-        m_CurrentAttackState = EAttackState.Startup;
+        CurrentAttackState = EAttackState.Startup;
 
         if(attackLogic.GetAttack().m_UseDefaultStance)
         {
@@ -664,11 +677,6 @@ public class PlayerAttackComponent : MonoBehaviour
     public PlayerBaseAttackLogic GetCurrentAttackLogic()
     {
         return m_CurrentAttackLogic;
-    }
-
-    public EAttackState GetCurrentAttackState()
-    {
-        return m_CurrentAttackState;
     }
 
     public PlayerAttack GetCurrentAttack()
