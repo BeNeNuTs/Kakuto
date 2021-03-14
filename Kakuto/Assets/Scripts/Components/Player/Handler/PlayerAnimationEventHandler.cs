@@ -16,11 +16,15 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     private BaseAttackStateMachineBehaviour m_CurrentAttack;
     private TimeScaleSubGameManager m_TimeScaleManager;
+    private FXSubGameManager m_FXManager;
+    private AudioSubGameManager m_AudioManager;
 
-    private void Start()
+    private void Awake()
     {
         m_Animator = GetComponent<Animator>();
         m_TimeScaleManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
+        m_FXManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
+        m_AudioManager = GameManager.Instance.GetSubManager<AudioSubGameManager>(ESubManager.Audio);
 
         m_UIBackground = GameObject.FindGameObjectWithTag("UIBackground")?.GetComponent<SpriteRenderer>();
         m_UIMaskedBackground = GameObject.FindGameObjectWithTag("UIMaskedBackground")?.GetComponent<SpriteRenderer>();
@@ -216,14 +220,17 @@ public class PlayerAnimationEventHandler : MonoBehaviour
 
     public void SpawnHitFX(EHitFXType hitFXType)
     {
-        FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
-        fxSubGameManager.SpawnHitFX(m_PlayerInfoComponent.GetPlayerIndex(), hitFXType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
+        m_FXManager.SpawnHitFX(m_PlayerInfoComponent.GetPlayerIndex(), hitFXType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
     }
 
     public void SpawnOtherFX(EFXType fxType)
     {
-        FXSubGameManager fxSubGameManager = GameManager.Instance.GetSubManager<FXSubGameManager>(ESubManager.FX);
-        fxSubGameManager.SpawnOtherFX(m_PlayerInfoComponent.GetPlayerIndex(), fxType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
+        m_FXManager.SpawnOtherFX(m_PlayerInfoComponent.GetPlayerIndex(), fxType, m_FXHook.position, m_FXHook.localRotation, m_FXHook.lossyScale.x < 0);
+    }
+
+    public void PlaySFX(EAnimSFXType animSFXType)
+    {
+        m_AudioManager.PlayAnimSFX(m_PlayerInfoComponent.GetPlayerIndex(), animSFXType);
     }
 
     public void DisplayShadow()

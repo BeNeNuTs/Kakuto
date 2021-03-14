@@ -122,8 +122,13 @@ public class AttackConfig : ScriptableObject
     public CameraShakeParams m_OnDeathCamShakeParams;
     public float m_OnDeathPushbackMultiplier = 1.5f;
 
+    [Separator("SFX")]
+    public List<AttackSFX> m_AttackSFX;
+    public List<AnimSFX> m_AnimSFX;
+
     void OnValidate()
     {
+        // HIT_FX ///////////////////
         if(m_HitFX == null)
         {
             m_HitFX = new List<HitFX>();
@@ -139,6 +144,7 @@ public class AttackConfig : ScriptableObject
             m_HitFX.Add(new HitFX((EHitFXType)m_HitFX.Count));
         }
 
+        // OTHER_FX ///////////////////
         if (m_OtherFX == null)
         {
             m_OtherFX = new List<FX>();
@@ -152,6 +158,38 @@ public class AttackConfig : ScriptableObject
         while (m_OtherFX.Count < FX.COUNT)
         {
             m_OtherFX.Add(new FX((EFXType)m_OtherFX.Count));
+        }
+
+        // ATTACK_SFX ///////////////////
+        if (m_AttackSFX == null)
+        {
+            m_AttackSFX = new List<AttackSFX>();
+        }
+
+        while (m_AttackSFX.Count > AttackSFX.COUNT)
+        {
+            m_AttackSFX.RemoveAt(m_AttackSFX.Count - 1);
+        }
+
+        while (m_AttackSFX.Count < AttackSFX.COUNT)
+        {
+            m_AttackSFX.Add(new AttackSFX((EAttackSFXType)m_AttackSFX.Count));
+        }
+
+        // ANIM_SFX ///////////////////
+        if (m_AnimSFX == null)
+        {
+            m_AnimSFX = new List<AnimSFX>();
+        }
+
+        while (m_AnimSFX.Count > AnimSFX.COUNT)
+        {
+            m_AnimSFX.RemoveAt(m_AnimSFX.Count - 1);
+        }
+
+        while (m_AnimSFX.Count < AnimSFX.COUNT)
+        {
+            m_AnimSFX.Add(new AnimSFX((EAnimSFXType)m_AnimSFX.Count));
         }
     }
 }

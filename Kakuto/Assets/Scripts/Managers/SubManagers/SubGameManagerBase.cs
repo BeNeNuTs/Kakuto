@@ -9,6 +9,7 @@ public enum ESubManager
     CameraMultiTargets,
     PlayerSpriteSortingOrder,
     FX,
+    Audio,
     TimeScale,
     GameFlow
 }

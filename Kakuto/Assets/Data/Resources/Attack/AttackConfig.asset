@@ -80,3 +80,62 @@ MonoBehaviour:
   m_OnDeathCamShakeParams: {fileID: 11400000, guid: 4d128c1d48c006a40a51556b3ce6bd1c,
     type: 2}
   m_OnDeathPushbackMultiplier: 3
+  m_AttackSFX:
+  - m_Name: Whiff_LP
+    m_SFXList:
+    - {fileID: 8300000, guid: b718307c57d6e6a45b89b161b1b12dd5, type: 3}
+  - m_Name: Whiff_LK
+    m_SFXList:
+    - {fileID: 8300000, guid: 15e450456d0ff1147ad8e4b384937d68, type: 3}
+  - m_Name: Whiff_HP
+    m_SFXList:
+    - {fileID: 8300000, guid: 507fdd810eef5684dbb7e833e93e5a70, type: 3}
+  - m_Name: Whiff_HK
+    m_SFXList:
+    - {fileID: 8300000, guid: 989ef84f75852c94d9a5792ced3b3aa5, type: 3}
+  - m_Name: Hit_Light
+    m_SFXList:
+    - {fileID: 8300000, guid: a021c1408739c3f49b01cc03113490b4, type: 3}
+    - {fileID: 8300000, guid: debd6f7f8ed860049a67384e4bef6340, type: 3}
+  - m_Name: Hit_Heavy
+    m_SFXList:
+    - {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
+    - {fileID: 8300000, guid: 2b806c8c026ea6d4fb4955526fe86149, type: 3}
+    - {fileID: 8300000, guid: abea534e016a6c34eb6cea27addb4ff9, type: 3}
+    - {fileID: 8300000, guid: 6e8a08156b9b0424188e7500abeb5987, type: 3}
+  - m_Name: Hit_Throw
+    m_SFXList:
+    - {fileID: 8300000, guid: a420a8e1e86cf9e418881eb6972ff6ae, type: 3}
+  - m_Name: Hit_Special
+    m_SFXList:
+    - {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
+  - m_Name: Blocked_Hit
+    m_SFXList:
+    - {fileID: 8300000, guid: cd277446ca001f746881017d884aff39, type: 3}
+  m_AnimSFX:
+  - m_Name: Knockdown
+    m_SFX: {fileID: 8300000, guid: d12fbeefdfa5a6a478f0e1911fa210cd, type: 3}
+  - m_Name: Parry_Whiff
+    m_SFX: {fileID: 8300000, guid: 4b466b17dae856c419e6ee0c791db9b8, type: 3}
+  - m_Name: Parry_Success
+    m_SFX: {fileID: 8300000, guid: 464cd0e40952959458b6bd653527a9fd, type: 3}
+  - m_Name: Jump
+    m_SFX: {fileID: 8300000, guid: c8a3bbce3f3a6b04b8f2dc4df5e194c4, type: 3}
+  - m_Name: Land
+    m_SFX: {fileID: 8300000, guid: 3b341606e1c68b04b8dbb3f5d67a5ce2, type: 3}
+  - m_Name: Backdash
+    m_SFX: {fileID: 8300000, guid: 41adb3d99e08187499f1a2df6d450d94, type: 3}
+  - m_Name: Forwarddash
+    m_SFX: {fileID: 8300000, guid: 69cd08391c0346c46a1bc2cbfc2cb5df, type: 3}
+  - m_Name: Stun
+    m_SFX: {fileID: 8300000, guid: 74854a924f8351e49b1113dc97caf079, type: 3}
+  - m_Name: TP
+    m_SFX: {fileID: 8300000, guid: f558871c945178849ba43d3bec25c10a, type: 3}
+  - m_Name: EX
+    m_SFX: {fileID: 8300000, guid: 20de03726929a3e4391cafdedd2ca8f6, type: 3}
+  - m_Name: Launch
+    m_SFX: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}
+  - m_Name: Trigger
+    m_SFX: {fileID: 8300000, guid: 0c3c4444655633146a46991823917ee4, type: 3}
+  - m_Name: Super
+    m_SFX: {fileID: 8300000, guid: 064423c6c1c42b3439e141ef232ca7eb, type: 3}

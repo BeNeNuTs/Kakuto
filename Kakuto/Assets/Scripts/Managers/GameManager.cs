@@ -74,6 +74,7 @@ public class GameManager : Singleton<GameManager>
             { ESubManager.CameraMultiTargets, new CameraMultiTargetsSubGameManager() },
             { ESubManager.PlayerSpriteSortingOrder, new PlayerSpriteSortingOrderSubGameManager() },
             { ESubManager.FX, new FXSubGameManager() },
+            { ESubManager.Audio, new AudioSubGameManager() },
             { ESubManager.TimeScale, new TimeScaleSubGameManager() },
             { ESubManager.GameFlow, new GameFlowSubGameManager() }
         };
