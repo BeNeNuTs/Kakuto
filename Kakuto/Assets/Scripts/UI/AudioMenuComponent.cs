@@ -125,6 +125,10 @@ public class AudioMenuComponent : MenuComponent
             {
                 return m_SFXSlider;
             }
+            else if (currentHighlight.m_SelectedGameObject == m_VoiceSlider.gameObject)
+            {
+                return m_VoiceSlider;
+            }
         }
 
         return null;
