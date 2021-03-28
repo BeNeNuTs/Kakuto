@@ -22,7 +22,7 @@ public class CharacterController2D : MonoBehaviour
     private bool m_JumpApexReached = false;
     private float m_MinFallingVelocity = 0f;
 
-    private Rigidbody2D m_Rigidbody2D;
+    public Rigidbody2D m_Rigidbody2D;
     private Vector2 m_Velocity = Vector2.zero;
     private bool m_FacingRight;                                 // For determining which side the player is currently facing.
     private bool m_MovingRight;
@@ -40,7 +40,6 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         m_MovementConfig = MovementConfig.Instance;
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         m_FacingRight = gameObject.CompareTag(Player.Player1);
         m_MovingRight = m_FacingRight;

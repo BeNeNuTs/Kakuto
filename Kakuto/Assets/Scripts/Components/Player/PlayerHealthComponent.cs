@@ -27,12 +27,12 @@ public class PlayerHealthComponent : MonoBehaviour
     public GameObject m_DamageTakenUIPrefab;
     public Transform m_DamageTakenParent;
 
-    private uint m_HP;
+    public PlayerAttackComponent m_AttackComponent;
+    public PlayerMovementComponent m_MovementComponent;
+    public PlayerInfoComponent m_InfoComponent;
+    public Animator m_Anim;
 
-    private PlayerAttackComponent m_AttackComponent;
-    private PlayerMovementComponent m_MovementComponent;
-    private PlayerInfoComponent m_InfoComponent;
-    private Animator m_Anim;
+    private uint m_HP;
 
     private PlayerStunInfoSubComponent m_StunInfoSC;
     private PlayerProximityGuardSubComponent m_ProximityGuardSubComponent;
@@ -55,11 +55,6 @@ public class PlayerHealthComponent : MonoBehaviour
     private void Awake()
     {
         m_HP = m_HealthConfig.m_MaxHP;
-        m_AttackComponent = GetComponent<PlayerAttackComponent>();
-        m_MovementComponent = GetComponent<PlayerMovementComponent>();
-        m_InfoComponent = GetComponent<PlayerInfoComponent>();
-
-        m_Anim = GetComponentInChildren<Animator>();
 
         m_StunInfoSC = new PlayerStunInfoSubComponent(this, m_InfoComponent, m_MovementComponent, m_Anim);
         m_ProximityGuardSubComponent = new PlayerProximityGuardSubComponent(this, m_MovementComponent, m_Anim);

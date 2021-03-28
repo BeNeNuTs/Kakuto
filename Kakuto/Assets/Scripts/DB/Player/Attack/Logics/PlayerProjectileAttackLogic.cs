@@ -20,9 +20,9 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         m_Config = config;
     }
 
-    public override void OnInit(GameObject owner, PlayerAttack attack)
+    public override void OnInit(PlayerAttackComponent playerAttackComponent, PlayerAttack attack)
     {
-        base.OnInit(owner, attack);
+        base.OnInit(playerAttackComponent, attack);
         m_ProjectileHook = m_Owner.transform.Find("Model/" + K_PROJECTILE_HOOK);
         m_CurrentProjectiles = new List<ProjectileComponent>();
 #if UNITY_EDITOR

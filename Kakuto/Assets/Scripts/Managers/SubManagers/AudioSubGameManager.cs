@@ -31,18 +31,6 @@ public class AudioSubGameManager : SubGameManagerBase
         InitAllSFX();
     }
 
-    public override void OnPlayerRegistered(GameObject player)
-    {
-        PlayerAttackComponent attackComponent = player.GetComponent<PlayerAttackComponent>();
-        attackComponent.OnCurrentAttackStateChanged += OnPlayerAttackStateChanged;
-    }
-
-    public override void OnPlayerUnregistered(GameObject player)
-    {
-        PlayerAttackComponent attackComponent = player.GetComponent<PlayerAttackComponent>();
-        attackComponent.OnCurrentAttackStateChanged -= OnPlayerAttackStateChanged;
-    }
-
     void InitAllSFX()
     {
         CreateHandler(1, ref m_Player1SFXHandler);
@@ -53,13 +41,18 @@ public class AudioSubGameManager : SubGameManagerBase
 
         foreach (EAnimSFXType sfxType in Enum.GetValues(typeof(EAnimSFXType)))
         {
-            AudioClip clip = m_AnimSFX[(int)sfxType].m_SFX;
+            AudioEntry sfxEntry = m_AnimSFX[(int)sfxType].m_SFX;
+            if (sfxEntry.m_Clip != null)
+            {
+                AudioSource p1AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player1SFXHandler, m_SFXMixerGroup, sfxEntry.m_Clip);
+                p1AnimSFXTypeAudioSource.volume = sfxEntry.m_Volume;
 
-            AudioSource p1AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player1SFXHandler, m_SFXMixerGroup, clip);
-            m_Player1AnimSFXAudioSources.Add(sfxType, p1AnimSFXTypeAudioSource);
+                AudioSource p2AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player2SFXHandler, m_SFXMixerGroup, sfxEntry.m_Clip);
+                p2AnimSFXTypeAudioSource.volume = sfxEntry.m_Volume;
 
-            AudioSource p2AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player2SFXHandler, m_SFXMixerGroup, clip);
-            m_Player2AnimSFXAudioSources.Add(sfxType, p2AnimSFXTypeAudioSource);
+                m_Player1AnimSFXAudioSources.Add(sfxType, p1AnimSFXTypeAudioSource);
+                m_Player2AnimSFXAudioSources.Add(sfxType, p2AnimSFXTypeAudioSource);
+            }
         }
     }
 
@@ -76,6 +69,7 @@ public class AudioSubGameManager : SubGameManagerBase
         attackSFXAudioSources.Add(EAttackSFXType.Whiff_LK, attackAudioSource);
         attackSFXAudioSources.Add(EAttackSFXType.Whiff_HP, attackAudioSource);
         attackSFXAudioSources.Add(EAttackSFXType.Whiff_HK, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Whiff_Parry, attackAudioSource);
 
         attackSFXAudioSources.Add(EAttackSFXType.Hit_Light, attackAudioSource);
         attackSFXAudioSources.Add(EAttackSFXType.Hit_Heavy, attackAudioSource);
@@ -83,6 +77,7 @@ public class AudioSubGameManager : SubGameManagerBase
         attackSFXAudioSources.Add(EAttackSFXType.Hit_Special, attackAudioSource);
 
         attackSFXAudioSources.Add(EAttackSFXType.Blocked_Hit, attackAudioSource);
+        attackSFXAudioSources.Add(EAttackSFXType.Parry_Hit, attackAudioSource);
     }
 
     AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, AudioClip defaultClip = null)
@@ -95,12 +90,22 @@ public class AudioSubGameManager : SubGameManagerBase
         return newAudioSource;
     }
 
+    public void PlayWhiffSFX(int playerIndex, EWhiffSFXType whiffSFXType)
+    {
+        if(whiffSFXType != EWhiffSFXType.None)
+        {
+            EAttackSFXType attackSFXType = ConvertWhiffToAttackSFXType(whiffSFXType);
+            PlayAttackSFX(playerIndex, attackSFXType);
+        }
+    }
+
     public void PlayAttackSFX(int playerIndex, EAttackSFXType attackSFXType)
     {
         AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AttackSFXAudioSources[attackSFXType] : m_Player2AttackSFXAudioSources[attackSFXType];
-        AudioClip[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
-        AudioClip attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
-        sourceToPlay.clip = attackSFXToPlay;
+        AudioEntry[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
+        AudioEntry attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
+        sourceToPlay.clip = attackSFXToPlay.m_Clip;
+        sourceToPlay.volume = attackSFXToPlay.m_Volume;
         sourceToPlay.Play();
     }
 
@@ -116,38 +121,23 @@ public class AudioSubGameManager : SubGameManagerBase
         sourceToPlay.Stop();
     }
 
-    private void OnPlayerAttackStateChanged(PlayerBaseAttackLogic playerAttackLogic, EAttackState attackState)
+    private EAttackSFXType ConvertWhiffToAttackSFXType(EWhiffSFXType whiffSFXType)
     {
-        if (attackState == EAttackState.Startup)
+        switch (whiffSFXType)
         {
-            switch (playerAttackLogic.GetAttack().m_AnimationAttackName)
-            {
-                case EAnimationAttackName.CrouchLP:
-                case EAnimationAttackName.StandLP:
-                case EAnimationAttackName.JumpLP:
-                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_LP);
-                    break;
-
-                case EAnimationAttackName.CrouchLK:
-                case EAnimationAttackName.StandLK:
-                case EAnimationAttackName.JumpLK:
-                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_LK);
-                    break;
-
-                case EAnimationAttackName.CrouchHP:
-                case EAnimationAttackName.StandHP:
-                case EAnimationAttackName.JumpHP:
-                //Special08 = Overhead
-                case EAnimationAttackName.Special08:
-                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_HP);
-                    break;
-
-                case EAnimationAttackName.CrouchHK:
-                case EAnimationAttackName.StandHK:
-                case EAnimationAttackName.JumpHK:
-                    PlayAttackSFX(playerAttackLogic.GetPlayerIndex(), EAttackSFXType.Whiff_HK);
-                    break;
-            }
+            case EWhiffSFXType.Whiff_LP:
+                return EAttackSFXType.Whiff_LP;
+            case EWhiffSFXType.Whiff_LK:
+                return EAttackSFXType.Whiff_LK;
+            case EWhiffSFXType.Whiff_HP:
+                return EAttackSFXType.Whiff_HP;
+            case EWhiffSFXType.Whiff_HK:
+                return EAttackSFXType.Whiff_HK;
+            case EWhiffSFXType.Whiff_Parry:
+                return EAttackSFXType.Whiff_Parry;
+            case EWhiffSFXType.None:
+            default:
+                return EAttackSFXType.Whiff_LP;
         }
     }
 }

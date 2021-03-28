@@ -40,11 +40,11 @@ public class PlayerMovementComponent : MonoBehaviour
     private static readonly string K_ANIM_SPEED_FLOAT = "Speed";
     private static readonly string K_ANIM_MOVING_DIRECTION_FLOAT = "MovingDirection";
 
-    private CharacterController2D m_Controller;
-    private Animator m_Animator;
-    private PlayerAttackComponent m_AttackComponent;
-    private PlayerHealthComponent m_HealthComponent;
-    private PlayerInfoComponent m_InfoComponent;
+    public CharacterController2D m_Controller;
+    public Animator m_Animator;
+    public PlayerAttackComponent m_AttackComponent;
+    public PlayerHealthComponent m_HealthComponent;
+    public PlayerInfoComponent m_InfoComponent;
 
     private Transform m_Enemy;
     private bool m_IsLeftSide;
@@ -73,12 +73,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void Awake()
     {
-        m_Controller = GetComponent<CharacterController2D>();
-        m_Animator = GetComponentInChildren<Animator>();
-        m_AttackComponent = GetComponent<PlayerAttackComponent>();
-        m_HealthComponent = GetComponent<PlayerHealthComponent>();
-        m_InfoComponent = GetComponent<PlayerInfoComponent>();
-
         RegisterListeners();
     }
 

@@ -15,10 +15,10 @@ public class PlayerTeleportAttackLogic : PlayerBaseAttackLogic
         m_Config = config;
     }
 
-    public override void OnInit(GameObject owner, PlayerAttack attack)
+    public override void OnInit(PlayerAttackComponent playerAttackComponent, PlayerAttack attack)
     {
-        base.OnInit(owner, attack);
-        m_Rigidbody = m_Owner.GetComponent<Rigidbody2D>();
+        base.OnInit(playerAttackComponent, attack);
+        m_Rigidbody = playerAttackComponent.m_MovementComponent.m_Controller.m_Rigidbody2D;
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileSpawned, OnProjectileSpawned);
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.ProjectileDestroyed, OnProjectileDestroyed);
     }

@@ -480,6 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ControllerConfig: {fileID: 11400000, guid: 7a8b10e7ee7ae824aa3df83a587d7a0f, type: 2}
   m_GroundCheck: {fileID: 0}
+  m_Rigidbody2D: {fileID: 6641475778014050452}
 --- !u!50 &6641475778014050452
 Rigidbody2D:
   serializedVersion: 4
@@ -514,6 +515,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AttacksConfig: {fileID: 0}
+  m_MovementComponent: {fileID: 6641475778014050472}
+  m_HealthComponent: {fileID: 6641475778014050455}
+  m_InfoComponent: {fileID: 6333110518690454570}
+  m_Animator: {fileID: 6641475777147264858}
   m_DEBUG_BreakOnTriggerAttack: 0
 --- !u!114 &6641475778014050455
 MonoBehaviour:
@@ -528,8 +533,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HealthConfig: {fileID: 11400000, guid: a249590b78d51a9428dd4fbd5d2e43f8, type: 2}
-  m_DamageTakenUIPrefab: {fileID: 0}
-  m_DamageTakenParent: {fileID: 0}
+  m_DamageTakenUIPrefab: {fileID: 1321536666645202, guid: b5b144dd7a84d2945bc6de2ac968aa1f,
+    type: 3}
+  m_DamageTakenParent: {fileID: 6641475778176475717}
+  m_AttackComponent: {fileID: 6641475778014050454}
+  m_MovementComponent: {fileID: 6641475778014050472}
+  m_InfoComponent: {fileID: 6333110518690454570}
+  m_Anim: {fileID: 6641475777147264858}
   m_DEBUG_BreakOnHit: 0
   m_DEBUG_BreakOnGrabbed: 0
 --- !u!114 &6641475778014050472
@@ -544,6 +554,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987592c141ba5294cb0bef7ef462c993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Controller: {fileID: 6641475778014050451}
+  m_Animator: {fileID: 6641475777147264858}
+  m_AttackComponent: {fileID: 6641475778014050454}
+  m_HealthComponent: {fileID: 6641475778014050455}
+  m_InfoComponent: {fileID: 6333110518690454570}
 --- !u!114 &6333110518690454570
 MonoBehaviour:
   m_ObjectHideFlags: 0

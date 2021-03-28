@@ -19,10 +19,12 @@ public class PlayerAttackComponent : MonoBehaviour
     public PlayerAttacksConfig m_AttacksConfig;
     private List<PlayerBaseAttackLogic> m_AttackLogics;
 
-    private PlayerMovementComponent m_MovementComponent;
-    private PlayerHealthComponent m_HealthComponent;
-    private PlayerInfoComponent m_InfoComponent;
-    private Animator m_Animator;
+    public PlayerMovementComponent m_MovementComponent;
+    public PlayerHealthComponent m_HealthComponent;
+    public PlayerInfoComponent m_InfoComponent;
+    public Animator m_Animator;
+
+    public AudioSubGameManager m_AudioManager;
 
     private PlayerSuperGaugeSubComponent m_SuperGaugeSC;
     private PlayerComboCounterSubComponent m_ComboCounterSC;
@@ -73,10 +75,7 @@ public class PlayerAttackComponent : MonoBehaviour
 
         m_AttackConfig = AttackConfig.Instance;
 
-        m_MovementComponent = GetComponent<PlayerMovementComponent>();
-        m_HealthComponent = GetComponent<PlayerHealthComponent>();
-        m_InfoComponent = GetComponent<PlayerInfoComponent>();
-        m_Animator = GetComponentInChildren<Animator>();
+        m_AudioManager = GameManager.Instance.GetSubManager<AudioSubGameManager>(ESubManager.Audio);
 
         m_SuperGaugeSC = new PlayerSuperGaugeSubComponent(m_InfoComponent);
         m_ComboCounterSC = new PlayerComboCounterSubComponent(gameObject);

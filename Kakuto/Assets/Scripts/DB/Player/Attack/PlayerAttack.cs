@@ -80,6 +80,9 @@ public class PlayerAttack
     [Separator("Config")]
     public PlayerBaseAttackConfig m_AttackConfig;
 
+    [Separator("SFX")]
+    public EWhiffSFXType m_WhiffSFXType = EWhiffSFXType.None;
+
     public List<string> GetRawInputStringList(){ return m_InputStringList; }
 
     public void ResetComputedInputString()

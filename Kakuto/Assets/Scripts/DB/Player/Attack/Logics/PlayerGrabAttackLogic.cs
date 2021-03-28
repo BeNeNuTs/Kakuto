@@ -34,9 +34,9 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         m_Config = config;
     }
 
-    public override void OnInit(GameObject owner, PlayerAttack attack)
+    public override void OnInit(PlayerAttackComponent playerAttackComponent, PlayerAttack attack)
     {
-        base.OnInit(owner, attack);
+        base.OnInit(playerAttackComponent, attack);
         m_GrabHook = m_Owner.transform.Find("Model/" + K_GRAB_HOOK);
         m_FXHook = m_Owner.transform.Find("Model/" + K_FX_HOOK);
 #if UNITY_EDITOR

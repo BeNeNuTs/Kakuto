@@ -42,12 +42,13 @@ public class PlayerAttacksConfig : BakeableScriptableObject
     public List<PlayerBaseAttackLogic> CreateLogics(PlayerAttackComponent playerAttackComponent)
     {
         List<PlayerBaseAttackLogic> attackLogics = new List<PlayerBaseAttackLogic>();
-        foreach (PlayerAttack attack in m_AttackList)
+        for (int i = 0; i < m_AttackList.Count; i++)
         {
+            PlayerAttack attack = m_AttackList[i];
             if (attack.m_AttackConfig)
             {
                 PlayerBaseAttackLogic attackLogic = attack.m_AttackConfig.CreateLogic();
-                attackLogic.OnInit(playerAttackComponent.gameObject, attack);
+                attackLogic.OnInit(playerAttackComponent, attack);
                 attackLogics.Add(attackLogic);
             }
             else

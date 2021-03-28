@@ -13,10 +13,10 @@ public class PlayerDashAttackLogic : PlayerBaseAttackLogic
         m_Config = config;
     }
 
-    public override void OnInit(GameObject owner, PlayerAttack attack)
+    public override void OnInit(PlayerAttackComponent playerAttackComponent, PlayerAttack attack)
     {
-        base.OnInit(owner, attack);
-        m_Rigidbody = owner.GetComponent<Rigidbody2D>();
+        base.OnInit(playerAttackComponent, attack);
+        m_Rigidbody = playerAttackComponent.m_MovementComponent.m_Controller.m_Rigidbody2D;
         m_OriginalMass = m_Rigidbody.mass;
     }
 

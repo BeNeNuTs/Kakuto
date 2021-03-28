@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackConfig : ScriptableObject
@@ -187,9 +188,22 @@ public class AttackConfig : ScriptableObject
             m_AnimSFX.RemoveAt(m_AnimSFX.Count - 1);
         }
 
-        while (m_AnimSFX.Count < AnimSFX.COUNT)
+        if(m_AnimSFX.Count < AnimSFX.COUNT)
         {
-            m_AnimSFX.Add(new AnimSFX((EAnimSFXType)m_AnimSFX.Count));
+            m_AnimSFX.Clear();
+            foreach (EAnimSFXType animSFXType in Enum.GetValues(typeof(EAnimSFXType)))
+            {
+                m_AnimSFX.Add(new AnimSFX(animSFXType));
+            }
+        }
+
+        for(int i = 0; i < m_AnimSFX.Count; i++)
+        {
+            if(i == (int)EAnimSFXType.Parry_Whiff_DEPRECATED
+                || i == (int)EAnimSFXType.Parry_Success_DEPRECATED)
+            {
+                m_AnimSFX[i].m_SFX.m_Clip = null;
+            }
         }
     }
 }

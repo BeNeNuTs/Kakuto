@@ -17,6 +17,7 @@ public class PlayerBaseAttackLogic
     protected PlayerMovementComponent m_MovementComponent;
     protected PlayerAttackComponent m_AttackComponent;
     protected PlayerInfoComponent m_InfoComponent;
+    protected AudioSubGameManager m_AudioManager;
 
     protected bool m_HasTouched = false;
     protected float m_DamageRatio = 1f;
@@ -26,14 +27,15 @@ public class PlayerBaseAttackLogic
 
     private IEnumerator m_CurrentCrossupCoroutine = null;
 
-    public virtual void OnInit(GameObject owner, PlayerAttack attack)
+    public virtual void OnInit(PlayerAttackComponent playerAttackComponent, PlayerAttack attack)
     {
-        m_Owner = owner;
+        m_Owner = playerAttackComponent.gameObject;
         m_Attack = attack;
-        m_Animator = m_Owner.GetComponentInChildren<Animator>();
-        m_MovementComponent = m_Owner.GetComponent<PlayerMovementComponent>();
-        m_AttackComponent = m_Owner.GetComponent<PlayerAttackComponent>();
-        m_InfoComponent = m_Owner.GetComponent<PlayerInfoComponent>();
+        m_Animator = playerAttackComponent.m_Animator;
+        m_MovementComponent = playerAttackComponent.m_MovementComponent;
+        m_AttackComponent = playerAttackComponent;
+        m_InfoComponent = playerAttackComponent.m_InfoComponent;
+        m_AudioManager = playerAttackComponent.m_AudioManager;
     }
 
     public virtual void OnShutdown()
@@ -82,8 +84,9 @@ public class PlayerBaseAttackLogic
     public virtual void OnAttackLaunched()
     {
         m_Animator.Play(GetAnimationAttackName(), 0, 0);
+        m_AudioManager.PlayWhiffSFX(GetPlayerIndex(), m_Attack.m_WhiffSFXType);
 
-        if(m_Attack.m_IsEXAttack)
+        if (m_Attack.m_IsEXAttack)
         {
             m_InfoComponent.SetCurrentPalette(EPalette.EX);
         }
@@ -307,6 +310,9 @@ public class PlayerBaseAttackLogic
                 break;
             case EAttackResult.Blocked:
                 hitSFXType = EAttackSFXType.Blocked_Hit;
+                return true;
+            case EAttackResult.Parried:
+                hitSFXType = EAttackSFXType.Parry_Hit;
                 return true;
         }
 

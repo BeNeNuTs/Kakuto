@@ -3756,7 +3756,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 10
+    intParameter: 13
     messageOptions: 0
   - time: 0.56666666
     functionName: BlockAttack
