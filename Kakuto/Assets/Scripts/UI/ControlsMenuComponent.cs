@@ -29,8 +29,9 @@ public class ControlsMenuComponent : MenuComponent
 
     private IEnumerator m_WrongPlayerFeedbackCoroutine;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         InputListener.OnInputChanged += OnPlayerInputChanged;
     }
 

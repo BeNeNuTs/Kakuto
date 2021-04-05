@@ -16,6 +16,8 @@ MonoBehaviour:
   m_TimeBetweenHealthBar: 0.5
   m_TimeToDisappearAfterComboBreak: 2
   m_MaxHitNotificationDisplayTime: 2
+  m_DpadNavigationInputPerSecond: 10
+  m_DpadNavigationInputRepeatDelay: 0.5
   m_InputUIInfos:
   - m_Input: 8
     m_XboxSprite: {fileID: 21300000, guid: e0997e24a1d93514fb004e2c9f1845fd, type: 3}
@@ -81,3 +83,22 @@ MonoBehaviour:
     m_XboxSprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}
     m_PS4Sprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}
     m_GameSprite: {fileID: 21300000, guid: 716c3737474905d4d8a3e30ccfec2f09, type: 3}
+  m_UISFX:
+    m_PauseSFX:
+      m_Clip: {fileID: 8300000, guid: 8ced1551d421d4f448c96ceb061eeb1f, type: 3}
+      m_Volume: 1
+    m_BackSFX:
+      m_Clip: {fileID: 8300000, guid: 35faa4cde48a50241b3f5eb3d460d7c4, type: 3}
+      m_Volume: 1
+    m_ConfirmSFX:
+      m_Clip: {fileID: 8300000, guid: e20ae038f06994841aa891ae0d5348f6, type: 3}
+      m_Volume: 1
+    m_NavigationSFX:
+      m_Clip: {fileID: 8300000, guid: 8024197036f03b64d914bae8d3bc8f1f, type: 3}
+      m_Volume: 1
+    m_SliderSFX:
+      m_Clip: {fileID: 8300000, guid: 085ffe5902a42c64ebe4bac671878756, type: 3}
+      m_Volume: 1
+    m_ToggleSFX:
+      m_Clip: {fileID: 8300000, guid: 1236dc41b17c5c54a800b732be0453f6, type: 3}
+      m_Volume: 1

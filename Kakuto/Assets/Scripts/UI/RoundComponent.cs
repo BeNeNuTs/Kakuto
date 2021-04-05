@@ -21,8 +21,9 @@ public class RoundComponent : MenuComponent
     private RoundSubGameManager m_RoundSubGameManager;
     private UISettings m_UISettings;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         m_RoundSubGameManager = GameManager.Instance.GetSubManager<RoundSubGameManager>(ESubManager.Round);
         m_RoundSubGameManager.RegisterRoundComponent(this);
         RoundSubGameManager.OnRoundVictoryCounterChanged += UpdateVictoryCounters;

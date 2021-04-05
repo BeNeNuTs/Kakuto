@@ -53,8 +53,9 @@ public class TrainingOptionsMenuComponent : MenuComponent
     }
 #endif
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         TrainingOptionListener.OnValueChangedCallback += OnTrainingOptionChanged;
         InitTrainingOptionListeners();
     }

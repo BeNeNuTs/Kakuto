@@ -43,6 +43,9 @@ public class UIConfig : ScriptableObject
     public float m_DpadNavigationInputRepeatDelay = 0.5f;
     public InputUIInfo[] m_InputUIInfos;
 
+    [Separator("SFX")]
+    public UISFX m_UISFX;
+
     public InputUIInfo GetAssociatedInputUIInfo(EInputKey inputKey)
     {
         for (int i = 0; i < m_InputUIInfos.Length; i++)

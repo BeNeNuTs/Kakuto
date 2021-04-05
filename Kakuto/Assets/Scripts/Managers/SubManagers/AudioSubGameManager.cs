@@ -8,6 +8,7 @@ public class AudioSubGameManager : SubGameManagerBase
 {
     private readonly List<AttackSFX> m_AttackSFX;
     private readonly List<AnimSFX> m_AnimSFX;
+    private readonly UISFX m_UISFX;
     private readonly AudioMixerGroup m_SFXMixerGroup;
 
     private GameObject m_Player1SFXHandler;
@@ -18,13 +19,17 @@ public class AudioSubGameManager : SubGameManagerBase
     private AudioSource m_Player2AttackSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
+    private GameObject m_UISFXHandler;
+    private AudioSource m_UIAudioSource;
+
     // Except projectile audio sources
-    private List<AudioSource> m_AllSFXAudioSources = new List<AudioSource>();
+    private List<AudioSource> m_PausableSFXAudioSources = new List<AudioSource>();
 
     public AudioSubGameManager()
     {
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
         m_AnimSFX = AttackConfig.Instance.m_AnimSFX;
+        m_UISFX = UIConfig.Instance.m_UISFX;
         m_SFXMixerGroup = GameConfig.Instance.m_SFXMixerGroup;
 
         GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
@@ -44,21 +49,23 @@ public class AudioSubGameManager : SubGameManagerBase
 
     void InitAllSFX()
     {
-        CreateHandler(1, ref m_Player1SFXHandler);
-        CreateHandler(2, ref m_Player2SFXHandler);
+        CreateHandler("Player1SFXHandler", ref m_Player1SFXHandler);
+        CreateHandler("Player1SFXHandler", ref m_Player2SFXHandler);
+        CreateHandler("UISFXHandler", ref m_UISFXHandler);
 
-        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource);
-        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource);
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, true);
+        InitSFXAudioSource(ref m_UISFXHandler, ref m_UIAudioSource, false);
 
         foreach (EAnimSFXType sfxType in Enum.GetValues(typeof(EAnimSFXType)))
         {
             AudioEntry sfxEntry = m_AnimSFX[(int)sfxType].m_SFX;
             if (sfxEntry.m_Clip != null)
             {
-                AudioSource p1AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player1SFXHandler, m_SFXMixerGroup, sfxEntry.m_Clip);
+                AudioSource p1AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player1SFXHandler, m_SFXMixerGroup, true, sfxEntry.m_Clip);
                 p1AnimSFXTypeAudioSource.volume = sfxEntry.m_Volume;
 
-                AudioSource p2AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player2SFXHandler, m_SFXMixerGroup, sfxEntry.m_Clip);
+                AudioSource p2AnimSFXTypeAudioSource = CreateAudioSource(ref m_Player2SFXHandler, m_SFXMixerGroup, true, sfxEntry.m_Clip);
                 p2AnimSFXTypeAudioSource.volume = sfxEntry.m_Volume;
 
                 m_Player1AnimSFXAudioSources.Add(sfxType, p1AnimSFXTypeAudioSource);
@@ -67,25 +74,26 @@ public class AudioSubGameManager : SubGameManagerBase
         }
     }
 
-    void CreateHandler(int playerIndex, ref GameObject handler)
+    void CreateHandler(string name, ref GameObject handler)
     {
-        handler = new GameObject("Player" + playerIndex + "SFXHandler");
+        handler = new GameObject(name);
         GameObject.DontDestroyOnLoad(handler);
     }
 
-    void InitSFXAudioSource(ref GameObject handler, ref AudioSource sFXAudioSource)
+    void InitSFXAudioSource(ref GameObject handler, ref AudioSource SFXAudioSource, bool pausableAudioSource)
     {
-        sFXAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
+        SFXAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup, pausableAudioSource);
     }
 
-    AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, AudioClip defaultClip = null)
+    AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, bool pausableAudioSource, AudioClip defaultClip = null)
     {
         AudioSource newAudioSource = handler.AddComponent<AudioSource>();
         newAudioSource.clip = defaultClip;
         newAudioSource.outputAudioMixerGroup = mixerGroup;
         newAudioSource.playOnAwake = false;
 
-        m_AllSFXAudioSources.Add(newAudioSource);
+        if(pausableAudioSource)
+            m_PausableSFXAudioSources.Add(newAudioSource);
 
         return newAudioSource;
     }
@@ -121,6 +129,14 @@ public class AudioSubGameManager : SubGameManagerBase
         sourceToPlay.Stop();
     }
 
+    public void PlayUISFX(EUISFXType UISFXType)
+    {
+        AudioEntry UISFXToPlay = m_UISFX.GetSFX(UISFXType);
+        m_UIAudioSource.clip = UISFXToPlay.m_Clip;
+        m_UIAudioSource.volume = UISFXToPlay.m_Volume;
+        m_UIAudioSource.Play();
+    }
+
     private EAttackSFXType ConvertWhiffToAttackSFXType(EWhiffSFXType whiffSFXType)
     {
         switch (whiffSFXType)
@@ -145,16 +161,16 @@ public class AudioSubGameManager : SubGameManagerBase
     {
         if(isInPause)
         {
-            for (int i = 0; i < m_AllSFXAudioSources.Count; i++)
+            for (int i = 0; i < m_PausableSFXAudioSources.Count; i++)
             {
-                m_AllSFXAudioSources[i].Pause();
+                m_PausableSFXAudioSources[i].Pause();
             }
         }
         else
         {
-            for (int i = 0; i < m_AllSFXAudioSources.Count; i++)
+            for (int i = 0; i < m_PausableSFXAudioSources.Count; i++)
             {
-                m_AllSFXAudioSources[i].UnPause();
+                m_PausableSFXAudioSources[i].UnPause();
             }
         }
     }

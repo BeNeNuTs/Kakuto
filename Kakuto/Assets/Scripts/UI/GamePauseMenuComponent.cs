@@ -72,6 +72,7 @@ public class GamePauseMenuComponent : MenuComponent
             if(m_IsInPause != value)
             {
                 m_IsInPause = value;
+                m_AudioManager.PlayUISFX(EUISFXType.Pause);
                 IsInPauseChanged?.Invoke(value);
             }
         }
@@ -86,8 +87,9 @@ public class GamePauseMenuComponent : MenuComponent
     protected TimeScaleSubGameManager m_TimeScaleManager;
     protected bool m_WasTimeFrozen = false;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player1);
         GameManager.Instance.AddOnPlayerRegisteredCallback(OnPlayerRegistered, EPlayer.Player2);
 
@@ -165,6 +167,7 @@ public class GamePauseMenuComponent : MenuComponent
                         if (InputManager.GetBackInput())
                         {
                             GoToPauseMenu();
+                            m_AudioManager.PlayUISFX(EUISFXType.Back);
                         }
                     }
                     break;
@@ -175,6 +178,7 @@ public class GamePauseMenuComponent : MenuComponent
                     if (InputManager.GetBackInput())
                     {
                         GoToPauseMenu();
+                        m_AudioManager.PlayUISFX(EUISFXType.Back);
                     }
                     break;
             }

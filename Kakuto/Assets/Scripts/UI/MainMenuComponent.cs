@@ -46,6 +46,7 @@ public class MainMenuComponent : MenuComponent
                     if (InputManager.GetBackInput())
                     {
                         GoToMainMenu();
+                        m_AudioManager.PlayUISFX(EUISFXType.Back);
                     }
                 }
 

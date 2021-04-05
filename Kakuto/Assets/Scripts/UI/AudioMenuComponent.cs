@@ -159,6 +159,8 @@ public class AudioMenuComponent : MenuComponent
         GameConfig.Instance.m_MainMixer.SetFloat(key, Mathf.Log10(value) * 30f);
         m_CurrentVolumes[key] = value;
 
+        m_AudioManager.PlayUISFX(EUISFXType.Slider);
+
         if (saveVolume)
             PlayerPrefs.SetFloat(key, value);
     }

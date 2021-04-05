@@ -74,11 +74,11 @@ public class TrainingOptionListener : MonoBehaviour
     {
         if(m_IsModeOption && m_HighlightImage.enabled)
         {
-            UpdatecCurrentMode();
+            UpdateCurrentMode();
         }
     }
 
-    private void UpdatecCurrentMode()
+    private void UpdateCurrentMode()
     {
         if (EventSystem.current != null)
         {
@@ -108,6 +108,7 @@ public class TrainingOptionListener : MonoBehaviour
         }
         m_ModeText.text = m_ModeOptions[m_CurrentValue];
         m_Selectable.Select();
+        MenuComponent.m_AudioManager.PlayUISFX(EUISFXType.Navigation);
 
         OnValueChangedCallback?.Invoke(m_TrainingOption, m_CurrentValue);
     }

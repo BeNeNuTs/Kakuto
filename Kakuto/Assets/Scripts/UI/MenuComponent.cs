@@ -25,12 +25,21 @@ public abstract class MenuComponent : MonoBehaviour
         public Image m_HighlightImage;
     }
 
+    public static AudioSubGameManager m_AudioManager;
+
     private Button m_CurrentHighlightedButton;
+    private Button m_LastValidHighlightedButton;
     private HighlightInfo m_CurrentHighlight = null;
 
     private float m_LastDpadNavigationUpdatedTime = 0f;
     private bool m_ActiveDpadNavigationRepeatDelay = false;
     private bool m_DpadNavigationRepeatDelayChecked = false;
+
+    protected virtual void Awake()
+    {
+        if(m_AudioManager == null)
+            m_AudioManager = GameManager.Instance.GetSubManager<AudioSubGameManager>(ESubManager.Audio);
+    }
 
     protected void UpdateCursorVisiblity()
     {
@@ -54,8 +63,19 @@ public abstract class MenuComponent : MonoBehaviour
             if (selectedGO != null)
             {
                 Button selectedButton = selectedGO.GetComponent<Button>();
-                if (selectedButton != null && selectedButton != m_CurrentHighlightedButton)
+                if (selectedButton != m_CurrentHighlightedButton)
                 {
+                    if (selectedButton != null && 
+                        ((m_CurrentHighlightedButton == null && menuData.m_ButtonList.Contains(selectedButton) && menuData.m_ButtonList.Contains(m_LastValidHighlightedButton)) ||
+                        menuData.m_ButtonList.Contains(m_CurrentHighlightedButton)))
+                    {
+                        m_AudioManager.PlayUISFX(EUISFXType.Navigation);
+                    }
+
+                    if(m_CurrentHighlightedButton != null)
+                    {
+                        m_LastValidHighlightedButton = m_CurrentHighlightedButton;
+                    }
                     m_CurrentHighlightedButton = selectedButton;
                 }
             }
@@ -63,6 +83,11 @@ public abstract class MenuComponent : MonoBehaviour
             {
                 if (menuData.m_ButtonList.Contains(m_CurrentHighlightedButton))
                 {
+                    m_CurrentHighlightedButton?.Select();
+                }
+                else if (menuData.m_ButtonList.Contains(m_LastValidHighlightedButton))
+                {
+                    m_CurrentHighlightedButton = m_LastValidHighlightedButton;
                     m_CurrentHighlightedButton?.Select();
                 }
                 else
@@ -84,6 +109,7 @@ public abstract class MenuComponent : MonoBehaviour
                 if(m_CurrentHighlight == null || selectedGO != m_CurrentHighlight.m_SelectedGameObject)
                 {
                     bool newHighlightFound = false;
+                    bool needNavigationSFX = false;
                     for (int i = 0; i < highlightInfos.Length; i++)
                     {
                         if (selectedGO == highlightInfos[i].m_SelectedGameObject)
@@ -92,6 +118,8 @@ public abstract class MenuComponent : MonoBehaviour
                             {
                                 m_CurrentHighlight.m_HighlightImage.enabled = false;
                             }
+                            needNavigationSFX = m_CurrentHighlight == null || m_CurrentHighlight.m_HighlightImage != highlightInfos[i].m_HighlightImage;
+
                             m_CurrentHighlight = highlightInfos[i];
                             m_CurrentHighlight.m_HighlightImage.enabled = true;
                             newHighlightFound = true;
@@ -102,9 +130,14 @@ public abstract class MenuComponent : MonoBehaviour
                     {
                         if (m_CurrentHighlight != null)
                         {
-                            m_CurrentHighlight.m_HighlightImage.enabled = false;
+                            if(m_CurrentHighlight.m_HighlightImage != null)
+                                m_CurrentHighlight.m_HighlightImage.enabled = false;
                             m_CurrentHighlight = null;
                         }
+                    }
+                    else if(needNavigationSFX)
+                    {
+                        m_AudioManager.PlayUISFX(EUISFXType.Navigation);
                     }
                 }
             }
@@ -120,7 +153,12 @@ public abstract class MenuComponent : MonoBehaviour
     {
         if (InputManager.GetSubmitInput(out EPlayer submitInputPlayer))
         {
-            EventSystem.current?.currentSelectedGameObject?.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
+            GameObject selectedGameObject = EventSystem.current?.currentSelectedGameObject;
+            if(selectedGameObject != null)
+            {
+                selectedGameObject.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
+                m_AudioManager.PlayUISFX(selectedGameObject.GetComponent<Toggle>() != null ? EUISFXType.Toggle : EUISFXType.Confirm);
+            }
         }
     }
 

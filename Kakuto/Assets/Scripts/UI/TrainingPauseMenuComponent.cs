@@ -23,6 +23,7 @@ public class TrainingPauseMenuComponent : GamePauseMenuComponent
                 if (InputManager.GetBackInput())
                 {
                     GoToPauseMenu();
+                    m_AudioManager.PlayUISFX(EUISFXType.Back);
                 }
             }
         }
