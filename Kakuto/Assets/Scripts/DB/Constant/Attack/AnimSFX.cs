@@ -27,6 +27,11 @@ public enum EAnimSFXType
     Trigger,
     Super,
     Launch_Crush,
+    Papers,
+    Blast,
+    MalikEntry_SuitcaseImpact,
+    MalikEntry_SuitcaseSlide,
+    MalikEntry_Smoke,
 
     // Please update AnimSFX.COUNT
 }
@@ -34,7 +39,7 @@ public enum EAnimSFXType
 [Serializable]
 public class AnimSFX
 {
-    public static int COUNT = 14;
+    public static int COUNT = 19;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;
