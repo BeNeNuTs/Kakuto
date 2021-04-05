@@ -186,6 +186,10 @@ MonoBehaviour:
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 064423c6c1c42b3439e141ef232ca7eb, type: 3}
       m_Volume: 1
+  - m_Name: Launch_Super
+    m_SFX:
+      m_Clip: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}
+      m_Volume: 1
   - m_Name: Launch_Crush
     m_SFX:
       m_Clip: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}

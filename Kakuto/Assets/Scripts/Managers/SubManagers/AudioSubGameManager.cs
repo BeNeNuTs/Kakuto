@@ -18,17 +18,27 @@ public class AudioSubGameManager : SubGameManagerBase
     private Dictionary<EAttackSFXType, AudioSource> m_Player2AttackSFXAudioSources = new Dictionary<EAttackSFXType, AudioSource>();
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
+    private List<AudioSource> m_AllSFXAudioSources = new List<AudioSource>();
+
     public AudioSubGameManager()
     {
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
         m_AnimSFX = AttackConfig.Instance.m_AnimSFX;
         m_SFXMixerGroup = GameConfig.Instance.m_SFXMixerGroup;
+
+        GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
     }
 
     public override void Init()
     {
         base.Init();
         InitAllSFX();
+    }
+
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        GamePauseMenuComponent.IsInPauseChanged -= IsInPauseChanged;
     }
 
     void InitAllSFX()
@@ -87,6 +97,8 @@ public class AudioSubGameManager : SubGameManagerBase
         newAudioSource.outputAudioMixerGroup = mixerGroup;
         newAudioSource.playOnAwake = false;
 
+        m_AllSFXAudioSources.Add(newAudioSource);
+
         return newAudioSource;
     }
 
@@ -138,6 +150,24 @@ public class AudioSubGameManager : SubGameManagerBase
             case EWhiffSFXType.None:
             default:
                 return EAttackSFXType.Whiff_LP;
+        }
+    }
+
+    private void IsInPauseChanged(bool isInPause)
+    {
+        if(isInPause)
+        {
+            for (int i = 0; i < m_AllSFXAudioSources.Count; i++)
+            {
+                m_AllSFXAudioSources[i].Pause();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < m_AllSFXAudioSources.Count; i++)
+            {
+                m_AllSFXAudioSources[i].UnPause();
+            }
         }
     }
 }

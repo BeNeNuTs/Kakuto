@@ -26,6 +26,7 @@ public enum EAnimSFXType
     Launch,
     Trigger,
     Super,
+    Launch_Super,
     Launch_Crush,
     Papers,
     Blast,
@@ -39,7 +40,7 @@ public enum EAnimSFXType
 [Serializable]
 public class AnimSFX
 {
-    public static int COUNT = 19;
+    public static int COUNT = 20;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;
