@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+public enum EProjectileType
+{
+    Normal,
+    GuardCrush,
+    Super
+}
+
 [RequireComponent(typeof(BoxCollider2D))]
 public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
 {
@@ -7,10 +14,13 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
     public Rigidbody2D m_Rigidbody;
     public SpriteRenderer m_SpriteRenderer;
     public Animator m_Animator;
+    public AudioSource m_AudioSource;
 
     private PlayerProjectileAttackLogic m_Logic;
     private PlayerProjectileAttackConfig m_Config;
     private string m_PlayerTag = "Unknown";
+    private ProjectileSFX m_ProjectileSFX;
+    private EProjectileType m_ProjectileType;
 
     private float m_LifeTime = 0f;
 
@@ -29,14 +39,19 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
         m_Logic = logic;
         m_Config = config;
         m_PlayerTag = logic.GetOwner().tag;
+        m_ProjectileSFX = AttackConfig.Instance.m_ProjectileSFX;
+        m_ProjectileType = GetProjectileType();
 
         m_Animator.SetInteger(K_ANIM_ANGLE_INT, Mathf.FloorToInt(m_Config.m_ProjectileAngle));
         m_Animator.SetBool(K_ANIM_ISSUPER_BOOL, m_Logic.IsASuper());
         m_Animator.SetBool(K_ANIM_ISGUARDCRUSH_BOOL, m_Logic.IsGuardCrush());
 
         InitPalette();
+        PlaySFX(EProjectileSFXType.Movement);
 
         Utils.GetPlayerEventManager(m_PlayerTag).TriggerEvent(EPlayerEvent.ProjectileSpawned, new ProjectileSpawnedEventParameters(this));
+
+        GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
     }
 
     void InitPalette()
@@ -108,7 +123,8 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
                 if (m_Logic != null)
                 {
                     m_Logic.OnHandleCollision(true, true, m_Collider, collision);
-                    if(m_Config.m_ApplyConstantSpeedOnPlayerHit)
+                    PlaySFX(EProjectileSFXType.Impact);
+                    if (m_Config.m_ApplyConstantSpeedOnPlayerHit)
                     {
                         m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
                     }
@@ -125,6 +141,7 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
                 if(collisionProjectile != null && collisionProjectile.GetLogic().GetOwner().CompareTag(Utils.GetEnemyTag(m_PlayerTag))) // Collision with an enemy projectile
                 {
                     m_Logic.OnHandleCollision(false, false, m_Collider, collision);
+                    PlaySFX(EProjectileSFXType.Impact);
                     if (m_Config.m_ApplyConstantSpeedOnProjectileHit)
                     {
                         m_KeepConstantSpeedUntilFrame = Time.frameCount + m_Config.FramesToKeepProjectileAtConstantSpeed;
@@ -150,6 +167,8 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
             m_Collider.enabled = false;
             m_Animator.SetTrigger(K_ANIM_DESTRUCTION_REQUESTED_TRIGGER);
             m_DestructionRequested = true;
+
+            PlaySFX(EProjectileSFXType.Destroy);
         }
     }
 
@@ -171,7 +190,48 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
         Destroy(m_Rigidbody.gameObject);
     }
 
+    private void OnDestroy()
+    {
+        m_AudioSource.Stop();
+        GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
+    }
+
     public PlayerProjectileAttackLogic GetLogic() { return m_Logic; }
     public PlayerProjectileAttackConfig GetConfig() { return m_Config; }
     public string GetPlayerTag() { return m_PlayerTag; }
+
+    private EProjectileType GetProjectileType()
+    {
+        if(m_Logic.IsASuper())
+        {
+            return EProjectileType.Super;
+        }
+
+        if (m_Logic.IsGuardCrush())
+        {
+            return EProjectileType.GuardCrush;
+        }
+
+        return EProjectileType.Normal;
+    }
+
+    private void PlaySFX(EProjectileSFXType projectileSFXType)
+    {
+        AudioEntry sfxEntry = m_ProjectileSFX.GetSFX(m_ProjectileType, projectileSFXType);
+        if(sfxEntry != null)
+        {
+            m_AudioSource.clip = sfxEntry.m_Clip;
+            m_AudioSource.volume = sfxEntry.m_Volume;
+            m_AudioSource.loop = projectileSFXType == EProjectileSFXType.Movement;
+            m_AudioSource.Play();
+        }
+    }
+
+    private void IsInPauseChanged(bool isInPause)
+    {
+        if (isInPause)
+            m_AudioSource.Pause();
+        else
+            m_AudioSource.UnPause();
+    }
 }

@@ -11,13 +11,14 @@ public class AudioSubGameManager : SubGameManagerBase
     private readonly AudioMixerGroup m_SFXMixerGroup;
 
     private GameObject m_Player1SFXHandler;
-    private Dictionary<EAttackSFXType, AudioSource> m_Player1AttackSFXAudioSources = new Dictionary<EAttackSFXType, AudioSource>();
+    private AudioSource m_Player1AttackSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player1AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
     private GameObject m_Player2SFXHandler;
-    private Dictionary<EAttackSFXType, AudioSource> m_Player2AttackSFXAudioSources = new Dictionary<EAttackSFXType, AudioSource>();
+    private AudioSource m_Player2AttackSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
+    // Except projectile audio sources
     private List<AudioSource> m_AllSFXAudioSources = new List<AudioSource>();
 
     public AudioSubGameManager()
@@ -46,8 +47,8 @@ public class AudioSubGameManager : SubGameManagerBase
         CreateHandler(1, ref m_Player1SFXHandler);
         CreateHandler(2, ref m_Player2SFXHandler);
 
-        InitAttackSFXAudioSources(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSources);
-        InitAttackSFXAudioSources(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSources);
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource);
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource);
 
         foreach (EAnimSFXType sfxType in Enum.GetValues(typeof(EAnimSFXType)))
         {
@@ -72,13 +73,9 @@ public class AudioSubGameManager : SubGameManagerBase
         GameObject.DontDestroyOnLoad(handler);
     }
 
-    void InitAttackSFXAudioSources(ref GameObject handler, ref Dictionary<EAttackSFXType, AudioSource> attackSFXAudioSources)
+    void InitSFXAudioSource(ref GameObject handler, ref AudioSource sFXAudioSource)
     {
-        AudioSource attackAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
-        foreach (EAttackSFXType sfxType in Enum.GetValues(typeof(EAttackSFXType)))
-        {
-            attackSFXAudioSources.Add(sfxType, attackAudioSource);
-        }
+        sFXAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
     }
 
     AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, AudioClip defaultClip = null)
@@ -104,7 +101,7 @@ public class AudioSubGameManager : SubGameManagerBase
 
     public void PlayAttackSFX(int playerIndex, EAttackSFXType attackSFXType)
     {
-        AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AttackSFXAudioSources[attackSFXType] : m_Player2AttackSFXAudioSources[attackSFXType];
+        AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AttackSFXAudioSource : m_Player2AttackSFXAudioSource;
         AudioEntry[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
         AudioEntry attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
         sourceToPlay.clip = attackSFXToPlay.m_Clip;

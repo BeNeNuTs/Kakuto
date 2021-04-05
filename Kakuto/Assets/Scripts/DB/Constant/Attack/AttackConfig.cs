@@ -126,6 +126,7 @@ public class AttackConfig : ScriptableObject
     [Separator("SFX")]
     public List<AttackSFX> m_AttackSFX;
     public List<AnimSFX> m_AnimSFX;
+    public ProjectileSFX m_ProjectileSFX;
 
     void OnValidate()
     {
