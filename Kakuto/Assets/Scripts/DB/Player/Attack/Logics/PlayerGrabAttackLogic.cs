@@ -211,9 +211,9 @@ public class PlayerGrabAttackLogic : PlayerBaseAttackLogic
         }
     }
 
-    public override bool GetHitSFX(EAttackResult attackResult, ref EAttackSFXType hitSFXType)
+    public override bool GetHitSFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref EAttackSFXType hitSFXType)
     {
-        bool baseResult = base.GetHitSFX(attackResult, ref hitSFXType);
+        bool baseResult = base.GetHitSFX(attackResult, hitNotifType, ref hitSFXType);
         if (!baseResult)
         {
             switch (attackResult)

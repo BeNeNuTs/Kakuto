@@ -75,19 +75,10 @@ public class AudioSubGameManager : SubGameManagerBase
     void InitAttackSFXAudioSources(ref GameObject handler, ref Dictionary<EAttackSFXType, AudioSource> attackSFXAudioSources)
     {
         AudioSource attackAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LP, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_LK, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HP, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_HK, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Whiff_Parry, attackAudioSource);
-
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Light, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Heavy, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Throw, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Hit_Special, attackAudioSource);
-
-        attackSFXAudioSources.Add(EAttackSFXType.Blocked_Hit, attackAudioSource);
-        attackSFXAudioSources.Add(EAttackSFXType.Parry_Hit, attackAudioSource);
+        foreach (EAttackSFXType sfxType in Enum.GetValues(typeof(EAttackSFXType)))
+        {
+            attackSFXAudioSources.Add(sfxType, attackAudioSource);
+        }
     }
 
     AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, AudioClip defaultClip = null)

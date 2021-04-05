@@ -133,6 +133,14 @@ MonoBehaviour:
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 464cd0e40952959458b6bd653527a9fd, type: 3}
       m_Volume: 1
+  - m_Name: GuardCrush_Hit
+    m_SFXList:
+    - m_Clip: {fileID: 0}
+      m_Volume: 1
+  - m_Name: Counter_Hit
+    m_SFXList:
+    - m_Clip: {fileID: 0}
+      m_Volume: 1
   m_AnimSFX:
   - m_Name: Knockdown
     m_SFX:

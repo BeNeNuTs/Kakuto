@@ -297,11 +297,17 @@ public class PlayerBaseAttackLogic
         }
     }
 
-    public virtual bool GetHitSFX(EAttackResult attackResult, ref EAttackSFXType hitSFXType)
+    public virtual bool GetHitSFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref EAttackSFXType hitSFXType)
     {
         switch (attackResult)
         {
             case EAttackResult.Hit:
+                if (hitNotifType == EHitNotificationType.Counter)
+                {
+                    hitSFXType = EAttackSFXType.Counter_Hit;
+                    return true;
+                }
+
                 if (m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
                 {
                     hitSFXType = EAttackSFXType.Hit_Special;

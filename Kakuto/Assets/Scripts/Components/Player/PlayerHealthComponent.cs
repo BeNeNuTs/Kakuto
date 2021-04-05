@@ -501,7 +501,7 @@ public class PlayerHealthComponent : MonoBehaviour
         }
 
         TriggerHitFX(attackLogic, hitPoint, attackResult, hitNotificationType);
-        PlayHitSFX(attackLogic, attackResult);
+        PlayHitSFX(attackLogic, attackResult, hitNotificationType);
 
         Profiler.EndSample();
     }
@@ -536,10 +536,10 @@ public class PlayerHealthComponent : MonoBehaviour
         Profiler.EndSample();
     }
 
-    private void PlayHitSFX(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult)
+    private void PlayHitSFX(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         EAttackSFXType attackSFXType = EAttackSFXType.Hit_Light;
-        if(attackLogic.GetHitSFX(attackResult, ref attackSFXType))
+        if(attackLogic.GetHitSFX(attackResult, hitNotificationType, ref attackSFXType))
         {
             // Play attack SFX on the instigator of the hit in order to cancel whiff sfx
             m_AudioManager.PlayAttackSFX(attackLogic.GetPlayerIndex(), attackSFXType);

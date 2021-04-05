@@ -199,6 +199,22 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         base.GetHitFX(attackResult, hitNotifType, ref hitFXList);
     }
 
+    public override bool GetHitSFX(EAttackResult attackResult, EHitNotificationType hitNotifType, ref EAttackSFXType hitSFXType)
+    {
+        switch (attackResult)
+        {
+            case EAttackResult.Hit:
+                if (hitNotifType == EHitNotificationType.GuardCrush)
+                {
+                    hitSFXType = EAttackSFXType.GuardCrush_Hit;
+                    return true;
+                }
+                break;
+        }
+
+        return base.GetHitSFX(attackResult, hitNotifType, ref hitSFXType);
+    }
+
     public static void SetNextNonSuperProjectileGuardCrush(int playerIndex, bool active)
     {
         m_NextNonSuperProjectileIsGuardCrush[playerIndex] = active;
