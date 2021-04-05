@@ -135,11 +135,11 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: GuardCrush_Hit
     m_SFXList:
-    - m_Clip: {fileID: 0}
+    - m_Clip: {fileID: 8300000, guid: e969b16136b034e4b9749ba2ee9ae4ce, type: 3}
       m_Volume: 1
   - m_Name: Counter_Hit
     m_SFXList:
-    - m_Clip: {fileID: 0}
+    - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
       m_Volume: 1
   m_AnimSFX:
   - m_Name: Knockdown
@@ -196,7 +196,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Launch_Super
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}
+      m_Clip: {fileID: 8300000, guid: 7c63934b2dd9bf3498b3cdcee5b00cd2, type: 3}
       m_Volume: 1
   - m_Name: Launch_Crush
     m_SFX:
@@ -204,21 +204,49 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Papers
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 8b9cc0cd56245f74099e06502bc62c3f, type: 3}
       m_Volume: 1
   - m_Name: Blast
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 4bf724511de834c48b0670a6ca1f168e, type: 3}
       m_Volume: 1
   - m_Name: MalikEntry_SuitcaseImpact
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 79710b5e330708147905025ca2061a1e, type: 3}
       m_Volume: 1
   - m_Name: MalikEntry_SuitcaseSlide
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 8dcec7c061c01ab418652e8714017f56, type: 3}
       m_Volume: 1
   - m_Name: MalikEntry_Smoke
     m_SFX:
+      m_Clip: {fileID: 8300000, guid: 5613ff0e1f8c8074188c8fc6340aeb9a, type: 3}
+      m_Volume: 1
+  m_ProjectileSFX:
+    m_NormalMovementSFX:
+      m_Clip: {fileID: 8300000, guid: 0933b3cd2a6658845add56e40947e0aa, type: 3}
+      m_Volume: 1
+    m_GuardCrushMovementSFX:
+      m_Clip: {fileID: 8300000, guid: 1b07f284910129640920d3657c4c18c6, type: 3}
+      m_Volume: 1
+    m_SuperMovementSFX:
+      m_Clip: {fileID: 8300000, guid: a25cfe673b0547b4dbcf1f7d726a67d3, type: 3}
+      m_Volume: 1
+    m_NormalImpactSFX:
+      m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
+      m_Volume: 1
+    m_GuardCrushImpactSFX:
+      m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
+      m_Volume: 1
+    m_SuperImpactSFX:
+      m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
+      m_Volume: 1
+    m_NormalDestroySFX:
       m_Clip: {fileID: 0}
+      m_Volume: 1
+    m_GuardCrushDestroySFX:
+      m_Clip: {fileID: 8300000, guid: 010462bd64fd3f84494b37c85c8f2d08, type: 3}
+      m_Volume: 1
+    m_SuperDestroySFX:
+      m_Clip: {fileID: 8300000, guid: 2d2fd1cccfd57074e896ca59285ec796, type: 3}
       m_Volume: 1
