@@ -504,17 +504,17 @@ AnimationClip:
     floatParameter: 0
     intParameter: 18
     messageOptions: 0
+  - time: 1.5666667
+    functionName: PlaySFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 15
+    messageOptions: 0
   - time: 1.6
     functionName: PlaySFX
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 19
-    messageOptions: 0
-  - time: 1.7
-    functionName: PlaySFX
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 15
     messageOptions: 0

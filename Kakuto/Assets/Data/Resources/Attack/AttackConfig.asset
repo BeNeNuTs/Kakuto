@@ -204,11 +204,11 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Papers
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: 8b9cc0cd56245f74099e06502bc62c3f, type: 3}
+      m_Clip: {fileID: 8300000, guid: c1bde37cee5159c47807019817b92932, type: 3}
       m_Volume: 1
   - m_Name: Blast
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: 4bf724511de834c48b0670a6ca1f168e, type: 3}
+      m_Clip: {fileID: 8300000, guid: 8e43ebe9f9f624048b33dd11a81a84e1, type: 3}
       m_Volume: 1
   - m_Name: MalikEntry_SuitcaseImpact
     m_SFX:
