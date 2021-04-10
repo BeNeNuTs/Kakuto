@@ -200,7 +200,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Launch_Crush
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}
+      m_Clip: {fileID: 8300000, guid: 2f385cce4b747b444a3f09826f3ec73d, type: 3}
       m_Volume: 1
   - m_Name: Papers
     m_SFX:
@@ -242,7 +242,7 @@ MonoBehaviour:
       m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
       m_Volume: 1
     m_NormalDestroySFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: e06340a3c37544742acf8f0aed1f23eb, type: 3}
       m_Volume: 1
     m_GuardCrushDestroySFX:
       m_Clip: {fileID: 8300000, guid: 010462bd64fd3f84494b37c85c8f2d08, type: 3}
