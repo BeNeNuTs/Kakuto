@@ -24,6 +24,8 @@ public class CharacterController2D : MonoBehaviour
 
     public Rigidbody2D m_Rigidbody2D;
     private Vector2 m_Velocity = Vector2.zero;
+    private bool m_HasPushback = false;
+    private float m_MaxPushbackXVelocity;
     private bool m_FacingRight;                                 // For determining which side the player is currently facing.
     private bool m_MovingRight;
 
@@ -56,6 +58,32 @@ public class CharacterController2D : MonoBehaviour
     {
         GroundCheck();
         UpdateFalling();
+        ControlPushbackVelocity();
+    }
+
+    private void ControlPushbackVelocity()
+    {
+        if (m_HasPushback)
+        {
+            if (m_StunInfoSC.IsStunned())
+            {
+                Vector2 rbVel = m_Rigidbody2D.velocity;
+                if(m_MaxPushbackXVelocity > 0f)
+                {
+                    rbVel.x = Mathf.Min(rbVel.x, m_MaxPushbackXVelocity);
+                }
+                else
+                {
+                    rbVel.x = Mathf.Max(rbVel.x, m_MaxPushbackXVelocity);
+                }
+                m_Rigidbody2D.velocity = rbVel;
+                m_MaxPushbackXVelocity = rbVel.x;
+            }
+            else
+            {
+                m_HasPushback = false;
+            }
+        }
     }
 
     private void GroundCheck()
@@ -299,6 +327,8 @@ public class CharacterController2D : MonoBehaviour
     {
         StopMovement();
         m_Rigidbody2D.AddForce(new Vector2((m_FacingRight) ? -pushForce : pushForce, 0f), ForceMode2D.Impulse);
+        m_MaxPushbackXVelocity = m_Rigidbody2D.velocity.x;
+        m_HasPushback = true;
     }
 
     public void StopMovement()
@@ -306,6 +336,7 @@ public class CharacterController2D : MonoBehaviour
         m_Velocity = Vector2.zero;
         m_Rigidbody2D.velocity = m_Velocity;
         m_ShouldUpdateFalling = false;
+        m_HasPushback = false;
     }
 
     public bool CanJump()
