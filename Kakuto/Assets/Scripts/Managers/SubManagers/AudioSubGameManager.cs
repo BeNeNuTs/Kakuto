@@ -50,7 +50,7 @@ public class AudioSubGameManager : SubGameManagerBase
     void InitAllSFX()
     {
         CreateHandler("Player1SFXHandler", ref m_Player1SFXHandler);
-        CreateHandler("Player1SFXHandler", ref m_Player2SFXHandler);
+        CreateHandler("Player2SFXHandler", ref m_Player2SFXHandler);
         CreateHandler("UISFXHandler", ref m_UISFXHandler);
 
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
