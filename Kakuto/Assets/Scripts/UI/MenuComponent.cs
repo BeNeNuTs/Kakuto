@@ -157,7 +157,15 @@ public abstract class MenuComponent : MonoBehaviour
             if(selectedGameObject != null)
             {
                 selectedGameObject.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
-                m_AudioManager.PlayUISFX(selectedGameObject.GetComponent<Toggle>() != null ? EUISFXType.Toggle : EUISFXType.Confirm);
+                Button button = selectedGameObject.GetComponent<Button>();
+                if(button != null && button.onClick != null && button.onClick.GetPersistentEventCount() > 0)
+                {
+                    m_AudioManager.PlayUISFX(EUISFXType.Confirm);
+                }
+                else if(selectedGameObject.GetComponent<Toggle>() != null)
+                {
+                    m_AudioManager.PlayUISFX(EUISFXType.Toggle);
+                }
             }
         }
     }
