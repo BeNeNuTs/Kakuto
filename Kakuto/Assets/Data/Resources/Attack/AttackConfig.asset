@@ -75,6 +75,8 @@ MonoBehaviour:
     m_FX: {fileID: 1313311603478089952, guid: 2f4f31f56d9577840b9f00ccccc7bda2, type: 3}
   - m_Name: Teleport
     m_FX: {fileID: 1313311603478089952, guid: 0f7fb3de824bc8c4bb3fecc094ae53a1, type: 3}
+  - m_Name: Papers
+    m_FX: {fileID: 1313311603478089952, guid: 75d8c3196f0531c4c8848145a0bacc23, type: 3}
   m_OnDeathTimeScaleParams: {fileID: 11400000, guid: 676e15e67f8981f4daf38e3546fa2b58,
     type: 2}
   m_OnDeathCamShakeParams: {fileID: 11400000, guid: 4d128c1d48c006a40a51556b3ce6bd1c,

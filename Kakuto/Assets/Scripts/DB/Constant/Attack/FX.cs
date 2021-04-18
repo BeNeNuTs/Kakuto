@@ -7,7 +7,8 @@ public enum EFXType
     Dash,
     Jump,
     Landing,
-    Teleport
+    Teleport,
+    Papers
 
     // Please update FX.COUNT
 }
@@ -15,7 +16,7 @@ public enum EFXType
 [Serializable]
 public class FX
 {
-    public static int COUNT = 5;
+    public static int COUNT = 6;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;
