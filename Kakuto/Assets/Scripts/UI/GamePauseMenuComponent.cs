@@ -72,7 +72,6 @@ public class GamePauseMenuComponent : MenuComponent
             if(m_IsInPause != value)
             {
                 m_IsInPause = value;
-                m_AudioManager.PlayUISFX(EUISFXType.Pause);
                 IsInPauseChanged?.Invoke(value);
             }
         }
@@ -130,6 +129,7 @@ public class GamePauseMenuComponent : MenuComponent
             {
                 m_PauseImage.sprite = (m_PausePlayer == EPlayer.Player1) ? m_Player1PauseSprite : m_Player2PauseSprite;
                 GoToPauseMenu();
+                m_AudioManager.PlayUISFX(EUISFXType.Pause);
                 return;
             }
         }
@@ -140,6 +140,7 @@ public class GamePauseMenuComponent : MenuComponent
                 if (startInputPlayer == m_PausePlayer)
                 {
                     DisablePauseMenu();
+                    m_AudioManager.PlayUISFX(EUISFXType.Pause);
                     return;
                 }
             }
@@ -155,6 +156,7 @@ public class GamePauseMenuComponent : MenuComponent
                         if (backInputPlayer == m_PausePlayer)
                         {
                             DisablePauseMenu();
+                            m_AudioManager.PlayUISFX(EUISFXType.Back);
                         }
                     }
                     break;
