@@ -20,7 +20,7 @@ public class AudioSubGameManager : SubGameManagerBase
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
     private GameObject m_UISFXHandler;
-    private AudioSource m_UIAudioSource;
+    private Dictionary<EUISFXType, AudioSource> m_UIAudioSources = new Dictionary<EUISFXType, AudioSource>();
 
     // Except projectile audio sources
     private List<AudioSource> m_PausableSFXAudioSources = new List<AudioSource>();
@@ -55,7 +55,17 @@ public class AudioSubGameManager : SubGameManagerBase
 
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
         InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, true);
-        InitSFXAudioSource(ref m_UISFXHandler, ref m_UIAudioSource, false);
+
+        foreach (EUISFXType sfxType in Enum.GetValues(typeof(EUISFXType)))
+        {
+            AudioEntry sfxEntry = m_UISFX.GetSFX(sfxType);
+            if (sfxEntry.m_Clip != null)
+            {
+                AudioSource SFXTypeAudioSource = CreateAudioSource(ref m_UISFXHandler, m_SFXMixerGroup, false, sfxEntry.m_Clip);
+                SFXTypeAudioSource.volume = sfxEntry.m_Volume;
+                m_UIAudioSources.Add(sfxType, SFXTypeAudioSource);
+            }
+        }
 
         foreach (EAnimSFXType sfxType in Enum.GetValues(typeof(EAnimSFXType)))
         {
@@ -131,10 +141,7 @@ public class AudioSubGameManager : SubGameManagerBase
 
     public void PlayUISFX(EUISFXType UISFXType)
     {
-        AudioEntry UISFXToPlay = m_UISFX.GetSFX(UISFXType);
-        m_UIAudioSource.clip = UISFXToPlay.m_Clip;
-        m_UIAudioSource.volume = UISFXToPlay.m_Volume;
-        m_UIAudioSource.Play();
+        m_UIAudioSources[UISFXType].Play();
     }
 
     private EAttackSFXType ConvertWhiffToAttackSFXType(EWhiffSFXType whiffSFXType)
