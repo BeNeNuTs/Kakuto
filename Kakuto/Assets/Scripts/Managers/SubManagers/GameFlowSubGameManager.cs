@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,10 @@ public class GameFlowSubGameManager : SubGameManagerBase
     LoadingScreenComponent m_LoadingScreenComponent;
 
     bool m_IsLoading;
+    string m_PreviousScene;
     string m_SceneToLoad;
+
+    public static Action<bool, string, string> OnLoadingScene;
 
     public override void Init()
     {
@@ -35,7 +39,9 @@ public class GameFlowSubGameManager : SubGameManagerBase
         m_LoadingScreenComponent.m_OnLoadingScreenReady += OnLoadingScreenReady;
 
         m_IsLoading = true;
+        m_PreviousScene = SceneManager.GetActiveScene().name;
         m_SceneToLoad = sceneName;
+        OnLoadingScene?.Invoke(true, m_PreviousScene, m_SceneToLoad);
         GamePauseMenuComponent.IsInPause = false;
     }
 
@@ -59,6 +65,8 @@ public class GameFlowSubGameManager : SubGameManagerBase
     private void EndOfLoading()
     {
         m_LoadingScreenComponent.EndLoading();
+
+        OnLoadingScene?.Invoke(false, m_PreviousScene, m_SceneToLoad);
         m_IsLoading = false;
         m_SceneToLoad = string.Empty;
     }

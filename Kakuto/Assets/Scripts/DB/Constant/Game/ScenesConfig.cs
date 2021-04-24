@@ -99,6 +99,7 @@ public class SceneSettings
     public PlayerSettings[] m_PlayerSettings;
     public UISettings m_UISettings;
     public DebugSettings m_DebugSettings;
+    public AudioEntry m_MusicSettings;
 }
 
 public class ScenesConfig : ScriptableObject
@@ -161,8 +162,21 @@ public class ScenesConfig : ScriptableObject
         return GetPlayerSettings(playerIndex);
     }
 
+    public static List<SceneSettings> GetAllSceneSettings()
+    {
+        return Instance.m_SceneSettings;
+    }
+
     public static SceneSettings GetSceneSettings(string sceneName)
     {
+#if UNITY_EDITOR
+        if (sceneName == "Menu")
+        {
+            KakutoDebug.LogError("Menu scene settings should not be used");
+            return null;
+        }
+#endif
+
         foreach (SceneSettings sceneSettings in Instance.m_SceneSettings)
         {
             if (sceneSettings.m_Scene == sceneName)

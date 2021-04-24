@@ -75,4 +75,11 @@ public class GameConfig : ScriptableObject
     public AudioMixerGroup m_MusicMixerGroup;
     public AudioMixerGroup m_SFXMixerGroup;
     public AudioMixerGroup m_VoiceMixerGroup;
+
+    [Header("Music transition")]
+    public float m_TimeBeforeDecreasingMusicVolume = 0.5f;
+    public float m_TimeToDecreaseMusicVolume = 1f;
+
+    public float m_TimeBeforeIncreasingMusicVolume = 1f;
+    public float m_TimeToIncreaseMusicVolume = 1f;
 }

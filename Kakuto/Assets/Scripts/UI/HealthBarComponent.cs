@@ -60,10 +60,11 @@ public class HealthBarComponent : MonoBehaviour
 
         float initialFillAmount = imageToUpdate.fillAmount;
         float currentTime = 0.0f;
+        float duration = UIConfig.Instance.m_TimeToFillHealthBar;
         while (imageToUpdate.fillAmount != healthRatio)
         {
             imageToUpdate.fillAmount = Mathf.Lerp(initialFillAmount, healthRatio, currentTime);
-            currentTime += Time.deltaTime / UIConfig.Instance.m_TimeToFillHealthBar;
+            currentTime += Time.deltaTime / duration;
             yield return null;
         }
     }

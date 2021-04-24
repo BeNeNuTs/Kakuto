@@ -1,15 +1,33 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class AudioSubGameManager : SubGameManagerBase
 {
+    public class MusicSettings
+    {
+        public AudioEntry m_MusicEntry;
+        public AudioSource m_MusicSource;
+
+        public MusicSettings(AudioEntry entry, AudioSource source)
+        {
+            m_MusicEntry = entry;
+            m_MusicSource = source;
+        }
+    }
+
     private readonly List<AttackSFX> m_AttackSFX;
     private readonly List<AnimSFX> m_AnimSFX;
     private readonly UISFX m_UISFX;
+    private readonly AudioMixerGroup m_MusicMixerGroup;
     private readonly AudioMixerGroup m_SFXMixerGroup;
+
+    private GameObject m_MusicHandler;
+    private Dictionary<string, MusicSettings> m_MusicAudioSources = new Dictionary<string, MusicSettings>();
 
     private GameObject m_Player1SFXHandler;
     private AudioSource m_Player1AttackSFXAudioSource;
@@ -30,31 +48,47 @@ public class AudioSubGameManager : SubGameManagerBase
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
         m_AnimSFX = AttackConfig.Instance.m_AnimSFX;
         m_UISFX = UIConfig.Instance.m_UISFX;
+        m_MusicMixerGroup = GameConfig.Instance.m_MusicMixerGroup;
         m_SFXMixerGroup = GameConfig.Instance.m_SFXMixerGroup;
 
         GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
+        GameFlowSubGameManager.OnLoadingScene += OnLoadingScene;
     }
 
     public override void Init()
     {
         base.Init();
-        InitAllSFX();
+        InitAllAudio();
     }
 
     public override void Shutdown()
     {
         base.Shutdown();
         GamePauseMenuComponent.IsInPauseChanged -= IsInPauseChanged;
+        GameFlowSubGameManager.OnLoadingScene -= OnLoadingScene;
     }
 
-    void InitAllSFX()
+    void InitAllAudio()
     {
+        CreateHandler("MusicHandler", ref m_MusicHandler);
         CreateHandler("Player1SFXHandler", ref m_Player1SFXHandler);
         CreateHandler("Player2SFXHandler", ref m_Player2SFXHandler);
         CreateHandler("UISFXHandler", ref m_UISFXHandler);
 
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
         InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, true);
+
+        List<SceneSettings> allSceneSettings = ScenesConfig.GetAllSceneSettings();
+        for(int i = 0; i < allSceneSettings.Count; i++)
+        {
+            AudioEntry musicEntry = allSceneSettings[i].m_MusicSettings;
+            if (musicEntry.m_Clip != null)
+            {
+                AudioSource musicAudioSource = CreateAudioSource(ref m_MusicHandler, m_MusicMixerGroup, false, musicEntry.m_Clip);
+                musicAudioSource.volume = musicEntry.m_Volume;
+                m_MusicAudioSources.Add(allSceneSettings[i].m_Scene, new MusicSettings(musicEntry, musicAudioSource));
+            }
+        }
 
         foreach (EUISFXType sfxType in Enum.GetValues(typeof(EUISFXType)))
         {
@@ -179,6 +213,57 @@ public class AudioSubGameManager : SubGameManagerBase
             {
                 m_PausableSFXAudioSources[i].UnPause();
             }
+        }
+    }
+
+    private void OnLoadingScene(bool isLoading, string previousScene, string newScene)
+    {
+        if(!isLoading)
+        {
+            GameManager.Instance.StartCoroutine(StopMusic(m_MusicAudioSources[previousScene]));
+            GameManager.Instance.StartCoroutine(StartMusic(m_MusicAudioSources[newScene]));
+        }
+    }
+
+    private IEnumerator StopMusic(MusicSettings musicSettings)
+    {
+        yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeDecreasingMusicVolume);
+
+        float startingTime = Time.unscaledTime;
+
+        float initialVolume = musicSettings.m_MusicSource.volume;
+        float finalVolume = 0f;
+        float currentTime = 0.0f;
+        float duration = GameConfig.Instance.m_TimeToDecreaseMusicVolume;
+        while (initialVolume > 0f)
+        {
+            musicSettings.m_MusicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
+            currentTime += Time.deltaTime / duration;
+            yield return null;
+        }
+
+        musicSettings.m_MusicSource.Stop();
+    }
+
+    private IEnumerator StartMusic(MusicSettings musicSettings)
+    {
+        yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeIncreasingMusicVolume);
+
+        AudioSource musicSource = musicSettings.m_MusicSource;
+        musicSource.volume = 0f;
+        musicSource.Play();
+
+        float startingTime = Time.unscaledTime;
+
+        float initialVolume = 0f;
+        float finalVolume = musicSettings.m_MusicEntry.m_Volume;
+        float currentTime = 0.0f;
+        float duration = GameConfig.Instance.m_TimeToIncreaseMusicVolume;
+        while (initialVolume > 0f)
+        {
+            musicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
+            currentTime += Time.deltaTime / duration;
+            yield return null;
         }
     }
 }
