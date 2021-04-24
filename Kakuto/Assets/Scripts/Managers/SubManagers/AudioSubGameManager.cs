@@ -218,10 +218,17 @@ public class AudioSubGameManager : SubGameManagerBase
 
     private void OnLoadingScene(bool isLoading, string previousScene, string newScene)
     {
-        if(!isLoading)
+        if(!isLoading && previousScene != newScene)
         {
-            GameManager.Instance.StartCoroutine(StopMusic(m_MusicAudioSources[previousScene]));
-            GameManager.Instance.StartCoroutine(StartMusic(m_MusicAudioSources[newScene]));
+            if(m_MusicAudioSources.TryGetValue(previousScene, out MusicSettings previousMusic) &&
+                m_MusicAudioSources.TryGetValue(newScene, out MusicSettings newMusic))
+            {
+                if(previousMusic.m_MusicEntry.m_Clip != newMusic.m_MusicEntry.m_Clip)
+                {
+                    GameManager.Instance.StartCoroutine(StopMusic(previousMusic));
+                    GameManager.Instance.StartCoroutine(StartMusic(newMusic));
+                }
+            }               
         }
     }
 
