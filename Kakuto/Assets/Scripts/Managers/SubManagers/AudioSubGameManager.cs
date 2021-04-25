@@ -21,6 +21,7 @@ public class AudioSubGameManager : SubGameManagerBase
     }
 
     private readonly List<AttackSFX> m_AttackSFX;
+    private readonly HeavyHitGruntSFX m_HeavyHitGruntSFX;
     private readonly List<AnimSFX> m_AnimSFX;
     private readonly UISFX m_UISFX;
     private readonly AudioMixerGroup m_MusicMixerGroup;
@@ -31,10 +32,12 @@ public class AudioSubGameManager : SubGameManagerBase
 
     private GameObject m_Player1SFXHandler;
     private AudioSource m_Player1AttackSFXAudioSource;
+    private AudioSource m_Player1HeavyHitGruntSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player1AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
     private GameObject m_Player2SFXHandler;
     private AudioSource m_Player2AttackSFXAudioSource;
+    private AudioSource m_Player2HeavyHitGruntSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
     private GameObject m_UISFXHandler;
@@ -46,6 +49,7 @@ public class AudioSubGameManager : SubGameManagerBase
     public AudioSubGameManager()
     {
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
+        m_HeavyHitGruntSFX = AttackConfig.Instance.m_HeavyHitGruntSFX;
         m_AnimSFX = AttackConfig.Instance.m_AnimSFX;
         m_UISFX = UIConfig.Instance.m_UISFX;
         m_MusicMixerGroup = GameConfig.Instance.m_MusicMixerGroup;
@@ -76,7 +80,10 @@ public class AudioSubGameManager : SubGameManagerBase
         CreateHandler("UISFXHandler", ref m_UISFXHandler);
 
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1HeavyHitGruntSFXAudioSource, true);
+
         InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, true);
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2HeavyHitGruntSFXAudioSource, true);
 
         List<SceneSettings> allSceneSettings = ScenesConfig.GetAllSceneSettings();
         for(int i = 0; i < allSceneSettings.Count; i++)
@@ -159,6 +166,19 @@ public class AudioSubGameManager : SubGameManagerBase
         sourceToPlay.clip = attackSFXToPlay.m_Clip;
         sourceToPlay.volume = attackSFXToPlay.m_Volume;
         sourceToPlay.Play();
+
+        if(attackSFXType == EAttackSFXType.Hit_Heavy)
+        {
+            float random = Random.Range(0f, 1f);
+            if(random <= m_HeavyHitGruntSFX.m_GruntProbability)
+            {
+                AudioSource gruntSourceToPlay = (playerIndex == 0) ? m_Player1HeavyHitGruntSFXAudioSource : m_Player2HeavyHitGruntSFXAudioSource;
+                AudioEntry gruntSFXToPlay = m_HeavyHitGruntSFX.m_GruntSFX[Random.Range(0, m_HeavyHitGruntSFX.m_GruntSFX.Length)];
+                gruntSourceToPlay.clip = gruntSFXToPlay.m_Clip;
+                gruntSourceToPlay.volume = gruntSFXToPlay.m_Volume;
+                gruntSourceToPlay.Play();
+            }
+        }
     }
 
     public void PlayAnimSFX(int playerIndex, EAnimSFXType animSFXType)

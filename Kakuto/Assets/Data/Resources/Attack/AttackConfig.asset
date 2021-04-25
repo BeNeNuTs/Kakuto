@@ -147,6 +147,11 @@ MonoBehaviour:
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
       m_Volume: 1
+  m_HeavyHitGruntSFX:
+    m_GruntProbability: 0.5
+    m_GruntSFX:
+    - m_Clip: {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
+      m_Volume: 1
   m_AnimSFX:
   - m_Name: Knockdown
     m_SFX:

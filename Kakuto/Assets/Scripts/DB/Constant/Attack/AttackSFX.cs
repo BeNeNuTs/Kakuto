@@ -51,3 +51,11 @@ public class AttackSFX
     }
 }
 
+[Serializable]
+public class HeavyHitGruntSFX
+{
+    [Range(0, 1)]
+    public float m_GruntProbability = 0.5f;
+    public AudioEntry[] m_GruntSFX;
+}
+

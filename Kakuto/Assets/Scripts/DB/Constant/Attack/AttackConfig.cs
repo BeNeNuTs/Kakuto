@@ -125,6 +125,7 @@ public class AttackConfig : ScriptableObject
 
     [Separator("SFX")]
     public List<AttackSFX> m_AttackSFX;
+    public HeavyHitGruntSFX m_HeavyHitGruntSFX;
     public List<AnimSFX> m_AnimSFX;
     public ProjectileSFX m_ProjectileSFX;
 
