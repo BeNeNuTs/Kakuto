@@ -117,6 +117,7 @@ public class RoundComponent : MenuComponent
         m_P2Wins.enabled = !p1wins;
 
         m_EndRoundButtons.SetActive(true);
+        m_AudioManager.PlayVoiceSFX(p1wins ? EVoiceSFXType.P1Wins : EVoiceSFXType.P2Wins);
         m_DefaultSelectedButton.Select();
     }
 
@@ -128,5 +129,10 @@ public class RoundComponent : MenuComponent
     public void BackToMainMenu()
     {
         GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow).LoadScene("Menu", false);
+    }
+
+    public void PlayVoiceSFX(EVoiceSFXType voiceSFXType)
+    {
+        m_AudioManager.PlayVoiceSFX(voiceSFXType);
     }
 }

@@ -24,8 +24,10 @@ public class AudioSubGameManager : SubGameManagerBase
     private readonly HeavyHitGruntSFX m_HeavyHitGruntSFX;
     private readonly List<AnimSFX> m_AnimSFX;
     private readonly UISFX m_UISFX;
+    private readonly VoiceSFX m_VoiceSFX;
     private readonly AudioMixerGroup m_MusicMixerGroup;
     private readonly AudioMixerGroup m_SFXMixerGroup;
+    private readonly AudioMixerGroup m_VoiceMixerGroup;
 
     private GameObject m_MusicHandler;
     private Dictionary<string, MusicSettings> m_MusicAudioSources = new Dictionary<string, MusicSettings>();
@@ -43,6 +45,9 @@ public class AudioSubGameManager : SubGameManagerBase
     private GameObject m_UISFXHandler;
     private Dictionary<EUISFXType, AudioSource> m_UIAudioSources = new Dictionary<EUISFXType, AudioSource>();
 
+    private GameObject m_VoiceSFXHandler;
+    private AudioSource m_VoiceSFXAudioSource;
+
     // Except projectile audio sources
     private List<AudioSource> m_PausableSFXAudioSources = new List<AudioSource>();
 
@@ -51,9 +56,13 @@ public class AudioSubGameManager : SubGameManagerBase
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
         m_HeavyHitGruntSFX = AttackConfig.Instance.m_HeavyHitGruntSFX;
         m_AnimSFX = AttackConfig.Instance.m_AnimSFX;
+
         m_UISFX = UIConfig.Instance.m_UISFX;
+        m_VoiceSFX = UIConfig.Instance.m_VoiceSFX;
+
         m_MusicMixerGroup = GameConfig.Instance.m_MusicMixerGroup;
         m_SFXMixerGroup = GameConfig.Instance.m_SFXMixerGroup;
+        m_VoiceMixerGroup = GameConfig.Instance.m_VoiceMixerGroup;
 
         GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
         GameFlowSubGameManager.OnLoadingScene += OnLoadingScene;
@@ -78,12 +87,15 @@ public class AudioSubGameManager : SubGameManagerBase
         CreateHandler("Player1SFXHandler", ref m_Player1SFXHandler);
         CreateHandler("Player2SFXHandler", ref m_Player2SFXHandler);
         CreateHandler("UISFXHandler", ref m_UISFXHandler);
+        CreateHandler("VoiceSFXHandler", ref m_VoiceSFXHandler);
 
-        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, true);
-        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1HeavyHitGruntSFXAudioSource, true);
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, m_SFXMixerGroup, true);
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1HeavyHitGruntSFXAudioSource, m_SFXMixerGroup, true);
 
-        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, true);
-        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2HeavyHitGruntSFXAudioSource, true);
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, m_SFXMixerGroup, true);
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2HeavyHitGruntSFXAudioSource, m_SFXMixerGroup, true);
+
+        InitSFXAudioSource(ref m_VoiceSFXHandler, ref m_VoiceSFXAudioSource, m_VoiceMixerGroup, true);
 
         List<SceneSettings> allSceneSettings = ScenesConfig.GetAllSceneSettings();
         for(int i = 0; i < allSceneSettings.Count; i++)
@@ -131,9 +143,9 @@ public class AudioSubGameManager : SubGameManagerBase
         GameObject.DontDestroyOnLoad(handler);
     }
 
-    void InitSFXAudioSource(ref GameObject handler, ref AudioSource SFXAudioSource, bool pausableAudioSource)
+    void InitSFXAudioSource(ref GameObject handler, ref AudioSource SFXAudioSource, AudioMixerGroup mixerGroup, bool pausableAudioSource)
     {
-        SFXAudioSource = CreateAudioSource(ref handler, m_SFXMixerGroup, pausableAudioSource);
+        SFXAudioSource = CreateAudioSource(ref handler, mixerGroup, pausableAudioSource);
     }
 
     AudioSource CreateAudioSource(ref GameObject handler, AudioMixerGroup mixerGroup, bool pausableAudioSource, AudioClip defaultClip = null)
@@ -196,6 +208,14 @@ public class AudioSubGameManager : SubGameManagerBase
     public void PlayUISFX(EUISFXType UISFXType)
     {
         m_UIAudioSources[UISFXType].Play();
+    }
+
+    public void PlayVoiceSFX(EVoiceSFXType voiceSFXType)
+    {
+        AudioEntry voiceEntry = m_VoiceSFX.GetSFX(voiceSFXType);
+        m_VoiceSFXAudioSource.clip = voiceEntry.m_Clip;
+        m_VoiceSFXAudioSource.volume = voiceEntry.m_Volume;
+        m_VoiceSFXAudioSource.Play();
     }
 
     private EAttackSFXType ConvertWhiffToAttackSFXType(EWhiffSFXType whiffSFXType)

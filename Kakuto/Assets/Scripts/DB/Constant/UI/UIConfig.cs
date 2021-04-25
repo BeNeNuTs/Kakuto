@@ -46,6 +46,9 @@ public class UIConfig : ScriptableObject
     [Separator("SFX")]
     public UISFX m_UISFX;
 
+    [Header("Voices")]
+    public VoiceSFX m_VoiceSFX;
+
     public InputUIInfo GetAssociatedInputUIInfo(EInputKey inputKey)
     {
         for (int i = 0; i < m_InputUIInfos.Length; i++)

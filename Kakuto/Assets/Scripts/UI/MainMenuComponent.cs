@@ -19,6 +19,11 @@ public class MainMenuComponent : MenuComponent
 
     private EMenuState m_MenuState = EMenuState.TitleScreen;
 
+    protected void Start()
+    {
+        m_AudioManager.PlayVoiceSFX(EVoiceSFXType.GameIntro);
+    }
+
     protected void Update()
     {
         UpdateCursorVisiblity();
