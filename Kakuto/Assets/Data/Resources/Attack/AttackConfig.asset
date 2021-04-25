@@ -224,6 +224,14 @@ MonoBehaviour:
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 5613ff0e1f8c8074188c8fc6340aeb9a, type: 3}
       m_Volume: 1
+  - m_Name: Voice_Hado
+    m_SFX:
+      m_Clip: {fileID: 0}
+      m_Volume: 1
+  - m_Name: Voice_Super
+    m_SFX:
+      m_Clip: {fileID: 0}
+      m_Volume: 1
   m_ProjectileSFX:
     m_NormalMovementSFX:
       m_Clip: {fileID: 8300000, guid: 0933b3cd2a6658845add56e40947e0aa, type: 3}
