@@ -23,6 +23,7 @@ public enum EAttackSFXType
     Hit_Heavy,
     Hit_Throw,
     Hit_Special,
+    Hit_KO,
 
     Blocked_Hit,
     Parry_Hit,
@@ -35,7 +36,7 @@ public enum EAttackSFXType
 [Serializable]
 public class AttackSFX
 {
-    public static int COUNT = 13;
+    public static int COUNT = 14;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;

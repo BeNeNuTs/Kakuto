@@ -127,6 +127,10 @@ MonoBehaviour:
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
       m_Volume: 1
+  - m_Name: Hit_KO
+    m_SFXList:
+    - m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
+      m_Volume: 1
   - m_Name: Blocked_Hit
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: cd277446ca001f746881017d884aff39, type: 3}

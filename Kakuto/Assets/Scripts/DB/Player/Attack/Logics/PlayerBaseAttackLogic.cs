@@ -302,6 +302,12 @@ public class PlayerBaseAttackLogic
         switch (attackResult)
         {
             case EAttackResult.Hit:
+                if(IsHitKO())
+                {
+                    hitSFXType = EAttackSFXType.Hit_KO;
+                    return true;
+                }
+
                 if (hitNotifType == EHitNotificationType.Counter)
                 {
                     hitSFXType = EAttackSFXType.Counter_Hit;
