@@ -35,6 +35,9 @@ public enum EAnimSFXType
     MalikEntry_Smoke,
 
     Voice_Hado,
+    Voice_ExHado,
+    Voice_Overhead,
+    Voice_Trigger,
     Voice_Super
 
     // Please update AnimSFX.COUNT
@@ -43,7 +46,7 @@ public enum EAnimSFXType
 [Serializable]
 public class AnimSFX
 {
-    public static int COUNT = 22;
+    public static int COUNT = 25;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;
