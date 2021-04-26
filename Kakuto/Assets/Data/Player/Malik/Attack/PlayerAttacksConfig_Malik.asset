@@ -536,6 +536,102 @@ MonoBehaviour:
       type: 2}
     m_AttackConfig: {fileID: 11400000, guid: c4ec831d1e818114ba9cad98b2b9cd65, type: 2}
     m_WhiffSFXType: 0
+  - m_Name: EX_HadoAir
+    m_Description: 
+    m_AnimationAttackName: 16
+    m_NeededStanceList: 00000000
+    m_UseDefaultStance: 1
+    m_DefaultStance: 0
+    m_IsASuper: 0
+    m_IsEXAttack: 1
+    m_CanJuggleLaunch: 1
+    m_CanJuggleHit: 0
+    m_HasCondition: 1
+    m_SuperGaugeAmountNeeded: 25
+    m_HasAttackRequirement: 0
+    m_AttackRequired: 0
+    m_HasMovementRequirement: 0
+    m_MovementRequiredList: 
+    m_InputStringList:
+    - "\u2193\u2198\u2192 + LT"
+    - "\u2193\u2198\u2192 + standLK + standHK"
+    - "\u2193\u2198\u2192 + standHK + standLK"
+    - "\u2198\u2192 + LT"
+    - "\u2198\u2192 + standLK + standHK"
+    - "\u2198\u2192 + standHK + standLK"
+    m_ComputedInputStringList:
+    - "\u2193\u2198\u2192LT"
+    - "\u2193\u2198\u2192BA"
+    - "\u2193\u2198\u2192AB"
+    - "\u2198\u2192LT"
+    - "\u2198\u2192BA"
+    - "\u2198\u2192AB"
+    m_ComputedGameInputList:
+    - m_GameInputList:
+      - m_InputString: "\u2193"
+        m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: LT
+        m_InputKey: 14
+    - m_GameInputList:
+      - m_InputString: "\u2193"
+        m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: B
+        m_InputKey: 9
+      - m_InputString: A
+        m_InputKey: 8
+    - m_GameInputList:
+      - m_InputString: "\u2193"
+        m_InputKey: 0
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: A
+        m_InputKey: 8
+      - m_InputString: B
+        m_InputKey: 9
+    - m_GameInputList:
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: LT
+        m_InputKey: 14
+    - m_GameInputList:
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: B
+        m_InputKey: 9
+      - m_InputString: A
+        m_InputKey: 8
+    - m_GameInputList:
+      - m_InputString: "\u2198"
+        m_InputKey: 1
+      - m_InputString: "\u2192"
+        m_InputKey: 2
+      - m_InputString: A
+        m_InputKey: 8
+      - m_InputString: B
+        m_InputKey: 9
+    m_BlockMovement: 1
+    m_UseTimeScaleEffect: 1
+    m_TimeScaleParams: {fileID: 11400000, guid: e3516fda8dee08c4fa9427f5a4018eef,
+      type: 2}
+    m_UseCameraShakeEffect: 1
+    m_CameraShakeParams: {fileID: 11400000, guid: c5fc81eae7480d94f8adf15c6bbf6d78,
+      type: 2}
+    m_AttackConfig: {fileID: 11400000, guid: 4e1c8882a066b774dad888f012580ce2, type: 2}
+    m_WhiffSFXType: 0
   - m_Name: infernoAfterHado
     m_Description: Buffer hado > super
     m_AnimationAttackName: 21
