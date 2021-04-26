@@ -52,7 +52,7 @@ MonoBehaviour:
       m_DisplayGamepadInfo: 1
       m_DisplayBoxColliders: 1
     m_MusicSettings:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: a914a19f420fec44cb62b3923c78b510, type: 3}
       m_Volume: 1
   - m_Scene: 1v1
     m_PlayerSettings:
@@ -93,7 +93,7 @@ MonoBehaviour:
       m_DisplayGamepadInfo: 0
       m_DisplayBoxColliders: 0
     m_MusicSettings:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: a914a19f420fec44cb62b3923c78b510, type: 3}
       m_Volume: 1
   - m_Scene: Menu
     m_PlayerSettings:
@@ -134,5 +134,5 @@ MonoBehaviour:
       m_DisplayGamepadInfo: 0
       m_DisplayBoxColliders: 0
     m_MusicSettings:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 3f53281a0ac04ea4382e26853c882bef, type: 3}
       m_Volume: 1
