@@ -86,39 +86,39 @@ MonoBehaviour:
   - m_Name: Whiff_LP
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: b718307c57d6e6a45b89b161b1b12dd5, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Whiff_LK
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 15e450456d0ff1147ad8e4b384937d68, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Whiff_HP
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 507fdd810eef5684dbb7e833e93e5a70, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Whiff_HK
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 989ef84f75852c94d9a5792ced3b3aa5, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Whiff_Parry
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 4b466b17dae856c419e6ee0c791db9b8, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Hit_Light
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: a021c1408739c3f49b01cc03113490b4, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
     - m_Clip: {fileID: 8300000, guid: debd6f7f8ed860049a67384e4bef6340, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Hit_Heavy
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
     - m_Clip: {fileID: 8300000, guid: 2b806c8c026ea6d4fb4955526fe86149, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
     - m_Clip: {fileID: 8300000, guid: abea534e016a6c34eb6cea27addb4ff9, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
     - m_Clip: {fileID: 8300000, guid: 6e8a08156b9b0424188e7500abeb5987, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
   - m_Name: Hit_Throw
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: a420a8e1e86cf9e418881eb6972ff6ae, type: 3}
