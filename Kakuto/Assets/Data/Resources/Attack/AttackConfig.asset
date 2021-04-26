@@ -112,17 +112,17 @@ MonoBehaviour:
   - m_Name: Hit_Heavy
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
-      m_Volume: 0.75
+      m_Volume: 0.6
     - m_Clip: {fileID: 8300000, guid: 2b806c8c026ea6d4fb4955526fe86149, type: 3}
       m_Volume: 0.75
     - m_Clip: {fileID: 8300000, guid: abea534e016a6c34eb6cea27addb4ff9, type: 3}
       m_Volume: 0.75
     - m_Clip: {fileID: 8300000, guid: 6e8a08156b9b0424188e7500abeb5987, type: 3}
-      m_Volume: 0.75
+      m_Volume: 0.6
   - m_Name: Hit_Throw
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: a420a8e1e86cf9e418881eb6972ff6ae, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
   - m_Name: Hit_Special
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
@@ -134,7 +134,7 @@ MonoBehaviour:
   - m_Name: Blocked_Hit
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: cd277446ca001f746881017d884aff39, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Parry_Hit
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 464cd0e40952959458b6bd653527a9fd, type: 3}
@@ -142,13 +142,13 @@ MonoBehaviour:
   - m_Name: GuardCrush_Hit
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: e969b16136b034e4b9749ba2ee9ae4ce, type: 3}
-      m_Volume: 1
+      m_Volume: 0.8
   - m_Name: Counter_Hit
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
-      m_Volume: 1
+      m_Volume: 0.7
   m_HeavyHitGruntSFX:
-    m_GruntProbability: 0.5
+    m_GruntProbability: 0
     m_GruntSFX:
     - m_Clip: {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
       m_Volume: 1
@@ -156,7 +156,7 @@ MonoBehaviour:
   - m_Name: Knockdown
     m_SFX:
       m_Clip: {fileID: 8300000, guid: d12fbeefdfa5a6a478f0e1911fa210cd, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Parry_Whiff_DEPRECATED
     m_SFX:
       m_Clip: {fileID: 0}
@@ -168,39 +168,39 @@ MonoBehaviour:
   - m_Name: Jump
     m_SFX:
       m_Clip: {fileID: 8300000, guid: c8a3bbce3f3a6b04b8f2dc4df5e194c4, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Land
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 3b341606e1c68b04b8dbb3f5d67a5ce2, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Backdash
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 41adb3d99e08187499f1a2df6d450d94, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Forwarddash
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 69cd08391c0346c46a1bc2cbfc2cb5df, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Stun
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 74854a924f8351e49b1113dc97caf079, type: 3}
-      m_Volume: 1
+      m_Volume: 0.1
   - m_Name: TP
     m_SFX:
       m_Clip: {fileID: 8300000, guid: f558871c945178849ba43d3bec25c10a, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
   - m_Name: EX
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 20de03726929a3e4391cafdedd2ca8f6, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
   - m_Name: Launch
     m_SFX:
       m_Clip: {fileID: 8300000, guid: b6ca3c64e1b4884479c39976dbed651e, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Trigger
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 0c3c4444655633146a46991823917ee4, type: 3}
-      m_Volume: 1
+      m_Volume: 0.3
   - m_Name: Super
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 064423c6c1c42b3439e141ef232ca7eb, type: 3}
@@ -212,27 +212,27 @@ MonoBehaviour:
   - m_Name: Launch_Crush
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 2f385cce4b747b444a3f09826f3ec73d, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Papers
     m_SFX:
       m_Clip: {fileID: 8300000, guid: c1bde37cee5159c47807019817b92932, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
   - m_Name: Blast
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 8e43ebe9f9f624048b33dd11a81a84e1, type: 3}
-      m_Volume: 1
+      m_Volume: 0.75
   - m_Name: MalikEntry_SuitcaseImpact
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 79710b5e330708147905025ca2061a1e, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
   - m_Name: MalikEntry_SuitcaseSlide
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 8dcec7c061c01ab418652e8714017f56, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: MalikEntry_Smoke
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 5613ff0e1f8c8074188c8fc6340aeb9a, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
   - m_Name: Voice_Hado
     m_SFX:
       m_Clip: {fileID: 0}
@@ -256,13 +256,13 @@ MonoBehaviour:
   m_ProjectileSFX:
     m_NormalMovementSFX:
       m_Clip: {fileID: 8300000, guid: 0933b3cd2a6658845add56e40947e0aa, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
     m_GuardCrushMovementSFX:
       m_Clip: {fileID: 8300000, guid: 1b07f284910129640920d3657c4c18c6, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
     m_SuperMovementSFX:
       m_Clip: {fileID: 8300000, guid: a25cfe673b0547b4dbcf1f7d726a67d3, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
     m_NormalImpactSFX:
       m_Clip: {fileID: 8300000, guid: 21f365b95e1cde945908305fed5be0dc, type: 3}
       m_Volume: 1
@@ -274,10 +274,10 @@ MonoBehaviour:
       m_Volume: 1
     m_NormalDestroySFX:
       m_Clip: {fileID: 8300000, guid: e06340a3c37544742acf8f0aed1f23eb, type: 3}
-      m_Volume: 1
+      m_Volume: 0.25
     m_GuardCrushDestroySFX:
       m_Clip: {fileID: 8300000, guid: 010462bd64fd3f84494b37c85c8f2d08, type: 3}
-      m_Volume: 1
+      m_Volume: 0.5
     m_SuperDestroySFX:
       m_Clip: {fileID: 8300000, guid: 2d2fd1cccfd57074e896ca59285ec796, type: 3}
       m_Volume: 1
