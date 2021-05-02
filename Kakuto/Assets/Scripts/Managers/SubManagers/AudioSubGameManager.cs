@@ -74,7 +74,7 @@ public class AudioSubGameManager : SubGameManagerBase
     {
         base.Init();
         InitAllAudio();
-        StartMenuMusic();
+        StartMusic();
     }
 
     public override void Shutdown()
@@ -294,11 +294,11 @@ public class AudioSubGameManager : SubGameManagerBase
         }
     }
 
-    private void StartMenuMusic()
+    private void StartMusic()
     {
-        if (m_MusicAudioSources.TryGetValue("Menu", out MusicSettings menuMusic))
+        if (m_MusicAudioSources.TryGetValue(SceneManager.GetActiveScene().name, out MusicSettings startMusic))
         {
-            GameManager.Instance.StartCoroutine(StartMusic(menuMusic, true));
+            GameManager.Instance.StartCoroutine(StartMusic(startMusic, true));
         }
     }
 
