@@ -216,7 +216,7 @@ public class PlayerHealthComponent : MonoBehaviour
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On grabbed by : " + grabAttackLogic.GetAttack().m_Name);
         m_StunInfoSC.StartStun(grabAttackLogic, EAttackResult.Hit);
         PlayHitAnimation(grabAttackLogic);
-        m_AudioManager.PlayAttackSFX(m_InfoComponent.GetPlayerIndex(), EAttackSFXType.Hit_Throw);
+        m_AudioManager.PlayHitSFX(m_InfoComponent.GetPlayerIndex(), EAttackSFXType.Hit_Throw, false);
     }
 
     void OnHit(BaseEventParameters baseParams)
@@ -542,7 +542,7 @@ public class PlayerHealthComponent : MonoBehaviour
         if(attackLogic.GetHitSFX(attackResult, hitNotificationType, ref attackSFXType))
         {
             // Play attack SFX on the instigator of the hit in order to cancel whiff sfx
-            m_AudioManager.PlayAttackSFX(attackLogic.GetPlayerIndex(), attackSFXType);
+            m_AudioManager.PlayHitSFX(m_InfoComponent.GetPlayerIndex(), attackSFXType, attackLogic is PlayerProjectileAttackLogic);
         }
         else
         {

@@ -33,11 +33,13 @@ public class AudioSubGameManager : SubGameManagerBase
     private Dictionary<string, MusicSettings> m_MusicAudioSources = new Dictionary<string, MusicSettings>();
 
     private GameObject m_Player1SFXHandler;
+    private AudioSource m_Player1WhiffSFXAudioSource;
     private AudioSource m_Player1AttackSFXAudioSource;
     private AudioSource m_Player1HeavyHitGruntSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player1AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
 
     private GameObject m_Player2SFXHandler;
+    private AudioSource m_Player2WhiffSFXAudioSource;
     private AudioSource m_Player2AttackSFXAudioSource;
     private AudioSource m_Player2HeavyHitGruntSFXAudioSource;
     private Dictionary<EAnimSFXType, AudioSource> m_Player2AnimSFXAudioSources = new Dictionary<EAnimSFXType, AudioSource>();
@@ -90,9 +92,11 @@ public class AudioSubGameManager : SubGameManagerBase
         CreateHandler("UISFXHandler", ref m_UISFXHandler);
         CreateHandler("VoiceSFXHandler", ref m_VoiceSFXHandler);
 
+        InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1WhiffSFXAudioSource, m_SFXMixerGroup, true);
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1AttackSFXAudioSource, m_SFXMixerGroup, true);
         InitSFXAudioSource(ref m_Player1SFXHandler, ref m_Player1HeavyHitGruntSFXAudioSource, m_SFXMixerGroup, true);
 
+        InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2WhiffSFXAudioSource, m_SFXMixerGroup, true);
         InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2AttackSFXAudioSource, m_SFXMixerGroup, true);
         InitSFXAudioSource(ref m_Player2SFXHandler, ref m_Player2HeavyHitGruntSFXAudioSource, m_SFXMixerGroup, true);
 
@@ -167,25 +171,42 @@ public class AudioSubGameManager : SubGameManagerBase
         if(whiffSFXType != EWhiffSFXType.None)
         {
             EAttackSFXType attackSFXType = ConvertWhiffToAttackSFXType(whiffSFXType);
-            PlayAttackSFX(playerIndex, attackSFXType);
+            AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1WhiffSFXAudioSource : m_Player2WhiffSFXAudioSource;
+            AudioEntry[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
+            AudioEntry attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
+            sourceToPlay.clip = attackSFXToPlay.m_Clip;
+            sourceToPlay.volume = attackSFXToPlay.m_Volume;
+            sourceToPlay.Play();
         }
     }
 
-    public void PlayAttackSFX(int playerIndex, EAttackSFXType attackSFXType)
+    public void PlayHitSFX(int playerVictimIndex, EAttackSFXType attackSFXType, bool isProjectileAttack)
     {
-        AudioSource sourceToPlay = (playerIndex == 0) ? m_Player1AttackSFXAudioSource : m_Player2AttackSFXAudioSource;
+        AudioSource sourceToPlay = (playerVictimIndex == 0) ? m_Player1AttackSFXAudioSource : m_Player2AttackSFXAudioSource;
         AudioEntry[] attackSFXList = m_AttackSFX[(int)attackSFXType].m_SFXList;
         AudioEntry attackSFXToPlay = attackSFXList[Random.Range(0, attackSFXList.Length)];
         sourceToPlay.clip = attackSFXToPlay.m_Clip;
         sourceToPlay.volume = attackSFXToPlay.m_Volume;
         sourceToPlay.Play();
 
-        if(attackSFXType == EAttackSFXType.Hit_Heavy)
+        // If projectile attack, stop whiff only on victim, else on both players
+        if(isProjectileAttack)
+        {
+            AudioSource whiffSourceToStop = (playerVictimIndex == 0) ? m_Player1WhiffSFXAudioSource : m_Player2WhiffSFXAudioSource;
+            whiffSourceToStop.Stop();
+        }
+        else
+        {
+            m_Player1WhiffSFXAudioSource.Stop();
+            m_Player2WhiffSFXAudioSource.Stop();
+        }
+
+        if (attackSFXType == EAttackSFXType.Hit_Heavy)
         {
             float random = Random.Range(0f, 1f);
             if(random <= m_HeavyHitGruntSFX.m_GruntProbability)
             {
-                AudioSource gruntSourceToPlay = (playerIndex == 0) ? m_Player1HeavyHitGruntSFXAudioSource : m_Player2HeavyHitGruntSFXAudioSource;
+                AudioSource gruntSourceToPlay = (playerVictimIndex == 0) ? m_Player1HeavyHitGruntSFXAudioSource : m_Player2HeavyHitGruntSFXAudioSource;
                 AudioEntry gruntSFXToPlay = m_HeavyHitGruntSFX.m_GruntSFX[Random.Range(0, m_HeavyHitGruntSFX.m_GruntSFX.Length)];
                 gruntSourceToPlay.clip = gruntSFXToPlay.m_Clip;
                 gruntSourceToPlay.volume = gruntSFXToPlay.m_Volume;
