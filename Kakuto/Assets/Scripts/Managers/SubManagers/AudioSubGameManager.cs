@@ -271,6 +271,8 @@ public class AudioSubGameManager : SubGameManagerBase
             {
                 m_PausableSFXAudioSources[i].Pause();
             }
+
+            GameConfig.Instance.m_DuckMusicSnapshot.TransitionTo(0f);
         }
         else
         {
@@ -278,6 +280,8 @@ public class AudioSubGameManager : SubGameManagerBase
             {
                 m_PausableSFXAudioSources[i].UnPause();
             }
+
+            GameConfig.Instance.m_DefaultSnapshot.TransitionTo(0f);
         }
     }
 

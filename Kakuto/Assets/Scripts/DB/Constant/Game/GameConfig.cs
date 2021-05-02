@@ -75,4 +75,7 @@ public class GameConfig : ScriptableObject
     public AudioMixerGroup m_MusicMixerGroup;
     public AudioMixerGroup m_SFXMixerGroup;
     public AudioMixerGroup m_VoiceMixerGroup;
+
+    public AudioMixerSnapshot m_DefaultSnapshot;
+    public AudioMixerSnapshot m_DuckMusicSnapshot;
 }
