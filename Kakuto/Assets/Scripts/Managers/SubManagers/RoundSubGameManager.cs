@@ -351,6 +351,7 @@ public class RoundSubGameManager : SubGameManagerBase
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {
             m_RoundComponent.DisplayEndRoundButtons(m_LastRoundWinner);
+            GameConfig.Instance.m_DuckMusicSnapshot.TransitionTo(1f);
         }
         else
         {

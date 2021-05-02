@@ -55,6 +55,8 @@ public class AudioSubGameManager : SubGameManagerBase
     // Except projectile audio sources
     private List<AudioSource> m_PausableSFXAudioSources = new List<AudioSource>();
 
+    private GameFlowSubGameManager m_GameFlowManager;
+
     public AudioSubGameManager()
     {
         m_AttackSFX = AttackConfig.Instance.m_AttackSFX;
@@ -75,6 +77,9 @@ public class AudioSubGameManager : SubGameManagerBase
     public override void Init()
     {
         base.Init();
+
+        m_GameFlowManager = GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow);
+
         InitAllAudio();
         StartMusic();
     }
@@ -274,7 +279,7 @@ public class AudioSubGameManager : SubGameManagerBase
 
             GameConfig.Instance.m_DuckMusicSnapshot.TransitionTo(0f);
         }
-        else
+        else if(!m_GameFlowManager.IsLoading()) // Do not unpause sfx if we're loading another scene
         {
             for (int i = 0; i < m_PausableSFXAudioSources.Count; i++)
             {
@@ -287,17 +292,27 @@ public class AudioSubGameManager : SubGameManagerBase
 
     private void OnLoadingScene(bool isLoading, string previousScene, string newScene)
     {
-        if(!isLoading && previousScene != newScene)
+        if(!isLoading)
         {
-            if(m_MusicAudioSources.TryGetValue(previousScene, out MusicInfo previousMusic) &&
-                m_MusicAudioSources.TryGetValue(newScene, out MusicInfo newMusic))
+            if (previousScene != newScene)
             {
-                if(previousMusic.m_MusicEntry.m_Clip != newMusic.m_MusicEntry.m_Clip)
+                if (m_MusicAudioSources.TryGetValue(previousScene, out MusicInfo previousMusic) &&
+                m_MusicAudioSources.TryGetValue(newScene, out MusicInfo newMusic))
                 {
-                    GameManager.Instance.StartCoroutine(StopMusic(previousMusic));
-                    GameManager.Instance.StartCoroutine(StartMusic(newMusic, false));
+                    if (previousMusic.m_MusicEntry.m_Clip != newMusic.m_MusicEntry.m_Clip)
+                    {
+                        GameManager.Instance.StartCoroutine(StopMusic(previousMusic));
+                        GameManager.Instance.StartCoroutine(StartMusic(newMusic, false));
+                    }
                 }
-            }               
+            }
+            else
+            {
+                if (m_MusicAudioSources.TryGetValue(newScene, out MusicInfo currentMusic))
+                {
+                    GameConfig.Instance.m_DefaultSnapshot.TransitionTo(currentMusic.m_MusicSettings.m_TimeToIncreaseMusicVolume);
+                }
+            }
         }
     }
 
@@ -344,6 +359,9 @@ public class AudioSubGameManager : SubGameManagerBase
         float finalVolume = musicInfo.m_MusicEntry.m_Volume;
         float currentTime = 0.0f;
         float duration = musicInfo.m_MusicSettings.m_TimeToIncreaseMusicVolume;
+
+        GameConfig.Instance.m_DefaultSnapshot.TransitionTo(duration);
+
         while (initialVolume < finalVolume)
         {
             musicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
