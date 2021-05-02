@@ -33,3 +33,7 @@ MonoBehaviour:
     type: 2}
   m_VoiceMixerGroup: {fileID: 243296969264182438, guid: e20d815e92228554bb13851f8f294979,
     type: 2}
+  m_TimeBeforeDecreasingMusicVolume: 0.5
+  m_TimeToDecreaseMusicVolume: 1
+  m_TimeBeforeIncreasingMusicVolume: 1
+  m_TimeToIncreaseMusicVolume: 3

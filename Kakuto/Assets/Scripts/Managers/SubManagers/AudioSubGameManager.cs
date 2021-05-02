@@ -72,6 +72,7 @@ public class AudioSubGameManager : SubGameManagerBase
     {
         base.Init();
         InitAllAudio();
+        StartMenuMusic();
     }
 
     public override void Shutdown()
@@ -266,9 +267,17 @@ public class AudioSubGameManager : SubGameManagerBase
                 if(previousMusic.m_MusicEntry.m_Clip != newMusic.m_MusicEntry.m_Clip)
                 {
                     GameManager.Instance.StartCoroutine(StopMusic(previousMusic));
-                    GameManager.Instance.StartCoroutine(StartMusic(newMusic));
+                    GameManager.Instance.StartCoroutine(StartMusic(newMusic, false));
                 }
             }               
+        }
+    }
+
+    private void StartMenuMusic()
+    {
+        if (m_MusicAudioSources.TryGetValue("Menu", out MusicSettings menuMusic))
+        {
+            GameManager.Instance.StartCoroutine(StartMusic(menuMusic, true));
         }
     }
 
@@ -292,9 +301,10 @@ public class AudioSubGameManager : SubGameManagerBase
         musicSettings.m_MusicSource.Stop();
     }
 
-    private IEnumerator StartMusic(MusicSettings musicSettings)
+    private IEnumerator StartMusic(MusicSettings musicSettings, bool skipDelay)
     {
-        yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeIncreasingMusicVolume);
+        if(!skipDelay)
+            yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeIncreasingMusicVolume);
 
         AudioSource musicSource = musicSettings.m_MusicSource;
         musicSource.volume = 0f;
@@ -306,7 +316,7 @@ public class AudioSubGameManager : SubGameManagerBase
         float finalVolume = musicSettings.m_MusicEntry.m_Volume;
         float currentTime = 0.0f;
         float duration = GameConfig.Instance.m_TimeToIncreaseMusicVolume;
-        while (initialVolume > 0f)
+        while (initialVolume < finalVolume)
         {
             musicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
             currentTime += Time.deltaTime / duration;
