@@ -193,7 +193,7 @@ public class ProjectileComponent : PlayerGizmoBoxColliderDrawer
     private void OnDestroy()
     {
         m_AudioSource.Stop();
-        GamePauseMenuComponent.IsInPauseChanged += IsInPauseChanged;
+        GamePauseMenuComponent.IsInPauseChanged -= IsInPauseChanged;
     }
 
     public PlayerProjectileAttackLogic GetLogic() { return m_Logic; }
