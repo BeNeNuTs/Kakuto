@@ -112,6 +112,7 @@ public class AudioSubGameManager : SubGameManagerBase
             {
                 AudioSource musicAudioSource = CreateAudioSource(ref m_MusicHandler, m_MusicMixerGroup, false, musicEntry.m_Clip);
                 musicAudioSource.volume = musicEntry.m_Volume;
+                musicAudioSource.loop = true;
                 m_MusicAudioSources.Add(allSceneSettings[i].m_Scene, new MusicInfo(allSceneSettings[i].m_MusicSettings, musicAudioSource));
             }
         }
