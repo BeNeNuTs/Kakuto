@@ -253,6 +253,10 @@ MonoBehaviour:
     m_SFX:
       m_Clip: {fileID: 0}
       m_Volume: 1
+  - m_Name: Voice_Blast
+    m_SFX:
+      m_Clip: {fileID: 0}
+      m_Volume: 1
   m_ProjectileSFX:
     m_NormalMovementSFX:
       m_Clip: {fileID: 8300000, guid: 0933b3cd2a6658845add56e40947e0aa, type: 3}
