@@ -91,6 +91,19 @@ public class DebugSettings
 }
 
 [Serializable]
+public class MusicSettings
+{
+    public AudioEntry m_MusicEntry;
+
+    [Header("Transition")]
+    public float m_TimeBeforeDecreasingMusicVolume = 0f;
+    public float m_TimeToDecreaseMusicVolume = 0.5f;
+
+    public float m_TimeBeforeIncreasingMusicVolume = 0f;
+    public float m_TimeToIncreaseMusicVolume = 3f;
+}
+
+[Serializable]
 public class SceneSettings
 {
     [Scene]
@@ -99,7 +112,7 @@ public class SceneSettings
     public PlayerSettings[] m_PlayerSettings;
     public UISettings m_UISettings;
     public DebugSettings m_DebugSettings;
-    public AudioEntry m_MusicSettings;
+    public MusicSettings m_MusicSettings;
 }
 
 public class ScenesConfig : ScriptableObject

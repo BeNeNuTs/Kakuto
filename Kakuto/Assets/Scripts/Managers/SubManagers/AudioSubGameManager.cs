@@ -8,14 +8,16 @@ using Random = UnityEngine.Random;
 
 public class AudioSubGameManager : SubGameManagerBase
 {
-    public class MusicSettings
+    public class MusicInfo
     {
+        public MusicSettings m_MusicSettings;
         public AudioEntry m_MusicEntry;
         public AudioSource m_MusicSource;
 
-        public MusicSettings(AudioEntry entry, AudioSource source)
+        public MusicInfo(MusicSettings settings, AudioSource source)
         {
-            m_MusicEntry = entry;
+            m_MusicSettings = settings;
+            m_MusicEntry = settings.m_MusicEntry;
             m_MusicSource = source;
         }
     }
@@ -30,7 +32,7 @@ public class AudioSubGameManager : SubGameManagerBase
     private readonly AudioMixerGroup m_VoiceMixerGroup;
 
     private GameObject m_MusicHandler;
-    private Dictionary<string, MusicSettings> m_MusicAudioSources = new Dictionary<string, MusicSettings>();
+    private Dictionary<string, MusicInfo> m_MusicAudioSources = new Dictionary<string, MusicInfo>();
 
     private GameObject m_Player1SFXHandler;
     private AudioSource m_Player1WhiffSFXAudioSource;
@@ -105,12 +107,12 @@ public class AudioSubGameManager : SubGameManagerBase
         List<SceneSettings> allSceneSettings = ScenesConfig.GetAllSceneSettings();
         for(int i = 0; i < allSceneSettings.Count; i++)
         {
-            AudioEntry musicEntry = allSceneSettings[i].m_MusicSettings;
+            AudioEntry musicEntry = allSceneSettings[i].m_MusicSettings.m_MusicEntry;
             if (musicEntry.m_Clip != null)
             {
                 AudioSource musicAudioSource = CreateAudioSource(ref m_MusicHandler, m_MusicMixerGroup, false, musicEntry.m_Clip);
                 musicAudioSource.volume = musicEntry.m_Volume;
-                m_MusicAudioSources.Add(allSceneSettings[i].m_Scene, new MusicSettings(musicEntry, musicAudioSource));
+                m_MusicAudioSources.Add(allSceneSettings[i].m_Scene, new MusicInfo(allSceneSettings[i].m_MusicSettings, musicAudioSource));
             }
         }
 
@@ -282,8 +284,8 @@ public class AudioSubGameManager : SubGameManagerBase
     {
         if(!isLoading && previousScene != newScene)
         {
-            if(m_MusicAudioSources.TryGetValue(previousScene, out MusicSettings previousMusic) &&
-                m_MusicAudioSources.TryGetValue(newScene, out MusicSettings newMusic))
+            if(m_MusicAudioSources.TryGetValue(previousScene, out MusicInfo previousMusic) &&
+                m_MusicAudioSources.TryGetValue(newScene, out MusicInfo newMusic))
             {
                 if(previousMusic.m_MusicEntry.m_Clip != newMusic.m_MusicEntry.m_Clip)
                 {
@@ -296,47 +298,47 @@ public class AudioSubGameManager : SubGameManagerBase
 
     private void StartMusic()
     {
-        if (m_MusicAudioSources.TryGetValue(SceneManager.GetActiveScene().name, out MusicSettings startMusic))
+        if (m_MusicAudioSources.TryGetValue(SceneManager.GetActiveScene().name, out MusicInfo startMusic))
         {
             GameManager.Instance.StartCoroutine(StartMusic(startMusic, true));
         }
     }
 
-    private IEnumerator StopMusic(MusicSettings musicSettings)
+    private IEnumerator StopMusic(MusicInfo musicInfo)
     {
-        yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeDecreasingMusicVolume);
+        yield return new WaitForSeconds(musicInfo.m_MusicSettings.m_TimeBeforeDecreasingMusicVolume);
 
         float startingTime = Time.unscaledTime;
 
-        float initialVolume = musicSettings.m_MusicSource.volume;
+        float initialVolume = musicInfo.m_MusicSource.volume;
         float finalVolume = 0f;
         float currentTime = 0.0f;
-        float duration = GameConfig.Instance.m_TimeToDecreaseMusicVolume;
+        float duration = musicInfo.m_MusicSettings.m_TimeToDecreaseMusicVolume;
         while (initialVolume > 0f)
         {
-            musicSettings.m_MusicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
+            musicInfo.m_MusicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
             currentTime += Time.deltaTime / duration;
             yield return null;
         }
 
-        musicSettings.m_MusicSource.Stop();
+        musicInfo.m_MusicSource.Stop();
     }
 
-    private IEnumerator StartMusic(MusicSettings musicSettings, bool skipDelay)
+    private IEnumerator StartMusic(MusicInfo musicInfo, bool skipDelay)
     {
         if(!skipDelay)
-            yield return new WaitForSeconds(GameConfig.Instance.m_TimeBeforeIncreasingMusicVolume);
+            yield return new WaitForSeconds(musicInfo.m_MusicSettings.m_TimeBeforeIncreasingMusicVolume);
 
-        AudioSource musicSource = musicSettings.m_MusicSource;
+        AudioSource musicSource = musicInfo.m_MusicSource;
         musicSource.volume = 0f;
         musicSource.Play();
 
         float startingTime = Time.unscaledTime;
 
         float initialVolume = 0f;
-        float finalVolume = musicSettings.m_MusicEntry.m_Volume;
+        float finalVolume = musicInfo.m_MusicEntry.m_Volume;
         float currentTime = 0.0f;
-        float duration = GameConfig.Instance.m_TimeToIncreaseMusicVolume;
+        float duration = musicInfo.m_MusicSettings.m_TimeToIncreaseMusicVolume;
         while (initialVolume < finalVolume)
         {
             musicSource.volume = Mathf.Lerp(initialVolume, finalVolume, currentTime);
