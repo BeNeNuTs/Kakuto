@@ -150,7 +150,11 @@ MonoBehaviour:
   m_HeavyHitGruntSFX:
     m_GruntProbability: 0
     m_GruntSFX:
-    - m_Clip: {fileID: 8300000, guid: 74abbd8f2408b034f9ff191bc0e406fc, type: 3}
+    - m_Clip: {fileID: 8300000, guid: 03ad054805ba0854fafede4cf6ced7b9, type: 3}
+      m_Volume: 1
+    - m_Clip: {fileID: 8300000, guid: dacfb597f143c824993789092a56dcda, type: 3}
+      m_Volume: 1
+    - m_Clip: {fileID: 8300000, guid: 58334bec8fc3d6d4e814abbec41ec5bd, type: 3}
       m_Volume: 1
   m_AnimSFX:
   - m_Name: Knockdown
@@ -235,27 +239,27 @@ MonoBehaviour:
       m_Volume: 0.5
   - m_Name: Voice_Hado
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: e5e6573d5bcc96a4b98716922b613a59, type: 3}
       m_Volume: 1
   - m_Name: Voice_ExHado
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: d4a347183932aba44a154dba1ed6f98c, type: 3}
       m_Volume: 1
   - m_Name: Voice_Overhead
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 7da9a4e92d9e8ea45aa9e02fcd4b9c6d, type: 3}
       m_Volume: 1
   - m_Name: Voice_Trigger
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: f8f2788e83e9a114f8394076e6da7ea5, type: 3}
       m_Volume: 1
   - m_Name: Voice_Super
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 0a24b69cb17e99c42947774235dc1de7, type: 3}
       m_Volume: 1
   - m_Name: Voice_Blast
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 109c561881457694f9f3971629c296e9, type: 3}
       m_Volume: 1
   m_ProjectileSFX:
     m_NormalMovementSFX:

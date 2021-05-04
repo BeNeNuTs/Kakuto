@@ -3869,6 +3869,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 10
     messageOptions: 0
+  - time: 0.13333334
+    functionName: PlaySFX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 20
+    messageOptions: 0
   - time: 0.23333333
     functionName: UnblockAttack
     data: 
