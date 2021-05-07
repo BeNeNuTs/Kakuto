@@ -148,7 +148,7 @@ MonoBehaviour:
     - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
       m_Volume: 0.7
   m_HeavyHitGruntSFX:
-    m_GruntProbability: 0
+    m_GruntProbability: 0.5
     m_GruntSFX:
     - m_Clip: {fileID: 8300000, guid: 03ad054805ba0854fafede4cf6ced7b9, type: 3}
       m_Volume: 1
