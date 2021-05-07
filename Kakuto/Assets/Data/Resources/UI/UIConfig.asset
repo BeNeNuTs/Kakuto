@@ -107,32 +107,32 @@ MonoBehaviour:
       m_Clip: {fileID: 0}
       m_Volume: 1
     m_KOSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: ce7a4894f02964b4297efbaa7c4abc4a, type: 3}
       m_Volume: 1
     m_DoubleKOSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 8fa3abd529c241d4b97f5e71dcb94c1f, type: 3}
       m_Volume: 1
     m_PerfectSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 21e3949357e48bd42ab9cb0fad386b49, type: 3}
       m_Volume: 1
     m_TimeOverSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 5da9ba0e6ef5edb468b88a51513d6be0, type: 3}
       m_Volume: 1
     m_Round1SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 6cdcd1c4979943941800920f85172b9c, type: 3}
       m_Volume: 1
     m_Round2SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: d1de7c8a3ff61e8479312e147d40da48, type: 3}
       m_Volume: 1
     m_FinalRoundSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 8379ef3fb6ce60b40b636ca67531e382, type: 3}
       m_Volume: 1
     m_FightSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 8d3aa0510afeba847bf151c3191a685a, type: 3}
       m_Volume: 1
     m_P1WinsSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: dc1d150fdf9908443a95225a0429fe54, type: 3}
       m_Volume: 1
     m_P2WinsSFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: d7f542157d5223a4daf1d5d93bb530f3, type: 3}
       m_Volume: 1
