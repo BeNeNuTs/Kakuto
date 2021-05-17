@@ -147,6 +147,10 @@ MonoBehaviour:
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
       m_Volume: 0.7
+  - m_Name: Final_Hit
+    m_SFXList:
+    - m_Clip: {fileID: 8300000, guid: bd53a9f37a344594e9b815c93d56c908, type: 3}
+      m_Volume: 1
   m_HeavyHitGruntSFX:
     m_GruntProbability: 0.5
     m_GruntSFX:

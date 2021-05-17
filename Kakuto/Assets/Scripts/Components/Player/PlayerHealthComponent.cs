@@ -539,7 +539,14 @@ public class PlayerHealthComponent : MonoBehaviour
     private void PlayHitSFX(PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, EHitNotificationType hitNotificationType)
     {
         EAttackSFXType attackSFXType = EAttackSFXType.Hit_Light;
-        if(attackLogic.GetHitSFX(attackResult, hitNotificationType, ref attackSFXType))
+
+        bool validHitSFXFound = IsDead() || attackLogic.GetHitSFX(attackResult, hitNotificationType, ref attackSFXType);
+        if (IsDead())
+        {
+            attackSFXType = EAttackSFXType.Final_Hit;
+        }
+
+        if(validHitSFXFound)
         {
             // Play attack SFX on the instigator of the hit in order to cancel whiff sfx
             m_AudioManager.PlayHitSFX(m_InfoComponent.GetPlayerIndex(), attackSFXType, attackLogic is PlayerProjectileAttackLogic);
