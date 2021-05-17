@@ -39,7 +39,10 @@ public enum EAnimSFXType
     Voice_Overhead,
     Voice_Trigger,
     Voice_Super,
-    Voice_Blast
+    Voice_Blast,
+    Voice_ExBlast,
+    Voice_Hadofake,
+    Voice_Teleport
 
     // Please update AnimSFX.COUNT
 }
@@ -47,7 +50,7 @@ public enum EAnimSFXType
 [Serializable]
 public class AnimSFX
 {
-    public static int COUNT = 26;
+    public static int COUNT = 29;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;

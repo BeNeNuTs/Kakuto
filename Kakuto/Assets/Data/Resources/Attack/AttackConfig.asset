@@ -261,6 +261,18 @@ MonoBehaviour:
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 109c561881457694f9f3971629c296e9, type: 3}
       m_Volume: 1
+  - m_Name: Voice_ExBlast
+    m_SFX:
+      m_Clip: {fileID: 0}
+      m_Volume: 1
+  - m_Name: Voice_Hadofake
+    m_SFX:
+      m_Clip: {fileID: 0}
+      m_Volume: 1
+  - m_Name: Voice_Teleport
+    m_SFX:
+      m_Clip: {fileID: 8300000, guid: fc40af8bf87c9c04eb05dcbdfad0fe96, type: 3}
+      m_Volume: 1
   m_ProjectileSFX:
     m_NormalMovementSFX:
       m_Clip: {fileID: 8300000, guid: 0933b3cd2a6658845add56e40947e0aa, type: 3}
