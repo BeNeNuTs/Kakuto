@@ -825,68 +825,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &505110667644392875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8927988210115307677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dedd479dfe2cd24d88d8a5a2f6bcf5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_GoToPauseMenuData:
-    m_ObjectsToDisable:
-    - {fileID: 7401663020255255123}
-    - {fileID: 2280275265732725184}
-    m_ObjectsToEnable:
-    - {fileID: 9150603653731335836}
-    m_ButtonList:
-    - {fileID: 4480890296939636893}
-    - {fileID: 1238702650937449551}
-    - {fileID: 1760473768156949381}
-    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
-  m_Player1PauseSprite: {fileID: 21300000, guid: c3d24741a2ab23a4b8cdc39562fcfa5f,
-    type: 3}
-  m_Player2PauseSprite: {fileID: 21300000, guid: 19aec749803e2ac4f9a658711adb9a80,
-    type: 3}
-  m_PauseImage: {fileID: 7246703831576564637}
-  m_QuitPauseMenuData:
-    m_ObjectsToDisable:
-    - {fileID: 9150603653731335836}
-    - {fileID: 2280275265732725184}
-    m_ObjectsToEnable: []
-    m_ButtonList:
-    - {fileID: 4480890296939636893}
-    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
-  m_OptionButton: {fileID: 1238702650937449551}
-  m_GoToOptionsData:
-    m_ObjectsToDisable:
-    - {fileID: 9150603653731335836}
-    - {fileID: 2280275265087774892}
-    - {fileID: 2790114615526807039}
-    - {fileID: 2280275264399424050}
-    m_ObjectsToEnable:
-    - {fileID: 2280275265732725184}
-    - {fileID: 2280275264864483982}
-    m_ButtonList:
-    - {fileID: 2280275264481577754}
-    - {fileID: 2280275265484255602}
-    - {fileID: 8448353291345186243}
-    - {fileID: 2280275265169013564}
-    - {fileID: 2280275265066153082}
-    m_DefaultHighlightedButton: {fileID: 2280275264481577754}
-  m_QuitToMainMenuButton: {fileID: 1760473768156949381}
-  m_QuiToMainMenuConfirmationData:
-    m_ObjectsToDisable: []
-    m_ObjectsToEnable:
-    - {fileID: 7401663020255255123}
-    m_ButtonList:
-    - {fileID: 8016643406850426078}
-    - {fileID: 6884780437311694649}
-    m_DefaultHighlightedButton: {fileID: 6884780437311694649}
 --- !u!1 &5641974199351067132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,6 +1841,69 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &505110667644392875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927988210115307677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dedd479dfe2cd24d88d8a5a2f6bcf5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GoToPauseMenuData:
+    m_ObjectsToDisable:
+    - {fileID: 7401663020255255123}
+    - {fileID: 2280275265732725184}
+    m_ObjectsToEnable:
+    - {fileID: 9150603653731335836}
+    m_ButtonList:
+    - {fileID: 4480890296939636893}
+    - {fileID: 1238702650937449551}
+    - {fileID: 1760473768156949381}
+    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
+  m_Player1PauseSprite: {fileID: 21300000, guid: c3d24741a2ab23a4b8cdc39562fcfa5f,
+    type: 3}
+  m_Player2PauseSprite: {fileID: 21300000, guid: 19aec749803e2ac4f9a658711adb9a80,
+    type: 3}
+  m_PauseImage: {fileID: 7246703831576564637}
+  m_QuitPauseMenuData:
+    m_ObjectsToDisable:
+    - {fileID: 9150603653731335836}
+    - {fileID: 2280275265732725184}
+    m_ObjectsToEnable: []
+    m_ButtonList:
+    - {fileID: 4480890296939636893}
+    m_DefaultHighlightedButton: {fileID: 4480890296939636893}
+  m_RoundAnimator: {fileID: 1023436109457907156}
+  m_OptionButton: {fileID: 1238702650937449551}
+  m_GoToOptionsData:
+    m_ObjectsToDisable:
+    - {fileID: 9150603653731335836}
+    - {fileID: 2280275265087774892}
+    - {fileID: 2790114615526807039}
+    - {fileID: 2280275264399424050}
+    m_ObjectsToEnable:
+    - {fileID: 2280275265732725184}
+    - {fileID: 2280275264864483982}
+    m_ButtonList:
+    - {fileID: 2280275264481577754}
+    - {fileID: 2280275265484255602}
+    - {fileID: 8448353291345186243}
+    - {fileID: 2280275265169013564}
+    - {fileID: 2280275265066153082}
+    m_DefaultHighlightedButton: {fileID: 2280275264481577754}
+  m_QuitToMainMenuButton: {fileID: 1760473768156949381}
+  m_QuiToMainMenuConfirmationData:
+    m_ObjectsToDisable: []
+    m_ObjectsToEnable:
+    - {fileID: 7401663020255255123}
+    m_ButtonList:
+    - {fileID: 8016643406850426078}
+    - {fileID: 6884780437311694649}
+    m_DefaultHighlightedButton: {fileID: 6884780437311694649}
 --- !u!1 &9150603653731335836
 GameObject:
   m_ObjectHideFlags: 0
@@ -3695,6 +3696,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d262ccd779fb4a47a06d25a96884107, type: 3}
+--- !u!1 &8927988210115307677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
+    type: 3}
+  m_PrefabInstance: {fileID: 5237737459359056738}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8927988210115307649 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3699350364858280931, guid: 7d262ccd779fb4a47a06d25a96884107,
@@ -3707,9 +3714,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5237737459359056738}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8927988210115307677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3699350364858280959, guid: 7d262ccd779fb4a47a06d25a96884107,
+--- !u!95 &1023436109457907156 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5081142092576677558, guid: 7d262ccd779fb4a47a06d25a96884107,
     type: 3}
   m_PrefabInstance: {fileID: 5237737459359056738}
   m_PrefabAsset: {fileID: 0}

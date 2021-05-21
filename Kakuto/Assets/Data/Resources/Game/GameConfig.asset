@@ -16,8 +16,8 @@ MonoBehaviour:
   m_StartRoundUIDelay: 1.5
   m_RoundEntryTime: 5
   m_RoundDuration: 90
-  m_TimeToWaitBeforeEndRoundAnimations: 1
-  m_TimeToWaitAfterEndRoundAnimations: 2
+  m_NormalizedTimeToWaitBeforeEndRoundAnimations: 0.8
+  m_TimeToWaitAfterEndRoundAnimations: 1
   m_MaxRoundsToWin: 2
   m_BoundsOffset: 0.15
   m_MaxDistanceToBeConsideredInACorner: 0.1

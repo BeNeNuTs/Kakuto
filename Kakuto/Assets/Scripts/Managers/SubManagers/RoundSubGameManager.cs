@@ -54,6 +54,9 @@ public class RoundSubGameManager : SubGameManagerBase
     private readonly float[] m_PlayersSuperGaugeValues = { 0, 0 };
 
     private GameFlowSubGameManager m_GameFlowManager;
+    private TimeScaleSubGameManager m_TimeManager;
+    private GameConfig m_GameConfig;
+    private AttackConfig m_AttackConfig;
 
     public override void Init()
     {
@@ -62,6 +65,9 @@ public class RoundSubGameManager : SubGameManagerBase
         Utils.GetPlayerEventManager(Player.Player2).StartListening(EPlayerEvent.OnDeath, OnPlayerDeath);
 
         m_GameFlowManager = GameManager.Instance.GetSubManager<GameFlowSubGameManager>(ESubManager.GameFlow);
+        m_TimeManager = GameManager.Instance.GetSubManager<TimeScaleSubGameManager>(ESubManager.TimeScale);
+        m_GameConfig = GameConfig.Instance;
+        m_AttackConfig = AttackConfig.Instance;
     }
 
     public override void Shutdown()
@@ -134,11 +140,11 @@ public class RoundSubGameManager : SubGameManagerBase
         float startRoundUIDelay = 0f;
         if (ScenesConfig.GetUISettings().m_IsCounterEnabled)
         {
-            startRoundUIDelay = GameConfig.Instance.m_StartRoundUIDelay;
+            startRoundUIDelay = m_GameConfig.m_StartRoundUIDelay;
             yield return new WaitForSeconds(startRoundUIDelay);
             PlayStartRoundNotification();
 
-            yield return new WaitForSeconds(GameConfig.Instance.m_RoundEntryTime - startRoundUIDelay);
+            yield return new WaitForSeconds(m_GameConfig.m_RoundEntryTime - startRoundUIDelay);
         }
 
         while (!ArePlayersReady())
@@ -219,7 +225,7 @@ public class RoundSubGameManager : SubGameManagerBase
             }
             else
             {
-                uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
+                uint maxRoundsToWin = m_GameConfig.m_MaxRoundsToWin;
                 if (GetPlayerRoundVictoryCounter(EPlayer.Player1) < maxRoundsToWin - 1 && GetPlayerRoundVictoryCounter(EPlayer.Player2) < maxRoundsToWin - 1)
                 {
                     UpdateRoundVictoryCounter(ELastRoundWinner.Both);
@@ -257,7 +263,24 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private IEnumerator PlayWonAndLostRoundAnimation()
     {
-        yield return new WaitForSeconds(GameConfig.Instance.m_TimeToWaitBeforeEndRoundAnimations);
+        // Freeze time in order to play KO notif
+        m_TimeManager.FreezeTime();
+        
+        PlayEndRoundNotification();
+
+        // Wait 2 frames in order to be sure that round anim has been played correctly
+        yield return null;
+        yield return new WaitForEndOfFrame();
+
+        // Wait for a certain normalized time before playing won / lost player anim
+        while (m_RoundComponent.m_RoundNotifAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < m_GameConfig.m_NormalizedTimeToWaitBeforeEndRoundAnimations)
+        {
+            yield return null;
+        }
+
+        // Unfreeze time and start death time scale params, for final slow motion
+        m_TimeManager.UnfreezeTime();
+        m_TimeManager.StartTimeScale(AttackConfig.Instance.m_OnDeathTimeScaleParams);
 
         while(!ArePlayersReady())
         {
@@ -265,7 +288,9 @@ public class RoundSubGameManager : SubGameManagerBase
             yield return new WaitForSeconds(1f);
         }
 
-        PlayEndRoundNotification();
+        // Be sure to unfreeze time here as DeathTimeParams has a certain duration but players can be ready immediately
+        // And we don't want to play won/lost anim in slow mo
+        m_TimeManager.UnfreezeTime();
 
         bool player1PlayedAnim = false;
         bool player2PlayedAnim = false;
@@ -343,15 +368,15 @@ public class RoundSubGameManager : SubGameManagerBase
 
     private IEnumerator RestartRound_Internal()
     {
-        yield return new WaitForSeconds(GameConfig.Instance.m_TimeToWaitAfterEndRoundAnimations);
+        yield return new WaitForSeconds(m_GameConfig.m_TimeToWaitAfterEndRoundAnimations);
         m_RoundIsBegin = false;
         m_RoundIsOver = false;
 
-        uint maxRoundsToWin = GameConfig.Instance.m_MaxRoundsToWin;
+        uint maxRoundsToWin = m_GameConfig.m_MaxRoundsToWin;
         if (GetPlayerRoundVictoryCounter(EPlayer.Player1) >= maxRoundsToWin || GetPlayerRoundVictoryCounter(EPlayer.Player2) >= maxRoundsToWin)
         {
             m_RoundComponent.DisplayEndRoundButtons(m_LastRoundWinner);
-            GameConfig.Instance.m_DuckMusicSnapshot.TransitionTo(1f);
+            m_GameConfig.m_DuckMusicSnapshot.TransitionTo(1f);
         }
         else
         {
@@ -405,7 +430,7 @@ public class RoundSubGameManager : SubGameManagerBase
         uint player1VictoryCounter = GetPlayerRoundVictoryCounter(EPlayer.Player1);
         uint player2VictoryCounter = GetPlayerRoundVictoryCounter(EPlayer.Player2);
         ERoundNotif roundNotif = ERoundNotif.Round1;
-        uint maxRoundToWin = GameConfig.Instance.m_MaxRoundsToWin;
+        uint maxRoundToWin = m_GameConfig.m_MaxRoundsToWin;
         if (player1VictoryCounter >= maxRoundToWin - 1 && player2VictoryCounter >= maxRoundToWin - 1)
         {
             roundNotif = ERoundNotif.FinalRound;

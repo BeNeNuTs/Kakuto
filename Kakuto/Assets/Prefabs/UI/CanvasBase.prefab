@@ -4576,7 +4576,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 87756b08fc7c32c469bb00a09db9f2a7, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -13201,40 +13201,40 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8425839534322739568, guid: c0d2130135640c341b4ba88cae77e1a9,
+    - target: {fileID: 1695641948798415599, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695641948152576991, guid: c0d2130135640c341b4ba88cae77e1a9,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695641947849233106, guid: c0d2130135640c341b4ba88cae77e1a9,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1695641949136469050, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1695641948798415599, guid: c0d2130135640c341b4ba88cae77e1a9,
+    - target: {fileID: 2555548172422172497, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425839534322739568, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695641947849233106, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695641948152576991, guid: c0d2130135640c341b4ba88cae77e1a9,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1695641948473489670, guid: c0d2130135640c341b4ba88cae77e1a9,
         type: 3}
       propertyPath: m_havePropertiesChanged
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2555548172422172497, guid: c0d2130135640c341b4ba88cae77e1a9,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0d2130135640c341b4ba88cae77e1a9, type: 3}

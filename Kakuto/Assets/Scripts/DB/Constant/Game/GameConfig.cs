@@ -32,8 +32,8 @@ public class GameConfig : ScriptableObject
     [Tooltip("The duration of one round"), Range(0,99)]
     public float m_RoundDuration = 60f;
 
-    [Tooltip("Time to wait in seconds before playing won and lost round animation when round over")]
-    public float m_TimeToWaitBeforeEndRoundAnimations = 5f;
+    [Tooltip("Normalized time to wait while playing end round UI animation before playing won and lost round animation when round over"), Range(0f, 1f)]
+    public float m_NormalizedTimeToWaitBeforeEndRoundAnimations = 0.8f;
 
     [Tooltip("Time to wait in seconds after won and lost round animations are finished in order to restart the round")]
     public float m_TimeToWaitAfterEndRoundAnimations = 2f;

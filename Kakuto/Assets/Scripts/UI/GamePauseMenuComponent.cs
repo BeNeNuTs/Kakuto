@@ -53,6 +53,7 @@ public class GamePauseMenuComponent : MenuComponent
     [SerializeField] private Sprite m_Player2PauseSprite;
     [SerializeField] private Image m_PauseImage;
     [SerializeField] private MenuData m_QuitPauseMenuData;
+    [SerializeField] private Animator m_RoundAnimator;
 
     [Header("Options")]
     [SerializeField] private Button m_OptionButton;
@@ -199,6 +200,7 @@ public class GamePauseMenuComponent : MenuComponent
             
             m_PlayerInfos[0].OnPauseGame();
             m_PlayerInfos[1].OnPauseGame();
+            m_RoundAnimator.updateMode = AnimatorUpdateMode.Normal;
             IsInPause = true;
         }
     }
@@ -207,6 +209,7 @@ public class GamePauseMenuComponent : MenuComponent
     {
         if (IsInPause)
         {
+            m_RoundAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
             m_PlayerInfos[0].OnUnpauseGame();
             m_PlayerInfos[1].OnUnpauseGame();
             if (!m_WasTimeFrozen)
