@@ -271,7 +271,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_Hadofake
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: 28ff96735b356eb4ea4f44ae2386427c, type: 3}
       m_Volume: 1
   - m_Name: Voice_Teleport
     m_SFX:
