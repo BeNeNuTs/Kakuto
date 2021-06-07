@@ -243,7 +243,7 @@ MonoBehaviour:
       m_Volume: 0.5
   - m_Name: Voice_Hado
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: e5e6573d5bcc96a4b98716922b613a59, type: 3}
+      m_Clip: {fileID: 8300000, guid: b87a426186565404291619f54a4d7bec, type: 3}
       m_Volume: 1
   - m_Name: Voice_ExHado
     m_SFX:
