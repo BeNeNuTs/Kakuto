@@ -267,7 +267,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_ExBlast
     m_SFX:
-      m_Clip: {fileID: 0}
+      m_Clip: {fileID: 8300000, guid: dcc8cf95567dcbc479c5448eeded6b46, type: 3}
       m_Volume: 1
   - m_Name: Voice_Hadofake
     m_SFX:
