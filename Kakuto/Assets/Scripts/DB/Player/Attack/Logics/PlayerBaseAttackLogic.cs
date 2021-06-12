@@ -308,12 +308,6 @@ public class PlayerBaseAttackLogic
                     return true;
                 }
 
-                if (hitNotifType == EHitNotificationType.Counter)
-                {
-                    hitSFXType = EAttackSFXType.Counter_Hit;
-                    return true;
-                }
-
                 if (m_Attack.m_AnimationAttackName >= EAnimationAttackName.Special01)
                 {
                     hitSFXType = EAttackSFXType.Hit_Special;

@@ -204,7 +204,12 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
         switch (attackResult)
         {
             case EAttackResult.Hit:
-                if (hitNotifType == EHitNotificationType.GuardCrush)
+                if(hitNotifType == EHitNotificationType.Counter)
+                {
+                    hitSFXType = EAttackSFXType.Counter_Hit_Heavy;
+                    return true;
+                }
+                else if (hitNotifType == EHitNotificationType.GuardCrush)
                 {
                     hitSFXType = EAttackSFXType.GuardCrush_Hit;
                     return true;

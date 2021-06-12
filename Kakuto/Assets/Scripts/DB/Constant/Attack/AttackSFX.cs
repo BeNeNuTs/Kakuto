@@ -28,7 +28,8 @@ public enum EAttackSFXType
     Blocked_Hit,
     Parry_Hit,
     GuardCrush_Hit,
-    Counter_Hit,
+    Counter_Hit_Light,
+    Counter_Hit_Heavy,
     Final_Hit
 
     // Please update AttackSFX.COUNT
@@ -37,7 +38,7 @@ public enum EAttackSFXType
 [Serializable]
 public class AttackSFX
 {
-    public static int COUNT = 15;
+    public static int COUNT = 16;
 
 #if UNITY_EDITOR
     [SerializeField][ReadOnly] private string m_Name;

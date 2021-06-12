@@ -143,7 +143,11 @@ MonoBehaviour:
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: e969b16136b034e4b9749ba2ee9ae4ce, type: 3}
       m_Volume: 0.8
-  - m_Name: Counter_Hit
+  - m_Name: Counter_Hit_Light
+    m_SFXList:
+    - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
+      m_Volume: 0.7
+  - m_Name: Counter_Hit_Heavy
     m_SFXList:
     - m_Clip: {fileID: 8300000, guid: 6de47e1a96f3b4e49a353d3d8b88fbc6, type: 3}
       m_Volume: 0.7

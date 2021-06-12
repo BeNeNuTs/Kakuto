@@ -312,10 +312,10 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
                     switch (m_Config.m_HitStrength)
                     {
                         case EHitStrength.Weak:
-                            hitSFXType = EAttackSFXType.Hit_Light;
+                            hitSFXType = (hitNotifType == EHitNotificationType.Counter) ? EAttackSFXType.Counter_Hit_Light : EAttackSFXType.Hit_Light;
                             break;
                         case EHitStrength.Strong:
-                            hitSFXType = EAttackSFXType.Hit_Heavy;
+                            hitSFXType = (hitNotifType == EHitNotificationType.Counter) ? EAttackSFXType.Counter_Hit_Heavy : EAttackSFXType.Hit_Heavy;
                             break;
                     }
                     return true;
