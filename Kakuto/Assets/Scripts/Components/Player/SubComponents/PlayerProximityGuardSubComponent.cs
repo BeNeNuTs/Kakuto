@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
 {
     private static readonly string K_ANIM_ONPROXIMITYEND_TRIGGER = "OnProximityEnd";
-    private static readonly string K_ANIM_PROXIMITY_CROUCH_IN = "ProximityCrouch_In";
-    private static readonly string K_ANIM_PROXIMITY_STAND_IN = "ProximityStand_In";
+    private static readonly string K_ANIM_PROXIMITY = "Proximity";
+    private static readonly string K_ANIM_IN = "_In";
 
     private readonly PlayerHealthComponent m_PlayerHealthComponent;
     private readonly PlayerStunInfoSubComponent m_PlayerStunInfoSubComponent;
@@ -88,7 +88,7 @@ public class PlayerProximityGuardSubComponent : PlayerBaseSubComponent
     private void TriggerProximityGuard()
     {
         m_Animator.ResetTrigger(K_ANIM_ONPROXIMITYEND_TRIGGER);
-        m_Animator.Play(m_PlayerMovementComponent.IsCrouching() ? K_ANIM_PROXIMITY_CROUCH_IN : K_ANIM_PROXIMITY_STAND_IN, 0, 0);
+        m_Animator.Play(K_ANIM_PROXIMITY + m_PlayerMovementComponent.GetCurrentStance().ToString() + K_ANIM_IN, 0, 0);
         Utils.GetPlayerEventManager(m_Owner).TriggerEvent(EPlayerEvent.StopMovement);
     }
 
