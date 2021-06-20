@@ -327,12 +327,12 @@ public class PlayerMovementComponent : MonoBehaviour
 
     public bool IsStanding()
     {
-        return m_PlayerStance == EPlayerStance.Stand;
+        return m_PlayerStance == EPlayerStance.Stand && !m_CrouchInput;
     }
 
     public bool IsCrouching()
     {
-        return m_PlayerStance == EPlayerStance.Crouch && m_CrouchInput;
+        return (m_PlayerStance == EPlayerStance.Crouch || m_PlayerStance == EPlayerStance.Stand) && m_CrouchInput;
     }
 
     public bool IsJumping()
