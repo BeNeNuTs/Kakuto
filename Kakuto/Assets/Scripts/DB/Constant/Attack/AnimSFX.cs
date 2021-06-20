@@ -44,7 +44,7 @@ public enum EAnimSFXType
     Voice_Hadofake,
     Voice_Teleport,
     Voice_Win,
-    Voice_Throwtech,
+    Throwtech,
     Voice_Idle,
     Voice_HadoCrush
 

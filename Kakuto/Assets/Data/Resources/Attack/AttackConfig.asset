@@ -285,7 +285,7 @@ MonoBehaviour:
     m_SFX:
       m_Clip: {fileID: 8300000, guid: 4386a3b7f6a25814884c41ac17bf4ab6, type: 3}
       m_Volume: 1
-  - m_Name: Voice_Throwtech
+  - m_Name: Throwtech
     m_SFX:
       m_Clip: {fileID: 0}
       m_Volume: 1
