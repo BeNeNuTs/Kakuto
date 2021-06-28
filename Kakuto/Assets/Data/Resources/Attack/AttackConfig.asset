@@ -251,7 +251,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_ExHado
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: d4a347183932aba44a154dba1ed6f98c, type: 3}
+      m_Clip: {fileID: 8300000, guid: d1839b31efa85034b88a10c5d6426c6f, type: 3}
       m_Volume: 1
   - m_Name: Voice_Overhead
     m_SFX:
