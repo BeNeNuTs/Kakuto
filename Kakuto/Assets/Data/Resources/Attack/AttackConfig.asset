@@ -255,7 +255,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_Overhead
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: 7da9a4e92d9e8ea45aa9e02fcd4b9c6d, type: 3}
+      m_Clip: {fileID: 0}
       m_Volume: 1
   - m_Name: Voice_Trigger
     m_SFX:
@@ -283,7 +283,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_Win
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: 54d0ad5425be0c444b237e3b1b9795f5, type: 3}
+      m_Clip: {fileID: 8300000, guid: 4386a3b7f6a25814884c41ac17bf4ab6, type: 3}
       m_Volume: 1
   - m_Name: Throwtech
     m_SFX:
@@ -291,7 +291,7 @@ MonoBehaviour:
       m_Volume: 1
   - m_Name: Voice_Idle
     m_SFX:
-      m_Clip: {fileID: 8300000, guid: 4386a3b7f6a25814884c41ac17bf4ab6, type: 3}
+      m_Clip: {fileID: 0}
       m_Volume: 1
   - m_Name: Voice_HadoCrush
     m_SFX:
