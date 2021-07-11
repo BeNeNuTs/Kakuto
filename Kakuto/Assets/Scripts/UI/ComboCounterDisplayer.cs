@@ -69,6 +69,10 @@ public class ComboCounterDisplayer : MonoBehaviour
                     m_FreezeHitCounterDisplayCooldown = UIConfig.Instance.m_TimeToDisappearAfterComboBreak;
                 }
             }
+            else if(m_FreezeHitCounterDisplay && m_PlayerComboCounterSC.GetComboCounter() >= 2)
+            {
+                m_FreezeHitCounterDisplay = false;
+            }
         }
     }
 }
