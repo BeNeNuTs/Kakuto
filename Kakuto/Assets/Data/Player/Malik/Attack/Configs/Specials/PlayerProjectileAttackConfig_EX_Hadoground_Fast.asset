@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackType: 1
   m_Damage: 7
-  m_CheapDamage: 2
+  m_CheapDamage: 1
   m_MaxHitCount: 2
   m_DelayBetweenHits: 0.1
   m_HitKO: 0
