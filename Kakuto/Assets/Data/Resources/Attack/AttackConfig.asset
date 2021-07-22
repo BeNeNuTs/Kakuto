@@ -22,7 +22,7 @@ MonoBehaviour:
   m_DefenderSuperGaugeBonus: 2
   m_StunGaugeMaxValue: 100
   m_StunGaugeDecreaseCooldown: 1
-  m_StunGaugeDecreaseSpeed: 10
+  m_StunGaugeDecreaseSpeed: 25
   m_DamageScaling:
     serializedVersion: 2
     m_Curve:
