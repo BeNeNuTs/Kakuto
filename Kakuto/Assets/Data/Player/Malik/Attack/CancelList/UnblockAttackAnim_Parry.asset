@@ -37,3 +37,5 @@ MonoBehaviour:
     m_OnlyOnHit: 0
   - m_Attack: 21
     m_OnlyOnHit: 0
+  - m_Attack: 14
+    m_OnlyOnHit: 0
