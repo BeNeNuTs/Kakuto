@@ -21,3 +21,9 @@ MonoBehaviour:
     m_OnlyOnHit: 1
   - m_Attack: 24
     m_OnlyOnHit: 1
+  - m_Attack: 15
+    m_OnlyOnHit: 1
+  - m_Attack: 16
+    m_OnlyOnHit: 1
+  - m_Attack: 23
+    m_OnlyOnHit: 1

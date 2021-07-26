@@ -1155,7 +1155,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -1192,7 +1192,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 1.2182385
         inSlope: Infinity
         outSlope: Infinity
@@ -1239,7 +1239,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 2.677409
         inSlope: Infinity
         outSlope: Infinity
@@ -2695,7 +2695,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -2732,7 +2732,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 1.2182385
         inSlope: Infinity
         outSlope: Infinity
@@ -2779,7 +2779,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.33333334
+        time: 0.1
         value: 2.677409
         inSlope: Infinity
         outSlope: Infinity
@@ -2823,19 +2823,4 @@ AnimationClip:
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 22
-    messageOptions: 0
-  - time: 0.33333334
-    functionName: UnblockAttack
-    data: 
-    objectReferenceParameter: {fileID: 11400000, guid: b56a1991f747d3f4b8497eeaeb11d74d,
-      type: 2}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.8333333
-    functionName: BlockAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
     messageOptions: 0
