@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TimeToFillHealthBar: 0.2
   m_TimeBetweenHealthBar: 0.5
-  m_TimeToDisappearAfterComboBreak: 2
+  m_TimeToDisappearAfterComboBreak: 0.5
   m_MaxHitNotificationDisplayTime: 2
   m_DpadNavigationInputPerSecond: 10
   m_DpadNavigationInputRepeatDelay: 0.5
