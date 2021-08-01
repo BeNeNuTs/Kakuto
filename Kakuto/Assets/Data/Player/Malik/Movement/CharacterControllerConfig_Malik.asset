@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_WalkForwardSpeed: 9
   m_WalkBackwardSpeed: 7
-  m_JumpOnPlaceForce: 8
-  m_JumpBackwardForce: 8
-  m_JumpBackwardAngle: -10.5
-  m_JumpForwardForce: 8.7
+  m_JumpOnPlaceForce: 8.5
+  m_JumpBackwardForce: 8.5
+  m_JumpBackwardAngle: -11
+  m_JumpForwardForce: 8.5
   m_JumpForwardAngle: 12
   m_TimeBetweenJumps: 0.1
   m_CrouchSpeed: 0

@@ -876,7 +876,7 @@ PrefabInstance:
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_GravityScale
-      value: 2.25
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6641475778014050452, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
@@ -966,6 +966,12 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.55
       objectReference: {fileID: 0}
+    - target: {fileID: 6641475777147264858, guid: 4dd623bf673cf2346b8230dbde6c4547,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: dce3c3ab16d56574f8e2ad6998820bc1,
+        type: 2}
     - target: {fileID: 3943496833267493027, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1092,12 +1098,6 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 6641475777147264858, guid: 4dd623bf673cf2346b8230dbde6c4547,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: dce3c3ab16d56574f8e2ad6998820bc1,
-        type: 2}
     - target: {fileID: 6641475777147264859, guid: 4dd623bf673cf2346b8230dbde6c4547,
         type: 3}
       propertyPath: m_PlayerMovementComponent
