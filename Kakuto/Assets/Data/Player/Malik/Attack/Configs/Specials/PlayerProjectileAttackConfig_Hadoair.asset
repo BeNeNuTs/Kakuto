@@ -36,7 +36,7 @@ MonoBehaviour:
   m_SuperGaugeBlockBonus: 0
   m_ProjectilePrefab: {fileID: 5008399834560454162, guid: 7064702e086653a4b89f80dca37597de,
     type: 3}
-  m_ProjectileAngle: 38
+  m_ProjectileAngle: 35
   m_ProjectileSpeedOverTime:
     serializedVersion: 2
     m_Curve:
