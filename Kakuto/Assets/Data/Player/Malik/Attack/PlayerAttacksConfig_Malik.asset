@@ -538,7 +538,7 @@ MonoBehaviour:
     m_WhiffSFXType: 0
   - m_Name: EX_HadoAir
     m_Description: 
-    m_AnimationAttackName: 16
+    m_AnimationAttackName: 27
     m_NeededStanceList: 00000000
     m_UseDefaultStance: 1
     m_DefaultStance: 0
