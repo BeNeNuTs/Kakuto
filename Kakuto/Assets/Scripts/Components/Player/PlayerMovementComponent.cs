@@ -195,7 +195,7 @@ public class PlayerMovementComponent : MonoBehaviour
         if (m_NeedFlip)
         {
             // If we're not stunned AND not jumping AND not attacking
-            if (!m_HealthComponent.GetStunInfoSubComponent().IsStunned() && !IsJumping() && m_JumpPhase == EJumpPhase.None && m_AttackComponent.GetCurrentAttack() == null)
+            if (!m_HealthComponent.GetStunInfoSubComponent().IsStunned() && !IsJumping() && !m_JumpTakeOffRequested && m_JumpPhase == EJumpPhase.None && m_AttackComponent.GetCurrentAttack() == null)
             {
                 // If movement is not blocked OR blocked by time over => Then we can flip
                 if (!m_IsMovementBlocked || m_MovementBlockedReason == EBlockedReason.TimeOver)
@@ -338,6 +338,11 @@ public class PlayerMovementComponent : MonoBehaviour
     public bool IsJumping()
     {
         return m_PlayerStance == EPlayerStance.Jump && m_Controller.IsJumping();
+    }
+
+    public bool IsJumpTakeOffRequested()
+    {
+        return m_JumpTakeOffRequested || m_JumpPhase == EJumpPhase.TakeOff;
     }
 
     public bool IsMovingBack()

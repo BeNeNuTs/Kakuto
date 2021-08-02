@@ -361,8 +361,8 @@ public class PlayerHealthComponent : MonoBehaviour
 
         if (m_MovementComponent)
         {
-            // If he's moving back and not jumping
-            canBlockAttack &= (m_MovementComponent.IsMovingBack() && m_MovementComponent.IsJumping() == false);
+            // If he's moving back and not jumping/taking off
+            canBlockAttack &= (m_MovementComponent.IsMovingBack() && !m_MovementComponent.IsJumping() && !m_MovementComponent.IsJumpTakeOffRequested());
         }
 
         return canBlockAttack;
