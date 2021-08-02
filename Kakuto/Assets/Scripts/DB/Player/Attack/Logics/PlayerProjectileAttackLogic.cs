@@ -63,6 +63,13 @@ public class PlayerProjectileAttackLogic : PlayerNormalAttackLogic
     {
         m_IsGuardCrush = !IsASuper() && IsNextNonSuperProjectileGuardCrush(m_InfoComponent.GetPlayerIndex()); // Need to be before base.OnAttackLaunched for GetAnimationAttackName()
 
+        // If a projectile is launched before the previous one has been completely destroyed
+        // stop listening previous callback as it won't be stopped in OnProjectileDestroyed as m_MyProjectile will be replaced
+        if (m_MyProjectile != null)
+        {
+            Utils.GetEnemyEventManager(m_Owner).StopListening(EPlayerEvent.DamageTaken, OnEnemyTakesDamage);
+            m_MyProjectile = null;
+        }
         base.OnAttackLaunched();
         Utils.GetPlayerEventManager(m_Owner).StartListening(EPlayerEvent.TriggerProjectile, OnTriggerProjectile);
     }
