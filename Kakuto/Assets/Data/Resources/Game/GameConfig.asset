@@ -19,7 +19,7 @@ MonoBehaviour:
   m_NormalizedTimeToWaitBeforeEndRoundAnimations: 0.8
   m_TimeToWaitAfterEndRoundAnimations: 1
   m_MaxRoundsToWin: 2
-  m_BoundsOffset: 0.15
+  m_BoundsOffset: 0.3
   m_MaxDistanceToBeConsideredInACorner: 0.1
   m_DefaultGamepadType: 1
   m_ImpulseChannel: -1
