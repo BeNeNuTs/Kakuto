@@ -26,10 +26,10 @@ MonoBehaviour:
   m_BlockPushBack: 2.8
   m_StunGaugeHitAmount: 9
   m_ApplyAttackerHitPushBack: 1
-  m_AttackerHitPushBack: 2.2
+  m_AttackerHitPushBack: 3.2
   m_AttackerHitPushBackCondition: 1
   m_ApplyAttackerBlockPushBack: 1
-  m_AttackerBlockPushBack: 3
+  m_AttackerBlockPushBack: 3.5
   m_AttackerBlockPushBackCondition: 1
   m_SuperGaugeBaseBonus: 0
   m_SuperGaugeHitBonus: 5
