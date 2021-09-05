@@ -21,6 +21,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         public float m_EndOfStunAnimTimestamp;
         public bool m_EndOfStunAnimRequested;
         public bool m_IsInJuggleState;
+        public bool m_IsInAutoBlockingState;
 
         public void Reset()
         {
@@ -31,6 +32,7 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
             m_EndOfStunAnimTimestamp = 0;
             m_EndOfStunAnimRequested = false;
             m_IsInJuggleState = false;
+            m_IsInAutoBlockingState = false;
         }
     }
 
@@ -136,8 +138,13 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         m_StunInfo.m_StunType = stunType;
         m_StunInfo.m_StunByGrabAttack = isGrabAttack;
         m_StunInfo.m_IsDurationAnimDriven = IsStunDurationAnimDriven(isHitKO, isGrabAttack, stunType); 
-        m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
-        m_StunInfo.m_EndOfStunAnimRequested = false;
+        // If in auto blocking state and stun type is block, do not reset end of stun anim timestamp to let the auto blocking end correctly
+        if(!IsInAutoBlockingState() || stunType != EStunType.Block)
+        {
+            m_StunInfo.m_EndOfStunAnimTimestamp = 0f;
+            m_StunInfo.m_EndOfStunAnimRequested = false;
+        }
+
         if (m_MovementComponent.IsJumping())
         {
             if (canJuggleLaunch)
@@ -181,16 +188,20 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
     {
         if (m_StunInfo.m_IsStunned && !m_StunInfo.m_IsDurationAnimDriven)
         {
-            string outStunAnimName = "UNKNOWN";
-            if (m_StunInfo.m_StunType == EStunType.Hit)
+            // If in auto blocking state and stun type is block, do not set another stun duration and let the auto blocking end correctly
+            if (!IsInAutoBlockingState() || m_StunInfo.m_StunType != EStunType.Block)
             {
-                outStunAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
-            }
-            else if (m_StunInfo.m_StunType == EStunType.Block)
-            {
-                outStunAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
-            }
-            SetStunDuration_Internal(attackLogic.GetAttack().m_Name, outStunAnimName, stunDuration);
+                string outStunAnimName = "UNKNOWN";
+                if (m_StunInfo.m_StunType == EStunType.Hit)
+                {
+                    outStunAnimName = attackLogic.GetHitAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
+                }
+                else if (m_StunInfo.m_StunType == EStunType.Block)
+                {
+                    outStunAnimName = attackLogic.GetBlockAnimName(m_MovementComponent.GetCurrentStance(), EStunAnimState.Out);
+                }
+                SetStunDuration_Internal(attackLogic.GetAttack().m_Name, outStunAnimName, stunDuration);
+            }  
         }
         else
         {
@@ -321,12 +332,19 @@ public class PlayerStunInfoSubComponent : PlayerBaseSubComponent
         return m_StunInfo.m_IsInJuggleState;
     }
 
+    public bool IsInAutoBlockingState()
+    {
+        return IsStunned() && m_StunInfo.m_IsInAutoBlockingState;
+    }
+
     private void StartAutoBlockingAttacks()
     {
         float blockingAttackDuration = m_InfoComponent.GetPlayerSettings().m_BlockingAttacksDuration;
         ChronicleManager.AddChronicle(m_Owner, EChronicleCategory.Stun, "StartAutoBlockingAttacks | Duration : " + blockingAttackDuration);
 
         StartStun_Internal(false, false, false, EStunType.Block);
+        m_StunInfo.m_IsInAutoBlockingState = true;
+
         if(m_MovementComponent.IsCrouching())
         {
             SetStunDuration_Internal(K_START_AUTOBLOCKING_ATTACK, K_ANIM_BLOCKCROUCH_OUT, blockingAttackDuration);

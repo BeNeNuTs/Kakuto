@@ -335,6 +335,11 @@ public class PlayerMovementComponent : MonoBehaviour
         return (m_PlayerStance == EPlayerStance.Crouch || m_PlayerStance == EPlayerStance.Stand) && m_CrouchInput;
     }
 
+    public void ForceCrouchInput(bool _crouch)
+    {
+        m_CrouchInput = _crouch;
+    }
+
     public bool IsJumping()
     {
         return m_PlayerStance == EPlayerStance.Jump && m_Controller.IsJumping();

@@ -304,8 +304,17 @@ public class PlayerHealthComponent : MonoBehaviour
 
     private bool CanBlockAttack(PlayerBaseAttackLogic attackLogic)
     {
+        if (attackLogic is PlayerProjectileAttackLogic projectileAttack)
+        {
+            if (projectileAttack.IsGuardCrush())
+                return false;
+        }
+
         if (IsBlockingAllAttacks())
+        {
+            SetupStanceToBlockAttack(attackLogic);
             return true;
+        }
         else
         {
             bool canBlockAttack = IsInBlockingStance_Internal();
@@ -314,9 +323,33 @@ public class PlayerHealthComponent : MonoBehaviour
                 //Check if the player is in the right stance for this attack
                 bool isCrouching = m_MovementComponent.IsCrouching();
                 canBlockAttack &= attackLogic.CanAttackBeBlocked(isCrouching);
+
+                if(!canBlockAttack && m_StunInfoSC.IsInAutoBlockingState())
+                {
+                    SetupStanceToBlockAttack(attackLogic);
+                    canBlockAttack = true;
+                }
             }
 
             return canBlockAttack;
+        }
+    }
+
+    private void SetupStanceToBlockAttack(PlayerBaseAttackLogic attackLogic)
+    {
+        // In order to simulate the correct blocking anim
+        // If this is a low attack type, need to force crouch to the dummy
+        if (attackLogic is PlayerNormalAttackLogic normalAttackLogic)
+        {
+            EAttackType attackType = normalAttackLogic.GetNormalAttackConfig().m_AttackType;
+            if (attackType == EAttackType.Low)
+            {
+                m_MovementComponent.ForceCrouchInput(true);
+            }
+            else if (attackType == EAttackType.Overhead)
+            {
+                m_MovementComponent.ForceCrouchInput(false);
+            }
         }
     }
 

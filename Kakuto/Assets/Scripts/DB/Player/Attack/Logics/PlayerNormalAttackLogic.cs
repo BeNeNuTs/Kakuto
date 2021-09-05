@@ -324,4 +324,9 @@ public class PlayerNormalAttackLogic : PlayerBaseAttackLogic
 
         return baseResult;
     }
+
+    public PlayerNormalAttackConfig GetNormalAttackConfig()
+    {
+        return m_Config;
+    }
 }
