@@ -20,10 +20,12 @@ public class HealthBarComponent : MonoBehaviour
         m_UIConfig = UIConfig.Instance;
         GameManager.Instance?.AddOnPlayerRegisteredCallback(OnPlayerRegistered, m_Target);
         Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.DamageTaken, OnDamageTaken);
+        Utils.GetPlayerEventManager(m_Target).StartListening(EPlayerEvent.OnRefillHP, OnRefillHP);
     }
 
     private void OnDestroy()
     {
+        Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.OnRefillHP, OnRefillHP);
         Utils.GetPlayerEventManager(m_Target).StopListening(EPlayerEvent.DamageTaken, OnDamageTaken);
         GameManager.Instance?.RemoveOnPlayerRegisteredCallback(OnPlayerRegistered, m_Target);
     }
@@ -48,11 +50,19 @@ public class HealthBarComponent : MonoBehaviour
 
         StopAllCoroutines();
 
-        StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, 0.0f));
-        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, m_UIConfig.m_TimeBetweenHealthBar));
+        StartCoroutine(UpdateHealthFill(m_HealthBar, damageTakenInfo.m_HealthRatio, m_UIConfig.m_TimeToFillHealthBar, 0.0f));
+        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, damageTakenInfo.m_HealthRatio, m_UIConfig.m_TimeToFillHealthBar, m_UIConfig.m_TimeBetweenHealthBar));
     }
 
-    IEnumerator UpdateHealthFill(Image imageToUpdate, float healthRatio, float timeToWait)
+    private void OnRefillHP(BaseEventParameters baseParams)
+    {
+        StopAllCoroutines();
+
+        StartCoroutine(UpdateHealthFill(m_HealthBar, 1f, m_UIConfig.m_TimeToFillHealthBar, 0.0f));
+        StartCoroutine(UpdateHealthFill(m_HealthBarBackground, 1f, 0f, m_UIConfig.m_TimeToFillHealthBar));
+    }
+
+    IEnumerator UpdateHealthFill(Image imageToUpdate, float healthRatio, float duration, float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
 
@@ -60,7 +70,6 @@ public class HealthBarComponent : MonoBehaviour
 
         float initialFillAmount = imageToUpdate.fillAmount;
         float currentTime = 0.0f;
-        float duration = UIConfig.Instance.m_TimeToFillHealthBar;
         while (imageToUpdate.fillAmount != healthRatio)
         {
             imageToUpdate.fillAmount = Mathf.Lerp(initialFillAmount, healthRatio, currentTime);

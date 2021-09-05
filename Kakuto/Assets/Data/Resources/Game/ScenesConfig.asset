@@ -25,6 +25,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
+      m_RefillHPAfterStun: 1
+      m_RefillHPDelay: 2
       m_IsInvincible: 1
       m_IsImmuneToStunGauge: 1
     - m_Name: Player2
@@ -37,6 +39,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 1
+      m_RefillHPAfterStun: 1
+      m_RefillHPDelay: 2
       m_IsInvincible: 1
       m_IsImmuneToStunGauge: 1
     m_UISettings:
@@ -71,6 +75,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
+      m_RefillHPAfterStun: 0
+      m_RefillHPDelay: 0
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     - m_Name: Player2
@@ -83,6 +89,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
+      m_RefillHPAfterStun: 0
+      m_RefillHPDelay: 0
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     m_UISettings:
@@ -117,6 +125,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
+      m_RefillHPAfterStun: 0
+      m_RefillHPDelay: 0
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     - m_Name: Player2
@@ -129,6 +139,8 @@ MonoBehaviour:
       m_IsBlockingAllAttacks: 0
       m_IsBlockingAllAttacksAfterHitStun: 0
       m_BlockingAttacksDuration: 0
+      m_RefillHPAfterStun: 0
+      m_RefillHPDelay: 0
       m_IsInvincible: 0
       m_IsImmuneToStunGauge: 0
     m_UISettings:

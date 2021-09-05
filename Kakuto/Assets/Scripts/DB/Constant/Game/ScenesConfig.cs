@@ -65,6 +65,10 @@ public class PlayerSettings
     [Min(0), ConditionalField(true, "m_IsBlockingAllAttacksAfterHitStun")]
     public float m_BlockingAttacksDuration;
 
+    public bool m_RefillHPAfterStun = false;
+    [ConditionalField(true, "m_RefillHPAfterStun")]
+    public float m_RefillHPDelay = 2f;
+
     public bool m_IsInvincible;
     public bool m_IsImmuneToStunGauge;
 }

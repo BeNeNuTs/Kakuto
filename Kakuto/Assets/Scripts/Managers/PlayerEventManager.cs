@@ -32,6 +32,7 @@ public enum EPlayerEvent
     StunEnd,
     DamageTaken,
     OnDeath,
+    OnRefillHP,
 
     ApplyGrabDamages,
     EndOfGrab,

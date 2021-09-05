@@ -218,6 +218,16 @@ public class StunEndEventParameters : StunEventParameters
     public override EPlayerEvent GetEventType() { return EPlayerEvent.StunEnd; }
 }
 
+public class RefillHPEventParameters : BaseEventParameters
+{
+
+    public RefillHPEventParameters()
+    {
+    }
+
+    public override EPlayerEvent GetEventType() { return EPlayerEvent.OnRefillHP; }
+}
+
 public class ProximityBoxParameters : BaseEventParameters
 {
     public bool m_OnEnter = false;

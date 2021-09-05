@@ -41,6 +41,7 @@ public class PlayerHealthComponent : MonoBehaviour
     private AudioSubGameManager m_AudioManager;
 
     private IEnumerator m_CurrentHitStopCoroutine = null;
+    private IEnumerator m_CurrentRefillHPCoroutine = null;
 
     private List<EHitFXType> m_HitFXTypeList = new List<EHitFXType>();
 
@@ -73,6 +74,9 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.SyncGrabbedPosition, OnSyncGrabbedPosition);
         Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.Grabbed, OnGrabbed);
 
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StartListening(EPlayerEvent.StunEnd, OnStunEnd);
+
         RoundSubGameManager.OnRoundOver += OnRoundOver;
     }
 
@@ -89,6 +93,9 @@ public class PlayerHealthComponent : MonoBehaviour
         Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.GrabTry, OnGrabTry);
         Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.SyncGrabbedPosition, OnSyncGrabbedPosition);
         Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.Grabbed, OnGrabbed);
+
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunBegin, OnStunBegin);
+        Utils.GetPlayerEventManager(gameObject).StopListening(EPlayerEvent.StunEnd, OnStunEnd);
 
         RoundSubGameManager.OnRoundOver -= OnRoundOver;
     }
@@ -654,6 +661,36 @@ public class PlayerHealthComponent : MonoBehaviour
     private void PlayParriedAnimation(PlayerBaseAttackLogic attackLogic)
     {
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.ParrySuccess);
+    }
+
+    private void OnStunBegin(BaseEventParameters baseParams)
+    {
+        if(m_CurrentRefillHPCoroutine != null)
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "Cancel Refill HP");
+            StopCoroutine(m_CurrentRefillHPCoroutine);
+        }
+    }
+
+    private void OnStunEnd(BaseEventParameters baseParams)
+    {
+        PlayerSettings settings = m_InfoComponent.GetPlayerSettings();
+        if (settings.m_RefillHPAfterStun)
+        {
+            ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "Start Refill HP after: " + settings.m_RefillHPDelay + "s");
+            m_CurrentRefillHPCoroutine = RefillHPAfter(settings.m_RefillHPDelay);
+            StartCoroutine(m_CurrentRefillHPCoroutine);
+        }
+    }
+
+    IEnumerator RefillHPAfter(float _timeToWait)
+    {
+        yield return new WaitForSeconds(_timeToWait);
+
+        m_HP = m_HealthConfig.m_MaxHP;
+
+        ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On Refill HP");
+        Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.OnRefillHP, new RefillHPEventParameters());
     }
 
     private void OnDeath(PlayerBaseAttackLogic attackLogic)
