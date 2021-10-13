@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
 {
     private uint m_ComboCounter = 0;
+    private uint m_CumulatedComboDamage = 0;
 
     public Action OnHitCounterChanged;
 
@@ -28,6 +29,7 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
             if (damageTakenInfo.m_IsAlreadyHitStunned || m_ComboCounter == 0)
             {
                 m_ComboCounter++;
+                m_CumulatedComboDamage += damageTakenInfo.m_DamageTaken;
                 OnHitCounterChanged?.Invoke();
             }
         }
@@ -36,11 +38,17 @@ public class PlayerComboCounterSubComponent : PlayerBaseSubComponent
     private void OnEnemyStunEnd(BaseEventParameters baseParams)
     {
         m_ComboCounter = 0;
+        m_CumulatedComboDamage = 0;
         OnHitCounterChanged?.Invoke();
     }
 
     public uint GetComboCounter()
     {
         return m_ComboCounter;
+    }
+
+    public uint GetCumulatedComboDamage()
+    {
+        return m_CumulatedComboDamage;
     }
 }

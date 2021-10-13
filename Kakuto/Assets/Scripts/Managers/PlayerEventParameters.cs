@@ -157,15 +157,17 @@ public class DamageTakenEventParameters : BaseEventParameters
     public GameObject m_Victim;
     public PlayerBaseAttackLogic m_AttackLogic;
     public EAttackResult m_AttackResult;
+    public uint m_DamageTaken;
     public float m_HealthRatio;
     public bool m_IsAlreadyHitStunned;
     public EHitNotificationType m_HitNotificationType;
 
-    public DamageTakenEventParameters(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, float healthRatio, EHitNotificationType hitNotif)
+    public DamageTakenEventParameters(GameObject victim, PlayerBaseAttackLogic attackLogic, EAttackResult attackResult, bool isAlreadyHitStunned, uint damage, float healthRatio, EHitNotificationType hitNotif)
     {
         m_Victim = victim;
         m_AttackLogic = attackLogic;
         m_AttackResult = attackResult;
+        m_DamageTaken = damage;
         m_HealthRatio = healthRatio;
         m_IsAlreadyHitStunned = isAlreadyHitStunned;
         m_HitNotificationType = hitNotif;

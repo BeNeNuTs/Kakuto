@@ -431,7 +431,7 @@ public class PlayerHealthComponent : MonoBehaviour
 #endif
         ChronicleManager.AddChronicle(gameObject, EChronicleCategory.Health, "On damage taken : " + damage + ", current HP : " + m_HP);
 
-        DamageTakenEventParameters damageTakenInfo = new DamageTakenEventParameters(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
+        DamageTakenEventParameters damageTakenInfo = new DamageTakenEventParameters(gameObject, attackLogic, attackResult, m_StunInfoSC.IsHitStunned(), damage, (float)m_HP / (float)m_HealthConfig.m_MaxHP, hitNotificationType);
         Utils.GetPlayerEventManager(gameObject).TriggerEvent(EPlayerEvent.DamageTaken, damageTakenInfo);
 
         if (!IsDead() && attackLogic.CanPlayDamageTakenAnim())
