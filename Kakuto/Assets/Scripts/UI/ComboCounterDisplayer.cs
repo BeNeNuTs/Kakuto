@@ -12,6 +12,7 @@ public class ComboCounterDisplayer : MonoBehaviour
 
     private GameObject m_RegisteredPlayer;
     private PlayerComboCounterSubComponent m_PlayerComboCounterSC;
+    private PlayerSettings m_PlayerSettings;
 
     private bool m_FreezeHitCounterDisplay = false;
     private float m_FreezeHitCounterDisplayCooldown = 0f;
@@ -24,6 +25,9 @@ public class ComboCounterDisplayer : MonoBehaviour
     private void OnPlayerRegistered(GameObject player)
     {
         m_RegisteredPlayer = player;
+        m_PlayerSettings = ScenesConfig.GetPlayerSettings(m_RegisteredPlayer);
+        m_ComboDamageDisplayer.enabled = m_PlayerSettings.m_DisplayComboDamage;
+        m_ComboDamageText.enabled = m_PlayerSettings.m_DisplayComboDamage;
     }
 
     private void InitComboCounterSubComponent()
@@ -61,10 +65,9 @@ public class ComboCounterDisplayer : MonoBehaviour
                 m_HitText.enabled = m_ComboText.enabled;
                 m_ComboText.text = m_PlayerComboCounterSC.GetComboCounter().ToString();
 
-                // Afficher uniquement en training room pour le P1
-                m_ComboDamageDisplayer.enabled = m_ComboText.enabled;
-                m_ComboDamageDisplayer.text = m_PlayerComboCounterSC.GetCumulatedComboDamage().ToString();
-                m_ComboDamageText.enabled = m_ComboText.enabled;
+                // Don't want to display when cumulated combo damage is reset
+                if(m_PlayerSettings.m_DisplayComboDamage && m_PlayerComboCounterSC.GetCumulatedComboDamage() > 0)
+                    m_ComboDamageDisplayer.text = m_PlayerComboCounterSC.GetCumulatedComboDamage().ToString();
             }
             else
             {

@@ -50,6 +50,8 @@ public class PlayerSettings
     }
     public Action<bool> OnTriggerPointAlwaysActiveChanged;
 
+    public bool m_DisplayComboDamage = false;
+
     [Separator("Movement")]
     public bool m_IsStatic;
     [ConditionalField(true, nameof(m_IsStatic))]

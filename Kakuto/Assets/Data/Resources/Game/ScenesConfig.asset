@@ -19,6 +19,7 @@ MonoBehaviour:
       m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 1
       m_TriggerPointAlwaysActive: 1
+      m_DisplayComboDamage: 1
       m_IsStatic: 0
       m_DefaultStance: 0
       m_DisplayDamageTaken: 1
@@ -28,11 +29,12 @@ MonoBehaviour:
       m_RefillHPAfterStun: 1
       m_RefillHPDelay: 2
       m_IsInvincible: 1
-      m_IsImmuneToStunGauge: 1
+      m_IsImmuneToStunGauge: 0
     - m_Name: Player2
       m_AttackEnabled: 0
       m_SuperGaugeAlwaysFilled: 1
       m_TriggerPointAlwaysActive: 1
+      m_DisplayComboDamage: 1
       m_IsStatic: 1
       m_DefaultStance: 0
       m_DisplayDamageTaken: 1
@@ -42,7 +44,7 @@ MonoBehaviour:
       m_RefillHPAfterStun: 1
       m_RefillHPDelay: 2
       m_IsInvincible: 1
-      m_IsImmuneToStunGauge: 1
+      m_IsImmuneToStunGauge: 0
     m_UISettings:
       m_IsTimerEnabled: 0
       m_IsCounterEnabled: 0
@@ -69,6 +71,7 @@ MonoBehaviour:
       m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
+      m_DisplayComboDamage: 0
       m_IsStatic: 0
       m_DefaultStance: 0
       m_DisplayDamageTaken: 0
@@ -83,6 +86,7 @@ MonoBehaviour:
       m_AttackEnabled: 1
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
+      m_DisplayComboDamage: 0
       m_IsStatic: 0
       m_DefaultStance: 1
       m_DisplayDamageTaken: 0
@@ -119,6 +123,7 @@ MonoBehaviour:
       m_AttackEnabled: 0
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
+      m_DisplayComboDamage: 0
       m_IsStatic: 0
       m_DefaultStance: 0
       m_DisplayDamageTaken: 0
@@ -133,6 +138,7 @@ MonoBehaviour:
       m_AttackEnabled: 0
       m_SuperGaugeAlwaysFilled: 0
       m_TriggerPointAlwaysActive: 0
+      m_DisplayComboDamage: 0
       m_IsStatic: 0
       m_DefaultStance: 0
       m_DisplayDamageTaken: 0
