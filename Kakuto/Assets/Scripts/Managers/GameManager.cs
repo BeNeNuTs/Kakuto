@@ -15,6 +15,11 @@ public class GameManager : Singleton<GameManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void OnBeforeSceneLoadRuntimeMethod()
     {
+        // Make sure we don't not exceed 1920x1080 resolution (TMP display issue beyond)
+        if (Screen.currentResolution.width > 1920 ||
+            Screen.currentResolution.height > 1080)
+            Screen.SetResolution(1920, 1080, true);
+
         GameManager gameManager = Create();
         gameManager.CreateSubManagers();
         gameManager.InitSubManagers();
